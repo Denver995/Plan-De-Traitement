@@ -1,0 +1,20 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/plan-de-traitement-react/node_modules
+/plan-de-traitement-react/.pnp
+/plan-de-traitement-react/.pnp.js
+
+# testing
+/plan-de-traitement-react/coverage
+
+# production
+/plan-de-traitement-react/build
+
+# misc
+/plan-de-traitement-react/.DS_Store
+/plan-de-traitement-react/.env.local
+
+/plan-de-traitement-react/npm-debug.log*
+/plan-de-traitement-react/yarn-debug.log*
+/plan-de-traitement-react/yarn-error.log*
