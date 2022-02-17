@@ -25,6 +25,10 @@
         <link rel="shortcut icon" href="img/ico/favicon.png">
 
         <!-- CSS -->
+        <!-- <link rel="stylesheet" href="dist/2.4ecbbce3.chunk.css">
+        <link rel="stylesheet" href="dist/main.c3505beb.chunk.css"> -->
+        <link rel="stylesheet" href="plan-de-traitement-react/build/static/css/main.6e1a4172.css">
+        <link rel="stylesheet" href="plan-de-traitement-react/build/static/css/main.6e1a4172.css.map">
         <link href="https://dev.alaxione.fr/css/bootstrap.min.css?v={$numero_version_alaxione}" rel="stylesheet" type="text/css">
         <link href="https://dev.alaxione.fr/css/font-awesome.min.css?v={$numero_version_alaxione}" rel="stylesheet" type="text/css">
         <!--[if IE 7]><link href="css/font-awesome-ie7.min.css?v={$numero_version_alaxione}" rel="stylesheet" type="text/css"><![endif]-->
@@ -2757,6 +2761,7 @@
 		<button type="button" class="btn vd_btn vd_bg-green" onclick="open_modal();">
                                                     <span class="menu-icon"><i class="fa fa-fw fa-plus-circle"></i></span> Ajouter une tranche
                                                 </button>
+        <div id="root"></div>
         <!-- [DEBUT] Modal Plan de traitement sauvegarde -->
         <div style="overflow-x: hidden;overflow-y: auto;" class="modal fade in" id="modalPlanTraitementSauvegarde" tabindex="-1" role="dialog" aria-labelledby="LabelmodalPlanTraitementSauvegarde" aria-hidden="false" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog" >
@@ -2818,7 +2823,7 @@
                             </div>
                         </div>
 
-                        <div id=div-rdv-recurrent">
+                        <div id="div-rdv-recurrent">
 
                             <div id="attente_chargement_etape1_prendre_rendez_vous_recurrent"></div>
                             <form class="form-horizontal" action="" role="form" id="form_prendre_rendez_vous_modif_plan_traitement" name="form_prendre_rendez_vous_modif_plan_traitement">
@@ -3034,12 +3039,29 @@
               <input type="hidden" value="{$iAccess}" name="iAccess" id="iAccess">
         <input type="hidden" value="{$linkApiLog}" name="linkApiLog" id="linkApiLog">
         <input type="hidden" value="{$sNomServeurDBB}" name="sNomServeurDBB" id="sNomServeurDBB">
-     
+        <div id="like_button_container"></div>
+        <!-- Load React. -->
+        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+        <!-- <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script> -->
+
+        <!-- Load our React component. -->
+        <!-- <script src="like_button.js"></script> -->
+        <!-- <script src="dist/2.5d137a4a.chunk.js"></script>
+        <script src="dist/3.25abb42b.chunk.js"></script>
+        <script src="dist/4.c79ab6f2.chunk.js"></script>
+        <script src="dist/5.414d969e.chunk.js"></script>
+        <script src="dist/main.6513e0c1.chunk.js"></script>
+        <script src="dist/runtime-main.a765c271.js"></script> -->
+        <script src="plan-de-traitement-react/build/static/js/787.e6d532c5.chunk.js"></script>
+        <script src="plan-de-traitement-react/build/static/js/main.602c45f5.js"></script>
         <script type="text/javascript" src="plugins/pnotify/js/jquery.pnotify.min.js?v={$numero_version_alaxione}"></script>
             <script type="text/javascript">
                 $(window).load(function()
                 {
                     "use strict";
+
+                    console.log('numero_version_alaxione ', numero_version_alaxione)
 
                     // TOP RIGHT NOTIFICATION
                     $('#top-right-notif').click(function(){notification("topright","notify","fa fa-exclamation-triangle vd_yellow","Notification","Hello this is your notification using custom theme. Cool right?");});
