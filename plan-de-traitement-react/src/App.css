@@ -28,6 +28,58 @@
   color: #61dafb;
 }
 
+/***************************************************/
+/******************* EUI ***************************/
+/***************************************************/
+
+
+/*****************************  euiModalHeader *****************/
+/* .euiModalHeader {
+  background: #5D9AD4 0% 0% no-repeat padding-box;
+  border-radius: 10px 10px 0px 0px;
+  height: 89px;
+  opacity: 1;
+}
+
+.euiModal__closeIcon {
+  background-color: none;
+} */
+
+
+/***************************** CUSTOM BUTTON *****************/
+/* .button_cancel {
+  border: 3px solid #5D9AD4;
+  border-radius: 36px;
+  opacity: 1;
+  width: 186px;
+  height: 59px;
+} */
+
+/* .button_next {
+  border-radius: 41px;
+  opacity: 1;
+  width: 187px;
+  height: 59px;
+  
+} */
+
+/* .button_next .disabled {
+  background: #C1C1C1 0% 0% no-repeat padding-box;
+}
+
+.button_next .activate {
+  background: #5D9AD4 0% 0% no-repeat padding-box;
+  border-radius: 45px;
+  opacity: 1;
+} */
+
+.modelFormContainer {
+  /* left: 432px;
+  top: 207px; */
+  width: 1057px;
+}
+/***************************** CARD BUTTON ******************/
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
