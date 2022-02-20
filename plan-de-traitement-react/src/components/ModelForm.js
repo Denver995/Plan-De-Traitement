@@ -12,10 +12,14 @@ import {
   EuiRadio,
   EuiFlexItem,
   useGeneratedHtmlId,
-  EuiSpacer
+  EuiSpacer,
+  EuiFieldNumber,
+  EuiSelect
 } from '@elastic/eui';
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import React, { useState } from 'react';
+
+import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
 
 const ModelForm = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -26,7 +30,52 @@ const ModelForm = () => {
 
   const showModal = () => setIsModalVisible(true);
 
-  const formSample = (
+  const examForm = (
+    <EuiForm>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiFormRow label="Spécialité*" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Motif*" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiFormRow label="Praticien*" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Lieu*" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </EuiForm>
+  )
+
+  const examItem = () => {
+    <EuiFlexGroup className='examenItem'>
+      <EuiFlexItem>
+        <EllipsisSvg />
+        <span>Examen 1</span>
+      </EuiFlexItem>
+      <EuiFlexItem>
+        <span>Spécialité</span>
+        <span>Motif</span>
+        <span>|</span>
+        <span>Praticien</span>
+        <span>Lieu</span>
+      </EuiFlexItem>
+    </EuiFlexGroup>
+  }
+
+  const modelForm = (
     <EuiForm id={modalFormId}>
       <EuiSpacer size="m" />
       <EuiFormRow label="nom du model" fullWidth>
@@ -38,26 +87,47 @@ const ModelForm = () => {
           <div className="">
             Grouper les rendez-vous :
           </div>
+          <EuiFlexGroup style={{ paddingTop: 18}}>
+            <EuiFlexItem>
+              <EuiFlexGroup style={{ maxWidth: 160 }}>
+                <EuiFlexItem>
+                  <EuiFormRow>
+                    <EuiRadio
+                      id={htmlIdGenerator()()}
+                      label="Oui"
+                      value="2"
+                    />
+                  </EuiFormRow>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiFormRow>
+                    <EuiRadio
+                      id={htmlIdGenerator()()}
+                      label="Non"
+                      value="1"
+                    />
+                  </EuiFormRow>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiFlexItem>
+        <EuiFlexItem style={{ maxWidth: '85%',marginLeft: '15%'}}>
+          <EuiFormRow label="Nombre d'occurrences*:" fullWidth>
+            <EuiFieldNumber name="popfirst" fullWidth/>
+          </EuiFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
       <EuiSpacer size="m" />
-      <EuiFlexGroup style={{ maxWidth: 160 }}>
+      <EuiFlexGroup>
         <EuiFlexItem>
-          <EuiFormRow>
-            <EuiRadio
-              id={htmlIdGenerator()()}
-              label="Oui"
-              value="2"
-            />
+          <EuiFormRow label="Période de recherche d'un groupe*:" fullWidth>
+            <EuiFieldNumber name="popfirst" fullWidth/>
           </EuiFormRow>
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiFormRow>
-            <EuiRadio
-              id={htmlIdGenerator()()}
-              label="Non"
-              value="1"
-            />
+          <EuiFormRow label="" style={{marginTop: 21}} fullWidth>
+            <EuiFieldNumber fullWidth/>
           </EuiFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
@@ -68,14 +138,17 @@ const ModelForm = () => {
 
   if (isModalVisible) {
     modal = (
-      <EuiModal onClose={closeModal} initialFocus="[name=popswitch]" className='modelFormContainer'>
+      <EuiModal onClose={closeModal} className='modelFormContainer' maxWidth='100%'>
         <EuiModalHeader>
         </EuiModalHeader>
-        <EuiModalBody>{formSample}</EuiModalBody>
+        <EuiModalBody>
+          {examItem}
+          {examForm}
+        </EuiModalBody>
         <EuiSpacer size="m" />
         <EuiSpacer size="m" />
         <EuiModalFooter className='footer_centered' style={{justifyContent: 'center'}}>
-          <EuiButtonEmpty onClick={closeModal} className="button_cancel">Annuler</EuiButtonEmpty>
+          <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">Annuler</EuiButtonEmpty>
           <EuiButton type="submit" form={modalFormId} onClick={closeModal} fill className="button_next">
             Suivant
           </EuiButton>
@@ -89,38 +162,17 @@ const ModelForm = () => {
       {modal}
       <style jsx={"true"}>
         {`
-          .euiModalHeader {
+          .euiButton--primary.euiButton--fill {
             background: #5D9AD4 0% 0% no-repeat padding-box;
-            border-radius: 10px 10px 0px 0px;
-            height: 89px;
-            opacity: 1;
+            font: normal normal normal 27px/37px Open Sans;
+            letter-spacing: 0px;
+            color: #FFFFFF;
           }
-
-          .euiModal__closeIcon {
-            background-color: none;
-          }
-          .euiFieldText {
-            background: #FFFFFF 0% 0% no-repeat padding-box;
-            border: 1px solid #707070;
-            border-radius: 7px;
-            opacity: 1;
-            height: 40px;
-          }  
           
-          .button_cancel {
-            border: 3px solid #5D9AD4;
-            border-radius: 36px;
-            opacity: 1;
-            width: 186px;
-            height: 59px;
-          }
-
-          .button_next {
-            border-radius: 41px;
-            opacity: 1;
-            width: 187px;
-            height: 59px;
-            background: #5D9AD4 0% 0% no-repeat padding-box;
+          .modelFormContainer {
+            /* left: 432px;
+            top: 207px; */
+            width: 1057px;
           }
         `}
       </style>
