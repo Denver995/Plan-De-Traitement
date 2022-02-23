@@ -40,6 +40,7 @@ const ModelForm = ({closeModal}) => {
      };
 
      const onChangeNomModeleField = (val) => {
+          console.log('test pull sur le main v2');
           setNomModele(val.target.value);
      };
 
