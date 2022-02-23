@@ -1,5 +1,6 @@
 import {
   EuiButton,
+  EuiComboBox,
   EuiButtonEmpty,
   EuiFieldText,
   EuiForm,
@@ -75,6 +76,42 @@ const ModelForm = () => {
     </EuiFlexGroup>
   }
 
+
+  const espacementInterExamenForm = (
+    <EuiForm id={modalFormId} component="form">
+    <div>
+      <EuiFormRow label="Espacement inter examen*:" className="espacement_inter_examen_EuiModalBody_form_group espacement_inter_examen_EuiModalBody_form_group_righ_element">
+        <EuiFieldNumber
+          placeholder=" "
+          />			
+      </EuiFormRow>
+      <EuiFormRow label=" " className="espacement_inter_examen_EuiModalBody_form_group">
+        <EuiComboBox
+          aria-label="Accessible screen reader label"
+          placeholder=" "
+          options={[
+            {
+               label: 'Jour',
+            },
+            {
+               label: 'Minute',
+            },
+            {
+               label: 'Heure',
+            },	
+            {
+               label: 'Semaine',
+            },			  
+          ]}
+          
+          isClearable={true}
+        />			
+      </EuiFormRow>
+     </div>		
+    </EuiForm>
+  );
+
+
   const modelForm = (
     <EuiForm id={modalFormId}>
       <EuiSpacer size="m" />
@@ -143,7 +180,7 @@ const ModelForm = () => {
         </EuiModalHeader>
         <EuiModalBody>
           {examItem}
-          {examForm}
+          {espacementInterExamenForm}
         </EuiModalBody>
         <EuiSpacer size="m" />
         <EuiSpacer size="m" />
