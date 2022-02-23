@@ -81,6 +81,7 @@
   opacity: 1;
   width: 186px;
   height: 59px;
+  margin-right: 80px;
   font: normal normal normal 27px/37px Open Sans;
 }
 
@@ -89,16 +90,58 @@
   opacity: 1;
   width: 187px;
   height: 59px;
+  margin-left: 15px;
 }
 
 .examenItem {
-  top: 278px;
-  left: 280px;
-  width: 1361px;
+  /* top: 278px;
+  left: 280px; */
+  width: 108%;
   height: 42px;
   background: #C9EBD7 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
+  padding-left: 41px;
+  padding-right: 41px;
+  margin-left: -55px !important;
+}
+
+.examenItemContainer {
+  margin-bottom: 5px;
+}
+
+.examenItem .examen_name {
+  margin-left: -16px;
+}
+
+.icon_container {
+  margin-right: auto;
+  margin-right: -4px;
+}
+
+.icon {
+  margin: auto;
+}
+
+.icon_ellipsis {
+  margin-top: 7px;
+}
+
+.examenItem_rigth .euiFlexGroup{
+  margin-left: auto;
+}
+
+.examenItem_label {
+  font: normal normal 600 20px/27px Open Sans;
+  letter-spacing: 0px;
+  color: #134058;
+  opacity: 1;
+}
+
+.euiForm .btn_group {
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 15px;
 }
 /***************************** CARD BUTTON ******************/
 
