@@ -28,6 +28,123 @@
   color: #61dafb;
 }
 
+/***************************************************/
+/******************* EUI ***************************/
+/***************************************************/
+
+
+/*****************************  euiModalHeader *****************/
+/* .euiModalHeader {
+  background: #5D9AD4 0% 0% no-repeat padding-box;
+  border-radius: 10px 10px 0px 0px;
+  height: 89px;
+  opacity: 1;
+}
+
+.euiModal__closeIcon {
+  background-color: none;
+} */
+
+
+/***************************** CUSTOM BUTTON *****************/
+.euiModal__flex .euiModalBody .euiModalBody__overflow {
+  overflow-y: hidden;
+}
+
+.euiModal .euiModalHeader {
+  background: #5D9AD4 0% 0% no-repeat padding-box;
+  border-radius: 10px 10px 0px 0px;
+  height: 89px;
+  opacity: 1;
+}
+.euiModal .euiButton--primary {
+  background: #5D9AD4;
+}
+.euiModal .euiModal__closeIcon {
+  background-color: #5D9AD4;
+  color: #4B759C;
+  height: 19px;
+  width: 19px;
+}
+
+.euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  border-radius: 7px;
+  opacity: 1;
+  height: 40px;
+}
+
+.euiModal .button_cancel {
+  border: 3px solid #5D9AD4;
+  border-radius: 36px;
+  opacity: 1;
+  width: 186px;
+  height: 59px;
+  margin-right: 80px;
+  font: normal normal normal 27px/37px Open Sans;
+}
+
+.euiModal .button_next {
+  border-radius: 41px;
+  opacity: 1;
+  width: 187px;
+  height: 59px;
+  margin-left: 15px;
+}
+
+.examenItem {
+  /* top: 278px;
+  left: 280px; */
+  width: 108%;
+  height: 42px;
+  background: #C9EBD7 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+  padding-left: 41px;
+  padding-right: 41px;
+  margin-left: -55px !important;
+}
+
+.examenItemContainer {
+  margin-bottom: 5px;
+}
+
+.examenItem .examen_name {
+  margin-left: -16px;
+}
+
+.icon_container {
+  margin-right: auto;
+  margin-right: -4px;
+}
+
+.icon {
+  margin: auto;
+}
+
+.icon_ellipsis {
+  margin-top: 7px;
+}
+
+.examenItem_rigth .euiFlexGroup{
+  margin-left: auto;
+}
+
+.examenItem_label {
+  font: normal normal 600 20px/27px Open Sans;
+  letter-spacing: 0px;
+  color: #134058;
+  opacity: 1;
+}
+
+.euiForm .btn_group {
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+/***************************** CARD BUTTON ******************/
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
