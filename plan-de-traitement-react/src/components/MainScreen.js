@@ -2,8 +2,7 @@ import {
   EuiButton,
   EuiModal,
   EuiModalBody,
-  EuiModalHeader,
-  EuiSpacer
+  EuiModalHeader
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 // import ExamenItem from './ExamenItem';
@@ -54,7 +53,6 @@ const MainScreen = () => {
         <EuiModalBody>
           {content}
         </EuiModalBody>
-        <EuiSpacer size="m" />
       </EuiModal>
     ); 
   }
