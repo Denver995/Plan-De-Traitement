@@ -1,0 +1,1 @@
+export const BASE_EXAMEN_URL = '/modeleexamen';
