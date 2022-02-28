@@ -7,6 +7,7 @@ import {
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 import ModifierExam from './ModifierExamen';
+
 /*import ModelForm from './ModelForm';
 import ExamenForm from './ExamenForm';*/
 import { useSelector } from 'react-redux';
@@ -36,7 +37,7 @@ const MainScreen = () => {
     
     case STEP3:
         content = <ModifierExam />;
-      break;  
+      break;
   
     default:
         content = <ModifierExam closeModal={closeModal}/>;
@@ -63,7 +64,25 @@ const MainScreen = () => {
     <div>
       <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
       {modal}
+      <style jsx={"true"}>
+        {`
+          .euiButton--primary.euiButton--fill {
+            background: #5D9AD4 0% 0% no-repeat padding-box;
+            font: normal normal normal 27px/37px Open Sans;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+          }
+          
+          .modelFormContainer {
+            /* left: 432px;
+            top: 207px; */
+            width: 1057px;
+          }
+        `}
+      </style>
+
     </div>
+    
   );
 };
 

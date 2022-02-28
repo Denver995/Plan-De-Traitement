@@ -66,7 +66,7 @@ const ModelForm = () => {
         <EuiHideFor sizes={'none'}>
           
           <p>
-            Modèle : 
+            Afficher Ensemble Examen Modèle : 
             <br /><span> Xxxxxxx xxxxxx xxxxxxx </span>
           </p>
 
@@ -182,7 +182,7 @@ const ModelForm = () => {
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
+      <EuiButton onClick={showModal}>Afficher l'ensemble d'examen</EuiButton>
       {modal}
       <style jsx={"true"}>
         {`
@@ -200,9 +200,7 @@ const ModelForm = () => {
           }
         `}
       </style>
-
     </div>
-
   );
 
 };

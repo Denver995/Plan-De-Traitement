@@ -76,21 +76,28 @@
 }
 
 .euiModal .button_cancel {
-  border: 3px solid #5D9AD4;
+  width: 150px;
+  height: 33px;
+  font-family: calibri ;
+  color: #1D3D5B;
+  font-size: 140%;
+  margin-right: 35%;
+  border: 3px solid #1D3D5B;
   border-radius: 36px;
   opacity: 1;
-  width: 186px;
-  height: 59px;
-  margin-right: 80px;
-  font: normal normal normal 27px/37px Open Sans;
 }
 
 .euiModal .button_next {
   border-radius: 41px;
   opacity: 1;
-  width: 187px;
-  height: 59px;
-  margin-left: 15px;
+  width: 180px;
+  height: 33px;
+  margin-left: 35%;
+  font-family: calibri !important;
+  font-size: 140% !important;
+  background-color: #1D3D5B !important;
+  border: 1px solid #1D3D5B !important;
+  
 }
 
 .examenItem {
@@ -152,4 +159,40 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.formulaire label
+{
+  color: #777;
+  font-family: calibri;
+  margin-bottom: -5px;
+}
+
+.nomexam span 
+{
+  color: #5D9AD4;
+}
+
+hr 
+{
+  color: skyblue ;
+  height:
+}
+
+.numexam span
+{
+  color: #444;
+  font-size: 130%;
+  font-family: calibri;
+}
+.icone 
+{
+  color: #5D9AD4 ;
+ 
+}
+
+.checkbox 
+{
+  margin-left: 2.1%;
 }
