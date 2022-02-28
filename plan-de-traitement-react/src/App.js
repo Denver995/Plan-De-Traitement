@@ -1,5 +1,6 @@
 import './App.css';
 import ModifierExamen from './components/ModifierExamen';
+import EnsExamen from './components/EnsExamen';
 
 import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';
