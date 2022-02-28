@@ -61,7 +61,7 @@ const ModelForm = ({closeModal}) => {
                dispatch(updateStep(step));
                setIsFirstLoad(false);
           }
-     }, [isFirstLoad, steps]);
+     }, [dispatch, isFirstLoad, isGroup, nbOccurence, nomModele, periode, step, steps]);
 
      return ( 
           <div>
