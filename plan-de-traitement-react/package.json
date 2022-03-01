@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "moment": "^2.29.1",
     "ky": "^0.29.0",
     "moment": "2.13.0",
     "react": "^17.0.2",

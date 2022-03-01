@@ -1,5 +1,7 @@
 import './App.css';
-import MainScreen from './components/MainScreen';
+import ModifierExamen from './components/ModifierExamen';
+import EnsExamen from './components/EnsExamen';
+
 import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';
 import { STEP1 } from './utils/constants';
@@ -12,7 +14,7 @@ function App() {
 
   return (
     <div className={styles}>
-      <MainScreen />
+      <ModifierExamen />
     </div>
   );
 }

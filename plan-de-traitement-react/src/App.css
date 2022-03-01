@@ -46,7 +46,11 @@
 
 /***************************** CUSTOM BUTTON *****************/
 .euiModal__flex .euiModalBody .euiModalBody__overflow {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
+}
+
+.euiModal .euiModal__flex {
+  max-height: 90vh !important;
 }
 
 .euiModal .euiModalHeader {
@@ -76,12 +80,24 @@
 }
 
 .euiModal .button_cancel {
-  border: 3px solid #5d9ad4;
+  width: 150px;
+  height: 33px;
+  font-family: calibri;
+  color: #1d3d5b;
+  font-size: 140%;
+  margin-right: 35%;
+  border: 3px solid #1d3d5b;
   border-radius: 36px;
   opacity: 1;
-  width: 186px;
-  height: 59px;
-  margin-right: 80px;
+}
+
+.euiModal .button_cancel_small {
+  border: 3px solid #5d9ad4;
+  border-radius: 39px;
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  margin-right: 46px;
   font: normal normal normal 27px/37px Open Sans;
 }
 
@@ -91,27 +107,40 @@
   width: 187px;
   height: 59px;
   margin-left: 15px;
+  font: normal normal normal 27px/37px Open Sans;
 }
 
-.examenItem {
-  /* top: 278px;
-  left: 280px; */
-  width: 108%;
-  height: 42px;
-  background: #c9ebd7 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000029;
+.euiModal .button_next2 {
+  border-radius: 41px;
   opacity: 1;
-  padding-left: 41px;
-  padding-right: 41px;
-  margin-left: -55px !important;
+
+  width: 180px;
+  height: 33px;
+  margin-left: 35%;
+  font-family: calibri !important;
+  font-size: 140% !important;
+  background-color: #1d3d5b !important;
+  border: 1px solid #1d3d5b !important;
 }
 
-.examenItemContainer {
-  margin-bottom: 5px;
+.euiModal .button_add {
+  border-radius: 39px;
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  margin-left: 15px;
+  font: normal normal normal 27px/37px Open Sans;
 }
 
-.examenItem .examen_name {
-  margin-left: -16px;
+.euiFlexItem .button_finished {
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  font: normal normal normal 27px/37px Open Sans;
+  background: #134058 0% 0% no-repeat padding-box;
+  box-shadow: 3px 3px 6px #00000029 !important;
+  background-color: #134058 !important;
+  border-radius: 32px;
 }
 
 .icon_container {
@@ -134,8 +163,26 @@
 .examenItem_label {
   font: normal normal 600 20px/27px Open Sans;
   letter-spacing: 0px;
-  color: #134058;
   opacity: 1;
+}
+
+.examenItem {
+  width: 108%;
+  height: 42px;
+  background: #c9ebd7 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+  padding-left: 41px;
+  padding-right: 41px;
+  margin-left: -55px !important;
+}
+
+.examenItemContainer {
+  margin-bottom: 5px;
+}
+
+.examenItem .examen_name {
+  margin-left: -16px;
 }
 
 .euiForm .btn_group {
@@ -143,38 +190,26 @@
   margin-top: 30px;
   margin-bottom: 15px;
 }
-.euiModalFooter {
-  justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 15px;
+
+.modelFormContainer {
+  width: 1057px;
+  margin-top: 5px;
 }
-.euiButtonEmpty__text {
-  border: 3px solid #5d9ad4;
-  border-radius: 36px;
+
+.euiFlexGroup .delaiInterExamen {
+  margin-left: 47px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  padding: 6px;
+  text-decoration: underline;
+  font: normal normal normal 15px/20px Open Sans;
+  letter-spacing: 0px;
+  color: #134058;
   opacity: 1;
-  width: 186px;
-  font: normal normal normal 27px/37px Open Sans;
-  height: 49px;
-  text-align: center;
 }
-.euiButton__text {
-  border-radius: 36px;
-  opacity: 1;
-  width: 186px;
-  text-align: center;
-  font: normal normal normal 27px/37px Open Sans;
-}
-/*.euiButtonContent .euiButton__content {
-  border-radius: 36px;
-  opacity: 1;
-  width: 187px;
-  text-align: center;
-  margin-left: 15px;
-  font: normal normal normal 27px/37px Open Sans;
-}*/
-.p_alert_txt {
-  margin-top: 50px;
-  margin-right: -6px;
+
+.euiFlexGroup .horizontalRule {
+  background-color: #5d9ad4;
 }
 /***************************** CARD BUTTON ******************/
 
@@ -185,4 +220,32 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.formulaire label {
+  color: #777;
+  font-family: calibri;
+  margin-bottom: -5px;
+}
+
+.nomexam span {
+  color: #5d9ad4;
+}
+
+hr {
+  color: skyblue;
+ 
+}
+
+.numexam span {
+  color: #444;
+  font-size: 130%;
+  font-family: calibri;
+}
+.icone {
+  color: #5d9ad4;
+}
+
+.checkbox {
+  margin-left: 2.1%;
 }

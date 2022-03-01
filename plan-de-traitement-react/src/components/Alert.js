@@ -46,7 +46,7 @@ const Alert = ({test, closeModal}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
-    <div>
+    <div className='modelFormContainer' maxWidth='100%'>
      <EuiConfirmModal
         title= {test.title}
         onCancel={closeModal}
@@ -54,7 +54,6 @@ const Alert = ({test, closeModal}) => {
         cancelButtonText="Cancel"
         confirmButtonText="Confirmer"
         defaultFocusedButton="confirm"
-        className='modelFormContainer' maxWidth='100%'
       >
         <p className='p_alert_txt'> <strong> {test.contenu}</strong></p>
         

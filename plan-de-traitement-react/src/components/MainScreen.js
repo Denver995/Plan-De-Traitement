@@ -12,11 +12,13 @@ import ExamenForm from './ExamenForm';
 import Alert from './Alert';
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
-import { STEP1, STEP2, STEP3 } from '../utils/constants';
+import { STEP1, STEP2, STEP3 } from "../utils/constants";
+import ModelForm from "./ModifierExamen";
+import ExamenItem from "./ExamenItem";
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const steps = useSelector(state => state.steps);
+  const steps = useSelector((state) => state.steps);
 
   const closeModal = () => setIsModalVisible(false);
   const showModal = () => setIsModalVisible(true);
@@ -36,40 +38,50 @@ const MainScreen = () => {
     case STEP1:
         content = <Alert test={alert} closeModal={closeModal}/>;
       break;
-    
+
     case STEP2:
-        content = <ExamenForm />;
+      content = <ModifierExam />;
       break;
-    
+
     case STEP3:
-        content = <ExamenForm />;
-      break;  
-  
+      content = <ExamenItem />;
+      break;
+
     default:
-        content = <ModelForm closeModal={closeModal}/>;
+      content = <ModelForm closeModal={closeModal} />;
       break;
   }
 
-  useEffect(() => {
-
-  }, [steps])
+  useEffect(() => {}, [steps]);
 
   if (isModalVisible) {
     modal = (
-      <EuiModal onClose={closeModal} className='modelFormContainer' maxWidth='100%'>
-        <EuiModalHeader>
-        </EuiModalHeader>
-        <EuiModalBody>
-          {content}
-        </EuiModalBody>
-        <EuiSpacer size="m" />
+      <EuiModal onClose={closeModal} className="ModifierExamen" maxWidth="100%">
+        <EuiModalHeader></EuiModalHeader>
+        <EuiModalBody>{content}</EuiModalBody>
       </EuiModal>
-    ); 
+    );
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Show form modal</EuiButton>
+      <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
       {modal}
+      <style jsx={"true"}>
+        {`
+          .euiButton--primary.euiButton--fill {
+            background: #5d9ad4 0% 0% no-repeat padding-box;
+            font: normal normal normal 27px/37px Open Sans;
+            letter-spacing: 0px;
+            color: #ffffff;
+          }
+
+          .modelFormContainer {
+            /* left: 432px;
+            top: 207px; */
+            width: 1057px;
+          }
+        `}
+      </style>
     </div>
   );
 };
