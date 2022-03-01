@@ -10,7 +10,7 @@ import { updateStep } from '../actions';
 import { getStepByKey } from '../utils/helper';
 import { STEP1 } from '../utils/constants';
 
-const Alert = ({test}) => {
+const Alert = ({test, closeModal}) => {
     
      const dispatch = useDispatch();
      const steps = useSelector(state => state.steps);
@@ -45,37 +45,20 @@ const Alert = ({test}) => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const closeModal = () => setIsModalVisible(false);
-  const showModal = () => setIsModalVisible(true);
-
- 
-
-  let modal;
-       if (isModalVisible) {
-    modal = (
-      <EuiConfirmModal
+  return (
+    <div>
+     <EuiConfirmModal
         title= {test.title}
         onCancel={closeModal}
         onConfirm={closeModal}
         cancelButtonText="Cancel"
         confirmButtonText="Confirmer"
         defaultFocusedButton="confirm"
+        className='modelFormContainer' maxWidth='100%'
       >
-        <p> <strong> {test.contenu}</strong></p>
+        <p className='p_alert_txt'> <strong> {test.contenu}</strong></p>
         
       </EuiConfirmModal>
-    ); 
-}
-
-
-  return (
-    <div>
-      <EuiFlexGroup responsive={false} wrap gutterSize="xs">
-        <EuiFlexItem grow={false}>
-          <EuiButton onClick={showModal}>Show confirm modal</EuiButton>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-      {modal}
     </div>
   );
 };

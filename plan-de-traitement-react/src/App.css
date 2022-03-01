@@ -153,24 +153,28 @@
   border-radius: 36px;
   opacity: 1;
   width: 186px;
-  margin-right: 80px;
   font: normal normal normal 27px/37px Open Sans;
   height: 49px;
+  text-align: center;
 }
 .euiButton__text {
   border-radius: 36px;
   opacity: 1;
-  width: 187px;
-  margin-left: 15px;
+  width: 186px;
+  text-align: center;
   font: normal normal normal 27px/37px Open Sans;
 }
-.euiButtonContent .euiButton__content {
+/*.euiButtonContent .euiButton__content {
   border-radius: 36px;
   opacity: 1;
   width: 187px;
   text-align: center;
   margin-left: 15px;
   font: normal normal normal 27px/37px Open Sans;
+}*/
+.p_alert_txt {
+  margin-top: 50px;
+  margin-right: -6px;
 }
 /***************************** CARD BUTTON ******************/
 

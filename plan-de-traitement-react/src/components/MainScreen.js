@@ -21,6 +21,9 @@ const MainScreen = () => {
   const closeModal = () => setIsModalVisible(false);
   const showModal = () => setIsModalVisible(true);
 
+
+  
+
   let modal;
   let alert = {
       title :"Supprimer le groupe",
@@ -31,7 +34,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <Alert test={alert}/>;
+        content = <Alert test={alert} closeModal={closeModal}/>;
       break;
     
     case STEP2:
