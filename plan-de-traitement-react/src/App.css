@@ -234,7 +234,6 @@
 
 hr {
   color: skyblue;
- 
 }
 
 .numexam span {
@@ -248,4 +247,9 @@ hr {
 
 .checkbox {
   margin-left: 2.1%;
+}
+.p_alert_txt {
+  text-align: center;
+  margin-top: 50px;
+  font-size: larger;
 }

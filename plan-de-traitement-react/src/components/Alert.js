@@ -3,6 +3,14 @@ import {
      EuiFlexItem,
      EuiButton,
      EuiConfirmModal,
+     EuiModal,
+     EuiModalBody,
+     EuiModalFooter,
+     EuiModalHeader,
+     EuiModalHeaderTitle,
+     EuiCodeBlock,
+     EuiSpacer,
+     EuiButtonEmpty ,
   } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +18,7 @@ import { updateStep } from '../actions';
 import { getStepByKey } from '../utils/helper';
 import { STEP1 } from '../utils/constants';
 
-const Alert = ({test, closeModal}) => {
+const Alert = ({test}) => {
     
      const dispatch = useDispatch();
      const steps = useSelector(state => state.steps);
@@ -23,10 +31,7 @@ const Alert = ({test, closeModal}) => {
      // const [groupeRdv, setGroupRdv] = useState();
      let step = getStepByKey(steps, STEP1);
 
-
-
-
- 
+ const closeModal = () => setIsModalVisible(false);
 
      useEffect(() => {
           if(isFirstLoad){
@@ -44,21 +49,43 @@ const Alert = ({test, closeModal}) => {
 
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+   const showModal = () => setIsModalVisible(true);
+    let modal;
+
+  if (isModalVisible) {
+    modal = (
+      <EuiModal onClose={closeModal} className='modelFormContainer'>
+        <EuiModalHeader>
+          <EuiModalHeaderTitle>
+            <h1>{test.title}</h1>
+          </EuiModalHeaderTitle>
+        </EuiModalHeader>
+
+        <EuiModalBody>
+          <p className='p_alert_txt'> <strong>{test.contenu}</strong></p>
+        </EuiModalBody>
+        <EuiSpacer size="m" />
+        <EuiModalFooter className='btn_group alert' style={{justifyContent: "center"}}>
+          <EuiButtonEmpty  onClick={closeModal} fill  className="button_cancel_small">
+            Annuler
+          </EuiButtonEmpty >
+          <EuiButton onClick={closeModal} fill className="button_add">
+            Confirmer
+          </EuiButton>
+        </EuiModalFooter>
+      </EuiModal>
+    );
+  }
 
   return (
-    <div className='modelFormContainer' maxWidth='100%'>
-     <EuiConfirmModal
-        title= {test.title}
-        onCancel={closeModal}
-        onConfirm={closeModal}
-        cancelButtonText="Cancel"
-        confirmButtonText="Confirmer"
-        defaultFocusedButton="confirm"
-      >
-        <p className='p_alert_txt'> <strong> {test.contenu}</strong></p>
-        
-      </EuiConfirmModal>
+    <div>
+      <EuiButton onClick={showModal}>Show modal</EuiButton>
+      {modal}
     </div>
   );
 };
+
 export default Alert;
+
+
+

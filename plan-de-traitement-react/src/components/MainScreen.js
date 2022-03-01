@@ -13,7 +13,6 @@ import Alert from './Alert';
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from "../utils/constants";
-import ModelForm from "./ModifierExamen";
 import ExamenItem from "./ExamenItem";
 
 const MainScreen = () => {
@@ -29,7 +28,7 @@ const MainScreen = () => {
   let modal;
   let alert = {
       title :"Supprimer le groupe",
-      contenu:"Voulez vous confirmer la suppression definitive de ce groupe",
+      contenu:"Voulez vous confirmer la suppression definitive de ce groupe?",
   };
   let content;
   let activeStep = getActiveStep(steps);
@@ -40,7 +39,7 @@ const MainScreen = () => {
       break;
 
     case STEP2:
-      content = <ModifierExam />;
+      content = <Alert test={alert} closeModal={closeModal}/>;
       break;
 
     case STEP3:
@@ -48,24 +47,17 @@ const MainScreen = () => {
       break;
 
     default:
-      content = <ModelForm closeModal={closeModal} />;
+      content = <Alert test={alert} closeModal={closeModal}/>;
       break;
   }
 
   useEffect(() => {}, [steps]);
 
-  if (isModalVisible) {
-    modal = (
-      <EuiModal onClose={closeModal} className="ModifierExamen" maxWidth="100%">
-        <EuiModalHeader></EuiModalHeader>
-        <EuiModalBody>{content}</EuiModalBody>
-      </EuiModal>
-    );
-  }
+
   return (
     <div>
       <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
-      {modal}
+      <Alert test={alert} closeModal={closeModal}/>
       <style jsx={"true"}>
         {`
           .euiButton--primary.euiButton--fill {
