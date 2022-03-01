@@ -27,7 +27,7 @@ import { updateStep, startLoading } from '../actions';
 import { getStepByKey } from '../utils/helper';
 import { STEP1 } from '../utils/constants';*/
 
-const ModelForm = () => {
+const ModifExamen = () => {
   // eslint-disable-next-line no-undef
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -182,7 +182,7 @@ const ModelForm = () => {
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
+      <EuiButton onClick={showModal}>Modifier Examens</EuiButton>
       {modal}
       <style jsx={"true"}>
         {`
@@ -207,4 +207,4 @@ const ModelForm = () => {
 
 };
 
-export default ModelForm;
+export default ModifExamen;

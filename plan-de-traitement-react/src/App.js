@@ -1,6 +1,6 @@
 import './App.css';
-import ModifierExamen from './components/ModifierExamen';
-import EnsExamen from './components/EnsExamen';
+/*import ModifierExamen from './components/ModifierExamen';*/
+import ExamenItem from './components/ExamenItem';
 
 import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';
@@ -14,7 +14,8 @@ function App() {
 
   return (
     <div className={styles}>
-      <ModifierExamen />
+      <ExamenItem />
+      
     </div>
   );
 }
