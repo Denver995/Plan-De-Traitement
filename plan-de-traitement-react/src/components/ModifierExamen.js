@@ -24,10 +24,10 @@ import { useState } from "react";
 import { createModele } from '../utils/fetcher';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateStep, startLoading } from '../actions';
-import { getStepByKey } from '../utils/helper';
-import { STEP1 } from '../utils/constants';*/
+import { getStepByKey } from '../utils/helper';*/
+import { STEP1 } from "../utils/constants";
 
-const ModelForm = () => {
+const ModifExamen = () => {
   // eslint-disable-next-line no-undef
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -37,7 +37,6 @@ const ModelForm = () => {
 
   const showModal = () => setIsModalVisible(true);
 
-  // eslint-disable-next-line no-undef
   const [checked, setChecked] = useState(false);
 
   const basicCheckboxId = useGeneratedHtmlId({ prefix: "basicCheckbox" });
@@ -56,71 +55,6 @@ const ModelForm = () => {
   </EuiText>
   );*/
 
-  const examForm = (
-    <EuiForm className="formulaire">
-      <EuiText className="nomexam">
-        <EuiHideFor sizes={"none"}>
-          <p>
-            Modèle :
-            <br />
-            <span> Xxxxxxx xxxxxx xxxxxxx </span>
-          </p>
-        </EuiHideFor>
-        <EuiHideFor sizes={"none"}>
-          <br className="ligne" />
-          <hr />
-          <br />
-        </EuiHideFor>
-      </EuiText>
-
-      <EuiText className="numexam">
-        <EuiIcon type="wrench" className="icone" />
-        <span> Examen N°xxx</span>
-      </EuiText>
-      <EuiText>
-        {" "}
-        <br />{" "}
-      </EuiText>
-
-      <EuiFlexGroup>
-        <EuiFlexItem>
-          <EuiFormRow label="Spécialité *:" fullWidth>
-            <EuiSelect fullWidth />
-          </EuiFormRow>
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiFormRow label="Motif *:" fullWidth>
-            <EuiSelect fullWidth />
-          </EuiFormRow>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-      <EuiFlexGroup>
-        <EuiFlexItem>
-          <EuiFormRow label="Praticien :" fullWidth>
-            <EuiSelect fullWidth />
-          </EuiFormRow>
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiFormRow label="Lieu *:" fullWidth>
-            <EuiSelect fullWidth />
-          </EuiFormRow>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </EuiForm>
-  );
-
-  const examItem = () => {
-    <EuiFlexGroup className="examenItem">
-      <EuiFlexItem>
-        <span>Spécialité</span>
-        <span>Motif</span>
-        <span>|</span>
-        <span>Praticien</span>
-        <span>Lieu</span>
-      </EuiFlexItem>
-    </EuiFlexGroup>;
-  };
-
   /*
 
     <Fragment>
@@ -136,72 +70,79 @@ const ModelForm = () => {
     </Fragment>
   */
 
-  let modal;
+  return (
+    <div className="Modifexamen">
+      <EuiForm className="euimodal">
+        <EuiText className="nomexam">
+          <EuiHideFor sizes={"none"}>
+            <p>
+              Modèle :
+              <br />
+              <span> Xxxxxxx xxxxxx xxxxxxx </span>
+            </p>
+          </EuiHideFor>
+          <EuiHideFor sizes={"none"}>
+            <br className="ligne" />
+            <hr />
+            <br />
+          </EuiHideFor>
+        </EuiText>
 
-  if (isModalVisible) {
-    modal = (
-      <EuiModal
-        onClose={closeModal}
-        className="modelFormContainer"
-        maxWidth="100%"
-      >
-        <EuiModalHeader></EuiModalHeader>
-        <EuiModalBody>
-          {examItem}
-          {examForm}
-        </EuiModalBody>
+        <EuiText className="numexam">
+          <EuiIcon type="wrench" className="icone" />
+          <span> Examen N°xxx</span>
+        </EuiText>
+        <EuiText>
+          {" "}
+          <br />{" "}
+        </EuiText>
 
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <EuiFormRow label="Spécialité *:" fullWidth>
+              <EuiSelect fullWidth />
+            </EuiFormRow>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiFormRow label="Motif *:" fullWidth>
+              <EuiSelect fullWidth />
+            </EuiFormRow>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <EuiFormRow label="Praticien :" fullWidth>
+              <EuiSelect fullWidth />
+            </EuiFormRow>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiFormRow label="Lieu *:" fullWidth>
+              <EuiSelect fullWidth />
+            </EuiFormRow>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+
+        <EuiSpacer size="m" />
         <EuiCheckbox
-          className="checkbox"
+          className="checkbox_ModifExam"
           id={basicCheckboxId}
           label="Fixer la position de l'examen"
           checked={checked}
           onChange={(e) => onChange(e)}
         ></EuiCheckbox>
         <EuiSpacer size="m" />
-        <EuiSpacer size="m" />
-        <EuiModalFooter
-          className="footer_centered"
-          style={{ justifyContent: "center" }}
-        >
+
+        <EuiFlexGroup className="btn_group">
           <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">
             Retour
           </EuiButtonEmpty>
-          <EuiButton
-            type="submit"
-            form={modalFormId}
-            onClick={closeModal}
-            fill
-            className="button_next2"
-          >
+          <EuiButton form={modalFormId} fill className="button_next">
             Enregistrer
           </EuiButton>
-        </EuiModalFooter>
-      </EuiModal>
-    );
-  }
-  return (
-    <div>
-      <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
-      {modal}
-      <style jsx={"true"}>
-        {`
-          .euiButton--primary.euiButton--fill {
-            background: #5d9ad4 0% 0% no-repeat padding-box;
-            font: normal normal normal 27px/37px Open Sans;
-            letter-spacing: 0px;
-            color: #ffffff;
-          }
-
-          .modelFormContainer {
-            /* left: 432px;
-            top: 207px; */
-            width: 1057px;
-          }
-        `}
-      </style>
+        </EuiFlexGroup>
+      </EuiForm>
     </div>
   );
 };
 
-export default ModelForm;
+export default ModifExamen;

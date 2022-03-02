@@ -248,3 +248,26 @@ hr {
 .checkbox {
   margin-left: 2.1%;
 }
+
+.f2 {
+  border: 1px solid #5d9ad4;
+  border-radius: 6px;
+  height: 150px;
+}
+
+.groupe {
+  margin-left: 3%;
+}
+
+.ex1 {
+  background: #93b7d8 !important;
+  font-weight: bold;
+}
+
+.Modifexamen {
+  min-width: 960px !important;
+}
+
+.checkbox_ModifExam {
+  margin-left: 0%;
+}
