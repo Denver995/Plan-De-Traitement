@@ -26,7 +26,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <ModifierExamen closeModal={closeModal}/>;
+        content = <ModelForm closeModal={closeModal}/>;
       break;
     
     case STEP2:
