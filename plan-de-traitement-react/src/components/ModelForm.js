@@ -150,7 +150,7 @@ const ModelForm = ({closeModal}) => {
                          </EuiButtonEmpty>
                          <EuiButton form={modalFormId} onClick={onClickNext} fill className="button_next">
                               Suivant
-                         </EuiButton>
+                         </EuiButton>                                          
                     </EuiFlexGroup>
                </EuiForm>
           </div>

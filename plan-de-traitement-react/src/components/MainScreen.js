@@ -1,14 +1,13 @@
 import {
   EuiButton,
+  EuiSpacer,
   EuiModal,
   EuiModalBody,
   EuiModalHeader
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
-// import ExamenItem from './ExamenItem';
 import ModelForm from './ModelForm';
-import ModifierExamen from './ModifierExamen';
-import ExamenForm from './ExamenForm';
+import ExamenForm from './ExamenForm';    // Valentin    -->> composant: EspacementInterExamenForm (1)
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
@@ -43,12 +42,13 @@ const MainScreen = () => {
 
   if (isModalVisible) {
     modal = (
-      <EuiModal onClose={closeModal} className='modelFormContainer' maxWidth='100%'>
+      <EuiModal onClose={closeModal} className='modelFormContainer espacement_inter_examen_EuiModalBody' maxWidth='100%'>
         <EuiModalHeader>
         </EuiModalHeader>
         <EuiModalBody>
           {content}
         </EuiModalBody>
+        <EuiSpacer size="m" />         
       </EuiModal>
     ); 
   }

@@ -1,5 +1,10 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App-logo {
@@ -14,7 +19,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color:#282c34 ;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -85,8 +90,7 @@
   opacity: 1;
   width: 186px;
   height: 59px;
-  margin-right: 80px;
-  font: normal normal normal 27px/37px Open Sans;
+  font: normal normal normal 27px/37px Open Sans;                                
 }
 
 .euiModal .button_cancel_small{
