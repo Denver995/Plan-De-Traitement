@@ -32,6 +32,7 @@
 /******************* EUI ***************************/
 /***************************************************/
 
+
 /*****************************  euiModalHeader *****************/
 /* .euiModalHeader {
   background: #5D9AD4 0% 0% no-repeat padding-box;
@@ -44,6 +45,7 @@
   background-color: none;
 } */
 
+
 /***************************** CUSTOM BUTTON *****************/
 .euiModal__flex .euiModalBody .euiModalBody__overflow {
   /* overflow-y: hidden; */
@@ -54,25 +56,23 @@
 }
 
 .euiModal .euiModalHeader {
-  background: #5d9ad4 0% 0% no-repeat padding-box;
+  background: #5D9AD4 0% 0% no-repeat padding-box;
   border-radius: 10px 10px 0px 0px;
   height: 89px;
   opacity: 1;
 }
 .euiModal .euiButton--primary {
-  background: #5d9ad4;
+  background: #5D9AD4;
 }
 .euiModal .euiModal__closeIcon {
-  background-color: #5d9ad4;
-  color: #4b759c;
+  background-color: #5D9AD4;
+  color: #4B759C;
   height: 19px;
   width: 19px;
 }
 
-.euiModalBody .euiFieldText,
-.euiModalBody .euiFieldNumber,
-.euiModalBody .euiSelect {
-  background: #ffffff 0% 0% no-repeat padding-box;
+.euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #707070;
   border-radius: 7px;
   opacity: 1;
@@ -80,19 +80,17 @@
 }
 
 .euiModal .button_cancel {
-  width: 150px;
-  height: 33px;
-  font-family: calibri;
-  color: #1d3d5b;
-  font-size: 140%;
-  margin-right: 35%;
-  border: 3px solid #1d3d5b;
+  border: 3px solid #5D9AD4;
   border-radius: 36px;
   opacity: 1;
+  width: 186px;
+  height: 59px;
+  margin-right: 80px;
+  font: normal normal normal 27px/37px Open Sans;
 }
 
-.euiModal .button_cancel_small {
-  border: 3px solid #5d9ad4;
+.euiModal .button_cancel_small{
+  border: 3px solid #5D9AD4;
   border-radius: 39px;
   opacity: 1;
   width: 210px;
@@ -110,19 +108,6 @@
   font: normal normal normal 27px/37px Open Sans;
 }
 
-.euiModal .button_next2 {
-  border-radius: 41px;
-  opacity: 1;
-
-  width: 180px;
-  height: 33px;
-  margin-left: 35%;
-  font-family: calibri !important;
-  font-size: 140% !important;
-  background-color: #1d3d5b !important;
-  border: 1px solid #1d3d5b !important;
-}
-
 .euiModal .button_add {
   border-radius: 39px;
   opacity: 1;
@@ -132,7 +117,7 @@
   font: normal normal normal 27px/37px Open Sans;
 }
 
-.euiFlexItem .button_finished {
+.euiFlexItem  .button_finished {
   opacity: 1;
   width: 210px;
   height: 48px;
@@ -152,11 +137,12 @@
   margin: auto;
 }
 
-.icon_ellipsis {
+.icon_ellipsis span{
   margin-top: 7px;
+  cursor: pointer;
 }
 
-.examenItem_rigth .euiFlexGroup {
+.examenItem_rigth .euiFlexGroup{
   margin-left: auto;
 }
 
@@ -169,7 +155,7 @@
 .examenItem {
   width: 108%;
   height: 42px;
-  background: #c9ebd7 0% 0% no-repeat padding-box;
+  background: #C9EBD7 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
   padding-left: 41px;
@@ -209,7 +195,7 @@
 }
 
 .euiFlexGroup .horizontalRule {
-  background-color: #5d9ad4;
+  background-color: #5D9AD4;
 }
 /***************************** CARD BUTTON ******************/
 
