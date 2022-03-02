@@ -86,52 +86,8 @@ body {
   opacity: 1;
   width: 186px;
   height: 59px;
-  /*margin-right: 80px;*/                                    /*       <<------- EspacementInterExamenForm - Valentin -------<     Remove (-)  */
-  font: normal normal normal 27px/37px Open Sans;  
-  /*margin-right: 50px; */                                       
- /* background-color:white; */                                 
-
+  font: normal normal normal 27px/37px Open Sans;                                
 }
-/*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
-.espacement_inter_examen_EuiModalBody{
-  width: 650px;
-}
-.espacement_inter_examen_EuiModalHeader{
-   background-color:#5D9AD4;
-   margin-bottom:0px;
-   height:60px;
-}
-.espacement_inter_examen_EuiModalBody p{
-   margin-top:20px;
-   margin-bottom:30px;
-   margin-left:0px;
-}
-.espacement_inter_examen_EuiModalBody_form_group{
-  justify-content: center;
-  width:295px;
-}
-.espacement_inter_examen_input_number{
-  margin-left: 30px;
-}
-.espacement_inter_examen_EuiModalBody_form_group_left_element{
-  margin-left:13px;													   
-  margin-right:10px;
-}
-.espacement_inter_examen_EuiModalFooter__left_button{
-  border-radius:20px 20px 20px 20px;	
-  background-color:#FFFFFF;
-  border:2px solid #5D9AD4;
-  color:#5D9AD4;
-  /*margin-right:20px;*/
-}
-.espacement_inter_examen_EuiModalFooter_right_button{
-  border-radius:20px 20px 20px 20px;	
-}
-.espacement_inter_examen_EuiModalFooter_spacer{
-	height:30px;
-}
-
-/*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
 .euiModal .button_next {
   border-radius: 41px;
   opacity: 1;

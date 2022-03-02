@@ -1,0 +1,54 @@
+                                /*       <<------- Pop Up Enregistrement rdv - Valentin -------<     Add    (+)  */                                
+.euiModal{
+  border-radius: 25px!important;
+  border: 4px solid green!important;
+}
+.euiModal__flex .euiModalBody .euiModalBody__overflow {
+  overflow-y: hidden;
+}
+.euiModal .euiModalHeader{
+  background: white;
+  height: 0px;
+  margin-top: 10px;
+  opacity: 1;  
+  justify-content: end;
+  margin-bottom: -20px;
+}
+.euiModalFooter{
+  margin-top: -12px;
+  margin-bottom: -10px;
+}
+.euiModal .euiModal__closeIcon{
+  background-color: white;
+  color: green;
+  height: 19px;
+  width: 19px; 
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.pop_up_enregistrement_rdv_header_pause_icon{
+  color:green;
+  margin-top: -20px;
+  margin-right: -2px;
+}
+.pop_up_enregistrement_rdv_title{
+  font-weight: bold;
+  font-size:x-large;
+  margin-bottom: 20px;
+}
+.pop_up_enregistrement_rdv_data_value{
+  font-weight: bold;
+}
+.pop_up_enregistrement_rdv_horizontal_spacer {
+  margin-left: 2px;
+  margin-right: 4px;
+}
+.pop_up_enregistrement_rdv_footerIcon{
+  text-align: left;
+}
+.pop_up_enregistrement_rdv_euiItemFlex{
+  font-size:large;
+  padding-left: 9px;
+}
+                              /*       <<------- Pop Up Enregistrement rdv - Valentin -------<     Add    (+)  */
+                            

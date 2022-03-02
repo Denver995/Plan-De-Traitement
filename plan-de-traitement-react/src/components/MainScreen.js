@@ -6,12 +6,9 @@ import {
   EuiSpacer
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
-// import ExamenItem from './ExamenItem';
-/**********************************import EspacementInterExamenForm*********************************************/
-import EspacementInterExamenForm from './EspacementInterExamenForm';
-/**********************************import EspacementInterExamenForm*********************************************/
 import ModelForm from './ModelForm';
 import ExamenForm from './ExamenForm';
+import EspacementInterExamenForm from './EspacementInterExamenForm';     // Valentin    -->> composant: EspacementInterExamenForm (1)
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
@@ -29,8 +26,8 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-       // content = <ModelForm closeModal={closeModal}/>;
-	   content = <EspacementInterExamenForm closeModal={closeModal}/>;
+           //content = <EspacementInterExamenForm closeModal={closeModal}/>;     // Valentin    -->>   EspacementInterExamenForm (1)
+           content = <ModelForm closeModal={closeModal}/>;
       break;
     
     case STEP2:
@@ -42,7 +39,7 @@ const MainScreen = () => {
       break;  
   
     default:
-	   content = < EspacementInterExamenForm closeModal={closeModal}/>;
+        content = <ModelForm closeModal={closeModal}/>;
       break;
   }
 

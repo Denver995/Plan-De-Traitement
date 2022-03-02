@@ -1,0 +1,38 @@
+/*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
+.espacement_inter_examen_EuiModalBody{
+  width: 650px;
+}
+.espacement_inter_examen_EuiModalHeader{
+  background-color:#5D9AD4;
+  margin-bottom:0px;
+  height:60px;
+}
+.espacement_inter_examen_EuiModalBody p{
+  margin-top:20px;
+  margin-bottom:30px;
+  margin-left:0px;
+}
+.espacement_inter_examen_EuiModalBody_form_group{
+  justify-content: center;
+  width:295px;
+}
+.espacement_inter_examen_input_number{
+  margin-left: 30px;
+}
+.espacement_inter_examen_EuiModalBody_form_group_left_element{
+  margin-left:13px;													   
+  margin-right:10px;
+}
+.euiModal .button_cancel{
+  background-color:#FFFFFF;
+  color:#5D9AD4;
+  margin-right: 30px; 
+}
+.espacement_inter_examen_EuiModalFooter_right_button{
+  border-radius:20px 20px 20px 20px;	
+}
+.espacement_inter_examen_EuiModalFooter_spacer{
+  height:30px;
+}
+                              
+  /*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
