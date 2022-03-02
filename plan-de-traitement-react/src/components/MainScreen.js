@@ -7,6 +7,7 @@ import {
 import React, { useState, useEffect } from 'react';
 // import ExamenItem from './ExamenItem';
 import ModelForm from './ModelForm';
+import ModifierExamen from './ModifierExamen';
 import ExamenForm from './ExamenForm';
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
@@ -25,7 +26,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <ModelForm closeModal={closeModal}/>;
+        content = <ModifierExamen closeModal={closeModal}/>;
       break;
     
     case STEP2:
@@ -35,10 +36,6 @@ const MainScreen = () => {
     case STEP3:
         content = <ExamenForm />;
       break;  
-  
-    default:
-        content = <ModelForm closeModal={closeModal}/>;
-      break;
   }
 
   useEffect(() => {
