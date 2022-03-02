@@ -3,10 +3,7 @@ import './App.css';
 
 //import './AlertPopUpEnregistrementRdv.css';   // Valentin    -->> composant: AlertPopUpEnregistrementRdv (2)
 //import AlertPopUpEnregistrementRdv from './components/AlertPopUpEnregistrementRdv';   // Valentin    -->> composant: AlertPopUpEnregistrementRdv (2)
-
-import MainScreen from './components/MainScreen';
 /*import ModifierExamen from './components/ModifierExamen';*/
-
 
 import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';

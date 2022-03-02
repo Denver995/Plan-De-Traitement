@@ -1,5 +1,6 @@
 import {
   EuiButton,
+  EuiSpacer,
   EuiModal,
   EuiModalBody,
   EuiModalHeader
