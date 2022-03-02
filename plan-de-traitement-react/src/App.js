@@ -5,11 +5,15 @@ import './App.css';
 //import AlertPopUpEnregistrementRdv from './components/AlertPopUpEnregistrementRdv';   // Valentin    -->> composant: AlertPopUpEnregistrementRdv (2)
 
 import MainScreen from './components/MainScreen';
+/*import ModifierExamen from './components/ModifierExamen';*/
+
+
 import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';
 import { STEP1 } from './utils/constants';
 import { useDispatch } from 'react-redux';
 import { addStep } from './actions/index';
+import MainScreen from './components/MainScreen';
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +21,7 @@ function App() {
 
   return (
     <div className={styles}>
-      <MainScreen/>
+      <MainScreen />
     </div>
   );
 }

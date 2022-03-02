@@ -2,8 +2,7 @@ import {
   EuiButton,
   EuiModal,
   EuiModalBody,
-  EuiModalHeader,
-  EuiSpacer
+  EuiModalHeader
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 import ModelForm from './ModelForm';
@@ -44,7 +43,6 @@ const MainScreen = () => {
   }
 
   useEffect(() => {
-
   }, [steps])
 
   if (isModalVisible) {

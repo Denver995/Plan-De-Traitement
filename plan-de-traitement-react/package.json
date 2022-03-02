@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
     "@babel/plugin-syntax-flow": "7.14.5",
@@ -14,9 +15,15 @@
     "@emotion/styled": "11.6.0",
     "@mui/material": "5.4.2",
     "@testing-library/dom": "7.21.4",
+=======
+    "@elastic/datemath": "^5.0.3",
+    "@elastic/eui": "^49.0.0",
+    "@emotion/react": "^11.8.1",
+>>>>>>> 0b2703b43119cd56c421cf8a8d8eaf3a0f5b56d6
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "moment": "^2.29.1",
     "ky": "^0.29.0",
     "moment": "2.13.0",
     "react": "^17.0.2",
