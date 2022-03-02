@@ -16,7 +16,6 @@ function App() {
   return (
     <div className={styles}>
       <MainScreen />
-      
     </div>
   );
 }

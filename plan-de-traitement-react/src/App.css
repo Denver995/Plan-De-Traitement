@@ -207,3 +207,35 @@
     transform: rotate(360deg);
   }
 }
+
+.formulaire label {
+  color: #777;
+  font-family: calibri;
+  margin-bottom: -5px;
+}
+
+.nomexam span {
+  color: #5d9ad4;
+}
+
+hr {
+  color: skyblue;
+}
+
+.numexam span {
+  color: #444;
+  font-size: 130%;
+  font-family: calibri;
+}
+.icone {
+  color: #5d9ad4;
+}
+
+.checkbox {
+  margin-left: 2.1%;
+}
+.p_alert_txt {
+  text-align: center;
+  margin-top: 50px;
+  font-size: larger;
+}

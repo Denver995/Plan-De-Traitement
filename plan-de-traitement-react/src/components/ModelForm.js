@@ -10,6 +10,8 @@ import {
      useGeneratedHtmlId,
      EuiButton,
      EuiButtonEmpty,
+     EuiIcon,
+     EuiToolTip
   } from '@elastic/eui';
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import React, { useState, useEffect } from 'react';
@@ -76,6 +78,9 @@ const ModelForm = ({closeModal}) => {
                          <EuiFlexItem>
                               <div className="">
                                    Grouper les rendez-vous :
+                                   <EuiToolTip position="right" content="Création de plusieurs groupes de rendez-vous">
+                                        <EuiIcon type="iInCircle" size='l'/>
+                                   </EuiToolTip>
                               </div>
                               <EuiFlexGroup style={{ paddingTop: 18}}>
                                    <EuiFlexItem>
@@ -119,9 +124,17 @@ const ModelForm = ({closeModal}) => {
                     {isGroup && 
                          <EuiFlexGroup>
                               <EuiFlexItem>
-                                   <EuiFormRow label="Période de recherche d'un groupe*:" fullWidth>
-                                   <EuiFieldNumber name="periode" value={periode} 
-                                     onChange={setPeriode} fullWidth/>
+                                   <EuiFormRow label="Période de recherche d'un groupe*:" fullWidth
+                                        labelAppend={
+                                             <span className='tooltip'>
+                                                  <EuiToolTip position="right" content="Création de plusieurs groupes de rendez-vous">
+                                                       <EuiIcon type="iInCircle" size='l'/>
+                                                  </EuiToolTip>
+                                             </span>
+                                        }
+                                   >
+                                        <EuiFieldNumber name="periode" value={periode} 
+                                        onChange={setPeriode} fullWidth/>
                                    </EuiFormRow>
                               </EuiFlexItem>
                               <EuiFlexItem>
