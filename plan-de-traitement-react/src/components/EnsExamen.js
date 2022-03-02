@@ -15,7 +15,8 @@ import {
   EuiHideFor,
   EuiText,
   EuiIcon,
-  EuiCheckbox
+  EuiCheckbox,
+  EuiPanel
 } from '@elastic/eui';
 // eslint-disable-next-line no-unused-vars
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
@@ -62,10 +63,11 @@ const ModelForm = () => {
 
   const examForm = (
     <EuiForm className="formulaire">
+     
       <EuiText className="nomexam">
         <EuiHideFor sizes={'none'}>
           
-          <p>
+          <p className="groupe">
             Modèle : 
             <br /><span> Xxxxxxx xxxxxx xxxxxxx </span>
           </p>
@@ -73,13 +75,47 @@ const ModelForm = () => {
         </EuiHideFor>
         <EuiHideFor sizes={'none'}>
           
-           <br className="ligne"/>
-          <hr />
-          <br />
+           <br />
 
         </EuiHideFor>
 
       </EuiText>
+
+      
+      <EuiFlexItem>
+      
+        <EuiPanel>
+          <EuiText>
+            <p>
+              Groupe 1
+              
+            </p>
+            <br />
+            <hr />
+            <EuiSpacer />
+          </EuiText>
+          <EuiPanel className="ex1">
+            <EuiText>
+              <p>
+                Examen 1
+                
+              </p>
+            </EuiText>
+          </EuiPanel>
+
+          <EuiSpacer />
+          
+          <EuiPanel>
+            <EuiText>
+              <p>
+              Examen 2
+              </p>
+            </EuiText>
+          </EuiPanel>
+          </EuiPanel>
+        </EuiFlexItem>
+      <EuiSpacer />
+
 
       
       <EuiText className="numexam">
