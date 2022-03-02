@@ -14,6 +14,8 @@ import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from "../utils/constants";
 import ModelForm from "./ModifierExamen";
 import ExamenItem from "./ExamenItem";
+import AffichageDesGroupes from "./AffichageDesGroupes";
+import InfoPatientForm from "./InfoPatientForm";
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,7 +30,8 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-      content = <ModelForm closeModal={closeModal} />;
+      content = <AffichageDesGroupes />
+      {/*<ModelForm closeModal={closeModal} />;*/}
       break;
 
     case STEP2:
