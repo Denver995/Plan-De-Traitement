@@ -94,12 +94,13 @@
   width: 180px;
   height: 33px;
   margin-left: 35%;
-  font-family: calibri !important;
-  font-size: 140% !important;
-  background-color: #1D3D5B !important;
-  border: 1px solid #1D3D5B !important;
+  font-family: calibri;
+  font-size: 140% ;
+  background-color: #1D3D5B ;
+  border: 1px solid #1D3D5B ;
   
 }
+
 
 .examenItem {
   /* top: 278px;
@@ -162,15 +163,40 @@
   }
 }
 
+/* ************* STYLES DU COMPOSANT MODIFIER EXAMEN ***************/
 
-.formulaire label
+.euiModal .button_cancel_me {
+  width: 150px;
+  height: 33px;
+  font-family: calibri ;
+  color: #1D3D5B;
+  font-size: 140%;
+  margin-right: 35%;
+  border: 3px solid #1D3D5B;
+  border-radius: 36px;
+  opacity: 1;
+}
+
+.euiModal .button_next_me {
+  border-radius: 41px;
+  opacity: 1;
+  width: 180px;
+  height: 33px;
+  margin-left: 35%;
+  font-family: calibri !important;
+  font-size: 140% !important;
+  background-color: #1D3D5B !important;
+  border: 1px solid #1D3D5B !important;
+  
+}
+.formulaire_me label
 {
   color: #777;
   font-family: calibri;
   margin-bottom: -5px;
 }
 
-.nomexam span 
+.nomexam_me span 
 {
   color: #5D9AD4;
 }
@@ -181,47 +207,40 @@ hr
   
 }
 
-.numexam span
+.numexam_me span
 {
   color: #444;
   font-size: 130%;
   font-family: calibri;
 }
-.icone 
+.icone_me 
 {
   color: #5D9AD4 ;
  
 }
 
-.checkbox 
-{
-  margin-left: 2.1%;
-}
 
-.f2 
-{
-  border: 1px solid #5D9AD4;
-  border-radius: 6px;
-  height: 150px;
-}
-
-.groupe
+.groupe_me
 {
   margin-left: 3%;
 }
 
-.ex1
+.ex1_me
 {
   background: #93b7d8 !important;
   font-weight: bold;  
 }
 
-.Modifexamen 
+.Modifexamen_me 
 {
   min-width: 960px !important;
 }
 
-.checkbox_ModifExam 
+.checkbox_ModifExam_me 
 {
   margin-left: 0%;
 }
+
+/* *************
+ FIN STYLES DU COMPOSANT MODIFIER EXAMEN 
+                        ***************/

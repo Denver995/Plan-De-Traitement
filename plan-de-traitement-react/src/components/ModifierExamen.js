@@ -41,9 +41,9 @@ const ModifExamen = () => {
 
 
   return (
-    <div className="Modifexamen" >
-       <EuiForm className="euimodal">
-      <EuiText className="nomexam">
+    <div className="Modifexamen_me" >
+       <EuiForm className="euimodal_me">
+      <EuiText className="nomexam_me">
         <EuiHideFor sizes={'none'}>
           
           <p>
@@ -54,7 +54,7 @@ const ModifExamen = () => {
         </EuiHideFor>
         <EuiHideFor sizes={'none'}>
           
-           <br className="ligne"/>
+           <br className="ligne_me"/>
           <hr />
           <br />
 
@@ -63,8 +63,8 @@ const ModifExamen = () => {
       </EuiText>
 
       
-      <EuiText className="numexam">
-      <EuiIcon type="wrench" className="icone" /><span> Examen N°xxx</span>
+      <EuiText className="numexam_me">
+      <EuiIcon type="wrench" className="icone_me" /><span> Examen N°xxx</span>
 
       </EuiText>
       <EuiText> <br /> </EuiText>
@@ -97,7 +97,7 @@ const ModifExamen = () => {
       </EuiFlexGroup>
 
       <EuiSpacer size="m" />
-      <EuiCheckbox className="checkbox_ModifExam" id={basicCheckboxId}
+      <EuiCheckbox className="checkbox_ModifExam_me" id={basicCheckboxId}
         label="Fixer la position de l'examen"
         checked={checked}
         onChange={(e) => onChange(e)}
@@ -107,10 +107,10 @@ const ModifExamen = () => {
         <EuiSpacer size="m" />
 
       <EuiFlexGroup className='btn_group'>
-            <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">
+            <EuiButtonEmpty onClick={closeModal} fill className="button_cancel_me">
                               Retour
             </EuiButtonEmpty>
-            <EuiButton form={modalFormId}  fill className="button_next">
+            <EuiButton form={modalFormId}  fill className="button_next_me">
                               Enregistrer
             </EuiButton>
       </EuiFlexGroup>              
