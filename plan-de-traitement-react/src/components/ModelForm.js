@@ -18,8 +18,8 @@ import {
 } from '@elastic/eui';
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import React, { useState } from 'react';
-
 import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
+import RecapExams from './RecapitulatifRendezVous.js';
 
 const ModelForm = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -142,8 +142,9 @@ const ModelForm = () => {
         <EuiModalHeader>
         </EuiModalHeader>
         <EuiModalBody>
-          {examItem}
-          {examForm}
+          <RecapExams />
+          {/* {examItem} */}
+          {/* {examForm} */}
         </EuiModalBody>
         <EuiSpacer size="m" />
         <EuiSpacer size="m" />

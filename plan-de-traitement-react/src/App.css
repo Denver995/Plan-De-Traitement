@@ -110,3 +110,27 @@
     transform: rotate(360deg);
   }
 }
+
+
+/**************** RECAPITULATIF DES EXAMENS *****************/
+
+/* .timeline-content {
+  width: 50%;
+  background-color: blue;
+  font-size: 12px;
+  padding: 0px 10px 0px 10px;
+}
+
+.header, .first-div, .second-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.first-div p, .second-div p {
+  width: 50%;
+}
+
+.praticien, .rue {
+  display: flex;
+  align-items: center;
+} */
