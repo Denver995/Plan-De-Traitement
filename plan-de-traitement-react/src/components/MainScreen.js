@@ -65,7 +65,7 @@ const MainScreen = () => {
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Modifier Examen</EuiButton>
+      <EuiButton onClick={showModal}>Show Modal</EuiButton>
       {modal}
       <style jsx={"true"}>
         {`
