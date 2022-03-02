@@ -152,8 +152,9 @@
   margin: auto;
 }
 
-.icon_ellipsis {
+.icon_ellipsis span{
   margin-top: 7px;
+  cursor: pointer;
 }
 
 .examenItem_rigth .euiFlexGroup {

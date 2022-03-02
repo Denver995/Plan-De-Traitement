@@ -30,6 +30,7 @@ const ExamenForm = () => {
     const steps = useSelector(state => state.steps);
 
     const [listExam, setListExam] = useState([]);
+    const [reload, setReload] = useState(false);
     
     const onClickNext = () => {
         dispatch(startLoading());
@@ -40,6 +41,7 @@ const ExamenForm = () => {
         console.log('listExam length ', listExam.length);
         listExam.push(listExam.length++);
         setListExam(listExam);
+        setReload(true);
     };
 
     const onCancel = () => {
@@ -66,7 +68,12 @@ const ExamenForm = () => {
         )
     };
 
-    useEffect(() => {}, [listExam])
+    useEffect(() => {
+        if(reload) {
+            console.log('reloading exam item');
+            setReload(false);
+        }
+    }, [reload])
 
     return (
         <div className='examForm'>
@@ -82,14 +89,16 @@ const ExamenForm = () => {
                     </EuiFlexItem>
                 </EuiFlexGroup>
             </div>
-            <div style={{ marginTop: 28, marginBottom: 28}}>
-                {listExam.length > 0 && listExam.map((item, index) => (
-                    <>
-                        <ExamenItem />
-                        {delaiInterExamen('1heure - 2heures')}
-                    </>
-                ))}
-            </div>
+            {!reload &&
+                <div style={{ marginTop: 28, marginBottom: 28}}>
+                    {listExam.length > 0 && listExam.map((item, index) => (
+                        <>
+                            <ExamenItem />
+                            {delaiInterExamen('1heure - 2heures')}
+                        </>
+                    ))}
+                </div>
+            }
             <EuiForm>
                 <EuiFlexGroup>
                     <EuiFlexItem>
