@@ -40,6 +40,7 @@ const ModelForm = ({closeModal}) => {
      };
 
      const onChangeNomModeleField = (val) => {
+          console.log('test pull sur le main v2');
           setNomModele(val.target.value);
      };
 
@@ -60,9 +61,9 @@ const ModelForm = ({closeModal}) => {
                dispatch(updateStep(step));
                setIsFirstLoad(false);
           }
-     }, [isFirstLoad, steps]);
+     }, [dispatch, isFirstLoad, isGroup, nbOccurence, nomModele, periode, step, steps]);
 
-     return (
+     return ( 
           <div>
                <EuiForm id={modalFormId}>
                     <EuiSpacer size="m" />
@@ -139,22 +140,6 @@ const ModelForm = ({closeModal}) => {
                          </EuiButton>
                     </EuiFlexGroup>
                </EuiForm>
-               <style jsx={"true"}>
-               {`
-                    .euiButton--primary.euiButton--fill {
-                    background: #5D9AD4 0% 0% no-repeat padding-box;
-                    font: normal normal normal 27px/37px Open Sans;
-                    letter-spacing: 0px;
-                    color: #FFFFFF;
-                    }
-                    
-                    .modelFormContainer {
-                    /* left: 432px;
-                    top: 207px; */
-                    width: 1057px;
-                    }
-               `}
-               </style>
           </div>
     );
   };
