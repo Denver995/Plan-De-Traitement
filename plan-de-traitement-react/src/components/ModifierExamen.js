@@ -7,10 +7,6 @@ import {
   useGeneratedHtmlId,
   EuiButton,
   EuiButtonEmpty,
-  EuiModal,
-  EuiModalBody,
-  EuiModalFooter,
-  EuiModalHeader,
   EuiSelect,
   EuiHideFor,
   EuiText,
@@ -25,17 +21,15 @@ import { createModele } from '../utils/fetcher';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateStep, startLoading } from '../actions';
 import { getStepByKey } from '../utils/helper';*/
-import { STEP1 } from '../utils/constants';
+//import { STEP1 } from '../utils/constants';
 
 const ModifExamen = () => {
   // eslint-disable-next-line no-undef
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [setIsModalVisible] = useState(false);
 
   const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
 
   const closeModal = () => setIsModalVisible(false);
-
-  const showModal = () => setIsModalVisible(true);
 
   const [checked, setChecked] = useState(false);
  
@@ -44,35 +38,6 @@ const ModifExamen = () => {
 
   const onChange = (e) => {
     setChecked(e.target.checked);}
-
-
-
-  /*export default () => (
-  <EuiText>
-    <EuiHideFor sizes={'none'}>
-      <p>
-        Hiding from <EuiCode>{'"none"'}</EuiCode> of the screen sizes
-      </p>
-    </EuiHideFor>
-  </EuiText>
-  );*/
-
-
-/*
-
-    <Fragment>
-      <EuiCheckbox
-        id={basicCheckboxId}
-        label="I am a checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e)}
-      />
-
-      <EuiSpacer size="m" />
-
-    </Fragment>
-  */
-
 
 
   return (
@@ -122,6 +87,7 @@ const ModifExamen = () => {
             <EuiSelect fullWidth/>
           </EuiFormRow>
         </EuiFlexItem>
+        
         <EuiFlexItem>
           <EuiFormRow label="Lieu *:" fullWidth>
           
@@ -136,7 +102,8 @@ const ModifExamen = () => {
         checked={checked}
         onChange={(e) => onChange(e)}
       >
-        </EuiCheckbox>
+      </EuiCheckbox>
+
         <EuiSpacer size="m" />
 
       <EuiFlexGroup className='btn_group'>
@@ -145,8 +112,8 @@ const ModifExamen = () => {
             </EuiButtonEmpty>
             <EuiButton form={modalFormId}  fill className="button_next">
                               Enregistrer
-                         </EuiButton>
-                    </EuiFlexGroup>              
+            </EuiButton>
+      </EuiFlexGroup>              
 
 
 
