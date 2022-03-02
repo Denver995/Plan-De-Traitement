@@ -207,3 +207,53 @@
     transform: rotate(360deg);
   }
 }
+
+.formulaire label {
+  color: #777;
+  font-family: calibri;
+  margin-bottom: -5px;
+}
+
+.nomexam span {
+  color: #5d9ad4;
+}
+
+hr {
+  color: skyblue;
+}
+
+.numexam span {
+  color: #444;
+  font-size: 130%;
+  font-family: calibri;
+}
+.icone {
+  color: #5d9ad4;
+}
+
+.checkbox {
+  margin-left: 2.1%;
+}
+
+.f2 {
+  border: 1px solid #5d9ad4;
+  border-radius: 6px;
+  height: 150px;
+}
+
+.groupe {
+  margin-left: 3%;
+}
+
+.ex1 {
+  background: #93b7d8 !important;
+  font-weight: bold;
+}
+
+.Modifexamen {
+  min-width: 960px !important;
+}
+
+.checkbox_ModifExam {
+  margin-left: 0%;
+}
