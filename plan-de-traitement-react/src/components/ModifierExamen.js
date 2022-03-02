@@ -37,6 +37,14 @@ const ModifExamen = () => {
 
   const showModal = () => setIsModalVisible(true);
 
+  const [checked, setChecked] = useState(false);
+ 
+
+  const basicCheckboxId = useGeneratedHtmlId({ prefix: 'basicCheckbox' });
+
+  const onChange = (e) => {
+    setChecked(e.target.checked);}
+
 
 
   /*export default () => (
@@ -121,6 +129,15 @@ const ModifExamen = () => {
           </EuiFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
+
+      <EuiSpacer size="m" />
+      <EuiCheckbox className="checkbox_ModifExam" id={basicCheckboxId}
+        label="Fixer la position de l'examen"
+        checked={checked}
+        onChange={(e) => onChange(e)}
+      >
+        </EuiCheckbox>
+        <EuiSpacer size="m" />
 
       <EuiFlexGroup className='btn_group'>
             <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">
