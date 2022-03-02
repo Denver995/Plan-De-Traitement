@@ -36,10 +36,6 @@ const MainScreen = () => {
     case STEP3:
         content = <ExamenForm />;
       break;  
-  
-    default:
-        content = <ModelForm closeModal={closeModal}/>;
-      break;
   }
 
   useEffect(() => {
