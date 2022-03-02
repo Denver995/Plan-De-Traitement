@@ -2,20 +2,16 @@ import {
   EuiButton,
   EuiModal,
   EuiModalBody,
-  EuiModalHeader,
-  EuiSpacer
+  EuiModalHeader
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
-import ModifierExam from './ModifierExamen';
-
-/*import ModelForm from './ModelForm';
-import ExamenForm from './ExamenForm';*/
+// import ExamenItem from './ExamenItem';
+import ModelForm from './ModelForm';
+import ModifierExamen from './ModifierExamen';
+import ExamenForm from './ExamenForm';
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
-
-
-
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -30,63 +26,41 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <ModifierExam closeModal={closeModal}/>;
+        content = <ModifierExamen closeModal={closeModal}/>;
       break;
     
     case STEP2:
-        content = <ModifierExam />;
+        content = <ExamenForm />;
       break;
     
     case STEP3:
-        content = <ModifierExam />;
-      break;
+        content = <ExamenForm />;
+      break;  
   
     default:
-        content = <ModifierExam closeModal={closeModal}/>;
+        content = <ModelForm closeModal={closeModal}/>;
       break;
   }
 
   useEffect(() => {
-
   }, [steps])
 
   if (isModalVisible) {
     modal = (
-      <EuiModal onClose={closeModal} className='ModifierExamen' maxWidth='100%'>
+      <EuiModal onClose={closeModal} className='modelFormContainer' maxWidth='100%'>
         <EuiModalHeader>
-          
         </EuiModalHeader>
         <EuiModalBody>
           {content}
         </EuiModalBody>
-        <EuiSpacer size="m" />
       </EuiModal>
     ); 
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Show Modal</EuiButton>
+      <EuiButton onClick={showModal}>Show form modal</EuiButton>
       {modal}
-      <style jsx={"true"}>
-        {`
-          .euiButton--primary.euiButton--fill {
-            background: #5D9AD4 0% 0% no-repeat padding-box;
-            font: normal normal normal 27px/37px Open Sans;
-            letter-spacing: 0px;
-            color: #FFFFFF;
-          }
-          
-          .modelFormContainer {
-            /* left: 432px;
-            top: 207px; */
-            width: 1057px;
-          }
-        `}
-      </style>
-      
-
     </div>
-    
   );
 };
 
