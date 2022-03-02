@@ -32,7 +32,6 @@
 /******************* EUI ***************************/
 /***************************************************/
 
-
 /*****************************  euiModalHeader *****************/
 /* .euiModalHeader {
   background: #5D9AD4 0% 0% no-repeat padding-box;
@@ -45,30 +44,35 @@
   background-color: none;
 } */
 
-
 /***************************** CUSTOM BUTTON *****************/
 .euiModal__flex .euiModalBody .euiModalBody__overflow {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
+}
+
+.euiModal .euiModal__flex {
+  max-height: 90vh !important;
 }
 
 .euiModal .euiModalHeader {
-  background: #5D9AD4 0% 0% no-repeat padding-box;
+  background: #5d9ad4 0% 0% no-repeat padding-box;
   border-radius: 10px 10px 0px 0px;
   height: 89px;
   opacity: 1;
 }
 .euiModal .euiButton--primary {
-  background: #5D9AD4;
+  background: #5d9ad4;
 }
 .euiModal .euiModal__closeIcon {
-  background-color: #5D9AD4;
-  color: #4B759C;
+  background-color: #5d9ad4;
+  color: #4b759c;
   height: 19px;
   width: 19px;
 }
 
-.euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+.euiModalBody .euiFieldText,
+.euiModalBody .euiFieldNumber,
+.euiModalBody .euiSelect {
+  background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #707070;
   border-radius: 7px;
   opacity: 1;
@@ -76,11 +80,24 @@
 }
 
 .euiModal .button_cancel {
-  border: 3px solid #5D9AD4;
+  width: 150px;
+  height: 33px;
+  font-family: calibri;
+  color: #1d3d5b;
+  font-size: 140%;
+  margin-right: 35%;
+  border: 3px solid #1d3d5b;
   border-radius: 36px;
   opacity: 1;
-  width: 186px;
-  height: 59px;
+}
+
+.euiModal .button_cancel_small {
+  border: 3px solid #5d9ad4;
+  border-radius: 39px;
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  margin-right: 46px;
   font: normal normal normal 27px/37px Open Sans;
 }
 
@@ -89,16 +106,110 @@
   opacity: 1;
   width: 187px;
   height: 59px;
+  margin-left: 15px;
+  font: normal normal normal 27px/37px Open Sans;
+}
+
+.euiModal .button_next2 {
+  border-radius: 41px;
+  opacity: 1;
+
+  width: 180px;
+  height: 33px;
+  margin-left: 35%;
+  font-family: calibri !important;
+  font-size: 140% !important;
+  background-color: #1d3d5b !important;
+  border: 1px solid #1d3d5b !important;
+}
+
+.euiModal .button_add {
+  border-radius: 39px;
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  margin-left: 15px;
+  font: normal normal normal 27px/37px Open Sans;
+}
+
+.euiFlexItem .button_finished {
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  font: normal normal normal 27px/37px Open Sans;
+  background: #134058 0% 0% no-repeat padding-box;
+  box-shadow: 3px 3px 6px #00000029 !important;
+  background-color: #134058 !important;
+  border-radius: 32px;
+}
+
+.icon_container {
+  margin-right: auto;
+  margin-right: -4px;
+}
+
+.icon {
+  margin: auto;
+}
+
+.icon_ellipsis {
+  margin-top: 7px;
+}
+
+.examenItem_rigth .euiFlexGroup {
+  margin-left: auto;
+}
+
+.examenItem_label {
+  font: normal normal 600 20px/27px Open Sans;
+  letter-spacing: 0px;
+  opacity: 1;
 }
 
 .examenItem {
-  top: 278px;
-  left: 280px;
-  width: 1361px;
+  width: 108%;
   height: 42px;
-  background: #C9EBD7 0% 0% no-repeat padding-box;
+  background: #c9ebd7 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
+  padding-left: 41px;
+  padding-right: 41px;
+  margin-left: -55px !important;
+}
+
+.examenItemContainer {
+  margin-bottom: 5px;
+}
+
+.examenItem .examen_name {
+  margin-left: -16px;
+}
+
+.euiForm .btn_group {
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.modelFormContainer {
+  width: 1057px;
+  margin-top: 5px;
+}
+
+.euiFlexGroup .delaiInterExamen {
+  margin-left: 47px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  padding: 6px;
+  text-decoration: underline;
+  font: normal normal normal 15px/20px Open Sans;
+  letter-spacing: 0px;
+  color: #134058;
+  opacity: 1;
+}
+
+.euiFlexGroup .horizontalRule {
+  background-color: #5d9ad4;
 }
 /***************************** CARD BUTTON ******************/
 
@@ -111,26 +222,52 @@
   }
 }
 
-
-/**************** RECAPITULATIF DES EXAMENS *****************/
-
-/* .timeline-content {
-  width: 50%;
-  background-color: blue;
-  font-size: 12px;
-  padding: 0px 10px 0px 10px;
+.formulaire label {
+  color: #777;
+  font-family: calibri;
+  margin-bottom: -5px;
 }
 
-.header, .first-div, .second-div {
-  display: flex;
-  justify-content: space-between;
+.nomexam span {
+  color: #5d9ad4;
 }
 
-.first-div p, .second-div p {
-  width: 50%;
+hr {
+  color: skyblue;
 }
 
-.praticien, .rue {
-  display: flex;
-  align-items: center;
-} */
+.numexam span {
+  color: #444;
+  font-size: 130%;
+  font-family: calibri;
+}
+.icone {
+  color: #5d9ad4;
+}
+
+.checkbox {
+  margin-left: 2.1%;
+}
+
+.f2 {
+  border: 1px solid #5d9ad4;
+  border-radius: 6px;
+  height: 150px;
+}
+
+.groupe {
+  margin-left: 3%;
+}
+
+.ex1 {
+  background: #93b7d8 !important;
+  font-weight: bold;
+}
+
+.Modifexamen {
+  min-width: 960px !important;
+}
+
+.checkbox_ModifExam {
+  margin-left: 0%;
+}

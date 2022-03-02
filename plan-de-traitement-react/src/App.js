@@ -1,19 +1,22 @@
 import './App.css';
-import ModelForm from './components/ModelForm';
+/*import ModifierExamen from './components/ModifierExamen';*/
+
+
 import styles from './eui_theme_light.css';
+import { createStep } from './utils/helper';
+import { STEP1 } from './utils/constants';
+import { useDispatch } from 'react-redux';
+import { addStep } from './actions/index';
+import MainScreen from './components/MainScreen';
 
-function App({props}) {
-  const mode = () => {
-    if (this.props.createModel) {
-      return "createModel";
-    }
-  }
-
-  // const appMode = mode();
+function App() {
+  const dispatch = useDispatch();
+  dispatch(addStep(createStep(STEP1)));
 
   return (
     <div className={styles}>
-      <ModelForm />
+      <MainScreen />
+      
     </div>
   );
 }
