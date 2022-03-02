@@ -13,8 +13,8 @@ import ExamenForm from './ExamenForm';*/
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
-import { EuiText } from '@elastic/eui/src/components/text/text';
-import ExamenItem from './ExamenItem';
+
+
 
 
 const MainScreen = () => {
@@ -30,7 +30,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <ExamenItem closeModal={closeModal}/>;
+        content = <ModifierExam closeModal={closeModal}/>;
       break;
     
     case STEP2:
@@ -54,9 +54,7 @@ const MainScreen = () => {
     modal = (
       <EuiModal onClose={closeModal} className='ModifierExamen' maxWidth='100%'>
         <EuiModalHeader>
-          <EuiText>
-            <p>Titre</p>
-          </EuiText>
+          
         </EuiModalHeader>
         <EuiModalBody>
           {content}

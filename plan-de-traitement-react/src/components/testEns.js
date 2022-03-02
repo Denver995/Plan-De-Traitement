@@ -1,6 +1,21 @@
 import {
     EuiFlexGroup,
     EuiFlexItem,
+    EuiFormRow,
+    EuiForm,
+    EuiSpacer,
+    useGeneratedHtmlId,
+    EuiButton,
+    EuiButtonEmpty,
+    EuiModal,
+    EuiModalBody,
+    EuiModalFooter,
+    EuiModalHeader,
+    EuiSelect,
+    EuiHideFor,
+    EuiText,
+    EuiIcon,
+    EuiCheckbox
   } from '@elastic/eui';
   import React from 'react';
   
@@ -8,34 +23,62 @@ import {
   
   const ExamenItem = () => {
     return (
-        <EuiFlexGroup className='examenItem'>
-            <EuiFlexItem grow={false}>
-                <span className='icon_ellipsis'><EllipsisSvg style={{height: 14}}/></span>
-            </EuiFlexItem>
-            <EuiFlexItem className='examenItem_left'>
-                <EuiFlexGroup>
-                <EuiFlexItem grow={false} className='icon_container'>
-                    <span className='icon'><EllipsisSvg/></span>
-                </EuiFlexItem>
-                <EuiFlexItem>
-                    <span className='examenItem_label examen_name'>Examen 1</span>
-                </EuiFlexItem>
-                </EuiFlexGroup>
-            </EuiFlexItem>
-            <EuiFlexItem className='examenItem_rigth'>
-                <EuiFlexGroup>
-                <EuiFlexItem grow={false}>
-                    <span className='examenItem_label'>"Spécialité"-"Motif"</span>
-                </EuiFlexItem>
-                <EuiFlexItem grow={false}>
-                    <span>|</span>
-                </EuiFlexItem>
-                <EuiFlexItem>
-                    <span className='examenItem_label'>"Praticien"-"Lieu"</span>
-                </EuiFlexItem>
-                </EuiFlexGroup>
-            </EuiFlexItem>
-        </EuiFlexGroup>
+        <EuiForm className="formulaire">
+      <EuiText className="nomexam">
+        <EuiHideFor sizes={'none'}>
+          
+          <p>
+            Modèle : 
+            <br /><span> Xxxxxxx xxxxxx xxxxxxx </span>
+          </p>
+
+        </EuiHideFor>
+        <EuiHideFor sizes={'none'}>
+          
+           <br className="ligne"/>
+          <hr />
+          <br />
+
+        </EuiHideFor>
+
+      </EuiText>
+
+      
+      <EuiText className="numexam">
+      <EuiIcon type="wrench" className="icone" /><span> Examen N°xxx</span>
+
+      </EuiText>
+      <EuiText> <br /> </EuiText>
+
+      <EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiFormRow  label="Spécialité *:" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Motif *:" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiFormRow label="Praticien :" fullWidth>
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Lieu *:" fullWidth>
+          
+            <EuiSelect fullWidth/>
+          </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+
+
+
+    </EuiForm>
     );
   };
   

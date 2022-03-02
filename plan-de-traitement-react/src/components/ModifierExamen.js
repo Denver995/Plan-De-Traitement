@@ -24,8 +24,8 @@ import { useState } from 'react';
 import { createModele } from '../utils/fetcher';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateStep, startLoading } from '../actions';
-import { getStepByKey } from '../utils/helper';
-import { STEP1 } from '../utils/constants';*/
+import { getStepByKey } from '../utils/helper';*/
+import { STEP1 } from '../utils/constants';
 
 const ModifExamen = () => {
   // eslint-disable-next-line no-undef
@@ -36,17 +36,6 @@ const ModifExamen = () => {
   const closeModal = () => setIsModalVisible(false);
 
   const showModal = () => setIsModalVisible(true);
-
-
-  // eslint-disable-next-line no-undef
-  const [checked, setChecked] = useState(false);
- 
-
-  const basicCheckboxId = useGeneratedHtmlId({ prefix: 'basicCheckbox' });
-
-  const onChange = (e) => {
-    setChecked(e.target.checked);
-  };
 
 
 
@@ -60,8 +49,27 @@ const ModifExamen = () => {
   </EuiText>
   );*/
 
-  const examForm = (
-    <EuiForm className="formulaire">
+
+/*
+
+    <Fragment>
+      <EuiCheckbox
+        id={basicCheckboxId}
+        label="I am a checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e)}
+      />
+
+      <EuiSpacer size="m" />
+
+    </Fragment>
+  */
+
+
+
+  return (
+    <div className="Modifexamen" >
+       <EuiForm className="euimodal">
       <EuiText className="nomexam">
         <EuiHideFor sizes={'none'}>
           
@@ -114,92 +122,18 @@ const ModifExamen = () => {
         </EuiFlexItem>
       </EuiFlexGroup>
 
+      <EuiFlexGroup className='btn_group'>
+            <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">
+                              Retour
+            </EuiButtonEmpty>
+            <EuiButton form={modalFormId}  fill className="button_next">
+                              Enregistrer
+                         </EuiButton>
+                    </EuiFlexGroup>              
+
 
 
     </EuiForm>
-  )
-
-  const examItem = () => {
-    <EuiFlexGroup className='examenItem'>
-      
-      <EuiFlexItem>
-        <span>Spécialité</span>
-        <span>Motif</span>
-        <span>|</span>
-        <span>Praticien</span>
-        <span>Lieu</span>
-      </EuiFlexItem>
-    </EuiFlexGroup>
-}
-
-/*
-
-    <Fragment>
-      <EuiCheckbox
-        id={basicCheckboxId}
-        label="I am a checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e)}
-      />
-
-      <EuiSpacer size="m" />
-
-    </Fragment>
-  */
-
-
-
-
-  let modal;
-
-  if (isModalVisible) {
-    modal = (
-      <EuiModal onClose={closeModal} className='modelFormContainer' maxWidth='100%'>
-        <EuiModalHeader>
-        </EuiModalHeader>
-        <EuiModalBody>
-          {examItem}
-          {examForm}
-
-        </EuiModalBody>
-
-        <EuiCheckbox className="checkbox" id={basicCheckboxId}
-        label="Fixer la position de l'examen"
-        checked={checked}
-        onChange={(e) => onChange(e)}
->
-        </EuiCheckbox>
-        <EuiSpacer size="m" />
-        <EuiSpacer size="m" />
-        <EuiModalFooter className='footer_centered' style={{justifyContent: 'center'}}>
-          <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">Retour</EuiButtonEmpty>
-          <EuiButton type="submit" form={modalFormId} onClick={closeModal} fill className="button_next">
-            Enregistrer
-          </EuiButton>
-        </EuiModalFooter>
-      </EuiModal>
-    ); 
-  }
-  return (
-    <div>
-      <EuiButton onClick={showModal}>Modifier Examens</EuiButton>
-      {modal}
-      <style jsx={"true"}>
-        {`
-          .euiButton--primary.euiButton--fill {
-            background: #5D9AD4 0% 0% no-repeat padding-box;
-            font: normal normal normal 27px/37px Open Sans;
-            letter-spacing: 0px;
-            color: #FFFFFF;
-          }
-          
-          .modelFormContainer {
-            /* left: 432px;
-            top: 207px; */
-            width: 1057px;
-          }
-        `}
-      </style>
 
     </div>
 
