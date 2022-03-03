@@ -4,18 +4,6 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-<<<<<<< HEAD
-    "@elastic/datemath": "^5.0.3",
-    "@elastic/eui": "^49.0.0",
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "ky": "^0.29.0",
-    "moment": "^2.29.1",
-    "prop-types": "^15.8.1",
-=======
     "@elastic/datemath": "5.0.2",
     "@elastic/eui": "^48.1.1",
     "@emotion/react": "11.7.1",
@@ -30,11 +18,11 @@
     "core-js": "3.4.0",
     "ky": "^0.29.0",
     "moment": "2.13.0",
->>>>>>> c89a6aae251d4f3638c1d76217d5077527c2ebd8
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-scripts": "5.0.0",
+    "react-vertical-timeline-component": "^3.5.2",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",

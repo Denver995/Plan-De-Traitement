@@ -11,6 +11,7 @@ import ExamenForm from './ExamenForm';    // Valentin    -->> composant: Espacem
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
+import RecapitulatifDesExamens from './RecapitulatifDesExamens';
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,7 +26,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <ModelForm closeModal={closeModal}/>;
+        content = <RecapitulatifDesExamens closeModal={closeModal}/>;
       break;
     
     case STEP2:
