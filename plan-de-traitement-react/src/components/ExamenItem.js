@@ -2,13 +2,13 @@ import {
     EuiFlexGroup,
     EuiFlexItem,
     EuiSpacer,
-    EuiContextMenuItem,
     EuiPopover,
     useGeneratedHtmlId,
     EuiListGroupItem,
     EuiListGroup
   } from '@elastic/eui';
   import React, { useState } from 'react';
+  import ModifierExam from './ModifierExamen';
   
   import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
   
@@ -23,6 +23,10 @@ import {
     const closePopover = () => setPopover(false);
 
     const togglePropover  = () =>  setPopover(!isPopoverOpen);
+
+    const onEdit = () =>  {
+
+    }
 
     const button = (
         <span onClick={togglePropover}><EllipsisSvg style={{height: 14}}/></span>
@@ -43,7 +47,7 @@ import {
                         container={panelRef}
                     >
                         <EuiListGroup>
-                            <EuiListGroupItem onClick={() => {}} label="Modifier" />
+                            <EuiListGroupItem onClick={onEdit} label="Modifier" />
                             <EuiListGroupItem onClick={() => {}} label="Supprimer" />
                             <EuiListGroupItem onClick={() => {}} label="Fixer la position" />
                             <EuiListGroupItem onClick={() => {}} label="Lier avec un autre examen" />

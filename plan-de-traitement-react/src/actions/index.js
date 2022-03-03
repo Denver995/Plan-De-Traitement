@@ -12,7 +12,8 @@ import {
   STOP_LOADING,
   ACTIVATE_STEP,
   DESACTIVATE_STEP,
-  UPDATE_STEP
+  UPDATE_STEP,
+  EDIT_EXAM
 } from "./action-types";
 
 export const setModelType = (modelType) => ({
@@ -45,7 +46,10 @@ export const updateStep = (step) => ({
   step,
 });
 
-
+export const editExam = (examId) => ({
+  type: EDIT_EXAM,
+  examId,
+});
 
 export const setActiveStep = (activeStep) => ({
   type: SET_ACTIVE_STEP,
