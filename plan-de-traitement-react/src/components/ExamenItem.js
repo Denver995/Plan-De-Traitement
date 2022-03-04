@@ -8,13 +8,15 @@ import {
     EuiListGroup
   } from '@elastic/eui';
   import React, { useState } from 'react';
-  import ModifierExam from './ModifierExamen';
+  import { useDispatch } from 'react-redux';
+  import { editExam } from '../actions';
   
   import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
   
-  const ExamenItem = () => {
+  const ExamenItem = ({data, showEditForm}) => {
+    const dispatch = useDispatch();
     const [isPopoverOpen, setPopover] = useState(false);
-    const [panelRef, setPanelRef] = useState(null);
+    const [panelRef] = useState(null);
 
     const contextMenuPopoverId = useGeneratedHtmlId({
         prefix: 'contextMenuPopover',
@@ -25,7 +27,9 @@ import {
     const togglePropover  = () =>  setPopover(!isPopoverOpen);
 
     const onEdit = () =>  {
-
+        console.log('click on edit button ', data);
+        dispatch(editExam(data));
+        showEditForm(true);
     }
 
     const button = (
@@ -36,7 +40,6 @@ import {
         <>
             <EuiFlexGroup className='examenItem'>
                 <EuiFlexItem grow={false} className='icon_ellipsis'>
-                    {/* <span onClick={togglePropover}><EllipsisSvg style={{height: 14}}/></span> */}
                     <EuiPopover
                         id={contextMenuPopoverId}
                         button={button}
@@ -58,25 +61,25 @@ import {
                 </EuiFlexItem>
                 <EuiFlexItem className='examenItem_left'>
                     <EuiFlexGroup>
-                    <EuiFlexItem grow={false} className='icon_container'>
-                        <span className='icon'><EllipsisSvg/></span>
-                    </EuiFlexItem>
-                    <EuiFlexItem>
-                        <span className='examenItem_label examen_name'>Examen 1</span>
-                    </EuiFlexItem>
+                        <EuiFlexItem grow={false} className='icon_container'>
+                            <span className='icon'><EllipsisSvg/></span>
+                        </EuiFlexItem>
+                        <EuiFlexItem>
+                            <span className='examenItem_label examen_name'>{data.label}</span>
+                        </EuiFlexItem>
                     </EuiFlexGroup>
                 </EuiFlexItem>
                 <EuiFlexItem className='examenItem_rigth'>
                     <EuiFlexGroup>
-                    <EuiFlexItem grow={false}>
-                        <span className='examenItem_label'>"Spécialité"-"Motif"</span>
-                    </EuiFlexItem>
-                    <EuiFlexItem grow={false}>
-                        <span>|</span>
-                    </EuiFlexItem>
-                    <EuiFlexItem>
-                        <span className='examenItem_label'>"Praticien"-"Lieu"</span>
-                    </EuiFlexItem>
+                        <EuiFlexItem grow={false}>
+                            <span className='examenItem_label'>{data.specialtite}-{data.motif}</span> 
+                        </EuiFlexItem>
+                        <EuiFlexItem grow={false}>
+                            <span>|</span>
+                        </EuiFlexItem>
+                        <EuiFlexItem>
+                            <span className='examenItem_label'>{data.praticien}-{data.lieu}</span>
+                        </EuiFlexItem>
                     </EuiFlexGroup>
                 </EuiFlexItem>
             </EuiFlexGroup>

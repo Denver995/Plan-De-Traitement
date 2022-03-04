@@ -13,7 +13,8 @@ import {
   ACTIVATE_STEP,
   DESACTIVATE_STEP,
   UPDATE_STEP,
-  EDIT_EXAM
+  EDIT_EXAM,
+  SHOW_ALERT
 } from "./action-types";
 
 export const setModelType = (modelType) => ({
@@ -46,9 +47,9 @@ export const updateStep = (step) => ({
   step,
 });
 
-export const editExam = (examId) => ({
+export const editExam = (examData) => ({
   type: EDIT_EXAM,
-  examId,
+  examData,
 });
 
 export const setActiveStep = (activeStep) => ({
@@ -85,3 +86,8 @@ export const startLoading = ()  => ({
 export const stopLoading = ()  => ({
     type: STOP_LOADING,
 });
+
+export const setAlert = alert => ({
+  type: SHOW_ALERT,
+  alert
+})

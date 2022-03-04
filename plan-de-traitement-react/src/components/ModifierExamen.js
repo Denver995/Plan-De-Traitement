@@ -18,15 +18,15 @@ import { useState } from "react";
 import '../modifierexamen.css'
 /*import React, { useState, useEffect } from 'react';
 import { createModele } from '../utils/fetcher';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateStep, startLoading } from '../actions';
 import { getStepByKey } from '../utils/helper';*/
-import { STEP1 } from "../utils/constants";
 
-const ModifExamen = () => {
+import {setAlert } from '../actions';
+import { useDispatch, useSelector } from 'react-redux';
+
+const ModifierExamen = () => {
   // eslint-disable-next-line no-undef
   const [setIsModalVisible] = useState(false);
-
+  const dispatch = useDispatch();
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
 
   const closeModal = () => setIsModalVisible(false);
@@ -62,7 +62,6 @@ const ModifExamen = () => {
 
         </EuiText>
 
-        
         <EuiText className="numexam_me">
         <EuiIcon type="wrench" className="icone_me" /><span> Examen N°xxx</span>
 
@@ -110,7 +109,9 @@ const ModifExamen = () => {
               <EuiButtonEmpty onClick={closeModal} fill className="button_cancel_me">
                                 Retour
               </EuiButtonEmpty>
-              <EuiButton form={modalFormId}  fill className="button_next_me">
+              <EuiButton form={modalFormId}  fill className="button_next_me"
+                onClick={() => dispatch(setAlert({title: "Enregistrer le modèle", message:"Ce modèle va être enregistré sous le nom :",showAlert:true,onAccept:()=>{dispatch(setAlert(false))}}))}
+              >
                                 Enregistrer
               </EuiButton>
         </EuiFlexGroup>              
@@ -124,4 +125,4 @@ const ModifExamen = () => {
   );
 };
 
-export default ModifExamen;
+export default ModifierExamen;

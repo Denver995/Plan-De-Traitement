@@ -3,12 +3,16 @@ import { dataSourceReducer } from "./dataSoruce";
 import { modelTypeReducer } from './modelType';
 import { stepsReducer } from './steps';
 import { btnStateReducer } from './btnState';
+import { examenReducer } from './examen';
+import { alertReducer } from './alert';
 
 const appReducer = combineReducers({  
   dataSource: dataSourceReducer,
   modelType: modelTypeReducer,
   steps: stepsReducer,
-  btnState: btnStateReducer
+  examenSelected: examenReducer,
+  btnState: btnStateReducer,
+  alert: alertReducer,
 
 });
 

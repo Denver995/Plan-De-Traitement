@@ -19,3 +19,5 @@ export const CLOSE_MAIN_DIALOG = "CLOSE_MAIN_DIALOG";
 export const ALERT_DIALOG = "ALERT_DIALOG";
 export const UPDATE_STEP = "UPDATE_STEP";
 export const EDIT_EXAM = "EDIT_EXAM";
+export const SHOW_EXAM_EDIT_FORM = "SHOW_EXAM_EDIT_FORM";
+export const SHOW_ALERT = "SHOW_ALERT";
