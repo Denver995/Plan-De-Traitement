@@ -4,7 +4,7 @@ import '../RecapitulatifRendezVous.css';
 
 function ExamCard(props) {
 
-    return (
+    return ( 
         <div className="exam-card">
             <h3 className="exam-card-title">Examen 1</h3>
             <div className="exam-card-content" style={{"background": props.couleur}}>

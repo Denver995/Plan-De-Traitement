@@ -26,7 +26,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <RecapitulatifDesExamens closeModal={closeModal}/>;
+        content = <RecapitulatifDesExamens couleur = 'pink' closeModal={closeModal} date = '12 mars' position ={'left'} />;
       break;
     
     case STEP2:

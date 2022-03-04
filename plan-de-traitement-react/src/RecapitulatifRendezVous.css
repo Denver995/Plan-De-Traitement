@@ -5,7 +5,9 @@
 }
 
 .exam-card-title, #iconList, .spec {
-  color: #1d3d5b;
+  color: rgb(36%, 60%, 83%);
+  display: flex;
+  justify-content: space-between;
 }
 
 .exam-card-content {
@@ -40,8 +42,8 @@
   width: 60%;
 }
 
-#icon {
-  margin-right: 5px;
+#iconList {
+  margin-right: 10px;
   color: #5d9ad4;
 }
 
@@ -56,4 +58,8 @@
 .spec {
   font-size: 12px;
   font-weight: bold;
+}
+.exam{
+  margin-bottom: 0px;
+  margin-top: -50px;
 }
