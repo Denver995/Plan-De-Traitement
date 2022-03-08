@@ -8,11 +8,11 @@ import {
 import React, { useState, useEffect } from 'react';
 import ModelForm from './ModelForm';
 import ExamenForm from './ExamenForm';
-import ModifierExamen from './ModifierExamen';
 import Alert from './Alert';
 import { useSelector } from 'react-redux';
 import { getActiveStep } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
+import RecapitulatifDesExamens from './RecapitulatifDesExamens';
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +37,7 @@ const MainScreen = () => {
       break;
     
     case STEP3:
-        content = <ModifierExamen />;
+        content = <RecapitulatifDesExamens couleur = 'pink' closeModal={closeModal} date = '12 mars' position ={'left'} />;
       break;  
   }
 

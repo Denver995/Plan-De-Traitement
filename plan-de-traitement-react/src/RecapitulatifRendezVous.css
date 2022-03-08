@@ -1,0 +1,65 @@
+/**************** RECAPITULATIF DES EXAMENS *****************/
+.exam-card-title {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.exam-card-title, #iconList, .spec {
+  color: rgb(36%, 60%, 83%);
+  display: flex;
+  justify-content: space-between;
+}
+
+.exam-card-content {
+  width: 480px;
+  /* background: #C9EBD7 0% 0% no-repeat padding-box; */
+  box-shadow: 0px 3px 6px #00000029;
+  font-size: 12px;
+  padding: 10px 2px 10px 10px;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+.card-content-header,
+.first-div,
+.second-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-content-header,
+.first-div {
+  margin-bottom: 10px;
+}
+
+.praticien, .date {
+  /* background-color: red; */
+  width: 40%;
+}
+
+.rue, .heure {
+  /* background-color: yellow; */
+  width: 60%;
+}
+
+#iconList {
+  margin-right: 10px;
+  color: #5d9ad4;
+}
+
+.praticien,
+.rue,
+.date,
+.heure {
+  display: flex;
+  align-items: center;
+}
+
+.spec {
+  font-size: 12px;
+  font-weight: bold;
+}
+.exam{
+  margin-bottom: 0px;
+  margin-top: -50px;
+}

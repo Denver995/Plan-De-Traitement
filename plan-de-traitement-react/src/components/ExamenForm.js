@@ -117,9 +117,7 @@ const ExamenForm = () => {
         setShowEditForm(false);
     }
 
-    const onCancel = () => {
-        dispatch(deleteStep(previousStep));
-    };
+    const onCancel = () => dispatch(deleteStep(previousStep));
 
     const delaiInterExamen = (intervale) => {
         return (
