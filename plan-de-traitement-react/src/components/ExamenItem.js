@@ -2,17 +2,17 @@ import {
     EuiFlexGroup,
     EuiFlexItem,
     EuiSpacer,
-    EuiContextMenuItem,
     EuiPopover,
     useGeneratedHtmlId,
     EuiListGroupItem,
     EuiListGroup
-} from '@elastic/eui';
-import React, { useState } from 'react';
-
-import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
-
-const ExamenItem = () => {
+  } from '@elastic/eui';
+  import React, { useState } from 'react';
+  import ModifierExam from './ModifierExamen';
+  
+  import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
+  
+  const ExamenItem = () => {
     const [isPopoverOpen, setPopover] = useState(false);
     const [panelRef, setPanelRef] = useState(null);
 
@@ -23,6 +23,10 @@ const ExamenItem = () => {
     const closePopover = () => setPopover(false);
 
     const togglePropover = () => setPopover(!isPopoverOpen);
+
+    const onEdit = () =>  {
+
+    }
 
     const button = (
         <span onClick={togglePropover}><EllipsisSvg style={{ height: 14 }} /></span>
@@ -43,10 +47,10 @@ const ExamenItem = () => {
                         container={panelRef}
                     >
                         <EuiListGroup>
-                            <EuiListGroupItem onClick={() => { }} label="Modifier" />
-                            <EuiListGroupItem onClick={() => { }} label="Supprimer" />
-                            <EuiListGroupItem onClick={() => { }} label="Fixer la position" />
-                            <EuiListGroupItem onClick={() => { }} label="Lier avec un autre examen" />
+                            <EuiListGroupItem onClick={onEdit} label="Modifier" />
+                            <EuiListGroupItem onClick={() => {}} label="Supprimer" />
+                            <EuiListGroupItem onClick={() => {}} label="Fixer la position" />
+                            <EuiListGroupItem onClick={() => {}} label="Lier avec un autre examen" />
                         </EuiListGroup>
                     </EuiPopover>
                     <EuiSpacer size="xxl" />

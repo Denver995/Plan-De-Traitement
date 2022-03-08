@@ -78,9 +78,6 @@
     padding-right: 25px;
   }
   
-  .affichage-groupes{
-    width: 100%;
-  }
   /*---------------------------------------------------------*/
 .exam-item{
     height: 40px;
@@ -138,10 +135,12 @@
 .affichage-groupes{
     position: relative;
     height: 570px;
-    margin-left: -25px;
+    margin-left: -24px;
+    margin-right: -27px;
     padding-right: 20px;
     padding-left: 25px;
-    margin-bottom: -24px;
+    margin-bottom: -20px;
+    border: 1px soldi red;
     bottom: 0;
     margin-top: -6px;
     background-color: #eef7ff;
@@ -165,7 +164,8 @@
 }
 .euiModalBody:last-of-type .euiModalBody__overflow {
     padding-bottom: 24px;
-    margin-right: -50px;
+    margin-right: -80px;
 }
+
 
 

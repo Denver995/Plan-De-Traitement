@@ -1,7 +1,4 @@
 import './App.css';
-/*import ModifierExamen from './components/ModifierExamen';*/
-
-
 import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';
 import { STEP1 } from './utils/constants';

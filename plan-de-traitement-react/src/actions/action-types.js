@@ -18,3 +18,4 @@ export const SET_FIELD_DATA = "SET_FIELD_DATA";
 export const CLOSE_MAIN_DIALOG = "CLOSE_MAIN_DIALOG";
 export const ALERT_DIALOG = "ALERT_DIALOG";
 export const UPDATE_STEP = "UPDATE_STEP";
+export const EDIT_EXAM = "EDIT_EXAM";
