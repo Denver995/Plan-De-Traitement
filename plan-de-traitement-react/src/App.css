@@ -226,6 +226,31 @@ body {
   margin-bottom: 15px;
 }
 
+.btn_group .button_cancel_me
+{
+  font-size: 19px;
+  border: 3px solid #1D3D5B;
+  width: 179px;
+  height: 49px;
+  color: #1D3D5B;
+  margin-right: 60%;
+  border-radius: 39px;
+  opacity: 1;
+}
+
+.btn_group .button_next_me
+{
+  font-size: 19px;
+  width: 235px;
+  height: 49px;
+  background: #134058 0% 0% no-repeat padding-box;
+  box-shadow: 3px 3px 6px #00000029 !important;
+  background-color: #134058 !important;
+  border-radius: 32px;
+  opacity: 1;
+  padding: 10px;
+}
+
 .modelFormContainer {
   width: 1057px;
   margin-top: 5px;
@@ -283,8 +308,12 @@ hr {
 .checkbox {
   margin-left: 2.1%;
 }
-.p_alert_txt {
+.euiModalBody p.text_alert {
+  width: 612px;
+  height: 30px;
   text-align: center;
-  margin-top: 50px;
-  font-size: larger;
+  font: normal normal 600 22px/25px Open Sans;
+  letter-spacing: 0px;
+  color: #242729;
+  opacity: 1;
 }

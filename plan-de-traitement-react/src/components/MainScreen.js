@@ -29,15 +29,15 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-        content = <ModelForm closeModal={closeModal} />;
+        content = <ModelForm closeModal={closeModal}/>;
       break;
 
     case STEP2:
-        content = <ExamenForm />;
+        content = <ExamenForm/>;
       break;
     
     case STEP3:
-        content = <RecapitulatifDesExamens couleur = 'pink' closeModal={closeModal} date = '12 mars' position ={'left'} />;
+        content = <RecapitulatifDesExamens closeModal={closeModal}/>;
       break;  
   }
 

@@ -166,6 +166,13 @@ const ExamenForm = () => {
                     ))}
                 </div>
             }
+            {showEditForm &&
+                <EuiFlexGroup>
+                    <EuiFlexItem>
+                        Examen 1  
+                    </EuiFlexItem>
+                </EuiFlexGroup>
+            }
             <EuiForm>
                 <EuiFlexGroup>
                     <EuiFlexItem>

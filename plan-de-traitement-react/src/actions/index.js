@@ -75,8 +75,8 @@ export const addFieldData = (key, value) => ({
 });
 
 export const alertDialog = contentDialog => ({
-    type: ALERT_DIALOG,
-    contentDialog
+  type: ALERT_DIALOG,
+  contentDialog
 });
 
 export const startLoading = ()  => ({
