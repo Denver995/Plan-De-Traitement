@@ -4,7 +4,6 @@ import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import "../Recapitulatif.css";
 
 function ExamCard(props) {
-
     return (
         <div>
             <div className="exam-title">{props.examen}</div>

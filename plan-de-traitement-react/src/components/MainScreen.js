@@ -10,7 +10,7 @@ import ModelForm from './ModelForm';
 import ExamenForm from './ExamenForm';
 import Alert from './Alert';
 import { useSelector } from 'react-redux';
-import { getActiveStep } from "../utils/helper";
+import { getActiveStep, getStepByKey } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
 import RecapitulatifDesExamens from './RecapitulatifDesExamens';
 
@@ -26,6 +26,9 @@ const MainScreen = () => {
   let modal;
   let content;
   let activeStep = getActiveStep(steps);
+  let stepData = getStepByKey(steps, activeStep);
+  console.log('stepData ', stepData);
+  console.log('active step ', activeStep);
 
   switch (activeStep) {
     case STEP1:

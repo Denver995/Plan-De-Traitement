@@ -20,10 +20,10 @@ export const createStep = (
 export const getActiveStep = (steps) => {
     const activeStep = steps.filter(item => item.isActive === true);
     return activeStep.length > 0 ? activeStep[0].step : 'initialStep';
+    // return activeStep.length > 0 ? activeStep[0] : {step: 'initialStep'};
 };
 
 export const getStepByKey = (steps, key) => {
-    console.log('steps ', steps);
     const step = steps.filter(item => item.step === key);
     return step.length > 0 ? step[0] : null;
 };

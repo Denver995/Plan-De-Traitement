@@ -251,6 +251,12 @@ body {
   padding: 10px;
 }
 
+.btn_group .xs
+{
+  width: 187px;
+  margin-left: auto;
+}
+
 .modelFormContainer {
   width: 1057px;
   margin-top: 5px;
@@ -307,13 +313,4 @@ hr {
 
 .checkbox {
   margin-left: 2.1%;
-}
-.euiModalBody p.text_alert {
-  width: 612px;
-  height: 30px;
-  text-align: center;
-  font: normal normal 600 22px/25px Open Sans;
-  letter-spacing: 0px;
-  color: #242729;
-  opacity: 1;
 }

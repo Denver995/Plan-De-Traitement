@@ -43,7 +43,7 @@ const Alert = ({ message, title, onAccept, onReject, noAccept, noReject }) => {
             <h1>{title}</h1>
           </EuiModalHeaderTitle>
         </EuiModalHeader>
-        <EuiModalBody style={{justifyContent: "center"}}>
+        <EuiModalBody>
           <div dangerouslySetInnerHTML={{__html: message}}></div>
         </EuiModalBody>
         <EuiSpacer size="m" />

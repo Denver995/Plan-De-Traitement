@@ -1,5 +1,5 @@
 import React from "react";
-import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup } from "@elastic/eui";
+import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup, EuiText } from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import ExamCard from "./ExamCard";
 
@@ -13,7 +13,7 @@ const RecapitulatifDesExamens = (closeModal) => {
   const steps = useSelector(state => state.steps);
   const previousStep = getStepByKey(steps, STEP3);
 
-  const alertMessage = '<p className="text_alert">Ce modèle va être enregistré sous le nom :</p>'
+  const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>'
   const onSave = () => dispatch(setAlert({title: "Enregistrer le modèle", message: alertMessage,showAlert:true,onAccept:()=>{dispatch(setAlert(false))}}));
   const onBack = () =>  dispatch(deleteStep(previousStep));
   
@@ -73,10 +73,23 @@ const RecapitulatifDesExamens = (closeModal) => {
         <EuiButtonEmpty onClick={closeModal} fill className="button_cancel_me" onClick={onBack}>
           Retour
         </EuiButtonEmpty>
-        <EuiButton form={closeModal} fill className="button_next_me" onClick={onSave}>
+        <EuiButton form={closeModal} fill className="button_next_me xs" onClick={onSave}>
           Enregistrer
         </EuiButton>
       </EuiFlexGroup>
+      <style jsx>
+        {`
+            euitext.text_alert {
+              width: 612px;
+              height: 30px;
+              text-align: center;
+              font: normal normal 600 22px/25px Open Sans;
+              letter-spacing: 0px;
+              color: #242729;
+              opacity: 1;
+            }
+        `}
+      </style>   
     </div>
   );
 };

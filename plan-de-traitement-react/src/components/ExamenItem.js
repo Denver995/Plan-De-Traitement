@@ -11,8 +11,6 @@ import {
   import { useDispatch } from 'react-redux';
   import { editExam } from '../actions';
   
-  import { ReactComponent as EllipsisSvg } from "../assets/svgs/ellipsis-v.svg";
-  
   const ExamenItem = ({data, showEditForm}) => {
     const dispatch = useDispatch();
     const [isPopoverOpen, setPopover] = useState(false);
@@ -33,7 +31,7 @@ import {
     }
 
     const button = (
-        <span onClick={togglePropover}><EllipsisSvg style={{height: 14}}/></span>
+        <span onClick={togglePropover} class="icon-ellipsis-v"></span>
     );
 
     return (
@@ -62,7 +60,7 @@ import {
                 <EuiFlexItem className='examenItem_left'>
                     <EuiFlexGroup>
                         <EuiFlexItem grow={false} className='icon_container'>
-                            <span className='icon'><EllipsisSvg/></span>
+                            <span onClick={togglePropover} class="icon-Trac-39"></span>
                         </EuiFlexItem>
                         <EuiFlexItem>
                             <span className='examenItem_label examen_name'>{data.label}</span>
