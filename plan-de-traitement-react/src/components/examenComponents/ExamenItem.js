@@ -9,7 +9,7 @@ import {
   } from '@elastic/eui';
   import React, { useState } from 'react';
   import { useDispatch } from 'react-redux';
-  import { editExam } from '../actions';
+  import { editExam } from '../../actions';
   
   const ExamenItem = ({data, showEditForm}) => {
     const dispatch = useDispatch();
@@ -19,13 +19,12 @@ import {
     const contextMenuPopoverId = useGeneratedHtmlId({
         prefix: 'contextMenuPopover',
     });
-    
+
     const closePopover = () => setPopover(false);
 
-    const togglePropover  = () =>  setPopover(!isPopoverOpen);
+    const togglePropover = () => setPopover(!isPopoverOpen);
 
     const onEdit = () =>  {
-        console.log('click on edit button ', data);
         dispatch(editExam(data));
         showEditForm(true);
     }
@@ -83,6 +82,6 @@ import {
             </EuiFlexGroup>
         </>
     );
-  };
-  
-  export default ExamenItem;
+};
+
+export default ExamenItem;

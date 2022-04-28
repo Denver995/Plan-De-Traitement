@@ -14,7 +14,8 @@ import {
   DESACTIVATE_STEP,
   UPDATE_STEP,
   EDIT_EXAM,
-  SHOW_ALERT
+  SHOW_ALERT,
+  SHOW_EXAM_FORM
 } from "./action-types";
 
 export const setModelType = (modelType) => ({
@@ -90,4 +91,9 @@ export const stopLoading = ()  => ({
 export const setAlert = alert => ({
   type: SHOW_ALERT,
   alert
-})
+});
+
+export const setShowExamForm = show => ({
+  type: SHOW_EXAM_FORM,
+  show
+});

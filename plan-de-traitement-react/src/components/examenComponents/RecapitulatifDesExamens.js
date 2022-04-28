@@ -1,23 +1,34 @@
 import React from "react";
-import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup, EuiText } from "@elastic/eui";
+import { 
+  EuiIcon, 
+  EuiButton, 
+  EuiButtonEmpty, 
+  EuiFlexGroup,
+} from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import ExamCard from "./ExamCard";
 
-import {setAlert, deleteStep } from '../actions';
+import {setAlert, deleteStep } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { STEP3 } from '../utils/constants';
-import { getStepByKey } from "../utils/helper";
+import { STEP3 } from '../../utils/constants';
+import { getStepByKey } from "../../utils/helper";
 
-const RecapitulatifDesExamens = (closeModal) => {
+const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
   const dispatch = useDispatch();
   const steps = useSelector(state => state.steps);
   const previousStep = getStepByKey(steps, STEP3);
-
-  const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>'
-  const onSave = () => dispatch(setAlert({title: "Enregistrer le modèle", message: alertMessage,showAlert:true,onAccept:()=>{dispatch(setAlert(false))}}));
+  const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
+  const onSave = () => dispatch(setAlert(
+    {
+      title: "Enregistrer le modèle", 
+      message: alertMessage,
+      showAlert:true,
+      showInputForm: true,
+      showButtonBlock: true,
+      onAccept:()=>{dispatch(setAlert(false))}
+    }));
   const onBack = () =>  dispatch(deleteStep(previousStep));
-  
-  
+
   return (
     <div>
       <p className="division">
@@ -54,7 +65,7 @@ const RecapitulatifDesExamens = (closeModal) => {
             date='12 mars' 
             position ={'rigth'}
           />
-          <ExamCard 
+          <ExamCard
             examen={"Examen3"} 
             couleur='pink'
             date='12 mars' 
@@ -74,7 +85,7 @@ const RecapitulatifDesExamens = (closeModal) => {
           Retour
         </EuiButtonEmpty>
         <EuiButton form={closeModal} fill className="button_next_me xs" onClick={onSave}>
-          Enregistrer
+          Valider
         </EuiButton>
       </EuiFlexGroup>
       <style jsx>

@@ -7,12 +7,13 @@ import {
 } from '@elastic/eui';
 import React, { useState, useEffect } from 'react';
 import ModelForm from './ModelForm';
-import ExamenForm from './ExamenForm';
+import ExamenForm from './examenComponents/ExamenForm';
 import Alert from './Alert';
 import { useSelector } from 'react-redux';
 import { getActiveStep, getStepByKey } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
-import RecapitulatifDesExamens from './RecapitulatifDesExamens';
+import RecapitulatifDesExamens from './examenComponents/RecapitulatifDesExamens';
+import GroupExamen from './examenComponents/GroupExamen';
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -20,27 +21,32 @@ const MainScreen = () => {
   const steps = useSelector(state => state.steps);
   const alert = useSelector(state => state.alert);
 
-  const closeModal = () => setIsModalVisible(false);
+  const closeModal = () => {
+    setIsModalVisible(false);
+    window.location = '';
+  }
   const showModal = () => setIsModalVisible(true);
 
   let modal;
   let content;
   let activeStep = getActiveStep(steps);
   let stepData = getStepByKey(steps, activeStep);
-  console.log('stepData ', stepData);
-  console.log('active step ', activeStep);
+  let isModelGroup;
+  let classContainer = 'modelFormContainer';
 
   switch (activeStep) {
     case STEP1:
-        content = <ModelForm closeModal={closeModal}/>;
+      content = <ModelForm closeModal={closeModal} />
       break;
-
     case STEP2:
-        content = <ExamenForm/>;
+      classContainer='examenFormContainer'
+      stepData = getStepByKey(steps, STEP1);
+      isModelGroup = stepData.data.groupe_rdv;
+      content = isModelGroup ? <GroupExamen nbrGroupe={stepData.data.nombreOccurence} isModelGroup={isModelGroup}/> : 
+        <ExamenForm isModelGroup={isModelGroup}/>;
       break;
-    
     case STEP3:
-        content = <RecapitulatifDesExamens closeModal={closeModal}/>;
+      content = <RecapitulatifDesExamens closeModal={closeModal}isModelGroup={isModelGroup}/>;
       break;  
   }
 
@@ -49,7 +55,7 @@ const MainScreen = () => {
 
   if (isModalVisible && !alert.showAlert) {
     modal = (
-      <EuiModal onClose={closeModal} className='modelFormContainer espacement_inter_examen_EuiModalBody' maxWidth='100%'>
+      <EuiModal onClose={closeModal} className={`${classContainer} espacement_inter_examen_EuiModalBody`} maxWidth='100%'>
         <EuiModalHeader>
         </EuiModalHeader>
         <EuiModalBody>
