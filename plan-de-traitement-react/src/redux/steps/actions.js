@@ -1,5 +1,9 @@
 import * as types from './types';
-
+/**
+ *
+ * @param {object} step
+ * @returns an object
+ */
 export const addStep = (step) => ({
   type: types.ADD_STEP,
   step,
@@ -23,11 +27,6 @@ export const desactivateStep = (step) => ({
 export const updateStep = (step) => ({
   type: types.UPDATE_STEP,
   step,
-});
-
-export const editExam = (examData) => ({
-  type: types.EDIT_EXAM,
-  examData,
 });
 
 export const setActiveStep = (activeStep) => ({

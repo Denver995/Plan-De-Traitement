@@ -22,22 +22,28 @@ function StepReducer(state = INITIAL_STATE, action) {
     case types.DELETE_STEP:
       console.log('all step before deleting ', state);
       console.log('step action ', action.step);
-      const stepToDelete = state.filter(item => item.step === action.step.step);
+      const stepToDelete = state.steps.filter(item => item.step === action.step.step);
       if (stepToDelete.length < 1) return state;
       console.log('stepToDelete ', stepToDelete);
       let previousStep = stepToDelete[0].previousStep;
-      const newState = state.filter(item => (item.step !== stepToDelete[0].step && item.step !== previousStep.step));
+      const newState = state.steps.filter(item => (item.step !== stepToDelete[0].step && item.step !== previousStep.step));
       previousStep.isActive = true;
       newState.push(previousStep);
       console.log('all step after deleting ', newState);
-      return newState;
+      return {
+        ...state,
+        steps: newState,
+      };
 
     case types.ACTIVATE_STEP:
-      let steps = state.filter(item => item.step !== action.step);
-      let stepToActivate = state.filter(item => item.step === action.step);
+      let steps = state.steps.filter(item => item.step !== action.step);
+      let stepToActivate = state.steps.filter(item => item.step === action.step);
       stepToActivate[0].isActive = true;
       steps.push(stepToActivate);
-      return steps;
+      return {
+        ...state,
+        steps
+      };
 
     case types.DESACTIVATE_STEP:
       let deSsteps = state.steps.filter(item => item.step !== action.step);
