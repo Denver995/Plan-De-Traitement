@@ -15,9 +15,9 @@ import {
 } from '@elastic/eui';
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import React, { useState, useEffect } from 'react';
-// import { createModele } from '../utils/fetcher';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateStep, startLoading, addStep, desactivateStep } from '../actions';
+import { addStep, updateStep, desactivateStep } from '../redux/steps/actions';
+import { startLoading } from '../redux/commons/actions'
 
 import { getStepByKey, createStep } from '../utils/helper';
 import { STEP1, STEP2 } from '../utils/constants';

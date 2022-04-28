@@ -9,7 +9,8 @@ import {
   } from '@elastic/eui';
   import React, { useState } from 'react';
   import { useDispatch } from 'react-redux';
-  import { editExam } from '../actions';
+
+  import { editExam } from '../redux/commons/actions'
   
   const ExamenItem = ({data, showEditForm}) => {
     const dispatch = useDispatch();

@@ -15,11 +15,13 @@ import {
  import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteStep, startLoading, addStep, desactivateStep } from '../actions';
+import { startLoading } from '../redux/commons/actions';
+import { addStep, deleteStep, desactivateStep } from '../redux/steps/actions';
 import { getStepByKey, createStep } from '../utils/helper';
 import { STEP2, STEP3 } from '../utils/constants';
 import ExamenItem from './ExamenItem';
 import '../modifierexamen.css'
+import { fakeData, listLieu, listMotif, listPraticien, listSpecialite} from '../utils/defaultData';
 
 const ExamenForm = () => {
     const dispatch = useDispatch();
@@ -39,45 +41,6 @@ const ExamenForm = () => {
     const [selectedExamId, setSelectedExamId] = useState("");
 
     const previousStep = getStepByKey(steps, STEP2);
-
-    const fakeData = {
-        id: 1,
-        label: "Emam",
-        specialtite: "Spécialité",
-        motif: "Motif",
-        praticien: "Praticien",
-        lieu: "Lieu"
-    }
-
-    // const examList = [
-    //     { value: 'exam_one', text: 'Exam1' },
-    //     { value: 'exam_two', text: 'Exam2' },
-    //     { value: 'exam_three', text: 'Exam3' },
-    // ];
-
-    const listMotif = [
-        { value: 'motif_one', text: 'Motif1' },
-        { value: 'motif_two', text: 'Motif2' },
-        { value: 'motif_three', text: 'Motif3' },
-    ];
-
-    const listSpecialite = [
-        { value: 'specialite_one', text: 'Spécialité1' },
-        { value: 'specialite_two', text: 'Spécialité2' },
-        { value: 'specialite_thr', text: 'Spécialité3' },
-    ];
-
-    const listPraticien = [
-        { value: 'praticien_one', text: 'Praticien1' },
-        { value: 'praticien_two', text: 'Praticien2' },
-        { value: 'praticien_thr', text: 'Praticien3' },
-    ];
-
-    const listLieu = [
-        { value: 'lieu_one', text: 'Lieu1' },
-        { value: 'lieu_two', text: 'Lieu2' },
-        { value: 'lieu_thr', text: 'Lieu3' },
-    ];
 
     const onChangePositionExamen = () => {
         setFixedExamPosition(!fixedExamPosition);

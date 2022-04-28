@@ -10,7 +10,8 @@ import {
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAlert } from '../actions';
+
+import { setAlert} from '../redux/commons/actions';
 
 const Alert = ({ message, title, onAccept, onReject, noAccept, noReject }) => {
   const dispatch = useDispatch();
