@@ -13,6 +13,13 @@ function CommonReducer(state = INITIAL_STATE, action) {
         alert: action.alert
       }
     case types.EDIT_EXAM:
+      return {
+        ...state,
+        examen: {
+          ...state.examen,
+          examData: action.examData
+        }
+      }
     case types.SHOW_EXAM_EDIT_FORM:
       return state;
     default:
