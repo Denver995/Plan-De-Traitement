@@ -10,7 +10,7 @@ import { getStepByKey } from "../utils/helper";
 
 const RecapitulatifDesExamens = (closeModal) => {
   const dispatch = useDispatch();
-  const steps = useSelector(state => state.steps);
+  const steps = useSelector(state => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
 
   const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>'
