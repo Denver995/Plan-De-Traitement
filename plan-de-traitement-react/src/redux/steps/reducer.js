@@ -40,11 +40,14 @@ function StepReducer(state = INITIAL_STATE, action) {
       return steps;
 
     case types.DESACTIVATE_STEP:
-      steps = state.filter(item => item.step !== action.step);
-      let stepToDeSActivate = state.filter(item => item.step === action.step);
+      let deSsteps = state.steps.filter(item => item.step !== action.step);
+      let stepToDeSActivate = state.steps.filter(item => item.step === action.step);
       stepToDeSActivate[0].isActive = false;
-      steps.push(stepToDeSActivate[0]);
-      return steps;
+      deSsteps = [...deSsteps, stepToDeSActivate[0]];
+      return {
+        ...state,
+        steps: deSsteps
+      }
 
     case types.UPDATE_STEP:
       console.log('action.step: ', action);

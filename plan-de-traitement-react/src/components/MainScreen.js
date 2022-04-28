@@ -17,8 +17,10 @@ import RecapitulatifDesExamens from './RecapitulatifDesExamens';
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const steps = useSelector(state => state.steps);
-  const alert = useSelector(state => state.alert);
+  const steps = useSelector(state => state.StepReducer.steps);
+  const alert = useSelector(state => state.CommonReducer.alert);
+  console.log('tate: ', steps);
+  console.log('alert: ', alert);
 
   const closeModal = () => setIsModalVisible(false);
   const showModal = () => setIsModalVisible(true);
@@ -41,11 +43,14 @@ const MainScreen = () => {
     
     case STEP3:
         content = <RecapitulatifDesExamens closeModal={closeModal}/>;
-      break;  
+      break;
+      default:
+        return content;
   }
 
-  useEffect(() => {
-  }, [steps, alert])
+  // useEffect(() => {
+  //   console.log('s')
+  // }, [steps, alert])
 
   if (isModalVisible && !alert.showAlert) {
     modal = (

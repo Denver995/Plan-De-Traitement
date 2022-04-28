@@ -70,14 +70,14 @@ const RecapitulatifDesExamens = (closeModal) => {
       </div>
 
       <EuiFlexGroup className="btn_group">
-        <EuiButtonEmpty onClick={closeModal} fill className="button_cancel_me" onClick={onBack}>
+        <EuiButtonEmpty onClick={closeModal} fill="true" className="button_cancel_me" onClick={onBack}>
           Retour
         </EuiButtonEmpty>
-        <EuiButton form={closeModal} fill className="button_next_me xs" onClick={onSave}>
+        <EuiButton form={closeModal} fill="true" className="button_next_me xs" onClick={onSave}>
           Enregistrer
         </EuiButton>
       </EuiFlexGroup>
-      <style jsx>
+      <style jsx="true">
         {`
             euitext.text_alert {
               width: 612px;
