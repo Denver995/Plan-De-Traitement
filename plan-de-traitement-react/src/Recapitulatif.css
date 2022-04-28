@@ -170,7 +170,7 @@
 .modele,
 .first-div,
 .second-div,
-#iconList {
+.iconList {
   display: flex;
   justify-content: space-between;
 }

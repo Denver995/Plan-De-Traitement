@@ -1,17 +1,42 @@
-import '@elastic/eui/dist/eui_theme_light.css';
 import { useEuiTheme, EuiFieldNumber, EuiComboBox } from '@elastic/eui';
 import {
-    EuiButton,
-    EuiForm,
-    EuiFormRow,
-    EuiFlexGroup,	
-    useGeneratedHtmlId,
+  EuiButton,
+  EuiForm,
+  EuiFormRow,
+  EuiFlexGroup,	
+  useGeneratedHtmlId,
 } from '@elastic/eui';
-//import '../EspacementInterExamenForm.css';
+// import '../EspacementInterExamenForm.css';
+import { setAlert } from '../actions';
+import { useDispatch } from 'react-redux';
 
   const EspacementInterExamenForm = ({closeModal}) => {
 	const { euiTheme } = useEuiTheme();
+  const dispatch = useDispatch();
   const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
+
+  const submit = () => {
+    const button = {cancelText: 'Ne pas appliquer', confirmText: 'Appliquer'};
+    const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cette intervalle à tous les espacement inter examens ?</EuiText>';
+    dispatch(
+      setAlert({
+        title: "Enregistrer le modèle",
+        message: alertMessage,
+        showAlert:true,
+        buttonText: button,
+        showButtonBlock: true,
+        onAccept:()=>{dispatch(dispatch(setAlert(false)))},
+        onReject:()=>{dispatch(dispatch(setAlert(false)))}
+      })
+  );
+    return;
+  };
+
+  const goBack = () => {
+    dispatch(setAlert({showAlert:false,message:""}));
+    return;
+  }
+
   return ( 
      <EuiForm id={modalFormId} component="form">
 		    <p>Espacement entre l'examen 00 et l'examen 00</p>
@@ -43,10 +68,10 @@ import {
         </EuiFlexGroup>
 		    <div className="espacement_inter_examen_EuiModalFooter_spacer"></div>
         <EuiFlexGroup className="btn_group espacement_inter_examen_EuiModalFooter">
-          <EuiButton onClick={closeModal} className="button_cancel espacement_inter_examen_EuiModalFooter_left_button">
+          <EuiButton onClick={goBack} className="button_cancel espacement_inter_examen_EuiModalFooter_left_button">
 		        	Annuler
 			    </EuiButton>
-          <EuiButton isDisabled={true} type="submit" form={modalFormId} onClick={closeModal} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
+          <EuiButton type="submit" form={modalFormId} onClick={submit} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
               Valider
           </EuiButton>
         </EuiFlexGroup>				
