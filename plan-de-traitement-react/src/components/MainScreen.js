@@ -12,6 +12,7 @@ import Alert from './Alert';
 import { useSelector } from 'react-redux';
 import { getActiveStep, getStepByKey } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
+import ButtonLight from './Buttons/ButtonLight';
 import RecapitulatifDesExamens from './examenComponents/RecapitulatifDesExamens';
 import GroupExamen from './examenComponents/GroupExamen';
 
@@ -72,7 +73,8 @@ const MainScreen = () => {
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Show form modal</EuiButton>
+      {/* <EuiButton style={{ textDecoration: 'none'}} onClick={showModal}>Show form modal</EuiButton> */}
+      <ButtonLight text={'Show form modal'} onClick={showModal} />
       {alert.showAlert &&
         <Alert message={alert.message} onAccept={alert.onAccept} onReject={alert.onReject} noReject={alert.noReject} noAccept={alert.noAccept}/>
       }
