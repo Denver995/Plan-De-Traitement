@@ -15,12 +15,11 @@ import {
  import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { startLoading } from '../redux/commons/actions';
-import { addStep, deleteStep, desactivateStep } from '../redux/steps/actions';
-import { getStepByKey, createStep } from '../utils/helper';
-import { STEP2, STEP3 } from '../utils/constants';
-import '../modifierexamen.css'
-import { fakeData, listLieu, listMotif, listPraticien, listSpecialite} from '../utils/defaultData';
+import { startLoading } from '../../redux/commons/actions';
+import { addStep, deleteStep, desactivateStep } from '../../redux/steps/actions';
+import { getStepByKey, createStep } from '../../utils/helper';
+import { STEP2, STEP3 } from '../../utils/constants';
+import { fakeData, listLieu, listMotif, listPraticien, listSpecialite} from '../../utils/defaultData';
 import {
     setShowExamForm,
     setAlert
@@ -33,7 +32,7 @@ import '../../modifierexamen.css'
 
 const ExamenForm = ({isModelGroup}) => {
     const dispatch = useDispatch();
-    const model = useSelector(state => state.dataSource)
+    const model = useSelector(state => state.CommonReducer.dataSource)
     const fixedExamenCheckboxId = useGeneratedHtmlId({
         prefix: 'indeterminateCheckbox',
     });
@@ -123,16 +122,19 @@ const ExamenForm = ({isModelGroup}) => {
         }else{
             listExam.push(listExam.length++);
             setListExam(listExam);
-            dispatch(createExamen({
-                nom: 'Examen',
-                id_modele: 1,
-                id_praticien: praticien,
-                id_profession: 1,
-                id_lieu: lieu,
-                id_modif: motif,
-                fixe: fixedExamPosition ? 1 : 0,
-                position: 1
-            }));
+            /**
+             * @todo dispatch creatExamen action
+             */
+            // dispatch(createExamen({
+            //     nom: 'Examen',
+            //     id_modele: 1,
+            //     id_praticien: praticien,
+            //     id_profession: 1,
+            //     id_lieu: lieu,
+            //     id_modif: motif,
+            //     fixe: fixedExamPosition ? 1 : 0,
+            //     position: 1
+            // }));
             setReload(true);
         }
     };
