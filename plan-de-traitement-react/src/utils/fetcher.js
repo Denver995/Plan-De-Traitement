@@ -166,18 +166,18 @@ export const getExamen = () => {
 export const createExamen = (values) => {
   return (dispatch, getState) => {
     console.log('Step current ', values.data);
-    fetcher()
-      .post(BASE_EXAMEN_URL, { searchParams: values.data })
-      .then(response => response.json())
-      .then(json => {
-        json = Array.isArray(json) ? json[0] : json;
-        console.log('model created ', json);
-        dispatch(addFieldData("model", json));
+    // fetcher()
+    //   .post(BASE_EXAMEN_URL, { searchParams: values.data })
+    //   .then(response => response.json())
+    //   .then(json => {
+        // json = Array.isArray(json) ? json[0] : json;
+        console.log('model created ', values);
+        dispatch(addFieldData("model", values));
         dispatch(stopLoading());
-      })
-      .catch(() => {
-        dispatch(stopLoading());
-    });
+    //   })
+    //   .catch(() => {
+    //     dispatch(stopLoading());
+    // });
   };
 }
 
