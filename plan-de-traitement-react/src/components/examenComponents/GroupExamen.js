@@ -30,7 +30,7 @@ const GroupItem = ({groupName}) => {
     // const onEdit = () =>  dispatch(editExam(props.data));
 
     const iconElopse = (
-        <span onClick={togglePropover} class="icon-ellipsis-v iconList"></span>
+        <span onClick={togglePropover} className="icon-ellipsis-v iconList"></span>
     );
     
     const [toggledGroup, setToggledGroup] = useState(false);
@@ -72,8 +72,8 @@ const GroupItem = ({groupName}) => {
 
 const GroupExamenSummary = ({nbrGroupe, isModelGroup}) => {
     const dispatch = useDispatch();
-    const steps = useSelector(state => state.steps);
-    const showForm = useSelector(state => state.showExamForm);
+    const steps = useSelector(state => state.StepReducer.steps);
+    const showForm = useSelector(state => state.CommonReducer.examen.show);
     const previousStep = getStepByKey(steps, STEP2);
     const onClickNext = () => {
         let nextStep = createStep(STEP3);
@@ -97,10 +97,10 @@ const GroupExamenSummary = ({nbrGroupe, isModelGroup}) => {
             {!showForm &&
                 <>
                     <EuiFlexGroup className='btn_group' style={{margin: 17}}>
-                        <EuiButtonEmpty fill className="button_cancel_me">
+                        <EuiButtonEmpty className="button_cancel_me">
                             Retour
                         </EuiButtonEmpty>
-                        <EuiButton fill className="button_next_me" onClick={onClickNext}>
+                        <EuiButton fill={true} className="button_next_me" onClick={onClickNext}>
                             Enregistrer
                         </EuiButton>
                     </EuiFlexGroup> 

@@ -15,7 +15,7 @@ import { getStepByKey } from "../../utils/helper";
 
 const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
   const dispatch = useDispatch();
-  const steps = useSelector(state => state.steps);
+  const steps = useSelector(state => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
   const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
   const onSave = () => dispatch(setAlert(
@@ -81,14 +81,16 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
       </div>
 
       <EuiFlexGroup className="btn_group">
-        <EuiButtonEmpty onClick={closeModal} fill className="button_cancel_me" onClick={onBack}>
+        <EuiButtonEmpty onClick={() => {
+          onBack();
+        }} className="button_cancel_me">
           Retour
         </EuiButtonEmpty>
-        <EuiButton form={closeModal} fill className="button_next_me xs" onClick={onSave}>
-          Valider
+        <EuiButton form={closeModal} fill={true} className="button_next_me xs" onClick={onSave}>
+          Enregistrer
         </EuiButton>
       </EuiFlexGroup>
-      <style jsx>
+      <style jsx="true">
         {`
             euitext.text_alert {
               width: 612px;
@@ -100,7 +102,7 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
               opacity: 1;
             }
         `}
-      </style>   
+      </style>
     </div>
   );
 };

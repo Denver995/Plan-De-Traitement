@@ -19,8 +19,10 @@ import GroupExamen from './examenComponents/GroupExamen';
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const steps = useSelector(state => state.steps);
-  const alert = useSelector(state => state.alert);
+  const steps = useSelector(state => state.StepReducer.steps);
+  const alert = useSelector(state => state.CommonReducer.alert);
+  console.log('tate: ', steps);
+  console.log('alert: ', alert);
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -50,11 +52,12 @@ const MainScreen = () => {
       content = <RecapitulatifDesExamens closeModal={closeModal}isModelGroup={isModelGroup}/>;
       break;
       default:
-      return content
+        return content;
   }
 
-  useEffect(() => {
-  }, [steps, alert])
+  // useEffect(() => {
+  //   console.log('s')
+  // }, [steps, alert])
 
   if (isModalVisible && !alert.showAlert) {
     modal = (
