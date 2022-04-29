@@ -81,10 +81,12 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
       </div>
 
       <EuiFlexGroup className="btn_group">
-        <EuiButtonEmpty onClick={closeModal} fill="true" className="button_cancel_me" onClick={onBack}>
+        <EuiButtonEmpty onClick={() => {
+          onBack();
+        }} className="button_cancel_me">
           Retour
         </EuiButtonEmpty>
-        <EuiButton form={closeModal} fill="true" className="button_next_me xs" onClick={onSave}>
+        <EuiButton form={closeModal} fill={true} className="button_next_me xs" onClick={onSave}>
           Enregistrer
         </EuiButton>
       </EuiFlexGroup>
