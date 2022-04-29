@@ -72,8 +72,8 @@ const GroupItem = ({groupName}) => {
 
 const GroupExamenSummary = ({nbrGroupe, isModelGroup}) => {
     const dispatch = useDispatch();
-    const steps = useSelector(state => state.steps);
-    const showForm = useSelector(state => state.showExamForm);
+    const steps = useSelector(state => state.StepReducer.steps);
+    const showForm = useSelector(state => state.CommonReducer.examen.show);
     const previousStep = getStepByKey(steps, STEP2);
     const onClickNext = () => {
         let nextStep = createStep(STEP3);
