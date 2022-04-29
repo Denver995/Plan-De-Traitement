@@ -39,7 +39,7 @@ function StepReducer(state = INITIAL_STATE, action) {
       let steps = state.steps.filter(item => item.step !== action.step);
       let stepToActivate = state.steps.filter(item => item.step === action.step);
       stepToActivate[0].isActive = true;
-      steps.push(stepToActivate);
+      steps = [...steps, stepToActivate];
       return {
         ...state,
         steps
