@@ -24,7 +24,8 @@ import {
     setShowExamForm,
     setAlert
 } from '../../actions';
-import { createExamen } from '../../utils/fetcher';
+// import { createExamen } from '../../utils/fetcher';
+import { createExamen } from '../../redux/examens/actions';
 import ExamenItem from './ExamenItemV1';
 
 import EspacementInterExamenForm from '../EspacementInterExamenForm';
@@ -89,6 +90,9 @@ const ExamenForm = ({isModelGroup}) => {
 
 
     const createExamenForModeleGroupe = () => {
+         /**
+         * @todo dispatch creatExamenModelGroup action
+         */
         dispatch(createExamen({
             nom: 'Examen',
             id_modele: 1,
@@ -125,16 +129,16 @@ const ExamenForm = ({isModelGroup}) => {
             /**
              * @todo dispatch creatExamen action
              */
-            // dispatch(createExamen({
-            //     nom: 'Examen',
-            //     id_modele: 1,
-            //     id_praticien: praticien,
-            //     id_profession: 1,
-            //     id_lieu: lieu,
-            //     id_modif: motif,
-            //     fixe: fixedExamPosition ? 1 : 0,
-            //     position: 1
-            // }));
+            dispatch(createExamen({
+                nom: 'Examen',
+                id_modele: 1,
+                id_praticien: praticien,
+                id_profession: 1,
+                id_lieu: lieu,
+                id_modif: motif,
+                fixe: fixedExamPosition ? 1 : 0,
+                position: 1
+            }));
             setReload(true);
         }
     };
@@ -251,16 +255,16 @@ const ExamenForm = ({isModelGroup}) => {
                         <EuiButtonEmpty fill="true" className="button_cancel_me">
                             Retour
                         </EuiButtonEmpty>
-                        <EuiButton onClick={onEditExamen} fill="true" className="button_next_me">
+                        <EuiButton onClick={onEditExamen} className="button_next_me">
                             Enregistrer
                         </EuiButton>
                     </EuiFlexGroup> 
                 ):(
                     <EuiFlexGroup className='btn_group'>
-                        <EuiButtonEmpty onClick={onCancel} fill="true" className="button_cancel_small">
+                        <EuiButtonEmpty onClick={onCancel} className="button_cancel_small">
                             Annuler
                         </EuiButtonEmpty>
-                        <EuiButton onClick={onAddExamen} fill="true" className="button_add">
+                        <EuiButton onClick={onAddExamen} className="button_add">
                             Ajouter
                         </EuiButton>
                     </EuiFlexGroup>
@@ -272,7 +276,7 @@ const ExamenForm = ({isModelGroup}) => {
                         </EuiFlexGroup>
                         <EuiFlexGroup justifyContent="flexEnd">
                             <EuiFlexItem grow={false}>
-                                <EuiButton onClick={onClickNext} fill="true" className="button_finished">
+                                <EuiButton onClick={onClickNext} className="button_finished">
                                     Terminer
                                 </EuiButton>
                             </EuiFlexItem>
