@@ -17,7 +17,7 @@ import EspacementInterExamenForm from './EspacementInterExamenForm';
 
 const Alert = ({ message, onAccept, onReject, buttonText, showInputForm }) => {
   const dispatch = useDispatch();
-  const alert = useSelector(state => state.alert)
+  const alert = useSelector(state => state.CommonReducer.alert)
   
   useEffect(() => {
   }, [buttonText]);
@@ -59,10 +59,10 @@ const Alert = ({ message, onAccept, onReject, buttonText, showInputForm }) => {
         <EuiSpacer size="m" />
         {alert.showButtonBlock &&
           <EuiModalFooter className='btn_group alert' style={{justifyContent: "center"}}>
-            <EuiButtonEmpty  onClick={goBack} fill  className="button_cancel_small">
+            <EuiButtonEmpty  onClick={goBack} className="button_cancel_small">
               {alert.buttonText ? alert.buttonText.cancelText : "Annuler"}
             </EuiButtonEmpty >
-            <EuiButton onClick={submit} fill className="button_add">
+            <EuiButton onClick={submit} fill={true} className="button_add">
               {alert.buttonText ? alert.buttonText.confirmText : "Confirmer"}
             </EuiButton>
           </EuiModalFooter> 
