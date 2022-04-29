@@ -31,13 +31,13 @@ import {
     }
 
     const button = (
-        <span onClick={togglePropover} class="icon-ellipsis-v"></span>
+        <span onClick={togglePropover} className="icon-ellipsis-v"></span>
     );
 
     return (
         <>
             <EuiFlexGroup className='examenItem'>
-                <EuiFlexItem grow={false} className='icon_ellipsis'>
+                <EuiFlexItem grow={"false"} className='icon_ellipsis'>
                     <EuiPopover
                         id={contextMenuPopoverId}
                         button={button}
@@ -59,8 +59,8 @@ import {
                 </EuiFlexItem>
                 <EuiFlexItem className='examenItem_left'>
                     <EuiFlexGroup>
-                        <EuiFlexItem grow={false} className='icon_container'>
-                            <span onClick={togglePropover} class="icon-Trac-39"></span>
+                        <EuiFlexItem grow={"false"} className='icon_container'>
+                            <span onClick={togglePropover} className="icon-Trac-39"></span>
                         </EuiFlexItem>
                         <EuiFlexItem>
                             <span className='examenItem_label examen_name'>{data.label}</span>
@@ -69,10 +69,10 @@ import {
                 </EuiFlexItem>
                 <EuiFlexItem className='examenItem_rigth'>
                     <EuiFlexGroup>
-                        <EuiFlexItem grow={false}>
+                        <EuiFlexItem grow={"false"}>
                             <span className='examenItem_label'>{data.specialtite}-{data.motif}</span> 
                         </EuiFlexItem>
-                        <EuiFlexItem grow={false}>
+                        <EuiFlexItem grow={"false"}>
                             <span>|</span>
                         </EuiFlexItem>
                         <EuiFlexItem>
