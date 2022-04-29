@@ -6,8 +6,10 @@ import {
   } from '@elastic/eui';
   import React, { useState } from 'react';
   import { useDispatch } from 'react-redux';
-  import { editExam } from '../actions';
-  
+//   import { editExam } from '../actions';
+
+  import { editExam } from '../redux/examens/actions';
+
   const Propover = ({data, showEditForm}) => {
     const dispatch = useDispatch();
     const [isPopoverOpen, setPopover] = useState(false);
@@ -27,13 +29,13 @@ import {
     }
 
     const button = (
-        <span onClick={togglePropover} class="icon-ellipsis-v"></span>
+        <span onClick={togglePropover} className="icon-ellipsis-v"></span>
     );
 
     return (
         <>
             <div>
-                <div grow={false} className='icon_ellipsis'>
+                <div grow="false" className='icon_ellipsis'>
                     <EuiPopover
                         id={contextMenuPopoverId}
                         button={button}
