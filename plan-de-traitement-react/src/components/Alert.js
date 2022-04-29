@@ -6,16 +6,20 @@ import {
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiSpacer,
-  EuiButtonEmpty ,
+  EuiButtonEmpty,
+  EuiForm, EuiFormRow, EuiFieldText
 } from '@elastic/eui';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAlert } from '../actions';
+import EspacementInterExamenForm from './EspacementInterExamenForm';
 
-const Alert = ({ message, title, onAccept, onReject, noAccept, noReject }) => {
+const Alert = ({ message, onAccept, onReject, buttonText, showInputForm }) => {
   const dispatch = useDispatch();
+  const alert = useSelector(state => state.alert)
+  
   useEffect(() => {
-  }, []);
+  }, [buttonText]);
 
   const submit = () => {
     if(onAccept){
@@ -37,25 +41,33 @@ const Alert = ({ message, title, onAccept, onReject, noAccept, noReject }) => {
   }
 
   return (
-    <EuiModal onClose={goBack} className='modelFormContainer'>
+    <>
+      <EuiModal onClose={goBack} className='modelFormContainer'>
         <EuiModalHeader>
           <EuiModalHeaderTitle>
-            <h1>{title}</h1>
+            <h1>{alert.title ? alert.title : ""}</h1>
           </EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
-          <div dangerouslySetInnerHTML={{__html: message}}></div>
+          {showInputForm ? 
+            <EuiForm id=""><EuiSpacer size="m" /><EuiFormRow label="nom du modèle" fullWidth><EuiFieldText name="nomModele" value={""} fullWidth/></EuiFormRow></EuiForm>:
+            <div dangerouslySetInnerHTML={{__html: message}}></div>
+          }
+          {alert.showCustomComponent && <EspacementInterExamenForm />}
         </EuiModalBody>
         <EuiSpacer size="m" />
-        <EuiModalFooter className='btn_group alert' style={{justifyContent: "center"}}>
-          <EuiButtonEmpty  onClick={goBack} fill  className="button_cancel_small">
-            Annuler
-          </EuiButtonEmpty >
-          <EuiButton onClick={submit} fill className="button_add">
-            Confirmer
-          </EuiButton>
-        </EuiModalFooter>
+        {alert.showButtonBlock &&
+          <EuiModalFooter className='btn_group alert' style={{justifyContent: "center"}}>
+            <EuiButtonEmpty  onClick={goBack} fill  className="button_cancel_small">
+              {alert.buttonText ? alert.buttonText.cancelText : "Annuler"}
+            </EuiButtonEmpty >
+            <EuiButton onClick={submit} fill className="button_add">
+              {alert.buttonText ? alert.buttonText.confirmText : "Confirmer"}
+            </EuiButton>
+          </EuiModalFooter> 
+        }
       </EuiModal>
+    </>
   );
 };
 

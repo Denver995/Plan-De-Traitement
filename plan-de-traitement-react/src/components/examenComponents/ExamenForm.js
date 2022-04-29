@@ -15,19 +15,30 @@ import {
  import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteStep, startLoading, addStep, desactivateStep } from '../actions';
-import { getStepByKey, createStep } from '../utils/helper';
-import { STEP2, STEP3 } from '../utils/constants';
-import ExamenItem from './ExamenItem';
-import '../modifierexamen.css'
+import { 
+    deleteStep,
+    startLoading,
+    addStep,
+    desactivateStep,
+    setShowExamForm,
+    setAlert 
+} from '../../actions';
+import { createExamen } from '../../utils/fetcher';
+import { getStepByKey, createStep } from '../../utils/helper';
+import { STEP2, STEP3 } from '../../utils/constants';
+import ExamenItem from './ExamenItemV1';
 
-const ExamenForm = () => {
+import EspacementInterExamenForm from '../EspacementInterExamenForm';
+import '../../modifierexamen.css'
+
+const ExamenForm = ({isModelGroup}) => {
     const dispatch = useDispatch();
+    const steps = useSelector(state => state.steps);
+    const model = useSelector(state => state.dataSource)
+    const examenSelected = useSelector(state => state.examenSelected);
     const fixedExamenCheckboxId = useGeneratedHtmlId({
         prefix: 'indeterminateCheckbox',
     });
-    const steps = useSelector(state => state.steps);
-    const examenSelected = useSelector(state => state.examenSelected);
     const [fixedExamPosition, setFixedExamPosition] = useState(false);
     const [listExam, setListExam] = useState([]);
     const [showEditForm, setShowEditForm] = useState(false);
@@ -37,6 +48,10 @@ const ExamenForm = () => {
     const [praticien, setPraticien] = useState("");
     const [lieu, setLieu] = useState("");
     const [selectedExamId, setSelectedExamId] = useState("");
+    const [fisrtLoad, setFirstLoad] = useState(true);
+
+
+    console.log('model ', model);
 
     const previousStep = getStepByKey(steps, STEP2);
 
@@ -48,12 +63,6 @@ const ExamenForm = () => {
         praticien: "Praticien",
         lieu: "Lieu"
     }
-
-    // const examList = [
-    //     { value: 'exam_one', text: 'Exam1' },
-    //     { value: 'exam_two', text: 'Exam2' },
-    //     { value: 'exam_three', text: 'Exam3' },
-    // ];
 
     const listMotif = [
         { value: 'motif_one', text: 'Motif1' },
@@ -91,6 +100,19 @@ const ExamenForm = () => {
 
     const onChangeLieu = (e) => setLieu(e.target.value);
 
+    const onChooseDelaiEspacement = () => {
+        dispatch(
+            setAlert({
+                showAlert:true,
+                showCustomComponent: true,
+                showButtonBlock: false,
+                onAccept:()=>{dispatch(setAlert(false))},
+                onReject:()=>{dispatch(setAlert(false))},
+                componentType:()=>{return <EspacementInterExamenForm />},
+            })
+        );
+    }
+
     const onClickNext = () => {
         let nextStep = createStep(STEP3);
         nextStep.previousStep = previousStep;
@@ -99,10 +121,53 @@ const ExamenForm = () => {
         dispatch(addStep(nextStep));
     };
 
+
+    const createExamenForModeleGroupe = () => {
+        dispatch(createExamen({
+            nom: 'Examen',
+            id_modele: 1,
+            id_modele_groupe: 1,
+            id_praticien: praticien,
+            id_profession: 1,
+            id_lieu: lieu,
+            id_modif: motif,
+            fixe: fixedExamPosition ? 1 : 0,
+            position: 1
+        }));
+        dispatch(setShowExamForm(false));
+        dispatch(setAlert(false))
+    }
+
     const onAddExamen = () => {
-        listExam.push(listExam.length++);
-        setListExam(listExam);
-        setReload(true);
+        if(isModelGroup){
+            const button = {cancelText: 'Ne pas appliquer', confirmText: 'Appliquer'};
+            const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cet examen à tous les groupes ?</EuiText>';
+            dispatch(
+                setAlert({
+                    title: "Enregistrer le modèle",
+                    message: alertMessage,
+                    showAlert:true,
+                    buttonText: button,
+                    showButtonBlock: true,
+                    onAccept:()=>{createExamenForModeleGroupe()},
+                    onReject:()=>{dispatch(setShowExamForm(false))}
+                })
+            );
+        }else{
+            listExam.push(listExam.length++);
+            setListExam(listExam);
+            dispatch(createExamen({
+                nom: 'Examen',
+                id_modele: 1,
+                id_praticien: praticien,
+                id_profession: 1,
+                id_lieu: lieu,
+                id_modif: motif,
+                fixe: fixedExamPosition ? 1 : 0,
+                position: 1
+            }));
+            setReload(true);
+        }
     };
 
     const updateFormData = (resetFormData, exam=null) => {
@@ -126,8 +191,10 @@ const ExamenForm = () => {
                     <EuiLink
                         color={"primary"}
                         href="#"
+                        onClick={onChooseDelaiEspacement}
                     >
-                        Délai entre "l'examen 1" et "l'examen 2" : {intervale}
+                        {/* Délai entre "l'examen 1" et "l'examen 2" : {intervale} */}
+                        Choisir l'intervale inter examen
                     </EuiLink>
                 </EuiFlexItem>
             </EuiFlexGroup>
@@ -148,12 +215,19 @@ const ExamenForm = () => {
                 <EuiFlexGroup>
                     <EuiFlexItem>
                         <p>Modèle:</p>
-                    </EuiFlexItem>
-                </EuiFlexGroup>
-                <EuiFlexGroup>
-                    <EuiFlexItem>
+                        <EuiSpacer size='s' />
                         <p>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
                     </EuiFlexItem>
+                    {isModelGroup &&
+                        <EuiFlexItem>
+                            <p>Groupe:</p>
+                            <EuiSpacer size='s' />
+                            <p>10000</p>
+                        </EuiFlexItem>
+                    }
+                </EuiFlexGroup>
+                <EuiFlexGroup>
+                    <EuiHorizontalRule className='horizontalRule'/>
                 </EuiFlexGroup>
             </div>
             {!reload &&
@@ -166,13 +240,11 @@ const ExamenForm = () => {
                     ))}
                 </div>
             }
-            {showEditForm &&
-                <EuiFlexGroup>
-                    <EuiFlexItem>
-                        Examen 1  
-                    </EuiFlexItem>
-                </EuiFlexGroup>
-            }
+            <EuiFlexGroup>
+                <EuiFlexItem>
+                    Examen 1  
+                </EuiFlexItem>
+            </EuiFlexGroup>
             <EuiForm>
                 <EuiFlexGroup>
                     <EuiFlexItem>

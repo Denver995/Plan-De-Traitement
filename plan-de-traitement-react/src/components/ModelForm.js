@@ -25,7 +25,7 @@ const ModelForm = ({closeModal}) => {
   const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
   const dispatch = useDispatch();
   const steps = useSelector(state => state.steps);
-  const [isGroup, setIsGroup] = useState(false);
+  const [groupe_rdv, setIsGroup] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [nomModele, setNomModele] = useState("");
   const [nombreOccurence, setNombreOccurence] = useState(4);
@@ -41,9 +41,10 @@ const ModelForm = ({closeModal}) => {
      if(showGroupOption){
           dispatch(startLoading());
           const data = {
-               nomModele: nomModele,
-               nombreOccurence: nombreOccurence,
-               isGroup: isGroup,
+               nom: nomModele,
+               nb_occurence: nombreOccurence,
+               groupe_rdv: groupe_rdv ? 1 : 0,
+               id_entite: 4,
                periode: periode ? periode : 1
           }
           step.data = data;
@@ -57,14 +58,14 @@ useEffect(() => {
           const data = {
                nomModele: nomModele,
                nombreOccurence: nombreOccurence,
-               isGroup: isGroup,
+               groupe_rdv: groupe_rdv,
                periode: periode
           }
           step.data = data;
           dispatch(updateStep(step));
           setIsFirstLoad(false);
      }
-}, [dispatch, isFirstLoad, isGroup, nombreOccurence, nomModele, periode, step, steps]);
+}, [dispatch, isFirstLoad, groupe_rdv, nombreOccurence, nomModele, periode, step, steps]);
 
 return ( 
      <div>
@@ -93,7 +94,7 @@ return (
                                                        id={htmlIdGenerator()()}
                                                        label="Oui"
                                                        value={true}
-                                                       checked={isGroup}
+                                                       checked={groupe_rdv}
                                                        onChange={() => onChangeGroupModelCheckbox(true)}
                                                        />
                                                   </EuiFormRow>
@@ -104,7 +105,7 @@ return (
                                                        id={htmlIdGenerator()()}
                                                        label="Non"
                                                        value={false}
-                                                       checked={!isGroup}
+                                                       checked={!groupe_rdv}
                                                        onChange={() => onChangeGroupModelCheckbox(false)}
                                                        />
                                                   </EuiFormRow>
@@ -114,7 +115,7 @@ return (
                               </EuiFlexGroup>
                          </EuiFlexItem>
                     }
-                    {isGroup && showGroupOption &&
+                    {groupe_rdv && showGroupOption &&
                          <EuiFlexItem style={{ maxWidth: '85%',marginLeft: '15%'}}>
                               <EuiFormRow label="Nombre d'occurrences*:" fullWidth>
                                    <EuiFieldNumber name={nombreOccurence} value={nombreOccurence} 
@@ -124,7 +125,7 @@ return (
                     }
                </EuiFlexGroup>
                <EuiSpacer size="m" />
-               {isGroup && showGroupOption &&
+               {groupe_rdv && showGroupOption &&
                <EuiFlexGroup>
                       <EuiFlexItem>
                            <EuiFormRow label="Période de recherche d'un groupe*:" fullWidth
@@ -149,10 +150,10 @@ return (
             }
             <EuiFlexGroup className='btn_group'>
                  <EuiButtonEmpty onClick={closeModal} fill className="button_cancel">
-                      Annuler
+                    Annuler
                  </EuiButtonEmpty>
                  <EuiButton form={modalFormId} onClick={onClickNext} disabled={nomModele.length < 3} fill className="button_next">
-                      Suivant
+                    Suivant
                  </EuiButton>                                          
             </EuiFlexGroup>
           </EuiForm>

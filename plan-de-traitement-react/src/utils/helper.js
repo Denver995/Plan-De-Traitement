@@ -27,3 +27,15 @@ export const getStepByKey = (steps, key) => {
     const step = steps.filter(item => item.step === key);
     return step.length > 0 ? step[0] : null;
 };
+
+export const formatModeleData = (modeleData) => {
+    if(modeleData.groupe_rdv)
+        return { nom: modeleData.nomModele }
+    else
+        return {
+            nb_occurence: modeleData.nombreOccurence,
+            groupe_rdv: modeleData.groupe_rdv,
+            id_entite: 4,
+            periode: modeleData.periode ? modeleData.periode : 1
+        }
+}

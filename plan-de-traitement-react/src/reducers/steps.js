@@ -9,27 +9,19 @@ import {
   export const stepsReducer = (state = [], action) => {
 
     if (action.type === ADD_STEP) {
-      console.log('step info ', action.step);
-      console.log('step state ', state);
       const index = state.findIndex(item => item.step === action.step.step);
-      console.log('index ', index);
       if(index !== -1) return state;
       state.push(action.step);
-      console.log('step update ', state);
       return state;
     }
     
     if (action.type === DELETE_STEP) {
-      console.log('all step before deleting ', state);
-      console.log('step action ', action.step);
       const stepToDelete = state.filter(item => item.step === action.step.step);
       if (stepToDelete.length < 1) return state;
-      console.log('stepToDelete ', stepToDelete);
       let previousStep = stepToDelete[0].previousStep;
       const newState = state.filter(item => (item.step !== stepToDelete[0].step && item.step !== previousStep.step));
       previousStep.isActive = true;
       newState.push(previousStep);
-      console.log('all step after deleting ', newState);
       return newState;
     }
 

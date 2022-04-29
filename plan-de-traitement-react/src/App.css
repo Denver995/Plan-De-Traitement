@@ -1,3 +1,7 @@
+
+.App {
+  text-align: center;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -202,14 +206,14 @@ body {
 
 
 .examenItem {
-  width: 108%;
+  width: 100%;
   height: 42px;
   background: #C9EBD7 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
   padding-left: 41px;
   padding-right: 41px;
-  margin-left: -55px !important;
+  /*margin-left: -55px !important;*/
 }
 
 .examenItemContainer {
@@ -233,7 +237,7 @@ body {
   width: 179px;
   height: 49px;
   color: #1D3D5B;
-  margin-right: 60%;
+  margin-right: 67%;
   border-radius: 39px;
   opacity: 1;
 }
@@ -259,6 +263,12 @@ body {
 
 .modelFormContainer {
   width: 1057px;
+  margin-top: 5px;
+  /* height: 491px; */
+}
+
+.examenFormContainer {
+  width: 1361px;
   margin-top: 5px;
 }
 
