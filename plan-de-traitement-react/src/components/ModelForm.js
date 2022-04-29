@@ -58,7 +58,7 @@ const ModelForm = ({closeModal}) => {
           step.data = data;
           console.log('updateDStep: ', step);
           dispatch(updateStep(step));
-          dispatch(createModele(step));
+          createModele(step);
      }else setShowGroupOption(true);
   };
 
@@ -159,10 +159,10 @@ return (
                </EuiFlexGroup>
             }
             <EuiFlexGroup className='btn_group'>
-                 <EuiButtonEmpty onClick={closeModal} fill="true" className="button_cancel">
+                 <EuiButtonEmpty onClick={closeModal} className="button_cancel">
                       Annuler
                  </EuiButtonEmpty>
-                 <EuiButton form={modalFormId} onClick={onClickNext} disabled={nomModele.length < 3} fill="true" className="button_next">
+                 <EuiButton form={modalFormId} onClick={onClickNext} disabled={nomModele.length < 3} fill={true} className="button_next">
                       Suivant
                  </EuiButton>
             </EuiFlexGroup>
