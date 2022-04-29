@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { getActiveStep, getStepByKey } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from '../utils/constants';
 import RecapitulatifDesExamens from './RecapitulatifDesExamens';
+import ButtonLight from './Buttons/ButtonLight'
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -61,7 +62,8 @@ const MainScreen = () => {
   }
   return (
     <div>
-      <EuiButton onClick={showModal}>Show form modal</EuiButton>
+      {/* <EuiButton style={{ textDecoration: 'none'}} onClick={showModal}>Show form modal</EuiButton> */}
+      <ButtonLight text={'Show form modal'} onClick={showModal} />
       {alert.showAlert &&
         <Alert message={alert.message} onAccept={alert.onAccept} onReject={alert.onReject} noReject={alert.noReject} noAccept={alert.noAccept}/>
       }
