@@ -30,7 +30,7 @@ const GroupItem = ({groupName}) => {
     // const onEdit = () =>  dispatch(editExam(props.data));
 
     const iconElopse = (
-        <span onClick={togglePropover} class="icon-ellipsis-v iconList"></span>
+        <span onClick={togglePropover} className="icon-ellipsis-v iconList"></span>
     );
     
     const [toggledGroup, setToggledGroup] = useState(false);
@@ -97,10 +97,10 @@ const GroupExamenSummary = ({nbrGroupe, isModelGroup}) => {
             {!showForm &&
                 <>
                     <EuiFlexGroup className='btn_group' style={{margin: 17}}>
-                        <EuiButtonEmpty fill className="button_cancel_me">
+                        <EuiButtonEmpty className="button_cancel_me">
                             Retour
                         </EuiButtonEmpty>
-                        <EuiButton fill className="button_next_me" onClick={onClickNext}>
+                        <EuiButton fill={true} className="button_next_me" onClick={onClickNext}>
                             Enregistrer
                         </EuiButton>
                     </EuiFlexGroup> 

@@ -15,7 +15,7 @@ const ExamenItem = ({data, showEditForm}) => {
                     <Propover data={data} showEditForm={showEditForm}/>
                     <EuiSpacer size="xxl" />
                     {/* <RouteIcon className='cardio-img' /> */}
-                    <span class="icon-Trac-39 cardio-img" style={{marginLeft: 12, marginRight: 4}}></span>
+                    <span className="icon-Trac-39 cardio-img" style={{marginLeft: 12, marginRight: 4}}></span>
                     <p>Examen 1</p>
                 </div>
                 <div className='bloc-2'>
