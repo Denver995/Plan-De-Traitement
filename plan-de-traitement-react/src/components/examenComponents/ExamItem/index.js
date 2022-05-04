@@ -1,13 +1,13 @@
 import { EuiSpacer } from '@elastic/eui';
-import '../../utils/groupe-et-exam.css'
-import Propover from '../Propover';
+import '../../../utils/groupe-et-exam.css'
+import Propover from '../../Propover';
 
+import colors from '../../../utils/colors';
 
-
-const ExamenItem = ({data, showEditForm}) => {
-
+const ExamenItem = ({data, showEditForm, color}) => {
+    console.log('COlor: ', color);
     return (
-        <div className='exam-item-content'>
+        <div style={{backgroundColor: color}} className='exam-item-content'>
             <div className="exam-item">
                 <div className='bloc-1'>
                     {/* <img src={elipse} alt='' height={15} width={15} /> */}

@@ -13,3 +13,8 @@ export const createExamen = (payload) => ({
   type: types.CREATE_EXAMEN_REQUEST,
   payload
 })
+
+export const addExam = (payload) => ({
+  type: types.ADD_EXAM,
+  payload,
+});

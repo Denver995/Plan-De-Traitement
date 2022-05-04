@@ -16,6 +16,8 @@ import ButtonLight from './Buttons/ButtonLight';
 import RecapitulatifDesExamens from './examenComponents/RecapitulatifDesExamens';
 import GroupExamen from './examenComponents/GroupExamen';
 
+import ExamenWrapper from './examenComponents/ExamenWrapper';
+
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -46,7 +48,7 @@ const MainScreen = () => {
       stepData = getStepByKey(steps, STEP1);
       isModelGroup = stepData.data.groupe_rdv;
       content = isModelGroup ? <GroupExamen nbrGroupe={stepData.data.nombreOccurence} isModelGroup={isModelGroup}/> : 
-        <ExamenForm isModelGroup={isModelGroup}/>;
+        <ExamenWrapper isModelGroup={isModelGroup}/>;
       break;
     case STEP3:
       content = <RecapitulatifDesExamens closeModal={closeModal}isModelGroup={isModelGroup}/>;

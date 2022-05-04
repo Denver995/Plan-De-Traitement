@@ -81,12 +81,16 @@
   /*---------------------------------------------------------*/
 .exam-item{
     height: 40px;
-    margin-left: 2.5%;
-    width: 95%;background: #FFFFFF 0% 0% no-repeat padding-box;
-    background: #C9EBD7 0% 0% no-repeat padding-box;
+    width: 100%;
+    /* background: #C9EBD7; */
+    padding-left: 2.5%;
     box-shadow: 0px 3px 6px #00000029;
     opacity: 1;
     border-radius: 2px;
+}
+.euiModalBody .euiModalBody__overflow {
+  padding-left: 0;
+  padding-right: 0;
 }
 .delai-inter-exam{
   margin-left: 80px;
@@ -95,8 +99,8 @@
 }
 .delai-inter-group{
     margin-left: 80px;
-    margin-top: 0.5%;
-    margin-bottom: 0.5%; 
+    font-size: 13px;
+    text-decoration: underline;
 }
 .exam-item .bloc-1{
     display: flex;
@@ -128,6 +132,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 .affichage-group-footer{
    
@@ -166,6 +172,3 @@
     padding-bottom: 24px;
     margin-right: -80px;
 }
-
-
-

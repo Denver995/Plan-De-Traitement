@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import elipse from '../../assets/svgs/ellipsis-v.svg';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ExamenItem from './ExamenItemV1';
+import ExamenItem from './ExamenItem';
 import ExamenForm from './ExamenForm';
 import { setShowExamForm, startLoading, desactivateStep, addStep } from '../../actions';
 import { STEP3, STEP2 } from '../../utils/constants';
@@ -14,6 +14,8 @@ import {
     EuiButton,
     EuiButtonEmpty
 } from '@elastic/eui';
+
+import { fakeData } from '../../utils/defaultData';
 
 const GroupItem = ({groupName}) => {
     const dispatch = useDispatch();
@@ -60,11 +62,11 @@ const GroupItem = ({groupName}) => {
                         + Ajouter un  examen
                     </button>
                 </div>
-                <ExamenItem />
+                <ExamenItem data={fakeData} />
                 <span className='delai-inter-exam'>delai entre "examen 1" et "examen 2" : 5h</span>
-                <ExamenItem />
+                <ExamenItem data={fakeData} />
                 <span className='delai-inter-exam'>delai entre "examen 2" et "examen 3" : 3h</span>
-                <ExamenItem />
+                <ExamenItem data={fakeData} />
             </div>}
         </div>
     )

@@ -25,13 +25,13 @@ import {
     setAlert
 } from '../../actions';
 // import { createExamen } from '../../utils/fetcher';
-import { createExamen } from '../../redux/examens/actions';
-import ExamenItem from './ExamenItemV1';
+import { createExamen, addExam } from '../../redux/examens/actions';
+import ExamenItem from './ExamenItem';
 
 import EspacementInterExamenForm from '../EspacementInterExamenForm';
 import '../../modifierexamen.css'
 
-const ExamenForm = ({isModelGroup}) => {
+const ExamenForm = ({isModelGroup, onAddExam}) => {
     const dispatch = useDispatch();
     const model = useSelector(state => state.CommonReducer.dataSource)
     const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -129,7 +129,7 @@ const ExamenForm = ({isModelGroup}) => {
             /**
              * @todo dispatch creatExamen action
              */
-            dispatch(createExamen({
+            const payload = {
                 nom: 'Examen',
                 id_modele: 1,
                 id_praticien: praticien,
@@ -138,8 +138,11 @@ const ExamenForm = ({isModelGroup}) => {
                 id_modif: motif,
                 fixe: fixedExamPosition ? 1 : 0,
                 position: 1
-            }));
+            };
+            dispatch(createExamen(payload));
             setReload(true);
+            onAddExam({name: 'EXAMSLIST'});
+            dispatch(addExam(payload));
         }
     };
 
@@ -183,8 +186,8 @@ const ExamenForm = ({isModelGroup}) => {
     }, [reload, examenSelected, showEditForm, steps])
 
     return (
-        <div className='examForm'>
-            <div style={{ marginLeft: 20}}>
+        <div  style={{marginLeft: 20, marginRight: 20}} className='examForm'>
+            <div>
                 <EuiFlexGroup>
                     <EuiFlexItem>
                         <p>Modèle:</p>
@@ -275,7 +278,7 @@ const ExamenForm = ({isModelGroup}) => {
                             <EuiHorizontalRule className='horizontalRule'/>
                         </EuiFlexGroup>
                         <EuiFlexGroup justifyContent="flexEnd">
-                            <EuiFlexItem grow={false}>
+                            <EuiFlexItem grow={true}>
                                 <EuiButton onClick={onClickNext} className="button_finished">
                                     Terminer
                                 </EuiButton>

@@ -79,10 +79,10 @@ useEffect(() => {
 
 return ( 
      <div>
-          <EuiForm id={modalFormId}>
+          <EuiForm id={modalFormId} style={{marginLeft: 20, marginRight: 20}}>
                <EuiSpacer size="m" />
                <EuiFormRow label="nom du model" fullWidth>
-                    <EuiFieldText name="nomModele" value={nomModele} 
+                    <EuiFieldText name="nomModele" value={nomModele}
                     onChange={onChangeNomModeleField} fullWidth/>
                </EuiFormRow>
                <EuiSpacer size="m" />

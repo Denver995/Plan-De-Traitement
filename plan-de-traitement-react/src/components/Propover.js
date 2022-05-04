@@ -35,7 +35,7 @@ import {
     return (
         <>
             <div>
-                <div grow="false" className='icon_ellipsis'>
+                <div grow={false} className='icon_ellipsis'>
                     <EuiPopover
                         id={contextMenuPopoverId}
                         button={button}
