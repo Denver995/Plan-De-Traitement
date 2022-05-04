@@ -2,7 +2,8 @@ import * as types from './types';
 
 const INITIAL_STATE = {
   examenSelected: {},
-  show: false
+  show: false,
+  exams: [],
 };
 
 function ExamenReducer(state = INITIAL_STATE, action) {
@@ -28,6 +29,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.CREATE_EXAMEN_REQUEST:
       console.log('action: ', action);
       return state;
+    case types.ADD_EXAM:
+      return {
+        ...state,
+        exams: [...state.exams, action.payload]
+      };
     default:
       return state;
   }
