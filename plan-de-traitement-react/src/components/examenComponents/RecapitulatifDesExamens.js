@@ -30,7 +30,7 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
   const onBack = () =>  dispatch(deleteStep(previousStep));
 
   return (
-    <div>
+    <div style={{ marginLeft: 20, marginRight: 20}}>
       <p className="division">
         <EuiIcon
           type="calendar"
