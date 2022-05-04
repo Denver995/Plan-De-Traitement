@@ -1,6 +1,7 @@
 import React from "react";
 import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup, EuiText, EuiSpacer, EuiAvatar } from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
+import 'react-vertical-timeline-component/style.min.css';
 import ExamGroupCard from "./ExamGroupCard";
 /*import './RecapExamGrp.css';*/
 import { setAlert } from '../../../redux/commons/actions';
@@ -39,7 +40,7 @@ const RecapExamGroup = (closeModal) => {
           <EuiIcon 
           type="pencil"
           id="icon"
-          size="0.4"
+          size="l"
           color="rgb(36%, 60%, 83%)" 
         />
         </p>
@@ -52,7 +53,7 @@ const RecapExamGroup = (closeModal) => {
           lineColor={"rgba(19, 83, 117, 0.479)"}
         >
           <div className="divbout_grp1">
-            <EuiIcon type="dot" id="iconList" className="bout_grp1" size="5"/>
+            <EuiIcon type="dot" id="iconList" className="bout_grp1" size="l"/>
             <EuiText className="Titrecadre">  
               Groupe 1 
             </EuiText>
@@ -81,7 +82,7 @@ const RecapExamGroup = (closeModal) => {
                 position ={'rigth'}
             />
           </div>  
-          <EuiIcon type="dot" id="iconList" className="bout_grp2" size="5"/>
+          <EuiIcon type="dot" id="iconList" className="bout_grp2" size="l"/>
           <EuiText className="Titrecadre2"> Groupe 2 </EuiText>
           <div className="bordprincipalegauche">
           <EuiIcon type="boxesVertical" id="iconList" className="boxverti"/>
@@ -106,7 +107,7 @@ const RecapExamGroup = (closeModal) => {
                 position ={'left'}
             />
           </div>
-          <EuiIcon type="dot" id="iconList" className="bout_grp1" size="5"/>
+          <EuiIcon type="dot" id="iconList" className="bout_grp1" size="l"/>
           <EuiText className="Titrecadre"> Groupe 3 </EuiText>
           <div className="bordprincipale" >
           <EuiIcon type="boxesVertical" id="iconList" className="boxverti"/>
@@ -137,14 +138,14 @@ const RecapExamGroup = (closeModal) => {
       </div>
 
       <EuiFlexGroup className="btn_group">
-        <EuiButtonEmpty onClick={onBack} fill className="button_cancel_me">
+        <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
           Retour
         </EuiButtonEmpty>
-        <EuiButton form={closeModal} fill className="button_next_me xs" onClick={onSave}>
+        <EuiButton form={closeModal} className="button_next_me xs" onClick={onSave}>
           Enregistrer
         </EuiButton>
       </EuiFlexGroup>
-      <style jsx>
+      <style jsx="true">
         {`
             euitext.text_alert {
               width: 612px;

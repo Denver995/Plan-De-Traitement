@@ -37,7 +37,7 @@ import {
     return (
         <>
             <EuiFlexGroup className='examenItem' style={{backgroundColor: color}}>
-                <EuiFlexItem grow={false} className='icon_ellipsis'>
+                <EuiFlexItem className='icon_ellipsis'>
                     <EuiPopover
                         id={contextMenuPopoverId}
                         button={button}
@@ -59,7 +59,7 @@ import {
                 </EuiFlexItem>
                 <EuiFlexItem className='examenItem_left'>
                     <EuiFlexGroup>
-                        <EuiFlexItem grow={false} className='icon_container'>
+                        <EuiFlexItem className='icon_container'>
                             <span onClick={togglePropover} className="icon-Trac-39"></span>
                         </EuiFlexItem>
                         <EuiFlexItem>
@@ -69,10 +69,10 @@ import {
                 </EuiFlexItem>
                 <EuiFlexItem className='examenItem_rigth'>
                     <EuiFlexGroup>
-                        <EuiFlexItem grow={false}>
+                        <EuiFlexItem>
                             <span className='examenItem_label'>{data.specialtite}-{data.motif}</span> 
                         </EuiFlexItem>
-                        <EuiFlexItem grow={false}>
+                        <EuiFlexItem>
                             <span>|</span>
                         </EuiFlexItem>
                         <EuiFlexItem>

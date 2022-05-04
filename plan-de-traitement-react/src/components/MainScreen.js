@@ -36,9 +36,8 @@ const MainScreen = () => {
   let content;
   let activeStep = getActiveStep(steps);
   let stepData = getStepByKey(steps, activeStep);
-  let isModelGroup;
+  let isModelGroup = false;
   let classContainer = 'modelFormContainer';
-
   switch (activeStep) {
     case STEP1:
       content = <ModelForm closeModal={closeModal} />
@@ -51,7 +50,9 @@ const MainScreen = () => {
         <ExamenWrapper isModelGroup={isModelGroup}/>;
       break;
     case STEP3:
-      content = <RecapitulatifDesExamens closeModal={closeModal}isModelGroup={isModelGroup}/>;
+      stepData = getStepByKey(steps, STEP2);
+      isModelGroup = stepData.data.groupe_rdv;
+      content = <RecapitulatifDesExamens closeModal={closeModal} isModelGroup={steps[0].data.groupe_rdv == 1 ? true: false}/>;
       break;
       default:
         return content;
