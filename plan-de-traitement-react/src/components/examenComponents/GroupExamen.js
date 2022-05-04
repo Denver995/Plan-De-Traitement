@@ -15,6 +15,8 @@ import {
     EuiButtonEmpty
 } from '@elastic/eui';
 
+import { fakeData } from '../../utils/defaultData';
+
 const GroupItem = ({groupName}) => {
     const dispatch = useDispatch();
     const [isPopoverOpen, setPopover] = useState(false);
@@ -60,11 +62,11 @@ const GroupItem = ({groupName}) => {
                         + Ajouter un  examen
                     </button>
                 </div>
-                <ExamenItem />
+                <ExamenItem data={fakeData} />
                 <span className='delai-inter-exam'>delai entre "examen 1" et "examen 2" : 5h</span>
-                <ExamenItem />
+                <ExamenItem data={fakeData} />
                 <span className='delai-inter-exam'>delai entre "examen 2" et "examen 3" : 3h</span>
-                <ExamenItem />
+                <ExamenItem data={fakeData} />
             </div>}
         </div>
     )
