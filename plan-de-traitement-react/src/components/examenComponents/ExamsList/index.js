@@ -35,7 +35,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
   return (
     <div style={{marginBottom: 10}}>
       <EuiFlexGroup>
-        <EuiFlexItem grow={true} style={styles.titleWrapper}>
+        <EuiFlexItem style={styles.titleWrapper}>
           <p>Modèle:</p>
           <EuiSpacer size="s" />
           <p>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
@@ -61,7 +61,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
         <div style={styles.leftDiv}></div>
         <div style={styles.rightDiv}>
           {exams.length > 2 && <EuiFlexGroup justifyContent="center">
-            <EuiFlexItem grow={true}>
+            <EuiFlexItem>
               <EuiButton onClick={onClickNext} style={{color: 'white'}} className="button_finished">
                 Terminer
               </EuiButton>
