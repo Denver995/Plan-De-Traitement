@@ -1,6 +1,7 @@
 import React from "react";
 import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup } from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
+import { connect } from 'react-redux';
 import ExamCard from "./ExamCard";
 
 import { setAlert, deleteStep } from "../../actions";
@@ -8,8 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { STEP3 } from "../../utils/constants";
 import { getStepByKey } from "../../utils/helper";
 import RecapExamGroup from "./recapExamGroup/RecapExamGroup";
+import { getHSPBrightness } from '../../utils/helper';
 
-const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
+const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
@@ -29,13 +31,14 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
       })
     );
   const onBack = () => dispatch(deleteStep(previousStep));
+  console.log('isModelGroup: ', isModelGroup);
 
   return (
     <>
-      {isModelGroup ? (
-        <RecapExamGroup />
+     {isModelGroup ? (
+    <RecapExamGroup />
       ) : (
-        <div style={{ marginLeft: 20, marginRight: 20 }}>
+         <div style={{ marginLeft: 20, marginRight: 20 }}>
           <p className="division">
             <EuiIcon
               type="calendar"
@@ -58,13 +61,16 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
               className="container"
               lineColor={"rgba(19, 83, 117, 0.479)"}
             >
-              <ExamCard
-                examen={"Examen1"}
-                couleur="pink"
-                date="12 mars"
-                position={"left"}
-              />
-              <ExamCard
+              {exams.map((exam, index) => (
+                <ExamCard
+                  key={index}
+                  examen={"Examen1"}
+                  couleur={index % 2 === 0 ? "pink": "#5D9AD4"}
+                  date="12 mars"
+                  position={index % 2 === 0? "left": "right"}
+                />
+              ))}
+              {/* <ExamCard
                 examen={"Examen2"}
                 couleur="#5D9AD4"
                 date="12 mars"
@@ -81,7 +87,7 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
                 couleur="#5D9AD4"
                 date="12 mars"
                 position={"rigth"}
-              />
+              /> */}
             </VerticalTimeline>
           </div>
 
@@ -95,7 +101,7 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
               Retour
             </EuiButtonEmpty>
             <EuiButton
-              form={closeModal}
+              // form={closeModal}
               fill={true}
               className="button_next_me xs"
               onClick={onSave}
@@ -121,4 +127,9 @@ const RecapitulatifDesExamens = (closeModal, isModelGroup) => {
     </>
   );
 };
-export default RecapitulatifDesExamens;
+
+const mapStateToProps = ({ ExamenReducer }) => ({
+  exams: ExamenReducer.exams
+})
+
+export default connect(mapStateToProps)(RecapitulatifDesExamens);
