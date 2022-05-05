@@ -39,7 +39,7 @@
   
   .vertical-timeline-element-content {
     width: 500px;
-    height: 90px;
+    /* height: 90px; */
   }
   .vertical-timeline * {
     box-sizing: border-box;
@@ -405,7 +405,7 @@
     .vertical-timeline--two-columns .vertical-timeline-element-content {
       margin-left: 2%;
       padding: 0.6em;
-      width: 96%;
+      /* width: 96%; */
       margin-right: 2%;
     }
     .vertical-timeline--two-columns .vertical-timeline-element .exam-title{
@@ -427,7 +427,7 @@
       font-size: 9px;
       font-size:9px;
       font-weight: bold;
-      visibility: hidden;
+      /* visibility: hidden; */
     }
     .vertical-timeline--two-columns
       .vertical-timeline-element.vertical-timeline-element--right

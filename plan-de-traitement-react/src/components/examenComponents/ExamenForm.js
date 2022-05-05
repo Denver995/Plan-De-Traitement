@@ -14,7 +14,7 @@ import {
  } from '@elastic/eui';
  import React, { useEffect, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { startLoading } from '../../redux/commons/actions';
 import { addStep, deleteStep, desactivateStep } from '../../redux/steps/actions';
 import { getStepByKey, createStep } from '../../utils/helper';
@@ -25,13 +25,14 @@ import {
     setAlert
 } from '../../actions';
 // import { createExamen } from '../../utils/fetcher';
-import { createExamen, addExam } from '../../redux/examens/actions';
+import { createExamen, addExam, addExamGrouped, addExamOnAllGroups, getSelectedExamGroup } from '../../redux/examens/actions';
 import ExamenItem from './ExamenItem';
 
 import EspacementInterExamenForm from '../EspacementInterExamenForm';
 import '../../modifierexamen.css'
 
-const ExamenForm = ({isModelGroup, onAddExam}) => {
+const ExamenForm = ({isModelGroup, onAddExam, groupSelected, activeGroup, examsGrouped, onPrevious}) => {
+    console.log('activeGroup: ', activeGroup);
     const dispatch = useDispatch();
     const model = useSelector(state => state.CommonReducer.dataSource)
     const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -80,12 +81,18 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
         );
     }
 
-    const onClickNext = () => {
-        let nextStep = createStep(STEP3);
-        nextStep.previousStep = previousStep;
-        dispatch(startLoading());
-        dispatch(desactivateStep(STEP2));
-        dispatch(addStep(nextStep));
+    const onClickNext = (index, isGroup = false) => {
+        if(!isGroup) {
+            let nextStep = createStep(STEP3);
+            nextStep.previousStep = previousStep;
+            dispatch(startLoading());
+            dispatch(desactivateStep(STEP2));
+            dispatch(addStep(nextStep));
+        }
+            const exam = {
+              name: "some name",
+            };
+            dispatch(addExamGrouped({ exam, index }));
     };
 
 
@@ -109,6 +116,9 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
     }
 
     const onAddExamen = () => {
+        const data = {
+            name: 'some new data'
+        }
         if(isModelGroup){
             const button = {cancelText: 'Ne pas appliquer', confirmText: 'Appliquer'};
             const alertMessage = '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cet examen à tous les groupes ?</EuiText>';
@@ -119,8 +129,13 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
                     showAlert:true,
                     buttonText: button,
                     showButtonBlock: true,
-                    onAccept:()=>{createExamenForModeleGroupe()},
-                    onReject:()=>{dispatch(setShowExamForm(false))}
+                    onAccept:()=>{dispatch(addExamOnAllGroups(data))},
+                    onReject:()=>{
+                        console.log('on reject alert')
+                        dispatch(addExamGrouped({index: activeGroup, exam: data }))
+                        dispatch(setShowExamForm(false));
+                        dispatch(setAlert(false))
+                    }
                 })
             );
         }else{
@@ -158,7 +173,10 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
         setShowEditForm(false);
     }
 
-    const onCancel = () => dispatch(deleteStep(previousStep));
+    const onCancel = () => {
+        // dispatch(deleteStep(previousStep))
+        onPrevious(true);
+    };
 
     const delaiInterExamen = (intervale) => {
         return (
@@ -185,6 +203,10 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
         }
     }, [reload, examenSelected, showEditForm, steps])
 
+    useEffect(() => {
+        console.log('groupSelected: ', groupSelected);
+    }, [groupSelected, examsGrouped]);
+
     return (
         <div  style={{marginLeft: 20, marginRight: 20}} className='examForm'>
             <div>
@@ -206,16 +228,15 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
                     <EuiHorizontalRule className='horizontalRule'/>
                 </EuiFlexGroup>
             </div>
-            {!reload &&
+            {JSON.stringify(examsGrouped[activeGroup])}
                 <div style={{ marginTop: 28, marginBottom: 28}}>
-                    {listExam.length > 0 && listExam.map((item, index) => (
+                    {Object.keys(examsGrouped[activeGroup]).length > 0 && Object.keys(examsGrouped[activeGroup]).map((item, index) => (
                         <div key={index}>
                             <ExamenItem data={fakeData} showEditForm={setShowEditForm}/>
                             {delaiInterExamen('1heure - 2heures')}
                         </div>
                     ))}
                 </div>
-            }
             <EuiFlexGroup>
                 <EuiFlexItem>
                     Examen 1  
@@ -267,7 +288,11 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
                         <EuiButtonEmpty onClick={onCancel} className="button_cancel_small">
                             Annuler
                         </EuiButtonEmpty>
-                        <EuiButton onClick={onAddExamen} className="button_add">
+                        <EuiButton onClick={() => {
+                            onAddExamen();
+                            dispatch(getSelectedExamGroup(activeGroup));
+                            console.log('ajouter')
+                        }} className="button_add">
                             Ajouter
                         </EuiButton>
                     </EuiFlexGroup>
@@ -279,7 +304,7 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
                         </EuiFlexGroup>
                         <EuiFlexGroup justifyContent="flexEnd">
                             <EuiFlexItem grow={true}>
-                                <EuiButton onClick={onClickNext} className="button_finished">
+                                <EuiButton onClick={() => onClickNext()} className="button_finished">
                                     Terminer
                                 </EuiButton>
                             </EuiFlexItem>
@@ -297,5 +322,10 @@ const ExamenForm = ({isModelGroup, onAddExam}) => {
         </div>
     );
 };
- 
-export default ExamenForm;
+
+const mapStateToProps = ({ ExamenReducer }) => ({
+    examsGrouped: ExamenReducer.examsGrouped,
+    groupSelected: ExamenReducer.examenSelected,
+    activeGroup: ExamenReducer.activeGroup,
+})
+export default connect(mapStateToProps)(ExamenForm);
