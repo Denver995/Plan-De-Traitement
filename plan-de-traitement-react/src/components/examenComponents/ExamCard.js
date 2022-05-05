@@ -1,13 +1,13 @@
 import React from 'react';
 import {EuiIcon} from '@elastic/eui';
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
-import "../../Recapitulatif.css";
+// import "../../Recapitulatif.css";
 import Propover from "../Propover";
 
 function ExamCard(props) {
     return (
-        <div>
-            <div className="exam-title">{props.examen}</div>
+        // <div>
+            // <div className="exam-title">{props.examen}</div>
             <VerticalTimelineElement
                 contentStyle={{ background: props.couleur, height: 90 }}
                 date={props.date}
@@ -51,7 +51,7 @@ function ExamCard(props) {
                 </div>
             
             </VerticalTimelineElement>
-        </div>
+        // </div>
     );
 }
 
