@@ -11,6 +11,7 @@ import {
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import ExamGroupCard from "./ExamGroupCard";
+import RecapExamItem from "./RecapExamItem";
 /*import './RecapExamGrp.css';*/
 import { setAlert } from "../../../redux/commons/actions";
 import { deleteStep } from "../../../redux/steps/actions";
