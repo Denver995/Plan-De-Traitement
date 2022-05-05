@@ -52,9 +52,9 @@ body {
 
 
 /***************************** CUSTOM BUTTON *****************/
-.euiModal__flex .euiModalBody .euiModalBody__overflow {
-  /* overflow-y: hidden; */
-}
+/*.euiModal__flex .euiModalBody .euiModalBody__overflow {
+  /* overflow-y: hidden; 
+}*/
 
 .euiModal .euiModal__flex {
   max-height: 90vh !important;
@@ -142,7 +142,7 @@ body {
 }
 
 .icon_ellipsis span{
-  margin-top: 7px;
+  /*margin-top: 7px;*/
   cursor: pointer;
 }
 
@@ -229,6 +229,15 @@ body {
 .modelFormContainer {
   width: 1057px;
   margin-top: 5px;
+}
+.rendezvousFormContainer{
+  top: 80px;
+width: 1361px;
+background: var(--unnamed-color-ddeaf6) 0% 0% no-repeat padding-box;
+background: #DDEAF6 0% 0% no-repeat padding-box;
+border-radius: 10px;
+opacity: 1;
+
 }
 
 .euiFlexGroup .delaiInterExamen {

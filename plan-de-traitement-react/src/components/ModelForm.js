@@ -11,18 +11,19 @@ import {
   EuiButton,
   EuiButtonEmpty,
   EuiIcon,
-  EuiToolTip
-} from '@elastic/eui';
+  EuiToolTip,
+} from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
-import React, { useState, useEffect } from 'react';
-import { createModele } from '../utils/fetcher';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateStep, startLoading } from '../actions';
-import { getStepByKey } from '../utils/helper';
-import { STEP1 } from '../utils/constants';
+import React, { useState, useEffect } from "react";
+import { createModele } from "../utils/fetcher";
+import { useDispatch, useSelector } from "react-redux";
+import { updateStep, startLoading } from "../actions";
+import { getStepByKey } from "../utils/helper";
+import { STEP1 } from "../utils/constants";
+import { ReactComponent as InfoIcon } from "../assets/svgs/Soustraction-1.svg";
 
-const ModelForm = ({closeModal}) => {
-  const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
+const ModelForm = ({ closeModal }) => {
+  const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector(state => state.steps);
   const [isGroup, setIsGroup] = useState(false);
