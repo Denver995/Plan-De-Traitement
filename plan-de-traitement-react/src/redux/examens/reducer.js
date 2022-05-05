@@ -6,18 +6,24 @@ import * as types from './types';
 // }
 const INITIAL_STATE = {
   examenSelected: {},
+  activeGroup: 0,
   show: false,
   exams: [],
   examsGrouped: [
     {
       exam1: {id: 1},
-      exam2: {id: 2},
-      exam3: {id: 3},
+      // exam2: {id: 2},
+      // exam3: {id: 3},
     },
     {
-      exam1: {id: 1},
-      exam2: {id: 2},
-      exam3: {id: 3},
+      // exam1: {id: 1},
+      // exam2: {id: 2},
+      // exam3: {id: 3},
+    },
+    {
+      // exam1: {id: 1},
+      // exam2: {id: 2},
+      // exam3: {id: 3},
     }
   ],
 };
@@ -65,7 +71,31 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         examsGrouped
-      }
+      };
+      case types.GET_EXAM_GROUP:
+        let examGroup = {};
+        examGroup = state.examsGrouped[action.index];
+        console.log('examenGroup: ', examGroup)
+        return {
+          ...state,
+          examenSelected: examGroup,
+        };
+      case types.ADD_EXAM_ON_ALL_GROUP:
+        console.log('actionALL: ', action);
+        let tempGroup = state.examsGrouped;
+        tempGroup.map((group, i) => {
+          tempGroup[i] = {...tempGroup[i], ['exam' + Object.keys(group).length + 1]: action.payload}
+          return tempGroup;
+        })
+        return {
+          ...state,
+          examsGrouped: tempGroup,
+        }
+      case types.SET_ACTIVE_GROUP:
+        return {
+          ...state,
+          activeGroup: action.payload
+        }
     default:
       return state;
   }
