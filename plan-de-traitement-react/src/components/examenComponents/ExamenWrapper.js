@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import ExamenForm from './ExamenForm';
 import ExamsList from './ExamsList';
 
-const ExamenWrapper = ({ isModelGroup, exams }) => {
+const ExamenWrapper = ({ activeGroup, isModelGroup, exams }) => {
   const [component, setComponent] = useState('EXAMENFORM');
   console.log('Exams: ', exams);
   return (
     <div>
-      {component === 'EXAMENFORM' ? <ExamenForm isModelGroup={isModelGroup} onAddExam={(data) => {
+      {component === 'EXAMENFORM' ? <ExamenForm activeGroup={activeGroup} isModelGroup={isModelGroup} onAddExam={(data) => {
         setComponent(data.name);
     }} /> : <ExamsList exams={exams} onAdd={(data) => setComponent(data)} />}
     </div>
