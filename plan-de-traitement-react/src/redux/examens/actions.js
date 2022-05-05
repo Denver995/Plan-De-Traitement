@@ -28,3 +28,18 @@ export const createExamGroup = (payload) => ({
   type: types.CREATE_EXAMEN_GROUP,
   payload,
 });
+
+export const getSelectedExamGroup = (index) => ({
+  type: types.GET_EXAM_GROUP,
+  index,
+});
+
+export const addExamOnAllGroups = (payload) => ({
+  type: types.ADD_EXAM_ON_ALL_GROUP,
+  payload,
+});
+
+export const setActiveGroup = (payload) => ({
+  type: types.SET_ACTIVE_GROUP,
+  payload,
+});
