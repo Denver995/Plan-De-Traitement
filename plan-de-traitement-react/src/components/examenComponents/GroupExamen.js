@@ -16,14 +16,15 @@ import { STEP3, STEP2 } from "../../utils/constants";
 import { createStep, getStepByKey } from "../../utils/helper";
 import { EuiFlexGroup, EuiButton, EuiButtonEmpty } from "@elastic/eui";
 import { deleteStep } from "../../redux/steps/actions";
-import { createExamGroup, addExamGrouped } from "../../redux/examens/actions";
+import { createExamGroup, addExamGrouped, getSelectedExamGroup, setActiveGroup } from "../../redux/examens/actions";
+// import { setShowExamForm } from '../../redux/commons/actions';
 
 import { fakeData } from "../../utils/defaultData";
 
-const GroupItem = ({ groupName, examsGrouped }) => {
+const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
-  const [panelRef] = useState(null);
+  console.log('groupName: ', groupName);
 
   // const contextMenuPopoverId = useGeneratedHtmlId({
   //     prefix: 'contextMenuPopover',
@@ -41,10 +42,13 @@ const GroupItem = ({ groupName, examsGrouped }) => {
     <span onClick={togglePropover} className="icon-ellipsis-v iconList"></span>
   );
 
-  const [toggledGroup, setToggledGroup] = useState(false);
+  const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
-  const toggle = () => {
-    setToggledGroup((v) => !v);
+  const toggle = (index) => {
+    let newToggledGroup = toggledGroup;
+    newToggledGroup[index] = !toggledGroup[index];
+    setToggledGroup(newToggledGroup);
+    setRerender(true);
   };
 
   const onAddExamen = () => dispatch(setShowExamForm(true));
@@ -55,11 +59,20 @@ const GroupItem = ({ groupName, examsGrouped }) => {
     dispatch(addExamGrouped({ exam, index }));
     setRerender(true)
   };
+
   useEffect(() => {
-    console.log("examsGr...");
+    let newToggleGrp = [];
+    examsGrouped.map((item, i) => {
+      newToggleGrp[i] = false;
+      return newToggleGrp;
+    });
+    setToggledGroup(newToggleGrp);
+  }, [examsGrouped]);
+
+  useEffect(() => {
     setRerender(false)
     console.log('reRender: ', reRender);
-  }, [examsGrouped, reRender]);
+  }, [examsGrouped, reRender, toggledGroup]);
 
 // const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
 //   const dispatch = useDispatch();
@@ -70,43 +83,48 @@ const GroupItem = ({ groupName, examsGrouped }) => {
   return (
     <>
     {examsGrouped.map((group, index) => (
-    <div className="contain">
+    <div key={index} className="contain">
       <p className="labelgroupExams">Modéle</p>
       <p className="labelSubtitle">xxxxxxXXXXXXXXXXXXXXxxxxxxxxxxxxxx</p>
       <div className="groups-content">
         <div className="group-exam-item">
           <div className="bloc-1">
-            <p>{groupName}</p>
+            <p>{'Group ' + (index + 1)}</p>
           </div>
           
           <div className="bloc-2">
             <p>Periode de recherche : 00h</p>
-            {toggledGroup ? (
-              <ArrowDropUpIcon onClick={toggle} style={{ cursor: "pointer" }} />
+            {toggledGroup[index] ? (
+              <ArrowDropUpIcon onClick={() => toggle(index)} style={{ cursor: "pointer" }} />
             ) : (
               <ArrowDropDownIcon
-                onClick={toggle}
+                onClick={() => toggle(index)}
                 style={{ cursor: "pointer" }}
               />
             )}
           </div>
         </div>
         
-        {toggledGroup && (
+        {toggledGroup[index] && (
           <div className="exams">
             <div style={{ marginBottom: "20px" }}>
               <hr className="divisor" color="#5d9ad4" size="1"></hr>
-              <button className="divisor-btn" onClick={() => onAddExamenNew(index)}>
+              <button className="divisor-btn" onClick={() => {
+                dispatch(setShowExamForm(true));
+                dispatch(getSelectedExamGroup(index));
+                dispatch(setActiveGroup(index));
+                // onAddExamenNew(index);
+              }}>
                 + Ajouter un examen
               </button>
             </div>
-            {Object.keys(group).map((exam) => (
-                <>
-            <ExamenItem />
+            {Object.keys(group).map((exam, i) => (
+                <div key={i}>
+            <ExamenItem data={exam}/>
             <span className="delai-inter-exam">
               delai entre "examen 1" et "examen 2" : 5h
             </span>
-            </>
+            </div>
               ))
               }
           </div>
@@ -142,14 +160,14 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   return (
     <>
       {showForm ? (
-        <ExamenForm isModelGroup={isModelGroup} />
+        <ExamenForm isModelGroup={isModelGroup} onPrevious={(data) => dispatch(setShowExamForm(false))} />
       ) : (
-        [...Array(nbrGroupe).keys()].map((i) => {
+        [...Array(nbrGroupe).keys()].map((item, index) => {
           return (
             <GroupItem
               examsGrouped={examsGrouped}
-              groupName={"Group " + i}
-              key={i}
+              groupName={"Group " + index}
+              key={index}
               listExam={[]}
             />
           );
