@@ -22,6 +22,8 @@ import { startLoading } from "../redux/commons/actions";
 import { getStepByKey, createStep } from "../utils/helper";
 import { STEP1, STEP2 } from "../utils/constants";
 
+import { ReactComponent as InfoIcon } from "../assets/svgs/Soustraction-1.svg";
+
 const ModelForm = ({ closeModal }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();

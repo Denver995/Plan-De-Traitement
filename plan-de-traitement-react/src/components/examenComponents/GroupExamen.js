@@ -60,59 +60,62 @@ const GroupItem = ({ groupName, examsGrouped }) => {
     setRerender(false)
     console.log('reRender: ', reRender);
   }, [examsGrouped, reRender]);
+
+// const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
+//   const dispatch = useDispatch();
+//   const steps = useSelector((state) => state.StepReducer.steps);
+//   const showForm = useSelector((state) => state.CommonReducer.examen.show);
+
+
   return (
     <>
-      {examsGrouped.map((group, index) => (
-        <div className="groups-content">
-          <div className="group-exam-item">
-            <div className="bloc-1">
-              <img
-                src={elipse}
-                alt=""
-                height={15}
-                width={15}
+    {examsGrouped.map((group, index) => (
+    <div className="contain">
+      <p className="labelgroupExams">Modéle</p>
+      <p className="labelSubtitle">xxxxxxXXXXXXXXXXXXXXxxxxxxxxxxxxxx</p>
+      <div className="groups-content">
+        <div className="group-exam-item">
+          <div className="bloc-1">
+            <p>{groupName}</p>
+          </div>
+          
+          <div className="bloc-2">
+            <p>Periode de recherche : 00h</p>
+            {toggledGroup ? (
+              <ArrowDropUpIcon onClick={toggle} style={{ cursor: "pointer" }} />
+            ) : (
+              <ArrowDropDownIcon
+                onClick={toggle}
                 style={{ cursor: "pointer" }}
               />
-              <p>{groupName}</p>
-            </div>
-            <div className="bloc-2">
-              <p>Periode de recherche : 00h</p>
-              {toggledGroup ? (
-                <ArrowDropUpIcon
-                  onClick={toggle}
-                  style={{ cursor: "pointer" }}
-                />
-              ) : (
-                <ArrowDropDownIcon
-                  onClick={toggle}
-                  style={{ cursor: "pointer" }}
-                />
-              )}
-            </div>
+            )}
           </div>
-          <div key={index} className="exams">
+        </div>
+        
+        {toggledGroup && (
+          <div className="exams">
             <div style={{ marginBottom: "20px" }}>
               <hr className="divisor" color="#5d9ad4" size="1"></hr>
-              <button
-                className="divisor-btn"
-                onClick={() => onAddExamenNew(index)}
-              >
+              <button className="divisor-btn" onClick={() => onAddExamenNew(index)}>
                 + Ajouter un examen
               </button>
-              {Object.keys(group).map((exam) => (
+            </div>
+            {Object.keys(group).map((exam) => (
                 <>
-                  <ExamenItem data={fakeData} />
-                  <span className="delai-inter-exam">
-                    delai entre "examen 1" et "examen 2" : 5h
-                  </span>
-                </>
+            <ExamenItem />
+            <span className="delai-inter-exam">
+              delai entre "examen 1" et "examen 2" : 5h
+            </span>
+            </>
               ))
               }
-            </div>
           </div>
-          {/* } */}
-        </div>
-      ))}
+        )}
+      </div>
+      <p className='separateur'> Choisir l'intervalle entre les groupes</p>
+
+    </div>
+    ))}
     </>
   );
 };
@@ -121,7 +124,6 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const showForm = useSelector((state) => state.CommonReducer.examen.show);
-
   const previousStep = getStepByKey(steps, STEP2);
   const onClickNext = () => {
     let nextStep = createStep(STEP3);
