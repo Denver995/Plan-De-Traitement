@@ -24,8 +24,8 @@ const MainScreen = () => {
   const steps = useSelector(state => state.StepReducer.steps);
   const alert = useSelector(state => state.CommonReducer.alert);
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
+  const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);
 
-  console.log('tate: ', steps);
   console.log('alert: ', alert);
 
   const closeModal = () => {
@@ -49,7 +49,7 @@ const MainScreen = () => {
       stepData = getStepByKey(steps, STEP1);
       isModelGroup = stepData.data.groupe_rdv;
       content = isModelGroup ? <GroupExamen examsGrouped={examsGrouped} nbrGroupe={stepData.data.nombreOccurence} isModelGroup={isModelGroup}/> : 
-        <ExamenWrapper isModelGroup={isModelGroup}/>;
+        <ExamenWrapper activeGroup={activeGroup} isModelGroup={isModelGroup}/>;
       break;
     case STEP3:
       stepData = getStepByKey(steps, STEP2);
