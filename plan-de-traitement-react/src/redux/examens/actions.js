@@ -18,3 +18,13 @@ export const addExam = (payload) => ({
   type: types.ADD_EXAM,
   payload,
 });
+
+export const addExamGrouped = (payload) => ({
+  type: types.ADD_EXAM_GROUPED,
+  payload,
+})
+
+export const createExamGroup = (payload) => ({
+  type: types.CREATE_EXAMEN_GROUP,
+  payload,
+});
