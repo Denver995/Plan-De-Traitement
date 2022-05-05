@@ -9,6 +9,7 @@ import {
 // import '../EspacementInterExamenForm.css';
 import { setAlert } from '../actions';
 import { useDispatch } from 'react-redux';
+import { addExamOnAllGroups } from '../redux/examens/actions';
 
   const EspacementInterExamenForm = ({closeModal}) => {
 	const { euiTheme } = useEuiTheme();
@@ -28,7 +29,8 @@ import { useDispatch } from 'react-redux';
         onAccept:()=>{dispatch(dispatch(setAlert(false)))},
         onReject:()=>{dispatch(dispatch(setAlert(false)))}
       })
-  );
+      );
+      dispatch(addExamOnAllGroups());
     return;
   };
 
