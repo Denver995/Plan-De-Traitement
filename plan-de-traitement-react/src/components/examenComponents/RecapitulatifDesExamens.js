@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { STEP3 } from "../../utils/constants";
 import { getStepByKey } from "../../utils/helper";
 import RecapExamGroup from "./recapExamGroup/RecapExamGroup";
+import SummaryGroupedExam from "./recapExamGroup/SummaryGroupedExam";
 import { getHSPBrightness } from '../../utils/helper';
 
 const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
@@ -36,7 +37,7 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
   return (
     <>
      {isModelGroup ? (
-    <RecapExamGroup />
+    <SummaryGroupedExam />
       ) : (
          <div style={{ marginLeft: 20, marginRight: 20 }}>
           <p className="division">
