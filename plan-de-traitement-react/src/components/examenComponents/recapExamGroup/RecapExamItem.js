@@ -6,6 +6,7 @@ import "react-vertical-timeline-component/style.min.css";
 import colors from '../../../utils/colors';
 import { Plus } from '../../../assets/images';
 
+const Icon = () => (<image width={20} height={20} />)
 
 const RecapExamItem = ({ color, date, position, index, data }) => {
   console.log("recap: ", position);
@@ -15,23 +16,23 @@ const RecapExamItem = ({ color, date, position, index, data }) => {
       contentStyle={{
         background: "white",
         border: "1px solid",
-        padding: 20,
+        padding: 10,
         marginBottom: 10,
+        marginTop: -40,
       }}
-      date={"2011 - present"}
+      // date={"2011 - present"}
+      // iconStyle={{
+      //   background: "rgb(19, 83, 117)",
+      //   color: "#fff",
+      //   border: "rgb(19, 83, 117)",
+      // }}
+      // icon={<Icon />}
       position={position}
-      iconStyle={{
-        background: "rgb(19, 83, 117)",
-        color: "#fff",
-        border: "rgb(19, 83, 117)",
-      }}
-      icon={<Circle />}
     >
       {data.map((exam, index) => (
         <div key={index}>
-          <div style={{ backgroundColor: colors[colorsArr[index]] }}>
+          <div style={{ backgroundColor: colors[colorsArr[index]], padding: 5, marginBottom: data.length - 1 !== index? 10: 0, boxShadow: "0px 3px 6px #00000029" }}>
             <div className="exam-card-content">
-              <div>{"examen name"}</div>
               <div className="card-content-header">
                 <h4 className="spec">
                   <strong>*Spécialité* - *Motif*</strong>
