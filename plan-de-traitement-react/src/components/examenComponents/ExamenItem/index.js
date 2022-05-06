@@ -1,88 +1,86 @@
 import {
-    EuiFlexGroup,
-    EuiFlexItem,
-    EuiSpacer,
-    EuiPopover,
-    useGeneratedHtmlId,
-    EuiListGroupItem,
-    EuiListGroup
-  } from '@elastic/eui';
-  import React, { useState } from 'react';
-  import { useDispatch } from 'react-redux';
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiSpacer,
+  EuiPopover,
+  useGeneratedHtmlId,
+  EuiListGroupItem,
+  EuiListGroup,
+} from "@elastic/eui";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-  import { editExam } from '../../../redux/commons/actions';
-  
-  const ExamenItem = ({data, showEditForm, color}) => {
-    const dispatch = useDispatch();
-    const [isPopoverOpen, setPopover] = useState(false);
-    const [panelRef] = useState(null);
+import { editExam } from "../../../redux/commons/actions";
+import styles from "./styles";
 
-    const contextMenuPopoverId = useGeneratedHtmlId({
-        prefix: 'contextMenuPopover',
-    });
+const ExamenItem = ({ data, showEditForm, color }) => {
+  const dispatch = useDispatch();
+  const [isPopoverOpen, setPopover] = useState(false);
+  const [panelRef] = useState(null);
 
-    const closePopover = () => setPopover(false);
+  const contextMenuPopoverId = useGeneratedHtmlId({
+    prefix: "contextMenuPopover",
+  });
 
-    const togglePropover = () => setPopover(!isPopoverOpen);
+  const closePopover = () => setPopover(false);
 
-    const onEdit = () =>  {
-        dispatch(editExam(data));
-        showEditForm(true);
-    }
+  const togglePropover = () => setPopover(!isPopoverOpen);
 
-    const button = (
-        <span onClick={togglePropover} className="icon-ellipsis-v"></span>
-    );
+  const onEdit = () => {
+    dispatch(editExam(data));
+    showEditForm(true);
+  };
 
-    return (
-        <>
-            <EuiFlexGroup className='examenItem' style={{backgroundColor: color}}>
-                <EuiFlexItem className='icon_ellipsis'>
-                    <EuiPopover
-                        id={contextMenuPopoverId}
-                        button={button}
-                        isOpen={isPopoverOpen}
-                        closePopover={closePopover}
-                        panelPaddingSize="s"
-                        anchorPosition="downLeft"
-                        container={panelRef}
-                    >
-                        <EuiListGroup>
-                            <EuiListGroupItem onClick={onEdit} label="Modifier" />
-                            <EuiListGroupItem onClick={() => {}} label="Supprimer" />
-                            <EuiListGroupItem onClick={() => {}} label="Fixer la position" />
-                            <EuiListGroupItem onClick={() => {}} label="Lier avec un autre examen" />
-                        </EuiListGroup>
-                    </EuiPopover>
-                    <EuiSpacer size="xxl" />
-                    <EuiSpacer size="xxl" />
-                </EuiFlexItem>
-                <EuiFlexItem className='examenItem_left'>
-                    <EuiFlexGroup>
-                        <EuiFlexItem className='icon_container'>
-                            <span onClick={togglePropover} className="icon-Trac-39"></span>
-                        </EuiFlexItem>
-                        <EuiFlexItem>
-                            <span className='examenItem_label examen_name'>{data.label}</span>
-                        </EuiFlexItem>
-                    </EuiFlexGroup>
-                </EuiFlexItem>
-                <EuiFlexItem className='examenItem_rigth'>
-                    <EuiFlexGroup>
-                        <EuiFlexItem>
-                            <span className='examenItem_label'>{data.specialtite}-{data.motif}</span> 
-                        </EuiFlexItem>
-                        <EuiFlexItem>
-                            <span>|</span>
-                        </EuiFlexItem>
-                        <EuiFlexItem>
-                            <span className='examenItem_label'>{data.praticien}-{data.lieu}</span>
-                        </EuiFlexItem>
-                    </EuiFlexGroup>
-                </EuiFlexItem>
-            </EuiFlexGroup>
-        </>
-    );
+  const button = (
+    <span onClick={togglePropover} className="icon-ellipsis-v"></span>
+  );
+
+  const Pop = () => (
+    <div style={styles.flex}>
+            <span className="icon_ellipsis">
+              <EuiPopover
+                id={contextMenuPopoverId}
+                button={button}
+                isOpen={isPopoverOpen}
+                closePopover={closePopover}
+                panelPaddingSize="s"
+                anchorPosition="downLeft"
+                container={panelRef}
+              >
+                <EuiListGroup>
+                  <EuiListGroupItem onClick={onEdit} label="Modifier" />
+                  <EuiListGroupItem onClick={() => {}} label="Supprimer" />
+                  <EuiListGroupItem
+                    onClick={() => {}}
+                    label="Fixer la position"
+                  />
+                  <EuiListGroupItem
+                    onClick={() => {}}
+                    label="Lier avec un autre examen"
+                  />
+                </EuiListGroup>
+              </EuiPopover>
+            </span>
+            <span style={styles.mx10} onClick={togglePropover} className="icon-Trac-39"></span>
+            <span>{data.label ?? "Examen 1"}</span>
+          </div>
+  )
+
+  return (
+    <div style={{ marginLeft: 10, marginRight: 10,  marginBottom: 5}}>
+      <div style={{...styles.lineWrapper, backgroundColor: color}}>
+        <div>
+          <Pop />
+        </div>
+        <div>
+          <span>*Specialite*-*motif*</span>
+          <span>|</span>
+          <span>*Praticien*-*lieu*</span>
+        </div>
+      </div>
+      <p style={styles.delay}>delai entre exams</p>
+    </div>
+  );
 };
 
 export default ExamenItem;
