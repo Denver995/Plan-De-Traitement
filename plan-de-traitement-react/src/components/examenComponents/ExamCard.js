@@ -9,7 +9,7 @@ function ExamCard(props) {
         // <div>
             // <div className="exam-title">{props.examen}</div>
             <VerticalTimelineElement
-                contentStyle={{ background: props.couleur, height: 90 }}
+                contentStyle={{ background: props.couleur, height: 90, marginTop: -40 }}
                 date={props.date}
                 position={props.position}
                 iconStyle={{
