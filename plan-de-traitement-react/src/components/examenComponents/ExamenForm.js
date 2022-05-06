@@ -30,6 +30,7 @@ import ExamenItem from './ExamenItem';
 
 import EspacementInterExamenForm from '../EspacementInterExamenForm';
 import '../../modifierexamen.css'
+import colors from '../../utils/colors';
 
 const ExamenForm = ({isModelGroup, onAddExam, groupSelected, activeGroup, examsGrouped, onPrevious}) => {
     console.log('activeGroup: ', activeGroup);
@@ -51,6 +52,7 @@ const ExamenForm = ({isModelGroup, onAddExam, groupSelected, activeGroup, examsG
     const [selectedExamId, setSelectedExamId] = useState("");
     const [fisrtLoad, setFirstLoad] = useState(true);
 
+    const colorsArr = ['primaryLight', 'danger', 'success', 'warning'];
 
     console.log('model ', model);
 
@@ -228,15 +230,15 @@ const ExamenForm = ({isModelGroup, onAddExam, groupSelected, activeGroup, examsG
                     <EuiHorizontalRule className='horizontalRule'/>
                 </EuiFlexGroup>
             </div>
-            {JSON.stringify(examsGrouped[activeGroup])}
+            {isModelGroup && 
                 <div style={{ marginTop: 28, marginBottom: 28}}>
                     {Object.keys(examsGrouped[activeGroup]).length > 0 && Object.keys(examsGrouped[activeGroup]).map((item, index) => (
                         <div key={index}>
-                            <ExamenItem data={fakeData} showEditForm={setShowEditForm}/>
+                            <ExamenItem color={colors[colorsArr[index]]} data={fakeData} showEditForm={setShowEditForm}/>
                             {delaiInterExamen('1heure - 2heures')}
                         </div>
                     ))}
-                </div>
+                </div>}
             <EuiFlexGroup>
                 <EuiFlexItem>
                     Examen 1  
