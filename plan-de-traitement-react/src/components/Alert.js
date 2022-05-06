@@ -49,7 +49,7 @@ const Alert = ({ message, onAccept, onReject, buttonText, showInputForm }) => {
             <h1>{alert.title ? alert.title : ""}</h1>
           </EuiModalHeaderTitle>
         </EuiModalHeader>
-        <EuiModalBody>
+        <EuiModalBody style={{ paddingLeft: 25}}>
           {showInputForm ? 
             <EuiForm id=""><EuiSpacer size="m" /><EuiFormRow label="nom du modèle" fullWidth><EuiFieldText name="nomModele" value={""} fullWidth/></EuiFormRow></EuiForm>:
             <div dangerouslySetInnerHTML={{__html: message}}></div>
