@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   EuiIcon,
   EuiButton,
@@ -8,23 +8,26 @@ import {
   EuiSpacer,
   EuiAvatar,
 } from "@elastic/eui";
-import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { setAlert } from "../../../redux/commons/actions";
 import { deleteStep } from "../../../redux/steps/actions";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { STEP3 } from "../../../utils/constants";
 import { getStepByKey } from "../../../utils/helper";
-import RecapExamItem from './RecapExamItem';
-import ExamGroupCard from './ExamGroupCard';
-import colors from '../../../utils/colors';
+import RecapExamItem from "./RecapExamItem";
+import ExamGroupCard from "./ExamGroupCard";
+import colors from "../../../utils/colors";
+import TimeLineHelper from "../../common/TimeLineHelper";
 
 const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
-  const colorsArr = ['primaryLight', 'danger', 'success', 'warning'];
-
+  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const alertMessage =
     '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
@@ -73,11 +76,18 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
           lineColor={"rgba(19, 83, 117, 0.479)"}
         >
           {examsGrouped.map((group, index) => (
-            <div key={index}>
-              <RecapExamItem color={''} data={Object.keys(group)} date={new Date().toDateString()} key={index} position={index % 2 === 0? 'left': 'right'} />
+            <div key={index} style={{ position: "relative" }}>
+              <TimeLineHelper index={index} />
+              <RecapExamItem
+                color={""}
+                data={Object.keys(group)}
+                date={new Date().toDateString()}
+                key={index}
+                position={index % 2 === 0 ? "left" : "right"}
+              />
             </div>
           ))}
-              {/* <EuiSpacer /> */}
+          {/* <EuiSpacer /> */}
         </VerticalTimeline>
       </div>
 

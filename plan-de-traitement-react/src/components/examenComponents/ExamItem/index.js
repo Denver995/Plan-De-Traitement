@@ -1,31 +1,34 @@
-import { EuiSpacer } from '@elastic/eui';
-import '../../../utils/groupe-et-exam.css'
-import Propover from '../../Propover';
+import "../../../utils/groupe-et-exam.css";
+import Propover from "../../Propover";
 
-import colors from '../../../utils/colors';
+import styles from "./styles";
 
-const ExamenItem = ({data, showEditForm, color}) => {
-    console.log('COlor: ', color);
-    return (
-        <div style={{backgroundColor: color}} className='exam-item-content'>
-            <div className="exam-item">
-                <div className='bloc-1'>
-                    {/* <img src={elipse} alt='' height={15} width={15} /> */}
-                    {/* <span onClick={togglePropover} class="icon-ellipsis-v"></span> */}
-                    <Propover data={data} showEditForm={showEditForm}/>
-                    <EuiSpacer size="xxl" />
-                    {/* <RouteIcon className='cardio-img' /> */}
-                    <span className="icon-Trac-39 cardio-img" style={{marginLeft: 12, marginRight: 4}}></span>
-                    <p>Examen 1</p>
-                </div>
-                <div className='bloc-2'>
-                    <p>"Spécialité"-"motif"</p>
-                    <p className='separate'>|</p>
-                    <p className='praticien-info'>"Praticien"-"Lieu"</p>
-                </div>
-            </div>
+const ExamenItem = ({ data, showEditForm, color }) => {
+  console.log("COlor: ", color);
+  return (
+    <div style={{ ...styles.lineWrapper, backgroundColor: color }}>
+      <div style={styles.flex}>
+        {/* <img src={elipse} alt='' height={15} width={15} /> */}
+        {/* <span onClick={togglePropover} class="icon-ellipsis-v"></span> */}
+        <div>
+          <Propover data={data} showEditForm={showEditForm} />
         </div>
-    )
-}
+        {/* <RouteIcon className='cardio-img' /> */}
+        <div>
+          <span
+            className="icon-Trac-39 cardio-img"
+            style={styles.tracIcon}
+          ></span>
+          <span>Examen 1</span>
+        </div>
+      </div>
+      <div>
+        <span>"Spécialité"-"motif"</span>
+        <span className="separate">|</span>
+        <span className="praticien-info">"Praticien"-"Lieu"</span>
+      </div>
+    </div>
+  );
+};
 
-export default ExamenItem
+export default ExamenItem;

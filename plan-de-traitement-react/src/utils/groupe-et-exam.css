@@ -92,11 +92,8 @@
 /*---------------------------------------------------------*/
 .exam-item{
   height: 40px;
-  margin-left: 2.5%;
-  width: 95%;background: #FFFFFF 0% 0% no-repeat padding-box;
-  background: #C9EBD7 0% 0% no-repeat padding-box;
+  width: 100%;
   box-shadow: 0px 3px 6px #00000029;
-  opacity: 1;
   border-radius: 2px;
 }
 .delai-inter-exam{
@@ -221,4 +218,7 @@ font: normal normal normal 17px/23px Open Sans;
 letter-spacing: 0px;
 color: #5D9AD4;
 opacity: 1;
+}
+.vertical-timeline-element .vertical-timeline-element--left {
+  margin: 0;
 }

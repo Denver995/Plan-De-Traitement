@@ -158,13 +158,11 @@ const ModelForm = ({ closeModal }) => {
         </EuiFlexGroup>
         <EuiSpacer size="m" />
         {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup>
+          <EuiFlexGroup style={{marginLeft: 5, marginRight: 5}} direction="column">
             <EuiFlexItem>
-              <EuiFormRow
-                label="Période de recherche d'un groupe*:"
-                fullWidth
-                labelAppend={
-                  <span className="tooltip">
+              <EuiFlexGroup>
+              <span>Période de recherche d'un groupe*:</span>
+              <span className="tooltip">
                     <EuiToolTip
                       position="right"
                       content="Création de plusieurs groupes de rendez-vous"
@@ -172,20 +170,31 @@ const ModelForm = ({ closeModal }) => {
                       <EuiIcon type="iInCircle" size="l" />
                     </EuiToolTip>
                   </span>
-                }
-              >
+              </EuiFlexGroup>
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <EuiFlexGroup justifyContent="spaceBetween">
+                {/* <EuiFlexItem> */}
                 <EuiFieldNumber
                   name="periode"
                   value={periode}
                   onChange={setPeriode}
+                  style={{width: '95%'}}
                   fullWidth
                 />
-              </EuiFormRow>
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiFormRow label="" style={{ marginTop: 21 }} fullWidth>
-                <EuiFieldNumber fullWidth />
-              </EuiFormRow>
+                {/* </EuiFlexItem>
+                <EuiFlexItem> */}
+                <EuiFieldNumber
+                  name="periode"
+                  value={periode}
+                  onChange={setPeriode}
+                  style={{width: '95%', position: 'absolute', right: 0}}
+                  fullWidth
+                />
+
+                {/* </EuiFlexItem> */}
+              </EuiFlexGroup>
+            
             </EuiFlexItem>
           </EuiFlexGroup>
         )}
