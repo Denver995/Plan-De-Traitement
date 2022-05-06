@@ -66,10 +66,10 @@ const MainScreen = () => {
 
   if (isModalVisible && !alert.showAlert) {
     modal = (
-      <EuiModal onClose={closeModal} className={`${classContainer} espacement_inter_examen_EuiModalBody`} maxWidth='100%'>
+      <EuiModal style={{padding: 0}} onClose={closeModal} className={`${classContainer} espacement_inter_examen_EuiModalBody`} maxWidth='100%'>
         <EuiModalHeader>
         </EuiModalHeader>
-        <EuiModalBody>
+        <EuiModalBody style={{padding: 0}}>
           {content}
         </EuiModalBody>
         <EuiSpacer size="m" />         
