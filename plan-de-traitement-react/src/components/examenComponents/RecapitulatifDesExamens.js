@@ -11,6 +11,7 @@ import { getStepByKey } from "../../utils/helper";
 import RecapExamGroup from "./recapExamGroup/RecapExamGroup";
 import SummaryGroupedExam from "./recapExamGroup/SummaryGroupedExam";
 import { getHSPBrightness } from '../../utils/helper';
+import TimeLineHelper from "../common/TimeLineHelper";
 
 const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
   const dispatch = useDispatch();
@@ -63,6 +64,8 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
               lineColor={"rgba(19, 83, 117, 0.479)"}
             >
               {exams.map((exam, index) => (
+                <div>
+                <TimeLineHelper index={index} />
                 <ExamCard
                   key={index}
                   examen={"Examen1"}
@@ -70,6 +73,7 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
                   date="12 mars"
                   position={index % 2 === 0? "left": "right"}
                 />
+                </div>
               ))}
               {/* <ExamCard
                 examen={"Examen2"}
