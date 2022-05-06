@@ -59,7 +59,10 @@ body {
 /*.euiModal__flex .euiModalBody .euiModalBody__overflow {
   /* overflow-y: hidden; 
 }*/
-
+.euiModal__flex .euiModalBody .euiModalBody__overflow {
+  padding-left: 0;
+  padding-right: 0;
+}
 .euiModal .euiModal__flex {
   max-height: 90vh !important;
 }
