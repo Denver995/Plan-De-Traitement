@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   EuiFlexGroup,
   EuiFlexItem,
@@ -17,9 +17,12 @@ import styles from "./styles";
 import { STEP2, STEP3 } from '../../../utils/constants';
 import { getStepByKey, createStep } from '../../../utils/helper';
 import colors from '../../../utils/colors';
+import EspacementInterExamenForm from "../../EspacementInterExamenForm";
+import ModalWrapper from "../../common/ModalWrapper";
 
 const ExamsList = ({ exams, onAdd, steps }) => {
   const dispatch = useDispatch();
+  const [showInterExam, setShowInterExam] = useState(false);
 
   const previousStep = getStepByKey(steps, STEP2);
   const onClickNext = () => {
@@ -33,6 +36,9 @@ const ExamsList = ({ exams, onAdd, steps }) => {
   const colorsArr = ['primaryLight', 'danger', 'success', 'warning'];
 
   return (
+    <>
+    {showInterExam ? <EspacementInterExamenForm onClose={data => setShowInterExam(!data)}/> : (
+      <ModalWrapper style={styles.modal}>
     <div style={{marginBottom: 10}}>
       <EuiFlexGroup>
         <EuiFlexItem style={styles.titleWrapper}>
@@ -53,7 +59,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
           exams.map((item, index) => (
             <div key={index}>
               <ExamenItem color={colors[colorsArr[index]]} data={fakeData} />
-              {index !== exams.length - 1 && <span className='delai-inter-group'>Délai entre "l'examen 1" et "l'examen 2" : 1 heure - 2heures</span>}
+              {index !== exams.length - 1 && <span onClick={() => setShowInterExam(true)} className='delai-inter-group'>Délai entre "l'examen 1" et "l'examen 2" : 1 heure - 2heures</span>}
             </div>
           ))}
       </div>
@@ -79,6 +85,9 @@ const ExamsList = ({ exams, onAdd, steps }) => {
           </div>
         </div>
     </div>
+    </ModalWrapper>
+    )}
+    </>
   )
 };
 
