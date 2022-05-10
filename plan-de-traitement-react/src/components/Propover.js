@@ -6,7 +6,6 @@ import {
   } from '@elastic/eui';
   import React, { useState } from 'react';
   import { useDispatch } from 'react-redux';
-//   import { editExam } from '../actions';
 
   import { editExam } from '../redux/examens/actions';
 
