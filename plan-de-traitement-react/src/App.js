@@ -5,7 +5,7 @@ import styles from './eui_theme_light.css';
 import { createStep } from './utils/helper';
 import { STEP1 } from './utils/constants';
 import { useDispatch } from 'react-redux';
-import { addStep } from './actions/index';
+import { addStep } from './redux/steps/actions';
 import MainScreen from './components/MainScreen';
 
 function App() {

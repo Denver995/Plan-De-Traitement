@@ -1,4 +1,7 @@
 const styles = {
+  modal: {
+    width: '70rem',
+  },
   btnContainer: {
     display: 'flex',
     justifyContent: 'flex-end'

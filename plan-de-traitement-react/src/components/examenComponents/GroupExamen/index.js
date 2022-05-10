@@ -6,27 +6,24 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ExamenItem from "../ExamenItem";
 import ExamenForm from "../ExamenForm";
-import {
-  setShowExamForm,
-  startLoading,
-  desactivateStep,
-  addStep,
-} from "../../../actions";
+
 import { STEP3, STEP2 } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import { EuiFlexGroup, EuiButton, EuiButtonEmpty } from "@elastic/eui";
-import { deleteStep } from "../../../redux/steps/actions";
+import { deleteStep, desactivateStep, addStep } from "../../../redux/steps/actions";
 import {
   createExamGroup,
   addExamGrouped,
   getSelectedExamGroup,
   setActiveGroup,
+  setShowExamForm
 } from "../../../redux/examens/actions";
-// import { setShowExamForm } from '../../redux/commons/actions';
+import {startLoading } from '../../../redux/commons/actions';
 
 import { fakeData } from "../../../utils/defaultData";
 import styles from "./styles";
 import colors from "../../../utils/colors";
+import ModalWrapper from "../../common/ModalWrapper";
 
 const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const dispatch = useDispatch();
@@ -70,7 +67,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   useEffect(() => {
     let newToggleGrp = [];
     examsGrouped.map((item, i) => {
-      newToggleGrp[i] = false;
+      newToggleGrp[i] = true;
       return newToggleGrp;
     });
     setToggledGroup(newToggleGrp);
@@ -86,14 +83,14 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   //   const steps = useSelector((state) => state.StepReducer.steps);
   //   const showForm = useSelector((state) => state.CommonReducer.examen.show);
 
-  const colorsArr = ['primaryLight', 'danger', 'success', 'warning'];
+  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   return (
-    <>
+    <div style={styles.container} className="contain">
+      <p className="labelgroupExams">Modéle</p>
+      <p className="labelSubtitle">xxxxxxXXXXXXXXXXXXXXxxxxxxxxxxxxxx</p>
       {examsGrouped.map((group, index) => (
-        <div key={index} style={styles.container} className="contain">
-          <p className="labelgroupExams">Modéle</p>
-          <p className="labelSubtitle">xxxxxxXXXXXXXXXXXXXXxxxxxxxxxxxxxx</p>
+        <div key={index}>
           <div className="groups-content">
             <div className="group-exam-item">
               <div className="bloc-1">
@@ -146,7 +143,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
           <p className="separateur"> Choisir l'intervalle entre les groupes</p>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
@@ -170,7 +167,7 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   }, [examsGrouped]);
 
   return (
-    <>
+    <ModalWrapper style={styles.modal}>
       {showForm ? (
         <ExamenForm
           isModelGroup={isModelGroup}
@@ -204,7 +201,7 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
           </EuiFlexGroup>
         </>
       )}
-    </>
+    </ModalWrapper>
   );
 };
 

@@ -1,3 +1,4 @@
+import React, { useState, useEffect} from 'react';
 import {
   EuiFlexGroup,
   EuiFlexItem,
@@ -14,17 +15,17 @@ import {
   EuiToolTip,
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
-import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addStep, updateStep, desactivateStep } from "../redux/steps/actions";
-import { startLoading } from "../redux/commons/actions";
+import { addStep, updateStep, desactivateStep } from "../../redux/steps/actions";
+import { startLoading } from "../../redux/commons/actions";
+import { getStepByKey, createStep } from "../../utils/helper";
+import { STEP1, STEP2 } from "../../utils/constants";
+import Button from "../Buttons/ButtonLight";
+import ModalWrapper from '../common/ModalWrapper';
 
-import { getStepByKey, createStep } from "../utils/helper";
-import { STEP1, STEP2 } from "../utils/constants";
+import styles from './styles';
 
-import { ReactComponent as InfoIcon } from "../assets/svgs/Soustraction-1.svg";
-
-const ModelForm = ({ closeModal }) => {
+const ModalForm = ({ closeModal }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -89,7 +90,7 @@ const ModelForm = ({ closeModal }) => {
   ]);
 
   return (
-    <div>
+    <ModalWrapper style={styles.modal}>
       <EuiForm id={modalFormId} style={{ marginLeft: 20, marginRight: 20 }}>
         <EuiSpacer size="m" />
         <EuiFormRow label="nom du model" fullWidth>
@@ -149,8 +150,9 @@ const ModelForm = ({ closeModal }) => {
                 <EuiFieldNumber
                   name={nombreOccurence}
                   value={nombreOccurence}
-                  onChange={setNombreOccurence}
+                  onChange={e => setNombreOccurence(e.target.value)}
                   fullWidth
+                  min={1}
                 />
               </EuiFormRow>
             </EuiFlexItem>
@@ -213,8 +215,8 @@ const ModelForm = ({ closeModal }) => {
           </EuiButton>
         </EuiFlexGroup>
       </EuiForm>
-    </div>
+    </ModalWrapper>
   );
-};
+}
 
-export default ModelForm;
+export default ModalForm;

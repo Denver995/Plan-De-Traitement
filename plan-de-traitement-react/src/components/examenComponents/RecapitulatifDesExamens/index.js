@@ -2,16 +2,20 @@ import React from "react";
 import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup } from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { connect } from 'react-redux';
-import ExamCard from "./ExamCard";
+import ExamCard from "../ExamCard";
 
-import { setAlert, deleteStep } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { STEP3 } from "../../utils/constants";
-import { getStepByKey } from "../../utils/helper";
-import RecapExamGroup from "./recapExamGroup/RecapExamGroup";
-import SummaryGroupedExam from "./recapExamGroup/SummaryGroupedExam";
-import { getHSPBrightness } from '../../utils/helper';
-import TimeLineHelper from "../common/TimeLineHelper";
+import { STEP3 } from "../../../utils/constants";
+import { getStepByKey } from "../../../utils/helper";
+import RecapExamGroup from "../recapExamGroup/RecapExamGroup";
+import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
+import { deleteStep } from "../../../redux/steps/actions";
+import { setAlert } from "../../../redux/commons/actions";
+import { getHSPBrightness } from '../../../utils/helper';
+import TimeLineHelper from "../../common/TimeLineHelper";
+import colors from "../../../utils/colors";
+import ModalWrapper from "../../common/ModalWrapper";
+import styles from "./styles";
 
 const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
   const dispatch = useDispatch();
@@ -27,6 +31,10 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
         showAlert: true,
         showInputForm: true,
         showButtonBlock: true,
+        buttonText: {
+          confirmText: 'Confirm',
+          cancelText: 'Annuler'
+        },
         onAccept: () => {
           dispatch(setAlert(false));
         },
@@ -35,8 +43,10 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
   const onBack = () => dispatch(deleteStep(previousStep));
   console.log('isModelGroup: ', isModelGroup);
 
+  const colorsArr = ['primaryLight', 'danger', 'success', 'warning'];
+
   return (
-    <>
+    <ModalWrapper style={styles.modal}>
      {isModelGroup ? (
     <SummaryGroupedExam />
       ) : (
@@ -64,35 +74,16 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
               lineColor={"rgba(19, 83, 117, 0.479)"}
             >
               {exams.map((exam, index) => (
-                <div>
+                <div key={index}>
                 <TimeLineHelper index={index} />
                 <ExamCard
-                  key={index}
                   examen={"Examen1"}
-                  couleur={index % 2 === 0 ? "pink": "#5D9AD4"}
+                  color={colors[colorsArr[index]]}
                   date="12 mars"
                   position={index % 2 === 0? "left": "right"}
                 />
                 </div>
               ))}
-              {/* <ExamCard
-                examen={"Examen2"}
-                couleur="#5D9AD4"
-                date="12 mars"
-                position={"rigth"}
-              />
-              <ExamCard
-                examen={"Examen3"}
-                couleur="pink"
-                date="12 mars"
-                position={"left"}
-              />
-              <ExamCard
-                examen={"Examen2"}
-                couleur="#5D9AD4"
-                date="12 mars"
-                position={"rigth"}
-              /> */}
             </VerticalTimeline>
           </div>
 
@@ -129,7 +120,7 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
           </style>
         </div>
       )}
-    </>
+    </ModalWrapper>
   );
 };
 

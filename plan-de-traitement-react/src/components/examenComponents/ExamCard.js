@@ -3,15 +3,18 @@ import {EuiIcon} from '@elastic/eui';
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 // import "../../Recapitulatif.css";
 import Propover from "../Propover";
+import { getHSPBrightness } from '../../utils/helper';
+import colors from '../../utils/colors';
 
-function ExamCard(props) {
+function ExamCard({color, date, position}) {
+    console.log('coleur: ', getHSPBrightness(color));
     return (
         // <div>
             // <div className="exam-title">{props.examen}</div>
             <VerticalTimelineElement
-                contentStyle={{ background: props.couleur, height: 90, marginTop: -40 }}
-                date={props.date}
-                position={props.position}
+                contentStyle={{ background: color ? color: colors.primary, height: 90, marginTop: -40 }}
+                date={date}
+                position={position}
                 iconStyle={{
                 background: "rgb(19, 83, 117)",
                 color: "#fff",
@@ -23,7 +26,7 @@ function ExamCard(props) {
                         {/* <EuiIcon type="boxesVertical" id="iconList" /> */}
                         {/* <span class="icon-ellipsis-v iconList"></span> */}
                         <Propover />
-                        <h4 className="spec">
+                        <h4 className="spec" style={{}}>
                         <strong>*Spécilalité* - *Motif*</strong>
                         </h4>
                     </div>

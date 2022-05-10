@@ -41,7 +41,7 @@ export const formatModeleData = (modeleData) => {
 
 /**
  * Convert hexadecimal color to RGB integers
- * @param {String} hexColor Color to hexadecimal format
+ * @param {String} Color to hexadecimal format
  * @returns {Object} RGB color with int values
  */
 export function hexColorToInt(hexColor) {
@@ -55,7 +55,7 @@ export function hexColorToInt(hexColor) {
  * Using HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
  * Higher is the HSP value, lighter is the color
  * (above HSP 127.5, color is considered as light)
- * @param {String} hexColor Color to hexadecimal format
+ * @param {String}  Color to hexadecimal format
  * @returns {Number} Color brightness
  */
 export function getHSPBrightness(hexColor) {

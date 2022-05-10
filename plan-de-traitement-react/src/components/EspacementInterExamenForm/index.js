@@ -1,4 +1,4 @@
-import { useEuiTheme, EuiFieldNumber, EuiComboBox } from '@elastic/eui';
+import { useEuiTheme, EuiFieldNumber, EuiComboBox, EuiFlexItem } from '@elastic/eui';
 import {
   EuiButton,
   EuiForm,
@@ -7,11 +7,13 @@ import {
   useGeneratedHtmlId,
 } from '@elastic/eui';
 // import '../EspacementInterExamenForm.css';
-import { setAlert } from '../actions';
 import { useDispatch } from 'react-redux';
-import { addExamOnAllGroups } from '../redux/examens/actions';
+import { addExamOnAllGroups } from '../../redux/examens/actions';
+import { setAlert } from '../../redux/commons/actions'
+import ModalWrapper from '../common/ModalWrapper';
+import styles from './styles';
 
-  const EspacementInterExamenForm = ({closeModal}) => {
+  const EspacementInterExamenForm = ({closeModal, onClose}) => {
 	const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
   const modalFormId = useGeneratedHtmlId({ prefix: 'modalForm' });
@@ -30,25 +32,32 @@ import { addExamOnAllGroups } from '../redux/examens/actions';
         onReject:()=>{dispatch(dispatch(setAlert(false)))}
       })
       );
-      dispatch(addExamOnAllGroups());
+      // dispatch(addExamOnAllGroups());
     return;
   };
 
   const goBack = () => {
     dispatch(setAlert({showAlert:false,message:""}));
+    onClose(true);
     return;
   }
 
   return ( 
-     <EuiForm id={modalFormId} component="form">
-		    <p className='label_exams'><span> </span> Espacement entre l'examen 00 et l'examen 00</p>
-        <p className='inter'>Espacement inter examens*:</p>
+    <ModalWrapper>
+     <EuiForm style={styles.container} id={modalFormId} component="form">
+		    <p className='label_exams' style={styles.title}><span></span>Espacement entre l'examen 00 et l'examen 00</p>
+        <p className='inter' style={styles.secondTitle}>Espacement inter examens*:</p>
         <div className='position'>
         <EuiFlexGroup className='container'>
-           <EuiFormRow label="Minimum" className="espacement_inter_examen_EuiModalBody_form_group espacement_inter_examen_EuiModalBody_form_group_left_element ajust">
-             <EuiFieldNumber placeholder="" />			
-           </EuiFormRow>
-            <EuiFormRow label=" " className="espacement_inter_examen_EuiModalBody_form_group">
+          <EuiFlexItem>
+             <div>
+              <span style={styles.label}>Minimum</span>
+              <EuiFieldNumber placeholder="" />
+             </div>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <div>
+              <span style={styles.hidden}>text</span>
               <EuiComboBox 
                 aria-label="Accessible screen reader label"
                 placeholder=" "
@@ -61,21 +70,25 @@ import { addExamOnAllGroups } from '../redux/examens/actions';
                   },
                   {
                     label: 'Heure',
-                  },	
+                  },
                   {
                     label: 'Semaine',
-                  },			  
+                  },
                  ]}
                  isClearable={true}
-              />	
-			     </EuiFormRow>
-        </EuiFlexGroup>
-           <EuiFlexGroup className='second'>
-           <EuiFormRow label="Maximum" className="espacement_inter_examen_EuiModalBody_form_group espacement_inter_examen_EuiModalBody_form_group_left_element ajust">
-             <EuiFieldNumber placeholder="" />			
-           </EuiFormRow>
-            <EuiFormRow label=" " className="espacement_inter_examen_EuiModalBody_form_group">
-              <EuiComboBox 
+              />
+            </div>
+          </EuiFlexItem>
+          <EuiFlexItem>
+             <div>
+               <span style={styles.label}>Maximum</span>
+               <EuiFieldNumber placeholder="" />
+             </div>
+          </EuiFlexItem>
+          <EuiFlexItem>
+              <div>
+                <span style={styles.hidden}>text</span>
+                <EuiComboBox
                 aria-label="Accessible screen reader label"
                 placeholder=" "
                 options={[
@@ -87,16 +100,17 @@ import { addExamOnAllGroups } from '../redux/examens/actions';
                   },
                   {
                     label: 'Heure',
-                  },	
+                  },
                   {
                     label: 'Semaine',
-                  },			  
+                  },
                  ]}
                  isClearable={true}
-              />	
-			     </EuiFormRow>
+              />
+              </div>
+          </EuiFlexItem>
         </EuiFlexGroup>
-        </div>	
+        </div>
 		    <div className="espacement_inter_examen_EuiModalFooter_spacer"></div>
         <EuiFlexGroup className="btn_group espacement_inter_examen_EuiModalFooter">
           <EuiButton onClick={goBack} className="button_cancel espacement_inter_examen_EuiModalFooter_left_button">
@@ -105,9 +119,9 @@ import { addExamOnAllGroups } from '../redux/examens/actions';
           <EuiButton type="submit" form={modalFormId} onClick={submit} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
               Valider
           </EuiButton>
-        </EuiFlexGroup>	
-        		
-     </EuiForm>	
+        </EuiFlexGroup>
+     </EuiForm>
+     </ModalWrapper>
   );
 }
 
