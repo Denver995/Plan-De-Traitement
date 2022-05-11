@@ -18,6 +18,7 @@ import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { useDispatch, useSelector } from "react-redux";
 import { addStep, updateStep, desactivateStep } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
+import { createGroups, numOfGroupsChange } from '../../redux/examens/actions';
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
 import Button from "../Buttons/ButtonLight";
@@ -78,6 +79,7 @@ const ModalForm = ({ closeModal }) => {
       dispatch(updateStep(step));
       setIsFirstLoad(false);
     }
+    dispatch(numOfGroupsChange(nombreOccurence));
   }, [
     dispatch,
     isFirstLoad,
@@ -150,7 +152,10 @@ const ModalForm = ({ closeModal }) => {
                 <EuiFieldNumber
                   name={nombreOccurence}
                   value={nombreOccurence}
-                  onChange={e => setNombreOccurence(e.target.value)}
+                  onChange={e => {
+                    setNombreOccurence(e.target.value);
+                    dispatch(numOfGroupsChange(e.target.value));
+                  }}
                   fullWidth
                   min={1}
                 />
@@ -206,7 +211,10 @@ const ModalForm = ({ closeModal }) => {
           </EuiButtonEmpty>
           <EuiButton
             form={modalFormId}
-            onClick={onClickNext}
+            onClick={() => {
+              onClickNext();
+              dispatch(createGroups());
+            }}
             disabled={nomModele.length < 3}
             fill={true}
             className="button_next"

@@ -43,3 +43,12 @@ export const setActiveGroup = (payload) => ({
   type: types.SET_ACTIVE_GROUP,
   payload,
 });
+
+export const numOfGroupsChange = (number) => ({
+  type: types.NUMBER_OF_GROUPS_CHANGE,
+  number,
+})
+
+export const createGroups = () => ({
+  type: types.CREATE_GROUPS
+})
