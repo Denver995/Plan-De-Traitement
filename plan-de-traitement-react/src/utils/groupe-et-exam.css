@@ -170,10 +170,10 @@ margin-bottom: 0.5%;
   border-radius: 5px;
 
 }
-.euiModalBody:last-of-type .euiModalBody__overflow {
+/* .euiModalBody:last-of-type .euiModalBody__overflow {
   padding-bottom: 24px;
   margin-right: -80px;
-}
+} */
 
 
 .labelgroupExams{
