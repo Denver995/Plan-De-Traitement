@@ -30,7 +30,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
 
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
-  const [examsList, setExamsList] = useState(getItems(3));
+  const [examsList, setExamsList] = useState(exams);
 
   const previousStep = getStepByKey(steps, STEP2);
   const onClickNext = () => {
@@ -72,9 +72,6 @@ const ExamsList = ({ exams, onAdd, steps }) => {
       result.destination.index
     );
 
-    // this.setState({
-    //   items
-    // });
     setExamsList(items);
   }
 
@@ -101,7 +98,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                         </EuiFlexItem>
                     } */}
             </EuiFlexGroup>
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
               <Droppable droppableId="droppable">
                 {(provided) => (
                   <div
@@ -119,20 +116,22 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                               ref={provided.innerRef}
                             >
                               <ExamenItem
-                                color={colors[colorsArr[index]]}
+                                // color={colors[colorsArr[index]]}
+                                exam={item}
                                 data={fakeData}
                                 index={index}
+                                id_modele={item.id_modele}
                               />
-                              {index !== exams.length - 1 && (
-                                <span
-                                  onClick={() => setShowInterExam(true)}
-                                  className="delai-inter-group"
-                                >
-                                  Délai entre "l'examen 1" et "l'examen 2" : 1
-                                  heure - 2heures
-                                </span>
-                              )}
-                            </div>
+                               {index !== exams.length - 1 && (
+                                 <span
+                                   onClick={() => setShowInterExam(true)}
+                                   className="delai-inter-group"
+                                 >
+                                   Délai entre "l'examen 1" et "l'examen 2" : 1
+                                   heure - 2heures
+                                 </span>
+                               )}
+                             </div>
                           )}
                         </Draggable>
                       ))}
