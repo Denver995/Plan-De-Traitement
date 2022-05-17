@@ -3,10 +3,10 @@ import Propover from "../../Propover";
 
 import styles from "./styles";
 
-const ExamenItem = ({ data, showEditForm, color }) => {
+const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
   console.log("COlor: ", color);
   return (
-    <div style={{ ...styles.lineWrapper, backgroundColor: color }}>
+    <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
         {/* <img src={elipse} alt='' height={15} width={15} /> */}
         {/* <span onClick={togglePropover} class="icon-ellipsis-v"></span> */}
@@ -19,7 +19,7 @@ const ExamenItem = ({ data, showEditForm, color }) => {
             className="icon-Trac-39 cardio-img"
             style={styles.tracIcon}
           ></span>
-          <span>Examen 1</span>
+          <span>Examen {id_modele}</span>
         </div>
       </div>
       <div>
