@@ -23,6 +23,7 @@ import {
 } from "../../../redux/steps/actions";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import { STEP2, STEP3 } from "../../../utils/constants";
+import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
 import {
   fakeData,
   listLieu,
@@ -268,13 +269,14 @@ const ExamenForm = ({
         />
       ) : (
         <ModalWrapper style={styles.modal}>
+          <EuiSpacer size="l" />
           <div style={{ marginLeft: 40, marginRight: 40 }} className="examForm">
             <div>
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <p>Modèle:</p>
+                  <p style={styles.text}>Modèle:</p>
                   <EuiSpacer size="s" />
-                  <p>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
+                  <p style={styles.input}>Protocol d'IVT</p>
                 </EuiFlexItem>
                 {isModelGroup && (
                   <EuiFlexItem>
@@ -303,7 +305,7 @@ const ExamenForm = ({
                   ))}
               </div>
             )}
-            <EuiFlexGroup>
+            <EuiFlexGroup alignItems="center">
               <EuiFlexItem>Examen 1</EuiFlexItem>
             </EuiFlexGroup>
             <EuiForm>
@@ -368,11 +370,8 @@ const ExamenForm = ({
                   </EuiButton>
                 </EuiFlexGroup>
               ) : (
-                <EuiFlexGroup className="btn_group">
-                  <EuiButtonEmpty
-                    onClick={onCancel}
-                    className="button_cancel_small"
-                  >
+                <EuiFlexGroup style={styles.buttonContainer}>
+                  <EuiButtonEmpty onClick={onCancel} style={styles.cancelBtn}>
                     Annuler
                   </EuiButtonEmpty>
                   <EuiButton
@@ -381,7 +380,7 @@ const ExamenForm = ({
                       dispatch(getSelectedExamGroup(activeGroup));
                       console.log("ajouter");
                     }}
-                    className="button_add"
+                    style={styles.addBtn}
                   >
                     Ajouter
                   </EuiButton>

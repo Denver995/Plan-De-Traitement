@@ -7,6 +7,7 @@ const colors = {
   secondary: '#c2c3c6',
   secondary2: '#88888b',
   white: '#fff',
+  blueLight: "#464646",
 };
 
 export default colors;
