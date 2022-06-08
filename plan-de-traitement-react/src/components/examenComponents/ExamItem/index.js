@@ -19,11 +19,11 @@ const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
             className="icon-Trac-39 cardio-img"
             style={styles.tracIcon}
           ></span>
-          <span>Examen {id_modele}</span>
+          <span style={styles.examen}>Examen {id_modele}</span>
         </div>
       </div>
       <div>
-        <span>"Spécialité"-"motif"</span>
+        <span style={styles.special}>"Spécialité"-"motif"</span>
         <span className="separate">|</span>
         <span className="praticien-info">"Praticien"-"Lieu"</span>
       </div>
