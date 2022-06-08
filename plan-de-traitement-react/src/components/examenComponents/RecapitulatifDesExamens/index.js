@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup } from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import ExamCard from "../ExamCard";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -11,46 +11,67 @@ import RecapExamGroup from "../recapExamGroup/RecapExamGroup";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
 import { deleteStep } from "../../../redux/steps/actions";
 import { setAlert } from "../../../redux/commons/actions";
-import { getHSPBrightness } from '../../../utils/helper';
+import { getHSPBrightness } from "../../../utils/helper";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
 import styles from "./styles";
+import Alert from "../../Alert";
 
-const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
+const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
   const dispatch = useDispatch();
+  const [showAlert, setShowAlert] = useState(false);
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
+  const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const alertMessage =
-    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
-  const onSave = () =>
-    dispatch(
-      setAlert({
-        title: "Enregistrer le modèle",
-        message: alertMessage,
-        showAlert: true,
-        showInputForm: true,
-        showButtonBlock: true,
-        buttonText: {
-          confirmText: 'Confirm',
-          cancelText: 'Annuler'
-        },
-        onAccept: () => {
-          dispatch(setAlert(false));
-        },
-      })
-    );
-  const onBack = () => dispatch(deleteStep(previousStep));
-  console.log('isModelGroup: ', isModelGroup);
+    `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom : <br/><p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p></EuiText>
+    `;
+  // const onSave = () =>
+  //   dispatch(
+  //     setAlert({
+  //       title: "Enregistrer le modèle",
+  //       message: alertMessage,
+  //       showAlert: true,
+  //       // showInputForm: true,
+  //       showButtonBlock: true,
+  //       buttonText: button,
+  //       onAccept: () => {
+  //         dispatch(setAlert(false));
+  //       },
+  //       onReject: () => {
+  //         console.log('ON REJECT');
+  //       }
+  //     })
+  //   );
 
-  const colorsArr = ['primaryLight', 'danger', 'success', 'warning'];
+  const onSave = () => {
+    setAlert({
+      title: "Enregistrer le modèle",
+      message: alertMessage,
+      buttonText: button,
+    });
+    setShowAlert(true);
+  };
+  const onBack = () => dispatch(deleteStep(previousStep));
+  console.log("isModelGroup: ", isModelGroup);
+
+  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   return (
     <ModalWrapper style={styles.modal}>
-     {isModelGroup ? (
-    <SummaryGroupedExam />
+      {isModelGroup ? (
+        <SummaryGroupedExam />
+      ) : showAlert ? (
+        <Alert
+          showButtonBlock={true}
+          buttonText={button}
+          message={alertMessage}
+          onAccept={() => setShowAlert(false)}
+          onReject={() => setShowAlert(false)}
+        />
       ) : (
-         <div style={{ marginLeft: 20, marginRight: 20 }}>
+        <div style={{ marginLeft: 20, marginRight: 20 }}>
           <p className="division">
             <EuiIcon
               type="calendar"
@@ -75,13 +96,13 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
             >
               {exams.map((exam, index) => (
                 <div key={index}>
-                <TimeLineHelper index={index} />
-                <ExamCard
-                  examen={"Examen1"}
-                  color={colors[colorsArr[index]]}
-                  date="12 mars"
-                  position={index % 2 === 0? "left": "right"}
-                />
+                  <TimeLineHelper index={index} />
+                  <ExamCard
+                    examen={"Examen1"}
+                    color={colors[colorsArr[index]]}
+                    date="12 mars"
+                    position={index % 2 === 0 ? "left" : "right"}
+                  />
                 </div>
               ))}
             </VerticalTimeline>
@@ -125,7 +146,7 @@ const RecapitulatifDesExamens = ({closeModal, isModelGroup, exams}) => {
 };
 
 const mapStateToProps = ({ ExamenReducer }) => ({
-  exams: ExamenReducer.exams
-})
+  exams: ExamenReducer.exams,
+});
 
 export default connect(mapStateToProps)(RecapitulatifDesExamens);

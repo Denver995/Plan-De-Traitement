@@ -30,7 +30,8 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const alertMessage =
-    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
+    `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
+    <p>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () =>
     dispatch(
       setAlert({
