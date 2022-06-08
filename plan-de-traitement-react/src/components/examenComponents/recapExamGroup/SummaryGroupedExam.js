@@ -29,9 +29,8 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
   const previousStep = getStepByKey(steps, STEP3);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
-  const alertMessage =
-    `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
-    <p>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
+  const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
+    <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () =>
     dispatch(
       setAlert({
@@ -48,30 +47,53 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
   console.log("examGrouped: ", examsGrouped);
 
   return (
-    <div style={{ marginLeft: 20, marginRight: 20 }}>
-      <p className="division">
-        <EuiIcon
-          type="calendar"
-          id="iconList "
-          size="l"
-          color="rgb(36%, 60%, 83%)"
-        />
-        <strong>Recapitulatif des rendez-vous</strong>
-      </p>
-
-      <div className="modele">
-        <p>
-          <strong>Modèle N° : </strong>
+    <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
+      <div
+        style={{
+          position: "fixed",
+          width: "100%",
+          backgroundColor: colors.white,
+          zIndex: 3,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 27,
+            marginBottom: 17,
+          }}
+        >
           <EuiIcon
-            type="pencil"
-            id="icon"
+            type="calendar"
+            id="iconList "
             size="l"
             color="rgb(36%, 60%, 83%)"
+            style={{ marginLeft: 20, marginRight: 5 }}
           />
+          <strong>Recapitulatif des rendez-vous</strong>
+          <br />
+        </div>
+        <div
+          style={{ height: 1, width: "80%", backgroundColor: colors.primary }}
+        ></div>
+
+        <div style={{ marginLeft: 25, marginTop: 25 }} className="modele">
+          <p>
+            <strong>Modèle N° : </strong>
+            <EuiIcon
+              type="pencil"
+              id="icon"
+              size="l"
+              color="rgb(36%, 60%, 83%)"
+            />
+          </p>
+        </div>
+        <p style={{ marginLeft: 25 }} className="x-text">
+          xxxxxxxxxx Axxxxxxxxxxxx XXXXX
         </p>
       </div>
-      <p className="x-text">xxxxxxxxxx Axxxxxxxxxxxx XXXXX</p>
-      <div className="exam-card">
+      <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card">
         <VerticalTimeline
           className="container"
           lineColor={"rgba(19, 83, 117, 0.479)"}
@@ -92,18 +114,53 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
         </VerticalTimeline>
       </div>
 
-      <EuiFlexGroup className="btn_group">
-        <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
-          Retour
-        </EuiButtonEmpty>
-        <EuiButton
-          form={closeModal}
-          className="button_next_me xs"
-          onClick={onSave}
-        >
-          Enregistrer
-        </EuiButton>
-      </EuiFlexGroup>
+      <EuiFlexGroup style={{
+        backgroundColor: colors.white,
+        height: 110,
+    position: "absolute",
+    bottom: 0,
+    alignItems: "center",
+    width: "100%",
+    zIndex: 3,
+  }}>
+            <EuiButtonEmpty
+              style={{
+                fontSize: "27px",
+                color: colors.darkBlue,
+                border: "3px solid #052A3E",
+                borderRadius: "39px",
+                width: "187px",
+                height: "59px",
+                marginLeft: "30px",
+                textDecoration: "none",
+              }}
+              onClick={() => {
+                onBack();
+              }}
+            >
+              Retour
+            </EuiButtonEmpty>
+            <EuiButton
+              // form={closeModal}
+              style={{
+                position: "absolute",
+                right: 0,
+                fontSize: "27px",
+                color: colors.white,
+                border: "3px solid #052A3E",
+                backgroundColor: colors.darkBlue,
+                borderRadius: "39px",
+                width: "187px",
+                height: "59px",
+                marginRight: "45px",
+                textDecoration: "none",
+              }}
+              fill={true}
+              onClick={onSave}
+            >
+              Enregistrer
+            </EuiButton>
+          </EuiFlexGroup>
       <style jsx="true">
         {`
           euitext.text_alert {

@@ -24,12 +24,12 @@ import { fakeData } from "../../../utils/defaultData";
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
+import Propover from "../../Propover";
 
 const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   console.log("groupName: ", groupName);
-
   // const contextMenuPopoverId = useGeneratedHtmlId({
   //     prefix: 'contextMenuPopover',
   // });
@@ -67,7 +67,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   useEffect(() => {
     let newToggleGrp = [];
     examsGrouped.map((item, i) => {
-      newToggleGrp[i] = true;
+      newToggleGrp[i] = false;
       return newToggleGrp;
     });
     setToggledGroup(newToggleGrp);
@@ -87,18 +87,33 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
 
   return (
     <div style={styles.container} className="contain">
-      <p className="labelgroupExams">Modéle</p>
-      <p className="labelSubtitle">xxxxxxXXXXXXXXXXXXXXxxxxxxxxxxxxxx</p>
+      <div style={{marginLeft: 30, marginTop: 28, marginBottom: 20}}>
+        <p style={{
+          font: "normal normal bold 14px/19px Open Sans",
+          letterSpacing: 0,
+          color: colors.blackClaire
+        }}>Modéle</p>
+        <p style={{
+          font: "normal normal normal 20px/27px Open Sans",
+          letterSpacing: 0,
+          color: colors.primary
+        }}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
+      </div>
       {examsGrouped.map((group, index) => (
         <div key={index}>
           <div className="groups-content">
             <div className="group-exam-item">
-              <div className="bloc-1">
-                <p>{"Group " + (index + 1)}</p>
+              <div style={{display: 'flex', alignItems: 'center', marginLeft: 50}}>
+                <div style={{marginRight: 25}}><Propover /></div><div style={{color: colors.primarySombre, fontWeight: '600'}}>{"Group " + (index + 1)}</div>
               </div>
 
-              <div className="bloc-2">
-                <p>Periode de recherche : 00h</p>
+              <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginRight: 30
+              }}>
+                <p style={{fontSize: 17, color: colors.primarySombre}}>Periode de recherche : 00h</p>
                 {toggledGroup[index] ? (
                   <ArrowDropUpIcon
                     onClick={() => toggle(index)}
@@ -126,7 +141,11 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                       // onAddExamenNew(index);
                     }}
                   >
-                    + Ajouter un examen
+                    <span style={{
+                      fontWeight: 'bold',
+                      fontSize: 25,
+                      marginRight: 5
+                    }}>+</span><span style={{marginTop: 4}}>Ajouter un examen</span>
                   </button>
                 </div>
                 {Object.keys(group).map((exam, i) => (
@@ -140,7 +159,14 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
               </div>
             )}
           </div>
-          <p className="separateur"> Choisir l'intervalle entre les groupes</p>
+          {index !== examsGrouped.length - 1 && <div style={{marginLeft: 50}}>
+            <p style={{
+              textDecoration: "underline",
+              font: "normal normal normal 17px/23px Open Sans",
+              letterSpacing: 0,
+              color: colors.primary,
+            }}>Choisir l'intervalle inter groupe</p>
+          </div>}
         </div>
       ))}
     </div>

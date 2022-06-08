@@ -84,7 +84,12 @@
   display: flex;
 }
 .container {
-  margin-left: -20px;
+  top: 264px;
+left: 583px;
+width: 761px;
+height: 81px;
+/* UI Properties */
+opacity: 1;
 }
 .second {
   margin-left: 13px;

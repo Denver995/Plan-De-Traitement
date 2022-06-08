@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   EuiFlexGroup,
   EuiFlexItem,
@@ -16,9 +16,13 @@ import {
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { useDispatch, useSelector } from "react-redux";
-import { addStep, updateStep, desactivateStep } from "../../redux/steps/actions";
+import {
+  addStep,
+  updateStep,
+  desactivateStep,
+} from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
-import { createGroups, numOfGroupsChange } from '../../redux/examens/actions';
+import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
 import Button from "../Buttons/ButtonLight";
@@ -27,7 +31,7 @@ import { ReactComponent as InfoIcon } from '../../assets/svgs/Soustraction-1.svg
 import Radio from '../Radio';
 import colors from '../../utils/colors';
 
-import styles from './styles';
+import styles from "./styles";
 
 const ModalForm = ({ closeModal }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
@@ -142,7 +146,7 @@ const ModalForm = ({ closeModal }) => {
                 style={{color: colors.primary}}
                   name={nombreOccurence}
                   value={nombreOccurence}
-                  onChange={e => {
+                  onChange={(e) => {
                     setNombreOccurence(e.target.value);
                     dispatch(numOfGroupsChange(e.target.value));
                   }}
@@ -155,7 +159,7 @@ const ModalForm = ({ closeModal }) => {
         </EuiFlexGroup>
         <EuiSpacer size="m" />
         {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup style={{marginLeft: 0, marginRight: 0}} direction="column">
+          <EuiFlexGroup style={{marginLeft: 0, marginRight: 0, marginBottom: 33}} direction="column">
             <div style={styles.periodeRecherche}>
                 <div style={styles.groupeTitle}>Période de recherche d'un groupe :</div>
                 <span style={{marginTop: 2}}>
@@ -183,21 +187,21 @@ const ModalForm = ({ closeModal }) => {
                   name="periode"
                   value={periode}
                   onChange={setPeriode}
-                  style={{width: '95%', position: 'absolute', right: 0}}
+                  style={{ width: "95%", position: "absolute", right: 0 }}
                   fullWidth
                 />
 
                 {/* </EuiFlexItem> */}
               </EuiFlexGroup>
-            
             </EuiFlexItem>
           </EuiFlexGroup>
         )}
-        <EuiFlexGroup className="btn_group">
-          <EuiButtonEmpty onClick={closeModal} className="button_cancel">
+        <EuiFlexGroup style={styles.footer}>
+          <EuiButtonEmpty onClick={closeModal} style={styles.cancelButton}>
             Annuler
           </EuiButtonEmpty>
           <EuiButton
+            style={styles.addButton}
             form={modalFormId}
             onClick={() => {
               onClickNext();
@@ -205,14 +209,15 @@ const ModalForm = ({ closeModal }) => {
             }}
             disabled={nomModele.length < 3}
             fill={true}
-            className="button_next"
+            className=""
           >
             Suivant
           </EuiButton>
         </EuiFlexGroup>
       </EuiForm>
+      <EuiSpacer size="m"/>
     </ModalWrapper>
   );
-}
+};
 
 export default ModalForm;

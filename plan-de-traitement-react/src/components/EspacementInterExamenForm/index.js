@@ -1,4 +1,4 @@
-import { useEuiTheme, EuiFieldNumber, EuiComboBox, EuiFlexItem } from '@elastic/eui';
+import { useEuiTheme, EuiFieldNumber, EuiComboBox, EuiFlexItem , EuiSelect} from '@elastic/eui';
 import {
   EuiButton,
   EuiForm,
@@ -43,7 +43,7 @@ import styles from './styles';
   }
 
   return ( 
-    <ModalWrapper>
+    <ModalWrapper style={styles.modal}>
      <EuiForm style={styles.container} id={modalFormId} component="form">
 		    <p className='label_exams' style={styles.title}><span></span>Espacement entre l'examen 00 et l'examen 00</p>
         <p className='inter' style={styles.secondTitle}>Espacement inter examens*:</p>
@@ -52,71 +52,86 @@ import styles from './styles';
           <EuiFlexItem>
              <div>
               <span style={styles.label}>Minimum</span>
-              <EuiFieldNumber placeholder="" />
+              <EuiFieldNumber style={styles.number}
+               placeholder=""
+                />
              </div>
           </EuiFlexItem>
           <EuiFlexItem>
             <div>
-              <span style={styles.hidden}>text</span>
-              <EuiComboBox 
-                aria-label="Accessible screen reader label"
-                placeholder=" "
-                options={[
-                  {
-                    label: 'Jour',
-                  },
-                  {
-                    label: 'Minute',
-                  },
-                  {
-                    label: 'Heure',
-                  },
-                  {
-                    label: 'Semaine',
-                  },
-                 ]}
-                 isClearable={true}
-              />
+              <span style={styles.hidden}></span>
+              <EuiSelect
+                  options={[
+                    {
+                      value: 'Jour',
+                      text: 'Jour',
+                    },
+                    {
+                      value: 'Minute',
+                      text: 'Minute',
+                    },
+                    {
+                      value: 'Heure',
+                      text: 'Heure',
+                    },
+                    {
+                      value: 'Semaine',
+                      text: 'Semaine',
+                    },
+                  ]}
+                  isClearable={true}
+                />
+          
+                 
+             
             </div>
           </EuiFlexItem>
           <EuiFlexItem>
              <div>
                <span style={styles.label}>Maximum</span>
-               <EuiFieldNumber placeholder="" />
+               <EuiFieldNumber 
+               style={styles.number}
+               placeholder="" />
              </div>
           </EuiFlexItem>
           <EuiFlexItem>
               <div>
-                <span style={styles.hidden}>text</span>
-                <EuiComboBox
-                aria-label="Accessible screen reader label"
-                placeholder=" "
-                options={[
-                  {
-                    label: 'Jour',
-                  },
-                  {
-                    label: 'Minute',
-                  },
-                  {
-                    label: 'Heure',
-                  },
-                  {
-                    label: 'Semaine',
-                  },
-                 ]}
-                 isClearable={true}
-              />
+              <span style={styles.hidden}></span>
+              <EuiSelect
+                  options={[
+                    
+                    {
+                      value: 'Jour',
+                      text: 'Jour',
+                    },
+                    {
+                      value: 'Minute',
+                      text: 'Minute',
+                    },
+                    {
+                      value: 'Heure',
+                      text: 'Heure',
+                    },
+                    {
+                      value: 'Semaine',
+                      text: 'Semaine',
+                    },
+                  ]}
+                  isClearable={true}
+                />
+          
+                 
               </div>
           </EuiFlexItem>
         </EuiFlexGroup>
         </div>
 		    <div className="espacement_inter_examen_EuiModalFooter_spacer"></div>
         <EuiFlexGroup className="btn_group espacement_inter_examen_EuiModalFooter">
-          <EuiButton onClick={goBack} className="button_cancel espacement_inter_examen_EuiModalFooter_left_button">
-		        	Annuler
+          <EuiButton onClick={goBack}
+          style={styles.cancel}>
+		        	<p style={styles.annuler}>Annuler</p>
 			    </EuiButton>
-          <EuiButton type="submit" form={modalFormId} onClick={submit} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
+          <EuiButton type="submit" form={modalFormId} onClick={submit} style={styles.submit} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
               Valider
           </EuiButton>
         </EuiFlexGroup>

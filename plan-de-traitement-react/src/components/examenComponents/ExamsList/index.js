@@ -86,9 +86,9 @@ const ExamsList = ({ exams, onAdd, steps }) => {
           <div style={{ marginBottom: 10 }}>
             <EuiFlexGroup>
               <EuiFlexItem style={styles.titleWrapper}>
-                <p>Modèle:</p>
+                <p style = {styles.title}>Modèle:</p>
                 <EuiSpacer size="s" />
-                <p>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
+                <p style = {styles.subtitleWrapper}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
               </EuiFlexItem>
               {/* {isModelGroup &&
                         <EuiFlexItem>
@@ -127,8 +127,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                                    onClick={() => setShowInterExam(true)}
                                    className="delai-inter-group"
                                  >
-                                   Délai entre "l'examen 1" et "l'examen 2" : 1
-                                   heure - 2heures
+                                  Choisir l'intervale inter examen
                                  </span>
                                )}
                              </div>
@@ -141,33 +140,39 @@ const ExamsList = ({ exams, onAdd, steps }) => {
               </Droppable>
             </DragDropContext>
             <div style={styles.btnContainer}>
-              <div style={styles.leftDiv}></div>
-              <div style={styles.rightDiv}>
-                {exams.length > 2 && (
+            {exams.length > 2 && (
                   <EuiFlexGroup justifyContent="center">
                     <EuiFlexItem>
                       <EuiButton
                         onClick={onClickNext}
-                        style={{ color: "white" }}
-                        className="button_finished"
+                        style={{ color: "white",  
+                        textAlign: "left",
+                        letterSpacing: 0,
+                        font: "normal normal 600 27px/37px Open Sans",
+                        display: "block"
+                        }}
+                        className="button_finished_new"
                       >
                         Terminer
                       </EuiButton>
                     </EuiFlexItem>
                   </EuiFlexGroup>
                 )}
+              
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     onAdd("EXAMENFORM");
                   }}
+                 
                   style={styles.plusBtn}
                 >
                   <img style={styles.image} src={Plus} alt="this is a btn" />
                 </button>
+                
               </div>
             </div>
-          </div>
+    
         </ModalWrapper>
       )}
     </>

@@ -4,8 +4,7 @@
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,7 +56,7 @@ body {
 
 /***************************** CUSTOM BUTTON *****************/
 /*.euiModal__flex .euiModalBody .euiModalBody__overflow {
-  /* overflow-y: hidden; 
+  /* overflow-y: hidden;
 }*/
 .euiModal__flex .euiModalBody .euiModalBody__overflow {
   padding-left: 0;
@@ -116,7 +115,7 @@ body {
   opacity: 1;
   width: 187px;
   height: 59px;
-  margin-left: 15px;
+  margin-left: 72px;
   font: normal normal normal 27px/37px Open Sans;
 }
 
@@ -139,6 +138,19 @@ body {
   background-color: #134058 !important;
   border-radius: 32px;
 }
+.euiFlexItem  .button_finished_new{
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  font: normal normal normal 27px/37px Open Sans;
+  box-shadow: 3px 3px 6px #00000029 !important;
+  background-color: #134058 !important;
+  border-radius: 32px;
+  display: block;
+  margin-left: 83%;
+  margin-top: 50px;
+
+}
 
 .icon_container {
   margin-right: auto;
@@ -150,7 +162,7 @@ body {
 }
 
 .icon_ellipsis span{
-  /*margin-top: 7px;*/
+  margin-top: 27px;
   cursor: pointer;
 }
 
