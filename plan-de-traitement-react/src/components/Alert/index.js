@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EspacementInterExamenForm from "../EspacementInterExamenForm";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./style";
+import colors from "../../utils/colors";
 
 const Alert = ({ message, onAccept, onReject, buttonText, showInputForm, showButtonBlock }) => {
   const dispatch = useDispatch();
@@ -69,8 +70,8 @@ const Alert = ({ message, onAccept, onReject, buttonText, showInputForm, showBut
             <EuiButtonEmpty style={styles.abortBtn} onClick={goBack}>
               {alert?.buttonText?.cancelText ?? "Annuler"}
             </EuiButtonEmpty>
-            <EuiButton style={styles.saveBtn} onClick={submit} fill={true}>
-              {alert?.buttonText?.confirmText ?? "Enregistrer"}
+            <EuiButton style={{...styles.btn, backgroundColor: colors.primary, borderColor: colors.primary}} onClick={submit} fill={true} className="button_add">
+              {alert?.buttonText?.confirmText ?? "Confirmer"}
             </EuiButton>
           </EuiModalFooter>
         {/* )} */}

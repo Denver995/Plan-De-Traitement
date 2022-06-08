@@ -7,7 +7,7 @@ const styles = {
     color: colors.primary,
   },
 
-  body: { 
+  body: {
     margin: "30px",
     marginLeft: "50px",
   },
@@ -31,6 +31,10 @@ const styles = {
     height: "48px",
     marginRight: "46px",
   },
+  // body: { marginTop: 30, marginBottom: 30 },
+  // message: { textAlign: "center", fontSize: 22, fontWeight: "600" },
+  // footer: { justifyContent: "center", padding: 0, marginBottom: 30 },
+  btn: { fontSize: 20, fontFamily: 'Open Sans, Sans Serif' },
 };
 
 export default styles;
