@@ -8,6 +8,7 @@ import {
 } from "@elastic/eui";
 
 import colors from '../../../utils/colors';
+import styles from './styles';
 
 const ModalWrapper = ({
   children,
@@ -33,7 +34,7 @@ const ModalWrapper = ({
       <EuiModalHeader>
         {titleText && (
           <EuiModalHeaderTitle>
-            <h1>{titleText}</h1>
+            <h1 style={styles.headTitle}>{titleText}</h1>
           </EuiModalHeaderTitle>
         )}
       </EuiModalHeader>
