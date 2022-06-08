@@ -14,11 +14,11 @@ import ExamCard from "../ExamCard";
 import { useDispatch, useSelector } from "react-redux";
 import { STEP3 } from "../../../utils/constants";
 import { getStepByKey } from "../../../utils/helper";
-import RecapExamGroup from "../recapExamGroup/RecapExamGroup";
+// import RecapExamGroup from "../recapExamGroup/RecapExamGroup";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
 import { deleteStep } from "../../../redux/steps/actions";
 import { setAlert } from "../../../redux/commons/actions";
-import { getHSPBrightness } from "../../../utils/helper";
+// import { getHSPBrightness } from "../../../utils/helper";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -37,9 +37,9 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
     <EuiText className="text_alert">
       Ce modèle va être enregistré sous le nom : 
       <br/>
-      <div style="color: #5D9AD4; margin-top: 10px; display: flex; alignItems: center;">
+      <div style="color: #5D9AD4; margin-top: 10px; margin-bottom: 20px; display: flex; alignItems: center;">
         Xxxxxxxxxx xxxxxxxxxxx XXXX
-        <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px"><<Pencil size={"1rem"} />></div>
+        <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px"><Pencil size={"1rem"} /></div>
       </div>
     </EuiText>
   `;

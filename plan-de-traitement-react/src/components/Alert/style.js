@@ -11,7 +11,9 @@ const styles = {
     margin: "30px",
     marginLeft: "50px",
   },
+
   message: { fontSize: 22, fontWeight: "500" },
+  
   footer: { justifyContent: "center", padding: 0, marginBottom: 30 },
 
   saveBtn: {
@@ -20,6 +22,7 @@ const styles = {
     borderRadius: "30px",
     fontSize: "27px",
     color: colors.white,
+    textDecoration: "none",
   },
 
   abortBtn: {
@@ -30,6 +33,7 @@ const styles = {
     width: "210px",
     height: "48px",
     marginRight: "46px",
+    textDecoration: "none",
   },
   // body: { marginTop: 30, marginBottom: 30 },
   // message: { textAlign: "center", fontSize: 22, fontWeight: "600" },

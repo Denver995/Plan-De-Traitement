@@ -9,6 +9,7 @@ const colors = {
   secondary: '#c2c3c6',
   secondary2: '#88888b',
   white: '#fff',
+  light: '#FAFAFA',
   blueLight: "#464646",
   blackClaire: "#464646",
   borderColor: "#707070",
