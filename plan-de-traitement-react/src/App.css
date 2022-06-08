@@ -138,6 +138,19 @@ body {
   background-color: #134058 !important;
   border-radius: 32px;
 }
+.euiFlexItem  .button_finished_new{
+  opacity: 1;
+  width: 210px;
+  height: 48px;
+  font: normal normal normal 27px/37px Open Sans;
+  box-shadow: 3px 3px 6px #00000029 !important;
+  background-color: #134058 !important;
+  border-radius: 32px;
+  display: block;
+  margin-left: 83%;
+  margin-top: 50px;
+
+}
 
 .icon_container {
   margin-right: auto;
@@ -149,7 +162,7 @@ body {
 }
 
 .icon_ellipsis span{
-  /*margin-top: 7px;*/
+  margin-top: 27px;
   cursor: pointer;
 }
 
