@@ -87,29 +87,53 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
           onReject={() => setShowAlert(false)}
         />
       ) : (
-        <div style={styles.container}>
-          <EuiSpacer size="l" />
-          <EuiFlexGroup style={styles.titleContainer}>
+        <div style={{...styles.container, paddingBottom: 100}}>
+          <div
+        style={{
+          position: "fixed",
+          width: "100%",
+          backgroundColor: colors.white,
+          zIndex: 3,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 27,
+            marginBottom: 17,
+          }}
+        >
+          <EuiIcon
+            type="calendar"
+            id="iconList "
+            size="l"
+            color="rgb(36%, 60%, 83%)"
+            style={{ marginLeft: 20, marginRight: 5 }}
+          />
+          <strong>Recapitulatif des rendez-vous</strong>
+          <br />
+        </div>
+        <div
+          style={{ height: 1, width: "80%", backgroundColor: colors.primary }}
+        ></div>
+
+        <div style={{ marginLeft: 25, marginTop: 25 }} className="modele">
+          <p>
+            <strong>Modèle N° : </strong>
             <EuiIcon
-              type="calendar"
-              id="iconList "
+              type="pencil"
+              id="icon"
               size="l"
               color="rgb(36%, 60%, 83%)"
             />
-            <p style={styles.title}>Recapitulatif des rendez vous</p>
-          </EuiFlexGroup>
-          <EuiSpacer size="s" />
-          <EuiHorizontalRule style={styles.horizontalRule} />
-
-          <div style={styles.headContainer}>
-            <p style={styles.headLabel}>Modèle :</p>
-            <EuiSpacer size="s" />
-            <div style={styles.headTitleContainer}>
-              <p style={styles.headTitle}>xxxxxxxxxx xxxxxxxxxxxxx XXXXX</p>
-              <Pencil width={"1rem"} />
-            </div>
-          </div>
-          <div className="exam-card">
+          </p>
+        </div>
+        <p style={{ marginLeft: 25 }} className="x-text">
+          xxxxxxxxxx Axxxxxxxxxxxx XXXXX
+        </p>
+      </div>
+          <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card">
             <VerticalTimeline
               className="container"
               lineColor={"rgba(19, 83, 117, 0.479)"}

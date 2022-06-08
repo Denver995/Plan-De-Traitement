@@ -159,7 +159,7 @@ const ModalForm = ({ closeModal }) => {
         </EuiFlexGroup>
         <EuiSpacer size="m" />
         {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup style={{marginLeft: 0, marginRight: 0}} direction="column">
+          <EuiFlexGroup style={{marginLeft: 0, marginRight: 0, marginBottom: 33}} direction="column">
             <div style={styles.periodeRecherche}>
                 <div style={styles.groupeTitle}>Période de recherche d'un groupe :</div>
                 <span style={{marginTop: 2}}>
