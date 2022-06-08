@@ -39,7 +39,7 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
       <br/>
       <div style="color: #5D9AD4; margin-top: 10px; display: flex; alignItems: center;">
         Xxxxxxxxxx xxxxxxxxxxx XXXX
-        <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px"><Pencil size={"1rem"} /></div>
+        <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px"><<Pencil size={"1rem"} />></div>
       </div>
     </EuiText>
   `;

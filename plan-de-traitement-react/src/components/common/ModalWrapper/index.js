@@ -7,6 +7,8 @@ import {
   EuiModalHeaderTitle,
 } from "@elastic/eui";
 
+import colors from '../../../utils/colors';
+
 const ModalWrapper = ({
   children,
   classContainer,
@@ -14,6 +16,12 @@ const ModalWrapper = ({
   style,
   titleText,
 }) => {
+
+  const handleClose = () => {
+    console.log('closed clicked')
+    closeModal();
+  }
+
   return (
     <EuiModal
       style={{ padding: 0, ...style }}
@@ -21,6 +29,7 @@ const ModalWrapper = ({
       className={`${classContainer} espacement_inter_examen_EuiModalBody`}
       maxWidth="100%"
     >
+      <div onClick={handleClose} style={{position: 'absolute', top: 0, right: 10, fontSize: 50, color: colors.primaryDark}}>&times;</div>
       <EuiModalHeader>
         {titleText && (
           <EuiModalHeaderTitle>
