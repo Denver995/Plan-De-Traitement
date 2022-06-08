@@ -81,6 +81,7 @@ body {
   color: #4B759C;
   height: 19px;
   width: 19px;
+  display: none;
 }
 
 .euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect {
