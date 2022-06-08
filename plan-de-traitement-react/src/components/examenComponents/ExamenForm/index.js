@@ -271,10 +271,10 @@ const ExamenForm = ({
       ) : (
         <ModalWrapper style={styles.modal}>
           <EuiSpacer size="l" />
-          <div style={{ marginLeft: 40, marginRight: 40 }} className="examForm">
+          <div style={styles.examForm}>
             <div>
               <EuiFlexGroup>
-                <EuiFlexItem>
+                <EuiFlexItem style={styles.modelContainer}>
                   <p style={styles.text}>Modèle:</p>
                   <EuiSpacer size="s" />
                   <p style={styles.input}>Protocol d'IVT</p>
@@ -306,61 +306,70 @@ const ExamenForm = ({
                   ))}
               </div>
             )}
-            <EuiFlexGroup alignItems="center">
-              <EuiFlexItem>Examen 1</EuiFlexItem>
+            <EuiFlexGroup style={styles.titleContainer}>
+              <TracIcon width={"1rem"} />
+              <EuiFlexItem style={styles.examTitle}>Examen 1</EuiFlexItem>
             </EuiFlexGroup>
+            <EuiSpacer size="xl" />
             <EuiForm>
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <EuiFormRow label="Spécialité*" fullWidth>
-                    <EuiSelect
-                      fullWidth
-                      options={listSpecialite}
-                      value={specialite}
-                      onChange={onChangeSpecialite}
-                    />
-                  </EuiFormRow>
+                  <p style={styles.selectLabel}>Spécialité* :</p>
+                  <EuiSpacer size="xs" />
+                  <EuiSelect
+                    style={styles.input}
+                    fullWidth
+                    options={listSpecialite}
+                    value={specialite}
+                    onChange={onChangeSpecialite}
+                  />
                 </EuiFlexItem>
                 <EuiFlexItem className="input_left">
-                  <EuiFormRow label="Motif*" fullWidth>
-                    <EuiSelect
-                      fullWidth
-                      options={listMotif}
-                      value={motif}
-                      onChange={onChangeMotif}
-                    />
-                  </EuiFormRow>
+                  <p style={styles.selectLabel}>Motif* :</p>
+                  <EuiSpacer size="xs" />
+                  <EuiSelect
+                    fullWidth
+                    style={styles.input}
+                    options={listMotif}
+                    value={motif}
+                    onChange={onChangeMotif}
+                  />
                 </EuiFlexItem>
               </EuiFlexGroup>
+              <EuiSpacer size="xl" />
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <EuiFormRow label="Praticien*" fullWidth>
-                    <EuiSelect
-                      fullWidth
-                      options={listPraticien}
-                      value={praticien}
-                      onChange={onChangePraticien}
-                    />
-                  </EuiFormRow>
+                  <p style={styles.selectLabel}>Praticien* :</p>
+                  <EuiSpacer size="xs" />
+                  <EuiSelect
+                    fullWidth
+                    style={styles.input}
+                    options={listPraticien}
+                    value={praticien}
+                    onChange={onChangePraticien}
+                  />
                 </EuiFlexItem>
                 <EuiFlexItem className="input_left">
-                  <EuiFormRow label="Lieu*" fullWidth>
-                    <EuiSelect
-                      fullWidth
-                      options={listLieu}
-                      value={lieu}
-                      onChange={onChangeLieu}
-                    />
-                  </EuiFormRow>
+                  <p style={styles.selectLabel}>Lieu* :</p>
+                  <EuiSpacer size="xs" />
+                  <EuiSelect
+                    fullWidth
+                    style={styles.input}
+                    options={listLieu}
+                    value={lieu}
+                    onChange={onChangeLieu}
+                  />
                 </EuiFlexItem>
               </EuiFlexGroup>
-              <EuiSpacer size="m" />
-              <EuiCheckbox
-                id={fixedExamenCheckboxId}
-                label="Fixer la position de l'examen"
-                indeterminate={fixedExamPosition}
-                onChange={onChangePositionExamen}
-              />
+              <EuiSpacer size="l" />
+              <div style={styles.positionContainer}>
+                <EuiCheckbox
+                  id={fixedExamenCheckboxId}
+                  indeterminate={fixedExamPosition}
+                  onChange={onChangePositionExamen}
+                />
+                <p style={styles.examPosition}>Fixer la position de l'examen</p>
+              </div>
               {showEditForm ? (
                 <EuiFlexGroup className="btn_group">
                   <EuiButtonEmpty fill="true" className="button_cancel_me">
@@ -408,7 +417,7 @@ const ExamenForm = ({
             <style jsx="true">
               {`
                 .euiFlexGroup .input_left {
-                  margin-left: 10%;
+                  margin-left: 12%;
                 }
               `}
             </style>

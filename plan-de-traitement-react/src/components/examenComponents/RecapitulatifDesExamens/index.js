@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { EuiIcon, EuiButton, EuiButtonEmpty, EuiFlexGroup } from "@elastic/eui";
+import {
+  EuiIcon,
+  EuiButton,
+  EuiButtonEmpty,
+  EuiFlexGroup,
+  EuiHorizontalRule,
+  EuiSpacer,
+} from "@elastic/eui";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { connect } from "react-redux";
 import ExamCard from "../ExamCard";
@@ -18,14 +25,15 @@ import ModalWrapper from "../../common/ModalWrapper";
 import styles from "./styles";
 import Alert from "../../Alert";
 
+import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
+
 const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
-  const alertMessage =
-    `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom : <br/><p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p></EuiText>
+  const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom : <br/><p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p></EuiText>
     `;
   // const onSave = () =>
   //   dispatch(
@@ -71,24 +79,28 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
           onReject={() => setShowAlert(false)}
         />
       ) : (
-        <div style={{ marginLeft: 20, marginRight: 20 }}>
-          <p className="division">
+        <div style={styles.container}>
+          <EuiSpacer size="l" />
+          <EuiFlexGroup style={styles.titleContainer}>
             <EuiIcon
               type="calendar"
               id="iconList "
               size="l"
               color="rgb(36%, 60%, 83%)"
             />
-            <strong>Recapitulatif des rendez vous</strong>
-          </p>
+            <p style={styles.title}>Recapitulatif des rendez vous</p>
+          </EuiFlexGroup>
+          <EuiSpacer size="s" />
+          <EuiHorizontalRule style={styles.horizontalRule} />
 
-          <div className="modele">
-            <p>
-              <strong>Modéle : </strong>
-            </p>
-            <EuiIcon type="boxesVertical" id="iconList" />
+          <div style={styles.headContainer}>
+            <p style={styles.headLabel}>Modèle :</p>
+            <EuiSpacer size="s" />
+            <div style={styles.headTitleContainer}>
+              <p style={styles.headTitle}>xxxxxxxxxx xxxxxxxxxxxxx XXXXX</p>
+              <Pencil width={"1rem"} />
+            </div>
           </div>
-          <p className="x-text">xxxxxxxxxx xxxxxxxxxxxxx XXXXX</p>
           <div className="exam-card">
             <VerticalTimeline
               className="container"
@@ -107,25 +119,28 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
               ))}
             </VerticalTimeline>
           </div>
+          <EuiSpacer size="xxl" />
+          <EuiSpacer size="xxl" />
 
-          <EuiFlexGroup className="btn_group">
+          <EuiFlexGroup style={styles.btnContainer}>
             <EuiButtonEmpty
+              style={styles.backBtn}
               onClick={() => {
                 onBack();
               }}
-              className="button_cancel_me"
             >
               Retour
             </EuiButtonEmpty>
             <EuiButton
               // form={closeModal}
+              style={styles.validateBtn}
               fill={true}
-              className="button_next_me xs"
               onClick={onSave}
             >
               Enregistrer
             </EuiButton>
           </EuiFlexGroup>
+          <EuiSpacer size="m" />
           <style jsx="true">
             {`
               euitext.text_alert {

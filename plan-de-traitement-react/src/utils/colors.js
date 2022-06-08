@@ -8,6 +8,9 @@ const colors = {
   secondary2: '#88888b',
   white: '#fff',
   blueLight: "#464646",
+  blackClaire: "#464646",
+  borderColor: "#707070",
+  darkBlue: "#052A3E",
 };
 
 export default colors;
