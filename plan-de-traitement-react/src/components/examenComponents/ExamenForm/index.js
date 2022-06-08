@@ -191,7 +191,8 @@ const ExamenForm = ({
        */
       const payload = {
         nom: "Examen",
-        id_modele: 1,
+        id_modele: new Date().getTime(),
+        color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
         id_praticien: praticien,
         id_profession: 1,
         id_lieu: lieu,
