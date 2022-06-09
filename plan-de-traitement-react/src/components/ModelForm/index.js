@@ -15,7 +15,7 @@ import {
   EuiToolTip,
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import {
   addStep,
   updateStep,
@@ -23,6 +23,8 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
+import { createModel as createModelAction} from "../../redux/models/actions";
+
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
 import Button from "../Buttons/ButtonLight";
@@ -43,7 +45,9 @@ const ModalForm = ({ closeModal }) => {
   const [nomModele, setNomModele] = useState("");
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState();
+  const [periode2, setPeriode2] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
+
   let step = getStepByKey(steps, STEP1);
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
@@ -70,6 +74,16 @@ const ModalForm = ({ closeModal }) => {
       console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       createModele(step);
+      dispatch(createModelAction({
+        nom: nomModele + Math.round(Math.random() * 100),
+        nb_occurence: nombreOccurence,
+        groupe_rdv: groupe_rdv ? 1: 0,
+        id_granularite_groupe: 4,
+        id_granularite_examen: 4,
+        id_entite: 4,
+        espacement_groupe: 2,
+        espacement_examen: 4,
+      }))
     } else setShowGroupOption(true);
   };
 
@@ -177,16 +191,20 @@ const ModalForm = ({ closeModal }) => {
                 <EuiFieldNumber
                   name="periode"
                   value={periode}
-                  onChange={setPeriode}
+                  onChange={(e) => {
+                    setPeriode(e.target.value);
+                  }}
                   style={{width: '95%', color: colors.primary}}
                   fullWidth
                 />
                 {/* </EuiFlexItem>
                 <EuiFlexItem> */}
-                <EuiFieldNumber
+                <EuiFieldText
                   name="periode"
-                  value={periode}
-                  onChange={setPeriode}
+                  value={periode2}
+                  onChange={(e) => {
+                    setPeriode2(e.target.value);
+                  }}
                   style={{ width: "95%", position: "absolute", right: 0 }}
                   fullWidth
                 />
