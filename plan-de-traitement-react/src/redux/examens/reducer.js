@@ -5,6 +5,8 @@ import * as types from "./types";
 //   1: {}
 // }
 const INITIAL_STATE = {
+  creating: false,
+  message: '',
   examenSelected: {},
   activeGroup: 0,
   show: false,
@@ -31,6 +33,24 @@ const INITIAL_STATE = {
 
 function ExamenReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case types.CREATE_EXAMEN_REQUEST:
+      return {
+        ...state,
+        creating: true,
+      }
+    case types.CREATE_EXAMEN_SUCCESS:
+      return {
+        ...state,
+        creating: false,
+      }
+    case types.CREATE_EXAMEN_FAILURE:
+      return {
+        ...state,
+        creating: false,
+        message: action.payload.message
+      }
+
+
     case types.EDIT_EXAM:
       return {
         ...state,
