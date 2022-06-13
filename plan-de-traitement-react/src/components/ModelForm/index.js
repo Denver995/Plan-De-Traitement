@@ -7,12 +7,11 @@ import {
   EuiForm,
   EuiSpacer,
   EuiFieldText,
-  EuiRadio,
   useGeneratedHtmlId,
   EuiButton,
   EuiButtonEmpty,
-  EuiIcon,
   EuiToolTip,
+  EuiSelect
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +24,6 @@ import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
-import Button from "../Buttons/ButtonLight";
 import ModalWrapper from '../common/ModalWrapper';
 import { ReactComponent as InfoIcon } from '../../assets/svgs/Soustraction-1.svg';
 import Radio from '../Radio';
@@ -42,13 +40,24 @@ const ModalForm = ({ closeModal }) => {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [nomModele, setNomModele] = useState("");
   const [nombreOccurence, setNombreOccurence] = useState(4);
-  const [periode, setPeriode] = useState();
+  const [periode, setPeriode] = useState("1");
+  const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
   let step = getStepByKey(steps, STEP1);
+
+  const listTypePeriode = [
+    { value: 'jour', text: 'Jour' },
+    { value: 'mois', text: 'Mois' },
+    { value: 'année', text: 'Année' },
+  ];
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
 
   const onChangeNomModeleField = (val) => setNomModele(val.target.value);
+
+  const onChangeTypePeriode = (e) => {
+    setPeriode(e.target.value);
+  };
 
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
@@ -183,11 +192,10 @@ const ModalForm = ({ closeModal }) => {
                 />
                 {/* </EuiFlexItem>
                 <EuiFlexItem> */}
-                <EuiFieldNumber
-                  name="periode"
-                  value={periode}
-                  onChange={setPeriode}
-                  style={{ width: "95%", position: "absolute", right: 0 }}
+                <EuiSelect
+                  options={listTypePeriode}
+                  value={typePeriode}
+                  onChange={(e) => onChangeTypePeriode(e)}
                   fullWidth
                 />
 
