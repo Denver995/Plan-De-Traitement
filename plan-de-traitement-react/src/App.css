@@ -349,3 +349,73 @@ hr {
 .checkbox {
   margin-left: 2.1%;
 }
+
+/* For extremely small screen devices (595px and below) */
+
+/* Extra big screen devices (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 70rem !important;
+  }
+}
+
+@media only screen and (min-width: 360px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 30rem !important;
+  }
+}
+
+@media only screen and (min-width: 574px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 40rem !important;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 40rem !important;
+  }
+}
+
+@media only screen and (min-width: 690px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 40rem !important;
+  }
+}
+
+@media only screen and (min-width: 766px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 45rem !important;
+  }
+}
+
+@media only screen and (min-width: 971px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 56rem !important;
+  }
+}
+
+@media only screen and (min-width: 1032px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 63rem !important;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 65rem !important;
+  }
+}
+
+
+/* @media only screen and (min-width: 1230px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 70rem !important;
+  }
+}
+
+@media only screen and (min-width: 1270px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 70rem !important;
+  }
+} */
