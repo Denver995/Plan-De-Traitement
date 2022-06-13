@@ -21,6 +21,7 @@ import {
   deleteStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
+import { createExamen as createExamenAction} from "../../../redux/examens/actions";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import { STEP2, STEP3 } from "../../../utils/constants";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
@@ -202,6 +203,18 @@ const ExamenForm = ({
       setReload(true);
       onAddExam({ name: "EXAMSLIST" });
       dispatch(addExam(payload));
+
+      dispatch(createExamenAction({
+        nom: "nom " + Math.round(Math.random() * 100),
+        id_modele: 111,
+        id_model_groupe: 3,
+        id_praticien: 1,
+        id_profession: 86,
+        id_lieu: 1,
+        fixe: fixedExamPosition? 1: 0,
+        position: 2,
+        id_motif: 1,
+      }));
     }
   };
 

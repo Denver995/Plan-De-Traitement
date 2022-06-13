@@ -14,7 +14,7 @@ import {
   EuiSelect
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import {
   addStep,
   updateStep,
@@ -22,6 +22,8 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
+import { createModel as createModelAction} from "../../redux/models/actions";
+
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
 import ModalWrapper from '../common/ModalWrapper';
@@ -43,6 +45,7 @@ const ModalForm = ({ closeModal }) => {
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
+
   let step = getStepByKey(steps, STEP1);
 
   const listTypePeriode = [
@@ -79,6 +82,16 @@ const ModalForm = ({ closeModal }) => {
       console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       createModele(step);
+      dispatch(createModelAction({
+        nom: nomModele + Math.round(Math.random() * 100),
+        nb_occurence: nombreOccurence,
+        groupe_rdv: groupe_rdv ? 1: 0,
+        id_granularite_groupe: 4,
+        id_granularite_examen: 4,
+        id_entite: 4,
+        espacement_groupe: 2,
+        espacement_examen: 4,
+      }))
     } else setShowGroupOption(true);
   };
 
@@ -187,8 +200,10 @@ const ModalForm = ({ closeModal }) => {
                 className="inputNomber-for-periode"
                   name="periode"
                   value={periode}
-                  onChange={setPeriode}
-                  style={{ color: colors.primary}}
+                  onChange={(e) => {
+                    setPeriode(e.target.value);
+                  }}
+                  style={{width: '100%', color: colors.primary}}
                   fullWidth
                 />
                 {/* </EuiFlexItem>
