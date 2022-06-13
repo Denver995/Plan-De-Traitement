@@ -57,7 +57,7 @@ const ExamenForm = ({
   groupSelected,
   activeGroup,
   examsGrouped,
-  onPrevious,
+  onPrevious
 }) => {
   console.log("activeGroup: ", activeGroup);
   const dispatch = useDispatch();
@@ -86,8 +86,6 @@ const ExamenForm = ({
   });
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-
-  console.log("model ", model);
 
   const previousStep = getStepByKey(steps, STEP2);
 
@@ -233,8 +231,8 @@ const ExamenForm = ({
   };
 
   const onCancel = () => {
-    // dispatch(deleteStep(previousStep))
-    onPrevious(true);
+    console.log(typeof onPrevious);
+    onPrevious && onPrevious();
   };
 
   const delaiInterExamen = (intervale) => {
@@ -394,14 +392,15 @@ const ExamenForm = ({
                 </EuiFlexGroup>
               ) : (
                 <EuiFlexGroup style={styles.buttonContainer}>
-                  <EuiButtonEmpty onClick={onCancel} style={styles.cancelBtn}>
+                  <EuiButtonEmpty onClick={() => {
+                    onCancel();
+                  }} style={styles.cancelBtn}>
                     Annuler
                   </EuiButtonEmpty>
                   <EuiButton
                     onClick={() => {
                       onAddExamen();
                       dispatch(getSelectedExamGroup(activeGroup));
-                      console.log("ajouter");
                     }}
                     style={styles.addBtn}
                   >

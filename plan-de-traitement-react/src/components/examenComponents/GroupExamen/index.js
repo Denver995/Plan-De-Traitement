@@ -31,7 +31,7 @@ import Propover from "../../Propover";
 const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
-  console.log("groupName: ", groupName);
+  console.log("groupName 1: ", groupName);
   // const contextMenuPopoverId = useGeneratedHtmlId({
   //     prefix: 'contextMenuPopover',
   // });
@@ -201,9 +201,15 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
 
   const onBack = () => dispatch(deleteStep(previousStep));
 
+  const onPrevious = () => {
+    dispatch(setShowExamForm(false));
+  }
+
   useEffect(() => {
-    console.log("group changed...");
-  }, [examsGrouped]);
+    onPrevious()
+    console.log("group changed...", showForm);
+  }, [examsGrouped, showForm]);
+  
 
   const handleOnDragEnd = (result) => {
     console.log('Handle On Drag');
@@ -220,10 +226,10 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
 
   return (
     <ModalWrapper style={styles.modal}>
-      {showForm ? (
+      {showForm && onPrevious ? (
         <ExamenForm
           isModelGroup={isModelGroup}
-          onPrevious={(data) => dispatch(setShowExamForm(false))}
+          onPrevious={onPrevious}
         />
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
