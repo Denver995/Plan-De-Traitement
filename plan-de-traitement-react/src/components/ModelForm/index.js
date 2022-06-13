@@ -108,7 +108,7 @@ const ModalForm = ({ closeModal }) => {
   ]);
 
   return (
-    <ModalWrapper style={styles.modal}>
+    <ModalWrapper className = "modale-modelForm" style={styles.modal}>
       <EuiForm id={modalFormId} style={styles.form}>
         <EuiSpacer size="xl" />
           <p style={styles.nomModel}>Nom du modele: </p>
@@ -137,7 +137,7 @@ const ModalForm = ({ closeModal }) => {
               <EuiSpacer size="l" />
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <EuiFlexGroup style={{ maxWidth: 160 }}>
+                  <EuiFlexGroup className="radio-first-container" style={{ maxWidth: "100%", border: "1px solid blue" }}>
                     <EuiFlexItem style={{marginBottom: 13}}>
                       <EuiFormRow>
                         <Radio onChange={(data) =>  onChangeGroupModelCheckbox(data)} />
@@ -149,7 +149,7 @@ const ModalForm = ({ closeModal }) => {
             </EuiFlexItem>
           )}
           {groupe_rdv && showGroupOption && (
-            <EuiFlexItem style={{ maxWidth: "85%", marginLeft: "15%" }}>
+            <EuiFlexItem className="nombre-occurence-nomberField" style={{}}>
               <EuiFormRow style={{fontSize: 14}} label="Nombre d'occurrences*:" fullWidth>
                 <EuiFieldNumber
                 style={{color: colors.primary}}
@@ -184,15 +184,17 @@ const ModalForm = ({ closeModal }) => {
               <EuiFlexGroup justifyContent="spaceBetween">
                 {/* <EuiFlexItem> */}
                 <EuiFieldNumber
+                className="inputNomber-for-periode"
                   name="periode"
                   value={periode}
                   onChange={setPeriode}
-                  style={{width: '95%', color: colors.primary}}
+                  style={{ color: colors.primary}}
                   fullWidth
                 />
                 {/* </EuiFlexItem>
                 <EuiFlexItem> */}
                 <EuiSelect
+                className="inputSelect-for-periode"
                   options={listTypePeriode}
                   value={typePeriode}
                   onChange={(e) => onChangeTypePeriode(e)}
