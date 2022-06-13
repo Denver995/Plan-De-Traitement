@@ -69,8 +69,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.SHOW_EXAM_EDIT_FORM:
       return state;
-    case types.CREATE_EXAMEN_REQUEST:
-      return state;
     case types.ADD_EXAM:
       return {
         ...state,
