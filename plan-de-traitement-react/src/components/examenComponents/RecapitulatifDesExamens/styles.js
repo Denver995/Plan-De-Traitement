@@ -53,8 +53,10 @@ const styles = {
     position: "absolute",
     bottom: 0,
     alignItems: "center",
-    marginBottom: "30px",
+    paddingTop: 15,
+    paddingBottom: 40,
     width: "100%",
+    backgroundColor: colors.white,
   },
 
   backBtn: {

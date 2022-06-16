@@ -18,6 +18,10 @@
   .periode_recherche_group_inputs {
     padding: 0 12px;
   }
+
+  .exam-item-infos {
+    display: none;
+  }
 }
 
 
