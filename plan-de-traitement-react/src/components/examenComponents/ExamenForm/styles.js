@@ -57,7 +57,7 @@ const styles = {
   },
 
   buttonContainer: {
-    marginTop: "5%",
+    marginTop: "6%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -71,7 +71,7 @@ const styles = {
     height: "48px",
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
-    marginRight: "8%",
+    marginRight: "55%",
     textDecoration: "none",
   },
 
@@ -80,9 +80,11 @@ const styles = {
     color: colors.white,
     width: "210px",
     height: "48px",
-    border: "3px solid #5D9AD4",
+    border: "3px solid #5D9AD4", 
     borderRadius: "35px",
+    marginLeft: "55%",
     textDecoration: "none",
+    marginTop: "-49px"
   },
 };
 

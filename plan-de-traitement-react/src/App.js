@@ -1,5 +1,6 @@
 import './App.css';
 import './font.css';
+import './Responsive.css';
 import styles from './eui_theme_light.css';
 // import '@elastic/eui/dist/eui_theme_light.css';
 import { createStep } from './utils/helper';
