@@ -1,3 +1,8 @@
+
+
+#inputNomber-for-periode{
+  width: 95%;
+ }
 .btn-annuler-examForm{
   margin-right: 15px;
   width: "210px"
@@ -281,10 +286,9 @@ body {
 {
   font-size: 19px;
   border: 3px solid #1D3D5B;
-  width: 100%;
+  width: 30%;
   height: 49px;
   color: #1D3D5B;
-  margin-right: 67%;
   border-radius: 39px;
   opacity: 1;
 }
@@ -292,7 +296,7 @@ body {
 .btn_group .button_next_me
 {
   font-size: 19px;
-  width: 179px;
+  width: 30%;
   height: 49px;
   background: #134058 0% 0% no-repeat padding-box;
   box-shadow: 3px 3px 6px #00000029 !important;
@@ -480,6 +484,16 @@ hr {
     border : 1px solid pink;
     /**margin-right: -100px;**/
   }
+  .btn_group .button_cancel_me
+{
+  width: 100%;  
+}
+
+.btn_group .button_next_me
+{
+  width: 100%;
+  margin-bottom: 20px;
+}
 }
 @media screen and (max-width: 574px) and (min-width : 560px) {
   div.espacement_inter_examen_EuiModalBody{
@@ -522,6 +536,10 @@ hr {
     border-color: rgb(112, 112, 112);
     width : 80%;
   }
+
+  #inputNomber-for-periode{
+ width: 100%;
+}
 
   .inputSelect-for-periode{
     margin-top: 15px;

@@ -1,0 +1,31 @@
+@media screen and (max-width: 1033px) {
+    .divisor-btn {
+      max-width: 25%;
+      width: 25%;
+    }
+    @media screen and (max-width: 766px) {
+      .divisor-btn {
+        max-width: 30%;
+        width: 30%;
+      }
+  
+      @media screen and (max-width: 641px) {
+        .period-recherche-label{
+          display: none;
+        }
+        .dividor-btn-text{
+          display: none;
+        }
+        .dividor-btn-icon{
+          text-align: center;
+          size: 30px;
+          margin-left: 5px;
+        }
+        .divisor-btn {
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+        }
+      }
+    }

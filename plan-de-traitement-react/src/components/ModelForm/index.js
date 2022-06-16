@@ -197,13 +197,13 @@ const ModalForm = ({ closeModal }) => {
               <EuiFlexGroup justifyContent="spaceBetween">
                 {/* <EuiFlexItem> */}
                 <EuiFieldNumber
-                  className="inputNomber-for-periode"
+                  id="inputNomber-for-periode"
                   name="periode"
                   value={periode}
                   onChange={(e) => {
                     setPeriode(e.target.value);
                   }}
-                  style={{ width: '100%', color: colors.primary }}
+                  style = {{ color: colors.primary}}
                   fullWidth
                 />
                 {/* </EuiFlexItem>

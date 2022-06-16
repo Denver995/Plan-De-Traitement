@@ -122,7 +122,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                       alignItems: 'center',
                       marginRight: 30
                     }}>
-                      <p style={{ fontSize: 17, color: colors.primarySombre }}>Periode de recherche : 00h</p>
+                      <p style={{ fontSize: 17, color: colors.primarySombre }}><pan className = "period-recherche-label">Periode de recherche :</pan> 00h</p>
                       {toggledGroup[index] ? (
                         <ArrowDropUpIcon
                           onClick={() => toggle(index)}
@@ -150,11 +150,13 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                             // onAddExamenNew(index);
                           }}
                         >
-                          <span style={{
+                          <span 
+                          className="dividor-btn-icon"
+                          style={{
                             fontWeight: 'bold',
                             fontSize: 25,
                             marginRight: 5
-                          }}>+</span><span style={{ marginTop: 4 }}>Ajouter un examen</span>
+                          }}>+</span><span className="dividor-btn-text" style={{ marginTop: 4 }}>Ajouter un examen</span>
                         </button>
                       </div>
                       {Object.keys(group).map((exam, i) => (
@@ -256,18 +258,26 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
       )}
       {!showForm && (
         <>
-          <EuiFlexGroup className="btn_group" style={{ margin: 17, ...styles.cancelBtn }}>
-            <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
-              Retour
-            </EuiButtonEmpty>
+          <EuiFlexGroup
+            className="btn_group"
+            style={{
+              margin: 17,
+              ...styles.cancelBtn,
+              display: "flex",
+              flexDirection: "row-reverse",
+              justifyContent: "space-between"
+            }}>
             <EuiButton
               fill={true}
-              style = {{...styles.addBtn}}
+              style={{ ...styles.addBtn }}
               className="button_next_me"
               onClick={onClickNext}
             >
               Enregistrer
             </EuiButton>
+            <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
+              Retour
+            </EuiButtonEmpty>
           </EuiFlexGroup>
         </>
       )}
