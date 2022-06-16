@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import elipse from "../../../assets/svgs/ellipsis-v.svg";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ExamenItem from "../ExamenItem";
 import ExamenForm from "../ExamenForm";
@@ -20,7 +21,7 @@ import {
   setActiveGroup,
   setShowExamForm
 } from "../../../redux/examens/actions";
-import { startLoading } from '../../../redux/commons/actions';
+import { setAlert, startLoading } from '../../../redux/commons/actions';
 
 import { fakeData } from "../../../utils/defaultData";
 import styles from "./styles";
@@ -47,6 +48,25 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const iconElopse = (
     <span onClick={togglePropover} className="icon-ellipsis-v iconList"></span>
   );
+
+  const onChooseDelaiEspacement = () => {
+    dispatch(
+      setAlert({
+        showAlert: true,
+        showCustomComponent: true,
+        showButtonBlock: false,
+        onAccept: () => {
+          dispatch(setAlert(false));
+        },
+        onReject: () => {
+          dispatch(setAlert(false));
+        },
+        componentType: () => {
+          return <EspacementInterExamenForm />;
+        },
+      })
+    );
+  };
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
@@ -171,11 +191,14 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                   )}
                 </div>
                 {index !== examsGrouped.length - 1 && <div style={{ marginLeft: 50 }}>
-                  <p style={{
+                  <p 
+                  onClick={onChooseDelaiEspacement}
+                  style={{
                     textDecoration: "underline",
                     font: "normal normal normal 17px/23px Open Sans",
                     letterSpacing: 0,
                     color: colors.primary,
+                    cursor: "default"
                   }}>Choisir l'intervalle inter groupe</p>
                 </div>}
               </div>

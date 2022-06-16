@@ -2,7 +2,10 @@ import colors from "../../utils/colors";
 
 const styles = {
   container: {
-    padding: 30
+    padding: 30,
+    display: "flex",
+    flexDirection: "column",
+    alignItem: "center",
   },
   modal:{
     width: 837,
@@ -47,8 +50,8 @@ const styles = {
   },
   number:{
     top: 305,
-    left: 583,
-    width: 189,
+    left: 0,
+    width: "100%",
     height: 40,
     marginRight: -17,
     background: "#FFFFFF 0% 0% no-repeat padding-box",

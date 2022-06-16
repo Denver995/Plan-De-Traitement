@@ -52,7 +52,7 @@ import styles from './styles';
           <EuiFlexItem>
              <div>
               <span style={styles.label}>Minimum</span>
-              <EuiFieldNumber style={styles.number}
+              <EuiFieldNumber className='mod-interexam-container-NumInp' style={styles.number}
                placeholder=""
                 />
              </div>

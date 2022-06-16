@@ -1,4 +1,10 @@
-
+/**.button_valider-espace-inter{
+  width: 100%;
+  margin-top: 20px;
+}
+.button_annuler-espace-inter{
+  width: 100%;
+}**/
 
 #inputNomber-for-periode{
   width: 95%;
@@ -479,6 +485,7 @@ hr {
  
 }
 @media screen and (max-width: 768px) and (min-width : 0) {
+ 
   .radio-second-container{
     justify-content: space-between;
     /**margin-right: -100px;**/
