@@ -1,6 +1,8 @@
 // import '../App.css';
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import elipse from "../../../assets/svgs/ellipsis-v.svg";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -29,7 +31,7 @@ import Propover from "../../Propover";
 const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
-  console.log("groupName: ", groupName);
+  console.log("groupName 1: ", groupName);
   // const contextMenuPopoverId = useGeneratedHtmlId({
   //     prefix: 'contextMenuPopover',
   // });
@@ -100,11 +102,18 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
         }}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
       </div>
       {examsGrouped.map((group, index) => (
+        <Draggable key={index} draggableId={'draggable-'+index} index={index}>
+        {(provided) => (
+           <div
+           {...provided.draggableProps}
+           {...provided.dragHandleProps}
+           ref={provided.innerRef}
+         >
         <div key={index}>
           <div className="groups-content">
             <div className="group-exam-item">
               <div style={{display: 'flex', alignItems: 'center', marginLeft: 50}}>
-                <div style={{marginRight: 25}}><Propover /></div><div style={{color: colors.primarySombre, fontWeight: '600'}}>{"Group " + (index + 1)}</div>
+                <div style={{marginRight: 25}}><Propover /></div><div style={{color: colors.primarySombre, fontWeight: '600'}}>{"Group" + index}</div>
               </div>
 
               <div style={{
@@ -168,6 +177,9 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
             }}>Choisir l'intervalle inter groupe</p>
           </div>}
         </div>
+        </div>
+          )}
+      </Draggable>
       ))}
     </div>
   );
@@ -175,6 +187,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
 
 const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   const dispatch = useDispatch();
+  const [groupList, setGroupList] = useState(examsGrouped);
   const steps = useSelector((state) => state.StepReducer.steps);
   const showForm = useSelector((state) => state.CommonReducer.examen.show);
   const previousStep = getStepByKey(steps, STEP2);
@@ -188,28 +201,58 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
 
   const onBack = () => dispatch(deleteStep(previousStep));
 
+  const onPrevious = () => {
+    dispatch(setShowExamForm(false));
+  }
+
   useEffect(() => {
-    console.log("group changed...");
-  }, [examsGrouped]);
+    onPrevious()
+    console.log("group changed...", showForm);
+  }, [examsGrouped, showForm]);
+  
+
+  const handleOnDragEnd = (result) => {
+    console.log('Handle On Drag');
+    if(!result.destination) return;
+    const items = Array.from(groupList);
+    console.log('items: ', items);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setGroupList([...items]);
+    console.log('nbrGroupe: ', nbrGroupe);
+  }
+  console.log('nbrGroupe: ', nbrGroupe);
 
   return (
     <ModalWrapper style={styles.modal}>
-      {showForm ? (
+      {showForm && onPrevious ? (
         <ExamenForm
           isModelGroup={isModelGroup}
-          onPrevious={(data) => dispatch(setShowExamForm(false))}
+          onPrevious={onPrevious}
         />
       ) : (
-        [...Array(nbrGroupe).keys()].map((item, index) => {
-          return (
-            <GroupItem
-              examsGrouped={examsGrouped}
-              groupName={"Group " + index}
-              key={index}
-              listExam={[]}
-            />
-          );
-        })
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="droppable">
+              {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={{ marginTop: 28, marginBottom: 60 }}
+                  >
+                  {[...Array(nbrGroupe).keys()].map((item, index) => (
+                      <GroupItem
+                        examsGrouped={groupList}
+                        groupName={"Group " + index}
+                        key={index}
+                        listExam={[]}
+                      />
+                    ))}
+                    {provided.placeholder}
+                    </div>
+                )}
+              </Droppable>
+            </DragDropContext>
       )}
       {!showForm && (
         <>

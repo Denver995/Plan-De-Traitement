@@ -7,15 +7,14 @@ import {
   EuiForm,
   EuiSpacer,
   EuiFieldText,
-  EuiRadio,
   useGeneratedHtmlId,
   EuiButton,
   EuiButtonEmpty,
-  EuiIcon,
   EuiToolTip,
+  EuiSelect
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import {
   addStep,
   updateStep,
@@ -23,9 +22,10 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
+import { createModel as createModelAction} from "../../redux/models/actions";
+
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
-import Button from "../Buttons/ButtonLight";
 import ModalWrapper from '../common/ModalWrapper';
 import { ReactComponent as InfoIcon } from '../../assets/svgs/Soustraction-1.svg';
 import Radio from '../Radio';
@@ -42,13 +42,25 @@ const ModalForm = ({ closeModal }) => {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [nomModele, setNomModele] = useState("");
   const [nombreOccurence, setNombreOccurence] = useState(4);
-  const [periode, setPeriode] = useState();
+  const [periode, setPeriode] = useState("1");
+  const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
+
   let step = getStepByKey(steps, STEP1);
+
+  const listTypePeriode = [
+    { value: 'jour', text: 'Jour' },
+    { value: 'mois', text: 'Mois' },
+    { value: 'année', text: 'Année' },
+  ];
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
 
   const onChangeNomModeleField = (val) => setNomModele(val.target.value);
+
+  const onChangeTypePeriode = (e) => {
+    setPeriode(e.target.value);
+  };
 
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
@@ -70,6 +82,16 @@ const ModalForm = ({ closeModal }) => {
       console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       createModele(step);
+      dispatch(createModelAction({
+        nom: nomModele + Math.round(Math.random() * 100),
+        nb_occurence: nombreOccurence,
+        groupe_rdv: groupe_rdv ? 1: 0,
+        id_granularite_groupe: 4,
+        id_granularite_examen: 4,
+        id_entite: 4,
+        espacement_groupe: 2,
+        espacement_examen: 4,
+      }))
     } else setShowGroupOption(true);
   };
 
@@ -99,7 +121,7 @@ const ModalForm = ({ closeModal }) => {
   ]);
 
   return (
-    <ModalWrapper style={styles.modal}>
+    <ModalWrapper className = "modale-modelForm" style={styles.modal}>
       <EuiForm id={modalFormId} style={styles.form}>
         <EuiSpacer size="xl" />
           <p style={styles.nomModel}>Nom du modele: </p>
@@ -128,7 +150,7 @@ const ModalForm = ({ closeModal }) => {
               <EuiSpacer size="l" />
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <EuiFlexGroup style={{ maxWidth: 160 }}>
+                  <EuiFlexGroup className="radio-first-container" style={{ maxWidth: "100%", border: "1px solid blue" }}>
                     <EuiFlexItem style={{marginBottom: 13}}>
                       <EuiFormRow>
                         <Radio onChange={(data) =>  onChangeGroupModelCheckbox(data)} />
@@ -140,7 +162,7 @@ const ModalForm = ({ closeModal }) => {
             </EuiFlexItem>
           )}
           {groupe_rdv && showGroupOption && (
-            <EuiFlexItem style={{ maxWidth: "85%", marginLeft: "15%" }}>
+            <EuiFlexItem className="nombre-occurence-nomberField" style={{}}>
               <EuiFormRow style={{fontSize: 14}} label="Nombre d'occurrences*:" fullWidth>
                 <EuiFieldNumber
                 style={{color: colors.primary}}
@@ -175,19 +197,22 @@ const ModalForm = ({ closeModal }) => {
               <EuiFlexGroup justifyContent="spaceBetween">
                 {/* <EuiFlexItem> */}
                 <EuiFieldNumber
+                className="inputNomber-for-periode"
                   name="periode"
                   value={periode}
-                  onChange={setPeriode}
-                  style={{width: '95%', color: colors.primary}}
+                  onChange={(e) => {
+                    setPeriode(e.target.value);
+                  }}
+                  style={{width: '100%', color: colors.primary}}
                   fullWidth
                 />
                 {/* </EuiFlexItem>
                 <EuiFlexItem> */}
-                <EuiFieldNumber
-                  name="periode"
-                  value={periode}
-                  onChange={setPeriode}
-                  style={{ width: "95%", position: "absolute", right: 0 }}
+                <EuiSelect
+                className="inputSelect-for-periode"
+                  options={listTypePeriode}
+                  value={typePeriode}
+                  onChange={(e) => onChangeTypePeriode(e)}
                   fullWidth
                 />
 

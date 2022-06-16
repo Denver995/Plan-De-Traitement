@@ -24,6 +24,7 @@ const ModalWrapper = ({
   }
 
   return (
+    <div className="modal">
     <EuiModal
       style={{ padding: 0, ...style }}
       onClose={closeModal}
@@ -41,6 +42,7 @@ const ModalWrapper = ({
       <EuiModalBody style={{ padding: 0 }}>{children}</EuiModalBody>
       <EuiSpacer size="m" />
     </EuiModal>
+    </div>
   );
 };
 

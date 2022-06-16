@@ -79,7 +79,7 @@ const MainScreen = () => {
     modal = content;
   }
   return (
-    <div>
+    <div className="modal">
       {/* <EuiButton style={{ textDecoration: 'none'}} onClick={showModal}>Show form modal</EuiButton> */}
       <ButtonLight text={"Show form modal"} onClick={showModal} />
       {alert.showAlert && (

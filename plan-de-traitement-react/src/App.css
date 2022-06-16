@@ -83,6 +83,24 @@ body {
   display: none;
 }
 
+/** ------------------ ***/
+.nombre-occurence-nomberField{
+  max-width: "100%";
+  margin-left: "15%";
+}
+
+.euiFieldNumber euiFieldNumber--fullWidth{
+  width: 100%; 
+  color: rgb(93, 154, 212);
+}
+.euiFieldText euiFieldText--fullWidth{
+  letter-spacing: 0px; 
+  color: rgb(93, 154, 212); 
+  font-size: 20px; 
+  border-color: rgb(112, 112, 112);
+}
+
+
 .euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #707070;
@@ -349,3 +367,239 @@ hr {
 .checkbox {
   margin-left: 2.1%;
 }
+
+/* For extremely small screen devices (595px and below) */
+
+/* Extra big screen devices (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 70rem !important;
+  }
+}
+
+/**@media only screen and (min-width: 359px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 30rem !important;
+  }
+}**/
+@media screen and (max-width: 370px) and (min-width : 361px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 22.5rem !important;
+  }
+}
+
+@media screen and (max-width: 380px) and (min-width : 371px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 24rem !important;
+  }
+}
+@media screen and (max-width: 510px) and (min-width : 500px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 30rem !important;
+  }
+ 
+}
+@media screen and (max-width: 520px) and (min-width : 511px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 31rem !important;
+  }
+ 
+}
+@media screen and (max-width: 530px) and (min-width : 521px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 32rem !important;
+  }
+ 
+}
+@media screen and (max-width: 540px) and (min-width : 531px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 32.5rem !important;
+  }
+ 
+}
+@media screen and (max-width: 550px) and (min-width : 541px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 32rem !important;
+  }
+ 
+}
+@media screen and (max-width: 560px) and (min-width : 551px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 33rem !important;
+  }
+ 
+}
+@media screen and (max-width: 574px) and (min-width : 560px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 33rem !important;
+  }
+  .radio-first-container{
+    padding-left: 40px;
+  }
+  .radio-second-container{
+    justify-content: space-between;
+  }
+ 
+}
+
+@media only screen and (min-width: 574px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 40rem !important;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 40rem !important;
+  }
+}
+
+@media only screen and (min-width: 690px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 40rem !important;
+  }
+}
+
+@media screen and  (max-width : 767px) and (min-width : 766px) {
+  .euiModal{
+    margin-left:3%;
+  }
+}
+
+@media screen and  (max-width : 767px) and (min-width : 0px) {
+  .euiFieldText euiFieldText--fullWidth{
+    letter-spacing: 0px; 
+    color: rgb(93, 154, 212); 
+    font-size: 20px; 
+    border-color: rgb(112, 112, 112);
+    width : 80%;
+  }
+
+  .inputSelect-for-periode{
+    margin-top: 15px;
+  }
+}
+
+@media screen and  (max-width : 520px) and (min-width : 500px) {
+  @media screen and  (max-width : 520px) and (min-width : 500px) {
+  .euiModal{
+    margin-left:2%;
+  }
+}
+}
+@media screen and  (max-width : 540px) and (min-width : 520px) {
+  .euiModal{
+    margin-left:2%;
+  }
+}
+@media screen and  (max-width : 560px) and (min-width : 540px) {
+  .euiModal{
+    margin-left:3.5%;
+  }
+}
+@media screen and  (max-width : 573px) and (min-width : 560px) {
+  .euiModal{
+    margin-left:4%;
+  }
+}
+@media only screen and  (max-width : 590px) and (min-width : 574px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 30rem !important;
+  }
+  .euiModal{
+    margin-left:9%;
+  }
+}
+@media screen and (max-width: 640px) and (min-width : 591px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 30rem !important;
+  }
+  @media screen and (max-width: 610px) and (min-width : 591px) {
+  .euiModal{
+    margin-left:10%;
+  }
+}
+@media screen and (max-width: 640px) and (min-width : 610px) {
+  .euiModal{
+    margin-left:12%;
+  }
+}
+}
+
+@media screen and (max-width: 645px) and (min-width : 641px) {
+  .euiModal{
+    margin-left:0%;
+  }
+}
+@media screen and (max-width: 650px) and (min-width : 646px) {
+  .euiModal{
+    margin-left:0.7%;
+  }
+}
+@media screen and (max-width: 670px) and (min-width : 651px) {
+  .euiModal{
+    margin-left:1.5%;
+  }
+}
+@media screen and (max-width: 690px) and (min-width : 671px) {
+  .euiModal{
+    margin-left:3%;
+  }
+}
+@media screen and (max-width: 710px) and (min-width : 691px) {
+  .euiModal{
+    margin-left:4.5%;
+  }
+}
+@media screen and (max-width: 730px) and (min-width : 711px) {
+  .euiModal{
+    margin-left:5.5%;
+  }
+}
+@media screen and (max-width: 750px) and (min-width : 731px) {
+  .euiModal{
+    margin-left:6.5%;
+  }
+}
+@media screen and (max-width: 765px) and (min-width : 751px) {
+  .euiModal{
+    margin-left:7.5%;
+  }
+}
+
+@media only screen and (min-width: 766px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 45rem !important;
+  }
+}
+
+@media only screen and (min-width: 971px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 56rem !important;
+  }
+}
+
+@media only screen and (min-width: 1032px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 63rem !important;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 65rem !important;
+  }
+}
+
+
+/* @media only screen and (min-width: 1230px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 70rem !important;
+  }
+}
+
+@media only screen and (min-width: 1270px) {
+  div.espacement_inter_examen_EuiModalBody{
+    width: 70rem !important;
+  }
+} */

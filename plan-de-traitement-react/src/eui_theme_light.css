@@ -6359,7 +6359,6 @@ html {
   > .euiFormControlLayout__childrenWrapper
   > .euiDatePickerRange {
   max-width: none;
-  width: auto;
   border-radius: 0 0 0 0;
 }
 
@@ -10651,6 +10650,7 @@ html {
 
 .euiFormControlLayout__childrenWrapper {
   position: relative;
+  width: 100%;
 }
 
 /**
@@ -10688,6 +10688,7 @@ html {
 }
 .euiFormControlLayout--group .euiFormControlLayout__childrenWrapper {
   -webkit-flex-grow: 1;
+  width: 95%;
   flex-grow: 1;
   overflow: hidden;
   /* 2 */

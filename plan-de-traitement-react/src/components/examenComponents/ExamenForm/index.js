@@ -21,6 +21,7 @@ import {
   deleteStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
+import { createExamen as createExamenAction} from "../../../redux/examens/actions";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import { STEP2, STEP3 } from "../../../utils/constants";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
@@ -56,7 +57,7 @@ const ExamenForm = ({
   groupSelected,
   activeGroup,
   examsGrouped,
-  onPrevious,
+  onPrevious
 }) => {
   console.log("activeGroup: ", activeGroup);
   const dispatch = useDispatch();
@@ -87,8 +88,6 @@ const ExamenForm = ({
   const onBack = () => dispatch(deleteStep(previousStep));
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-
-  console.log("model ", model);
 
   const previousStep = getStepByKey(steps, STEP2);
 
@@ -206,6 +205,18 @@ const ExamenForm = ({
       setReload(true);
       onAddExam({ name: "EXAMSLIST" });
       dispatch(addExam(payload));
+
+      dispatch(createExamenAction({
+        nom: "nom " + Math.round(Math.random() * 100),
+        id_modele: 111,
+        id_model_groupe: 3,
+        id_praticien: 1,
+        id_profession: 86,
+        id_lieu: 1,
+        fixe: fixedExamPosition? 1: 0,
+        position: 2,
+        id_motif: 1,
+      }));
     }
   };
 
@@ -222,8 +233,8 @@ const ExamenForm = ({
   };
 
   const onCancel = () => {
-    // dispatch(deleteStep(previousStep))
-    onPrevious(true);
+    console.log(typeof onPrevious);
+    onPrevious && onPrevious();
   };
 
   const delaiInterExamen = (intervale) => {
@@ -383,14 +394,15 @@ const ExamenForm = ({
                 </EuiFlexGroup>
               ) : (
                 <EuiFlexGroup style={styles.buttonContainer}>
-                  <EuiButtonEmpty onClick={onCancel} style={styles.cancelBtn}>
+                  <EuiButtonEmpty onClick={() => {
+                    onCancel();
+                  }} style={styles.cancelBtn}>
                     Annuler
                   </EuiButtonEmpty>
                   <EuiButton
                     onClick={() => {
                       onAddExamen();
                       dispatch(getSelectedExamGroup(activeGroup));
-                      console.log("ajouter");
                     }}
                     style={styles.addBtn}
                   >
