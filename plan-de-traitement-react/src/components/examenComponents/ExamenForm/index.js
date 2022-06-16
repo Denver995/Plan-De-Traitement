@@ -393,13 +393,13 @@ const ExamenForm = ({
                   </EuiButton>
                 </EuiFlexGroup>
               ) : (
-                <EuiFlexGroup style={styles.buttonContainer}>
-                  <EuiButtonEmpty onClick={() => {
+                <EuiFlexGroup   style={styles.buttonContainer}>
+                  <EuiButtonEmpty className= "ExamenFormCancel_btn" onClick={() => {
                     onCancel();
                   }} style={styles.cancelBtn}>
                     Annuler
                   </EuiButtonEmpty>
-                  <EuiButton
+                  <EuiButton className= "ExamenFormAdd_btn"
                     onClick={() => {
                       onAddExamen();
                       dispatch(getSelectedExamGroup(activeGroup));
