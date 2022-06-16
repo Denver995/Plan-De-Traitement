@@ -194,7 +194,7 @@ const ModalForm = ({ closeModal }) => {
                 </span>
               </div>
             <EuiFlexItem>
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap'}}>
+              <div className="periode_recherche_group_inputs" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap'}}>
                 {/* <EuiFlexItem> */}
                 <div style={{width: '49%'}}>
                   <EuiFieldNumber
@@ -231,7 +231,7 @@ border: "1px solid gray", height: 40}}>
           </EuiFlexGroup>
         )}
         <EuiFlexGroup className="modal__form__button__container" style={styles.footer}>
-          <EuiButtonEmpty onClick={closeModal} style={styles.cancelButton}>
+          <EuiButtonEmpty className="button_global" onClick={closeModal} style={styles.cancelButton}>
             Annuler
           </EuiButtonEmpty>
           <EuiButton
@@ -243,7 +243,7 @@ border: "1px solid gray", height: 40}}>
             }}
             disabled={nomModele.length < 3}
             fill={true}
-            className=""
+            className="button_global"
           >
             Suivant
           </EuiButton>

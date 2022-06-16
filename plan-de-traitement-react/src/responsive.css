@@ -15,4 +15,25 @@
   .modal__form__button__container {
     justify-content: space-between !important;
   }
+  .periode_recherche_group_inputs {
+    padding: 0 12px;
+  }
+}
+
+
+/* Extra Small Devices (Portrait Phones & Smaller Devices) */
+
+@media (max-width: 480px) {
+  .modal__form__button__container {
+    justify-content: space-between !important;
+  }
+  .button_global {
+    width: 9rem !important;
+    height: 45px !important;
+    font-size: 16px !important;
+  }
+  .button_global > span > span.euiButton__text {
+    margin-bottom: 0 !important;
+    height: 22px;
+  }
 }
