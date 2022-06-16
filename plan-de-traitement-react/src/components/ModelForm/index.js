@@ -22,7 +22,7 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
-import { createModel as createModelAction} from "../../redux/models/actions";
+import { createModel as createModelAction } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
@@ -85,7 +85,7 @@ const ModalForm = ({ closeModal }) => {
       dispatch(createModelAction({
         nom: nomModele + Math.round(Math.random() * 100),
         nb_occurence: nombreOccurence,
-        groupe_rdv: groupe_rdv ? 1: 0,
+        groupe_rdv: groupe_rdv ? 1 : 0,
         id_granularite_groupe: 4,
         id_granularite_examen: 4,
         id_entite: 4,
@@ -121,39 +121,39 @@ const ModalForm = ({ closeModal }) => {
   ]);
 
   return (
-    <ModalWrapper className = "modale-modelForm" style={styles.modal}>
+    <ModalWrapper className="modale-modelForm" style={styles.modal}>
       <EuiForm id={modalFormId} style={styles.form}>
         <EuiSpacer size="xl" />
-          <p style={styles.nomModel}>Nom du modele: </p>
-          <EuiFieldText
-            name="nomModele"
-            style={styles.inputModal}
-            value={nomModele}
-            onChange={onChangeNomModeleField}
-            fullWidth
-          />
+        <p style={styles.nomModel}>Nom du modele: </p>
+        <EuiFieldText
+          name="nomModele"
+          style={styles.inputModal}
+          value={nomModele}
+          onChange={onChangeNomModeleField}
+          fullWidth
+        />
         <EuiSpacer size="xl" />
         <EuiFlexGroup>
           {showGroupOption && (
             <EuiFlexItem>
               <div style={styles.toolTipCon}>
                 <div style={styles.groupeTitle}>Grouper les rendez-vous :</div>
-                <span style={{marginTop: 2}}>
-                <EuiToolTip
-                  position="right"
-                  content="Création de plusieurs groupes de rendez-vous"
-                >
-                 <InfoIcon width={"1rem"} />
-                </EuiToolTip>
+                <span style={{ marginTop: 2 }}>
+                  <EuiToolTip
+                    position="right"
+                    content="Création de plusieurs groupes de rendez-vous"
+                  >
+                    <InfoIcon width={"1rem"} />
+                  </EuiToolTip>
                 </span>
               </div>
               <EuiSpacer size="l" />
               <EuiFlexGroup>
                 <EuiFlexItem>
                   <EuiFlexGroup className="radio-first-container" style={{ maxWidth: "100%", border: "1px solid blue" }}>
-                    <EuiFlexItem style={{marginBottom: 13}}>
+                    <EuiFlexItem style={{ marginBottom: 13 }}>
                       <EuiFormRow>
-                        <Radio onChange={(data) =>  onChangeGroupModelCheckbox(data)} />
+                        <Radio onChange={(data) => onChangeGroupModelCheckbox(data)} />
                       </EuiFormRow>
                     </EuiFlexItem>
                   </EuiFlexGroup>
@@ -162,10 +162,10 @@ const ModalForm = ({ closeModal }) => {
             </EuiFlexItem>
           )}
           {groupe_rdv && showGroupOption && (
-            <EuiFlexItem className="nombre-occurence-nomberField" style={{}}>
-              <EuiFormRow style={{fontSize: 14}} label="Nombre d'occurrences*:" fullWidth>
+            <EuiFlexItem className="nombre-occurence-nomberField">
+              <EuiFormRow style={{ fontSize: 14 }} label="Nombre d'occurrences*:" fullWidth>
                 <EuiFieldNumber
-                style={{color: colors.primary}}
+                  style={{ color: colors.primary }}
                   name={nombreOccurence}
                   value={nombreOccurence}
                   onChange={(e) => {
@@ -181,35 +181,35 @@ const ModalForm = ({ closeModal }) => {
         </EuiFlexGroup>
         <EuiSpacer size="m" />
         {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup style={{marginLeft: 0, marginRight: 0, marginBottom: 33}} direction="column">
+          <EuiFlexGroup style={{ marginLeft: 0, marginRight: 0, marginBottom: 33 }} direction="column">
             <div style={styles.periodeRecherche}>
-                <div style={styles.groupeTitle}>Période de recherche d'un groupe :</div>
-                <span style={{marginTop: 2}}>
+              <div style={styles.groupeTitle}>Période de recherche d'un groupe :</div>
+              <span style={{ marginTop: 2 }}>
                 <EuiToolTip
                   position="right"
-                  content="Elle permet de définir l'intervalle de temps où seront recherché les examens du groupe"
+                  content="Elle permet de définir l'intervalle de temps où seront recherchés les examens du groupe"
                 >
-                 <InfoIcon width={"1rem"} />
+                  <InfoIcon width={"1rem"} />
                 </EuiToolTip>
-                </span>
-              </div>
+              </span>
+            </div>
             <EuiFlexItem>
               <EuiFlexGroup justifyContent="spaceBetween">
                 {/* <EuiFlexItem> */}
                 <EuiFieldNumber
-                className="inputNomber-for-periode"
+                  className="inputNomber-for-periode"
                   name="periode"
                   value={periode}
                   onChange={(e) => {
                     setPeriode(e.target.value);
                   }}
-                  style={{width: '100%', color: colors.primary}}
+                  style={{ width: '100%', color: colors.primary }}
                   fullWidth
                 />
                 {/* </EuiFlexItem>
                 <EuiFlexItem> */}
                 <EuiSelect
-                className="inputSelect-for-periode"
+                  className="inputSelect-for-periode"
                   options={listTypePeriode}
                   value={typePeriode}
                   onChange={(e) => onChangeTypePeriode(e)}
@@ -221,8 +221,8 @@ const ModalForm = ({ closeModal }) => {
             </EuiFlexItem>
           </EuiFlexGroup>
         )}
-        <EuiFlexGroup style={styles.footer}>
-          <EuiButtonEmpty onClick={closeModal} style={styles.cancelButton}>
+        <EuiFlexGroup className="groupe-btn-modelForm" style={styles.footer}>
+          <EuiButtonEmpty className="btn-annuler-modelForm" onClick={closeModal} style={styles.cancelButton}>
             Annuler
           </EuiButtonEmpty>
           <EuiButton
@@ -234,13 +234,13 @@ const ModalForm = ({ closeModal }) => {
             }}
             disabled={nomModele.length < 3}
             fill={true}
-            className=""
+            className="btn-suivant-modelForm"
           >
             Suivant
           </EuiButton>
         </EuiFlexGroup>
       </EuiForm>
-      <EuiSpacer size="m"/>
+      <EuiSpacer size="m" />
     </ModalWrapper>
   );
 };

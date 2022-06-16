@@ -67,18 +67,18 @@ const styles = {
   cancelBtn: {
     fontSize: "27px",
     color: colors.primary,
-    width: "210px",
+   // width: "210px",
     height: "48px",
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
-    marginRight: "8%",
+    //marginRight: "8%",
     textDecoration: "none",
   },
 
   addBtn: {
     fontSize: "27px",
     color: colors.white,
-    width: "210px",
+    //width: "210px",
     height: "48px",
     border: "3px solid #5D9AD4",
     borderRadius: "35px",

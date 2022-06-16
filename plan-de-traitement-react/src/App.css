@@ -1,4 +1,17 @@
-
+.btn-annuler-examForm{
+  margin-right: 15px;
+  width: "210px"
+}
+.btn-ajouter-examForm{
+  width: "210px"
+}
+.btn-suivant-modelForm{
+  width: 187px;
+}
+.btn-annuler-modelForm{
+  margin-right: 8px;
+  width: 187px;
+}
 .App {
   text-align: center;
 }
@@ -268,7 +281,7 @@ body {
 {
   font-size: 19px;
   border: 3px solid #1D3D5B;
-  width: 179px;
+  width: 100%;
   height: 49px;
   color: #1D3D5B;
   margin-right: 67%;
@@ -279,7 +292,7 @@ body {
 .btn_group .button_next_me
 {
   font-size: 19px;
-  width: 235px;
+  width: 179px;
   height: 49px;
   background: #134058 0% 0% no-repeat padding-box;
   box-shadow: 3px 3px 6px #00000029 !important;
@@ -393,6 +406,38 @@ hr {
     width: 24rem !important;
   }
 }
+@media screen and (max-width: 640px) and (min-width : 0px) {
+  .btn-annuler-examForm{
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+   }
+   .btn-ajouter-examForm{
+    width: 100%;
+   }
+}
+@media screen and (max-width: 446px) and (min-width : 0px) {
+ 
+ .btn-suivant-modelForm{
+   width: 100%;
+ }
+ .btn-annuler-modelForm{
+   width: 100%;
+   margin-bottom: 10px;
+   margin-top: 10px;
+ }
+ .btn_group{
+   display: flex;
+   flex-direction: column;
+ }
+ .btn_group .button_cancel_me{
+  width: 100%;
+ }
+ .btn_group .button_next_me{
+   width: 100%;
+}
+}
 @media screen and (max-width: 510px) and (min-width : 500px) {
   div.espacement_inter_examen_EuiModalBody{
     width: 30rem !important;
@@ -429,6 +474,13 @@ hr {
   }
  
 }
+@media screen and (max-width: 768px) and (min-width : 0) {
+  .radio-second-container{
+    justify-content: space-between;
+    border : 1px solid pink;
+    /**margin-right: -100px;**/
+  }
+}
 @media screen and (max-width: 574px) and (min-width : 560px) {
   div.espacement_inter_examen_EuiModalBody{
     width: 33rem !important;
@@ -436,10 +488,6 @@ hr {
   .radio-first-container{
     padding-left: 40px;
   }
-  .radio-second-container{
-    justify-content: space-between;
-  }
- 
 }
 
 @media only screen and (min-width: 574px) {

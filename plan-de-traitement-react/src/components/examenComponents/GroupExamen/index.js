@@ -20,7 +20,7 @@ import {
   setActiveGroup,
   setShowExamForm
 } from "../../../redux/examens/actions";
-import {startLoading } from '../../../redux/commons/actions';
+import { startLoading } from '../../../redux/commons/actions';
 
 import { fakeData } from "../../../utils/defaultData";
 import styles from "./styles";
@@ -89,7 +89,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
 
   return (
     <div style={styles.container} className="contain">
-      <div style={{marginLeft: 30, marginTop: 28, marginBottom: 20}}>
+      <div style={{ marginLeft: 30, marginTop: 28, marginBottom: 20 }}>
         <p style={{
           font: "normal normal bold 14px/19px Open Sans",
           letterSpacing: 0,
@@ -102,84 +102,84 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
         }}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
       </div>
       {examsGrouped.map((group, index) => (
-        <Draggable key={index} draggableId={'draggable-'+index} index={index}>
-        {(provided) => (
-           <div
-           {...provided.draggableProps}
-           {...provided.dragHandleProps}
-           ref={provided.innerRef}
-         >
-        <div key={index}>
-          <div className="groups-content">
-            <div className="group-exam-item">
-              <div style={{display: 'flex', alignItems: 'center', marginLeft: 50}}>
-                <div style={{marginRight: 25}}><Propover /></div><div style={{color: colors.primarySombre, fontWeight: '600'}}>{"Group" + index}</div>
-              </div>
+        <Draggable key={index} draggableId={'draggable-' + index} index={index}>
+          {(provided) => (
+            <div
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+            >
+              <div key={index}>
+                <div className="groups-content">
+                  <div className="group-exam-item">
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: 50 }}>
+                      <div style={{ marginRight: 25 }}><Propover /></div><div style={{ color: colors.primarySombre, fontWeight: '600' }}>{"Group" + index}</div>
+                    </div>
 
-              <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginRight: 30
-              }}>
-                <p style={{fontSize: 17, color: colors.primarySombre}}>Periode de recherche : 00h</p>
-                {toggledGroup[index] ? (
-                  <ArrowDropUpIcon
-                    onClick={() => toggle(index)}
-                    style={{ cursor: "pointer" }}
-                  />
-                ) : (
-                  <ArrowDropDownIcon
-                    onClick={() => toggle(index)}
-                    style={{ cursor: "pointer" }}
-                  />
-                )}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginRight: 30
+                    }}>
+                      <p style={{ fontSize: 17, color: colors.primarySombre }}>Periode de recherche : 00h</p>
+                      {toggledGroup[index] ? (
+                        <ArrowDropUpIcon
+                          onClick={() => toggle(index)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <ArrowDropDownIcon
+                          onClick={() => toggle(index)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  {toggledGroup[index] && (
+                    <div className="exams">
+                      <div style={{ marginBottom: "20px" }}>
+                        <hr className="divisor" color="#5d9ad4" size="1"></hr>
+                        <button
+                          className="divisor-btn"
+                          onClick={() => {
+                            dispatch(setShowExamForm(true));
+                            dispatch(getSelectedExamGroup(index));
+                            dispatch(setActiveGroup(index));
+                            // onAddExamenNew(index);
+                          }}
+                        >
+                          <span style={{
+                            fontWeight: 'bold',
+                            fontSize: 25,
+                            marginRight: 5
+                          }}>+</span><span style={{ marginTop: 4 }}>Ajouter un examen</span>
+                        </button>
+                      </div>
+                      {Object.keys(group).map((exam, i) => (
+                        <div
+                          key={i}
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <ExamenItem color={colors[colorsArr[i]]} data={exam} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {index !== examsGrouped.length - 1 && <div style={{ marginLeft: 50 }}>
+                  <p style={{
+                    textDecoration: "underline",
+                    font: "normal normal normal 17px/23px Open Sans",
+                    letterSpacing: 0,
+                    color: colors.primary,
+                  }}>Choisir l'intervalle inter groupe</p>
+                </div>}
               </div>
             </div>
-
-            {toggledGroup[index] && (
-              <div className="exams">
-                <div style={{ marginBottom: "20px" }}>
-                  <hr className="divisor" color="#5d9ad4" size="1"></hr>
-                  <button
-                    className="divisor-btn"
-                    onClick={() => {
-                      dispatch(setShowExamForm(true));
-                      dispatch(getSelectedExamGroup(index));
-                      dispatch(setActiveGroup(index));
-                      // onAddExamenNew(index);
-                    }}
-                  >
-                    <span style={{
-                      fontWeight: 'bold',
-                      fontSize: 25,
-                      marginRight: 5
-                    }}>+</span><span style={{marginTop: 4}}>Ajouter un examen</span>
-                  </button>
-                </div>
-                {Object.keys(group).map((exam, i) => (
-                  <div
-                    key={i}
-                    style={{ display: "flex", flexDirection: "column" }}
-                  >
-                    <ExamenItem color={colors[colorsArr[i]]} data={exam} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          {index !== examsGrouped.length - 1 && <div style={{marginLeft: 50}}>
-            <p style={{
-              textDecoration: "underline",
-              font: "normal normal normal 17px/23px Open Sans",
-              letterSpacing: 0,
-              color: colors.primary,
-            }}>Choisir l'intervalle inter groupe</p>
-          </div>}
-        </div>
-        </div>
           )}
-      </Draggable>
+        </Draggable>
       ))}
     </div>
   );
@@ -209,11 +209,11 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
     onPrevious()
     console.log("group changed...", showForm);
   }, [examsGrouped, showForm]);
-  
+
 
   const handleOnDragEnd = (result) => {
     console.log('Handle On Drag');
-    if(!result.destination) return;
+    if (!result.destination) return;
     const items = Array.from(groupList);
     console.log('items: ', items);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -233,35 +233,36 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
         />
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="droppable">
-              {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{ marginTop: 28, marginBottom: 60 }}
-                  >
-                  {[...Array(nbrGroupe).keys()].map((item, index) => (
-                      <GroupItem
-                        examsGrouped={groupList}
-                        groupName={"Group " + index}
-                        key={index}
-                        listExam={[]}
-                      />
-                    ))}
-                    {provided.placeholder}
-                    </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{ marginTop: 28, marginBottom: 60 }}
+              >
+                {[...Array(nbrGroupe).keys()].map((item, index) => (
+                  <GroupItem
+                    examsGrouped={groupList}
+                    groupName={"Group " + index}
+                    key={index}
+                    listExam={[]}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
       {!showForm && (
         <>
-          <EuiFlexGroup className="btn_group" style={{ margin: 17 }}>
+          <EuiFlexGroup className="btn_group" style={{ margin: 17, ...styles.cancelBtn }}>
             <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
               Retour
             </EuiButtonEmpty>
             <EuiButton
               fill={true}
+              style = {{...styles.addBtn}}
               className="button_next_me"
               onClick={onClickNext}
             >
