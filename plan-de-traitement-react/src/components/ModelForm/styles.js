@@ -3,6 +3,7 @@ import colors from "../../utils/colors";
 const styles = {
   modal: {
     width: "70rem",
+    bottom: 'unset'
   },
   container: {
     with: "100%",
@@ -99,6 +100,7 @@ const styles = {
   periodeRecherche: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: 12,
   }
 };
 

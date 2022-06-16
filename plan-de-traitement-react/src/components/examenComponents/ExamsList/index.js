@@ -22,11 +22,11 @@ import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ModalWrapper from "../../common/ModalWrapper";
 
 const ExamsList = ({ exams, onAdd, steps }) => {
-  const getItems = count =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    content: `item ${k}`
-  }));
+  const getItems = (count) =>
+    Array.from({ length: count }, (v, k) => k).map((k) => ({
+      id: `item-${k}`,
+      content: `item ${k}`,
+    }));
 
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
@@ -43,15 +43,15 @@ const ExamsList = ({ exams, onAdd, steps }) => {
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const handleOnDragEnd = (result) => {
-    if(!result.destination) return;
+    if (!result.destination) return;
     const items = Array.from(examsList);
-    console.log('items: ', items);
+    console.log("items: ", items);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
     setExamsList([...items]);
-    console.log('examsList: ', examsList);
-  }
+    console.log("examsList: ", examsList);
+  };
 
   return (
     <>
@@ -61,12 +61,14 @@ const ExamsList = ({ exams, onAdd, steps }) => {
         />
       ) : (
         <ModalWrapper style={styles.modal}>
-          <div style={{ marginBottom: 10 }}>
+          <div>
             <EuiFlexGroup>
               <EuiFlexItem style={styles.titleWrapper}>
-                <p style = {styles.title}>Modèle:</p>
+                <p style={styles.title}>Modèle:</p>
                 <EuiSpacer size="s" />
-                <p style = {styles.subtitleWrapper}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
+                <p style={styles.subtitleWrapper}>
+                  Xxxxxxxxxx xxxxxxxxxxx XXXX
+                </p>
               </EuiFlexItem>
               {/* {isModelGroup &&
                         <EuiFlexItem>
@@ -82,11 +84,15 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    style={{ marginTop: 28, marginBottom: 60 }}
+                    style={{ marginTop: 20, marginBottom: 10 }}
                   >
                     {examsList.length > 0 &&
                       examsList.map((item, index) => (
-                        <Draggable key={index} draggableId={'draggable-'+index} index={index}>
+                        <Draggable
+                          key={index}
+                          draggableId={"draggable-" + index}
+                          index={index}
+                        >
                           {(provided) => (
                             <div
                               {...provided.draggableProps}
@@ -100,57 +106,45 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                                 index={index}
                                 id_modele={item.id_modele}
                               />
-                               {index !== exams.length - 1 && (
-                                 <span
-                                   onClick={() => setShowInterExam(true)}
-                                   className="delai-inter-group"
-                                 >
+                              {index !== exams.length - 1 && (
+                                <span
+                                  onClick={() => setShowInterExam(true)}
+                                  className="delai-inter-group"
+                                >
                                   Choisir l'intervale inter examen
-                                 </span>
-                               )}
-                             </div>
+                                </span>
+                              )}
+                            </div>
                           )}
                         </Draggable>
                       ))}
-                      {provided.placeholder}
+                    {provided.placeholder}
                   </div>
                 )}
               </Droppable>
             </DragDropContext>
             <div style={styles.btnContainer}>
-            {exams.length > 2 && (
-                  <EuiFlexGroup justifyContent="center">
-                    <EuiFlexItem>
-                      <EuiButton
-                        onClick={onClickNext}
-                        style={{ color: "white",  
-                        textAlign: "left",
-                        letterSpacing: 0,
-                        font: "normal normal 600 27px/37px Open Sans",
-                        display: "block"
-                        }}
-                        className="button_finished_new"
-                      >
-                        Terminer
-                      </EuiButton>
-                    </EuiFlexItem>
-                  </EuiFlexGroup>
-                )}
-              
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onAdd("EXAMENFORM");
-                  }}
-                 
-                  style={styles.plusBtn}
-                >
-                  <img style={styles.image} src={Plus} alt="this is a btn" />
-                </button>
-                
-              </div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onAdd("EXAMENFORM");
+                }}
+                style={styles.plusBtn}
+              >
+                <img style={styles.image} src={Plus} alt="this is a btn" />
+              </button>
             </div>
-    
+            <EuiSpacer size="xl" />
+            <EuiSpacer size="l" />
+            <EuiSpacer size="xxl" />
+            <div style={styles.terminer}>
+              {exams.length > 2 && (
+                <EuiButton onClick={onClickNext} style={styles.btnTerminer}>
+                  Terminer
+                </EuiButton>
+              )}
+            </div>
+          </div>
         </ModalWrapper>
       )}
     </>

@@ -481,7 +481,6 @@ hr {
 @media screen and (max-width: 768px) and (min-width : 0) {
   .radio-second-container{
     justify-content: space-between;
-    border : 1px solid pink;
     /**margin-right: -100px;**/
   }
   .btn_group .button_cancel_me

@@ -85,6 +85,8 @@ const ExamenForm = ({
     confirmText: "Appliquer",
   });
 
+  const onBack = () => dispatch(deleteStep(previousStep));
+
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const previousStep = getStepByKey(steps, STEP2);
@@ -391,16 +393,13 @@ const ExamenForm = ({
                   </EuiButton>
                 </EuiFlexGroup>
               ) : (
-                <EuiFlexGroup style={styles.buttonContainer}>
-                  <EuiButtonEmpty 
-                  className="btn-annuler-examForm"
-                  onClick={() => {
+                <EuiFlexGroup className="examen__form__button__container" style={styles.buttonContainer}>
+                  <EuiButtonEmpty className= "btn-annuler-examForm ExamenFormCancel_btn" onClick={() => {
                     onCancel();
                   }} style={styles.cancelBtn}>
                     Annuler
                   </EuiButtonEmpty>
-                  <EuiButton
-                  className="btn-ajouter-examForm"
+                  <EuiButton className= "ExamenFormAdd_btn btn-ajouter-examForm"
                     onClick={() => {
                       onAddExamen();
                       dispatch(getSelectedExamGroup(activeGroup));

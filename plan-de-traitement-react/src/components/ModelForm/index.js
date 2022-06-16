@@ -150,8 +150,8 @@ const ModalForm = ({ closeModal }) => {
               <EuiSpacer size="l" />
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <EuiFlexGroup className="radio-first-container" style={{ maxWidth: "100%", border: "1px solid blue" }}>
-                    <EuiFlexItem style={{ marginBottom: 13 }}>
+                  <EuiFlexGroup className="radio-first-container" style={{ maxWidth: "100%"}}>
+                    <EuiFlexItem style={{marginBottom: 13}}>
                       <EuiFormRow>
                         <Radio onChange={(data) => onChangeGroupModelCheckbox(data)} />
                       </EuiFormRow>
@@ -165,7 +165,7 @@ const ModalForm = ({ closeModal }) => {
             <EuiFlexItem className="nombre-occurence-nomberField">
               <EuiFormRow style={{ fontSize: 14 }} label="Nombre d'occurrences*:" fullWidth>
                 <EuiFieldNumber
-                  style={{ color: colors.primary }}
+                style={{color: colors.primary, width: '100%'}}
                   name={nombreOccurence}
                   value={nombreOccurence}
                   onChange={(e) => {
@@ -181,7 +181,7 @@ const ModalForm = ({ closeModal }) => {
         </EuiFlexGroup>
         <EuiSpacer size="m" />
         {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup style={{ marginLeft: 0, marginRight: 0, marginBottom: 33 }} direction="column">
+          <EuiFlexGroup style={{marginLeft: -12, marginRight: -12, marginBottom: 33}} direction="column">
             <div style={styles.periodeRecherche}>
               <div style={styles.groupeTitle}>Période de recherche d'un groupe :</div>
               <span style={{ marginTop: 2 }}>
@@ -194,35 +194,44 @@ const ModalForm = ({ closeModal }) => {
               </span>
             </div>
             <EuiFlexItem>
-              <EuiFlexGroup justifyContent="spaceBetween">
+              <div className="periode_recherche_group_inputs" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap'}}>
                 {/* <EuiFlexItem> */}
-                <EuiFieldNumber
-                  id="inputNomber-for-periode"
-                  name="periode"
-                  value={periode}
-                  onChange={(e) => {
-                    setPeriode(e.target.value);
-                  }}
-                  style = {{ color: colors.primary}}
-                  fullWidth
-                />
+                <div style={{width: '49%'}}>
+                  <EuiFieldNumber
+                  className="inputNomber-for-periode"
+                    name="periode"
+                    value={periode}
+                    onChange={(e) => {
+                      setPeriode(e.target.value);
+                    }}
+                    style={{width: '100%', color: colors.primary}}
+                    fullWidth
+                  />
+                </div>
                 {/* </EuiFlexItem>
                 <EuiFlexItem> */}
-                <EuiSelect
-                  className="inputSelect-for-periode"
+                {/* <EuiSelect
+                className="inputSelect-for-periode"
                   options={listTypePeriode}
                   value={typePeriode}
                   onChange={(e) => onChangeTypePeriode(e)}
-                  fullWidth
-                />
+                  style={{width: '50%'}}
+                /> */}
+                <div style={{width: '49%'}}>
+                <select name="cars" id="cars" style={{width: '100%', paddingLeft: 10, paddingRight: 10, backgroundColor: '#fff',
+borderRadius: 5,
+border: "1px solid gray", height: 40}}>
+                  {listTypePeriode.map((item, index) => <option key={index} value={item.value}>{item.text}</option>)}
+                </select>
+                </div>
 
                 {/* </EuiFlexItem> */}
-              </EuiFlexGroup>
+              </div>
             </EuiFlexItem>
           </EuiFlexGroup>
         )}
-        <EuiFlexGroup className="groupe-btn-modelForm" style={styles.footer}>
-          <EuiButtonEmpty className="btn-annuler-modelForm" onClick={closeModal} style={styles.cancelButton}>
+        <EuiFlexGroup className="modal__form__button__container groupe-btn-modelForm" style={styles.footer}>
+          <EuiButtonEmpty className="button_global btn-annuler-modelForm" onClick={closeModal} style={styles.cancelButton}>
             Annuler
           </EuiButtonEmpty>
           <EuiButton
@@ -234,7 +243,7 @@ const ModalForm = ({ closeModal }) => {
             }}
             disabled={nomModele.length < 3}
             fill={true}
-            className="btn-suivant-modelForm"
+            className="button_global btn-suivant-modelForm"
           >
             Suivant
           </EuiButton>
