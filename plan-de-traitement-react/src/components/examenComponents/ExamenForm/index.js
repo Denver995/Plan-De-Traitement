@@ -84,6 +84,8 @@ const ExamenForm = ({
     confirmText: "Appliquer",
   });
 
+  const onBack = () => dispatch(deleteStep(previousStep));
+
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   console.log("model ", model);
