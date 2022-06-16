@@ -112,7 +112,7 @@ const Radio = ({ onChange }) => {
   }
 
   return (
-    <div className="radio-second-container" style={{ display: "flex"}}>
+    <div className="radio-second-container" style={{ display: "flex", width: "100%", right: 0}}>
       <div style={{...styles.flexCenter, marginRight: 37}} onClick={handleTrue}>
         <div style={{...styles.outerCircle, ...styleTrue.outerCircle}}>
           <div style={{...styles.innerCircle, ...styleTrue.innerCircle}}></div>

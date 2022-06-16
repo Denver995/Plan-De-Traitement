@@ -66,3 +66,17 @@ export function getHSPBrightness(hexColor) {
       0.114 * (color.b * color.b)
   );
 }
+
+/**
+ * Format exam number
+ * @param {Number} examNumber
+ * @returns {String} new value
+ */
+export function formatExamNumber(examNumber) {
+  let newValue = examNumber.toString();
+  if (newValue.length > 2) {
+    return (newValue = newValue.substring(0, 5 - 3) + '...');
+  } else {
+    return newValue;
+  }
+}

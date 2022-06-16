@@ -1,5 +1,6 @@
 import './App.css';
 import './font.css';
+import './responsive.css';
 import styles from './eui_theme_light.css';
 import "./responsive.css";
 // import '@elastic/eui/dist/eui_theme_light.css';
