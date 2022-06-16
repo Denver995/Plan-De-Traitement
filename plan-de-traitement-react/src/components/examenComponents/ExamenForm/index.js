@@ -21,7 +21,7 @@ import {
   deleteStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
-import { createExamen as createExamenAction} from "../../../redux/examens/actions";
+import { createExamen as createExamenAction } from "../../../redux/examens/actions";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import { STEP2, STEP3 } from "../../../utils/constants";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
@@ -57,7 +57,7 @@ const ExamenForm = ({
   groupSelected,
   activeGroup,
   examsGrouped,
-  onPrevious
+  onPrevious,
 }) => {
   console.log("activeGroup: ", activeGroup);
   const dispatch = useDispatch();
@@ -206,17 +206,19 @@ const ExamenForm = ({
       onAddExam({ name: "EXAMSLIST" });
       dispatch(addExam(payload));
 
-      dispatch(createExamenAction({
-        nom: "nom " + Math.round(Math.random() * 100),
-        id_modele: 111,
-        id_model_groupe: 3,
-        id_praticien: 1,
-        id_profession: 86,
-        id_lieu: 1,
-        fixe: fixedExamPosition? 1: 0,
-        position: 2,
-        id_motif: 1,
-      }));
+      dispatch(
+        createExamenAction({
+          nom: "nom " + Math.round(Math.random() * 100),
+          id_modele: 111,
+          id_model_groupe: 3,
+          id_praticien: 1,
+          id_profession: 86,
+          id_lieu: 1,
+          fixe: fixedExamPosition ? 1 : 0,
+          position: 2,
+          id_motif: 1,
+        })
+      );
     }
   };
 
@@ -242,7 +244,6 @@ const ExamenForm = ({
       <EuiFlexGroup>
         <EuiFlexItem className="delaiInterExamen">
           <EuiLink color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
-            {/* Délai entre "l'examen 1" et "l'examen 2" : {intervale} */}
             Choisir l'intervale inter examen
           </EuiLink>
         </EuiFlexItem>
@@ -292,19 +293,19 @@ const ExamenForm = ({
                   <EuiSpacer size="s" />
                   <p style={styles.input}>Protocol d'IVT</p>
                 </EuiFlexItem>
-                {isModelGroup && (
+                {isModelGroup ? (
                   <EuiFlexItem>
                     <p>Groupe:</p>
                     <EuiSpacer size="s" />
                     <p>10000</p>
                   </EuiFlexItem>
-                )}
+                ): null}
               </EuiFlexGroup>
               <EuiFlexGroup>
                 <EuiHorizontalRule className="horizontalRule" />
               </EuiFlexGroup>
             </div>
-            {isModelGroup && (
+            {isModelGroup ? (
               <div style={{ marginTop: 28, marginBottom: 28 }}>
                 {Object.keys(examsGrouped[activeGroup]).length > 0 &&
                   Object.keys(examsGrouped[activeGroup]).map((item, index) => (
@@ -316,9 +317,10 @@ const ExamenForm = ({
                       />
                       {delaiInterExamen("1heure - 2heures")}
                     </div>
-                  ))}
+                  )
+                  )}
               </div>
-            )}
+            ): null}
             <EuiFlexGroup style={styles.titleContainer}>
               <TracIcon width={"1rem"} />
               <EuiFlexItem style={styles.examTitle}>Examen 1</EuiFlexItem>
@@ -393,13 +395,21 @@ const ExamenForm = ({
                   </EuiButton>
                 </EuiFlexGroup>
               ) : (
-                <EuiFlexGroup className="examen__form__button__container" style={styles.buttonContainer}>
-                  <EuiButtonEmpty className= "btn-annuler-examForm ExamenFormCancel_btn" onClick={() => {
-                    onCancel();
-                  }} style={styles.cancelBtn}>
+                <EuiFlexGroup
+                  className="examen__form__button__container"
+                  style={styles.buttonContainer}
+                >
+                  <EuiButtonEmpty
+                    className="btn-annuler-examForm ExamenFormCancel_btn"
+                    onClick={() => {
+                      onCancel();
+                    }}
+                    style={styles.cancelBtn}
+                  >
                     Annuler
                   </EuiButtonEmpty>
-                  <EuiButton className= "ExamenFormAdd_btn btn-ajouter-examForm"
+                  <EuiButton
+                    className="ExamenFormAdd_btn btn-ajouter-examForm"
                     onClick={() => {
                       onAddExamen();
                       dispatch(getSelectedExamGroup(activeGroup));

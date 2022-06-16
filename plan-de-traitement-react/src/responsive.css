@@ -48,6 +48,17 @@ text-decoration: none;
 }
 }
 
+@media (max-width: 766px) and (min-width: 481px) {
+  .ExamenFormCancel_btn, .ExamenFormAdd_btn {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+  .btn-annuler-examForm {
+    margin-right: 0;
+  }
+}
+
+
 
 /* Extra Small Devices (Portrait Phones & Smaller Devices) */
 
