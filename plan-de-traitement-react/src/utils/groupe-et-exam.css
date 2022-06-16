@@ -20,8 +20,8 @@
   text-align: center;
   background-color: #5d9ad4;
   color: white;
+  max-width: 18%;
   width: 18%;
-  min-width: 18%;
   border: 1px solid #5d9ad4;
   float: right;
   margin-bottom: 0%;
@@ -247,3 +247,5 @@
 .vertical-timeline-element .vertical-timeline-element--left {
   margin: 0;
 }
+
+
