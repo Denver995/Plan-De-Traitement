@@ -393,7 +393,7 @@ const ExamenForm = ({
                   </EuiButton>
                 </EuiFlexGroup>
               ) : (
-                <EuiFlexGroup   style={styles.buttonContainer}>
+                <EuiFlexGroup className="examen__form__button__container" style={styles.buttonContainer}>
                   <EuiButtonEmpty className= "btn-annuler-examForm ExamenFormCancel_btn" onClick={() => {
                     onCancel();
                   }} style={styles.cancelBtn}>
