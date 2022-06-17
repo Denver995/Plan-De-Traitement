@@ -7,7 +7,8 @@ import elipse from "../../../assets/svgs/ellipsis-v.svg";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ExamenItem from "../ExamenItem";
+// import ExamenItem from "../ExamenItem";
+import ExamItem from "../ExamItem";
 import ExamenForm from "../ExamenForm";
 
 import { STEP3, STEP2 } from "../../../utils/constants";
@@ -77,6 +78,8 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
+  const [showInterExam, setShowInterExam] = useState(false);
+
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
     newToggledGroup[index] = !toggledGroup[index];
@@ -116,7 +119,12 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   console.log("ExamsGroupedGroupItem: ", examsGrouped);
-  return (
+  return (<>
+  {showInterExam ? (
+        <EspacementInterExamenForm
+          onClose={(data) => setShowInterExam(!data)}
+        />
+      ) : (
     <div style={styles.container} className="contain">
       <div style={{ marginLeft: 30, marginTop: 28, marginBottom: 20 }}>
         <p
@@ -240,9 +248,10 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                           key={i}
                           style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <ExamenItem
+                          <ExamItem
                             color={colors[colorsArr[i]]}
                             data={exam}
+                            exam={exam}
                           />
                         </div>
                       ))}
@@ -252,6 +261,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                 {index !== examsGrouped.length - 1 && (
                   <div style={{ marginLeft: 50 }}>
                     <p
+                      onClick={() => setShowInterExam(true)}
                       style={{
                         textDecoration: "underline",
                         font: "normal normal normal 17px/23px Open Sans",
@@ -269,6 +279,8 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
         </Draggable>
       ))}
     </div>
+    )}
+    </>
   );
 };
 

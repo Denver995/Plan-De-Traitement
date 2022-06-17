@@ -42,7 +42,8 @@ import {
   setShowExamForm,
 } from "../../../redux/examens/actions";
 import { setAlert } from "../../../redux/commons/actions";
-import ExamenItem from "../ExamenItem";
+// import ExamenItem from "../ExamenItem";
+import ExamItem from "../ExamItem";
 
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import "../../../modifierexamen.css";
@@ -310,10 +311,11 @@ const ExamenForm = ({
                 {Object.keys(examsGrouped[activeGroup]).length > 0 &&
                   Object.keys(examsGrouped[activeGroup]).map((item, index) => (
                     <div key={index}>
-                      <ExamenItem
-                        color={colors[colorsArr[index]]}
+                      <ExamItem
+                        color={fakeData.color}
                         data={fakeData}
                         showEditForm={setShowEditForm}
+                        exam={fakeData}
                       />
                       {delaiInterExamen("1heure - 2heures")}
                     </div>
