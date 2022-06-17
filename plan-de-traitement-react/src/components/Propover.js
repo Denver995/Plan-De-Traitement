@@ -15,7 +15,6 @@ const Propover = ({ data, showEditForm, isModelGroup, onDelete, onFixPosition, e
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   const [panelRef] = useState(null);
-
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
@@ -54,11 +53,11 @@ const Propover = ({ data, showEditForm, isModelGroup, onDelete, onFixPosition, e
             label="Lier avec un autre examen"
           > */}
             <EuiAccordion style={{marginLeft: 9, marginTop: 8}} arrowDisplay="right" id={simpleAccordionId} buttonContent={isModelGroup ? "Lier avec un autre groupe": "Lier avec un autre examen"}>
-              <EuiPanel color="subdued">
+              <EuiPanel color="red">
                 {isModelGroup || isModelGroup === 0 ? (
-                  examsGrouped.map((group, i) => <p key={i}>{"group " + i}</p>)
+                  examsGrouped.length > 0 && examsGrouped.map((group, i) => <p style={{cursor: "pointer", paddingBottom: 5}} key={i}>{"group " + i}</p>)
                 ): (
-                  exams.map((exam, i) => <p key={i}>{exam.nom + " " + exam.id_modele}</p>)
+                  exams.map((exam, i) => <p style={{cursor: "pointer", paddingBottom: 5}} key={i}>{exam.nom + " " + exam.id_modele}</p>)
                 )}
               </EuiPanel>
             </EuiAccordion>

@@ -82,16 +82,16 @@ const ModalForm = ({ closeModal }) => {
       console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       createModele(step);
-      dispatch(createModelAction({
-        nom: nomModele + Math.round(Math.random() * 100),
-        nb_occurence: nombreOccurence,
-        groupe_rdv: groupe_rdv ? 1 : 0,
-        id_granularite_groupe: 4,
-        id_granularite_examen: 4,
-        id_entite: 4,
-        espacement_groupe: 2,
-        espacement_examen: 4,
-      }))
+      // dispatch(createModelAction({
+      //   nom: nomModele + Math.round(Math.random() * 100),
+      //   nb_occurence: nombreOccurence,
+      //   groupe_rdv: groupe_rdv ? 1 : 0,
+      //   id_granularite_groupe: 4,
+      //   id_granularite_examen: 4,
+      //   id_entite: 4,
+      //   espacement_groupe: 2,
+      //   espacement_examen: 4,
+      // }))
     } else setShowGroupOption(true);
   };
 
