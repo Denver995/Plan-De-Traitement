@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import elipse from "../../../assets/svgs/ellipsis-v.svg";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ExamenItem from "../ExamenItem";
 import ExamenForm from "../ExamenForm";
@@ -25,7 +26,7 @@ import {
   setShowExamForm,
   deleteExamGroup,
 } from "../../../redux/examens/actions";
-import { startLoading } from "../../../redux/commons/actions";
+import { setAlert, startLoading } from "../../../redux/commons/actions";
 
 import { fakeData } from "../../../utils/defaultData";
 import styles from "./styles";
@@ -54,6 +55,25 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const iconElopse = (
     <span onClick={togglePropover} className="icon-ellipsis-v iconList"></span>
   );
+
+  const onChooseDelaiEspacement = () => {
+    dispatch(
+      setAlert({
+        showAlert: true,
+        showCustomComponent: true,
+        showButtonBlock: false,
+        onAccept: () => {
+          dispatch(setAlert(false));
+        },
+        onReject: () => {
+          dispatch(setAlert(false));
+        },
+        componentType: () => {
+          return <EspacementInterExamenForm />;
+        },
+      })
+    );
+  };
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
@@ -118,7 +138,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
           Xxxxxxxxxx xxxxxxxxxxx XXXX
         </p>
       </div>
-      {groupList.map((group, index) => (
+      {examsGrouped.map((group, index) => (
         <Draggable key={index} draggableId={"draggable-" + index} index={index}>
           {(provided) => (
             <div

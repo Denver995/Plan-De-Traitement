@@ -117,6 +117,7 @@
   font: normal normal normal 15px/20px Open Sans;
   letter-spacing: 0px;
   color: #052a3e;
+  cursor: pointer;
 }
 .exam-item .bloc-1 {
   display: flex;
