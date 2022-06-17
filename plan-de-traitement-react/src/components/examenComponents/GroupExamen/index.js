@@ -113,7 +113,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                 <div className="groups-content">
                   <div className="group-exam-item">
                     <div style={{ display: 'flex', alignItems: 'center', marginLeft: 50 }}>
-                      <div style={{ marginRight: 25 }}><Propover /></div><div style={{ color: colors.primarySombre, fontWeight: '600' }}>{"Group" + index}</div>
+                      <div style={{ marginRight: 25 }}><Propover isModelGroup={true} /></div><div style={{ color: colors.primarySombre, fontWeight: '600' }}>{"Group" + index}</div>
                     </div>
 
                     <div style={{
@@ -143,11 +143,13 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                         <hr className="divisor" color="#5d9ad4" size="1"></hr>
                         <button
                           className="divisor-btn"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             dispatch(setShowExamForm(true));
                             dispatch(getSelectedExamGroup(index));
                             dispatch(setActiveGroup(index));
                             // onAddExamenNew(index);
+                            console.log('show exam form')
                           }}
                         >
                           <span 
