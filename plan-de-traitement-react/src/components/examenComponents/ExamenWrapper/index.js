@@ -22,7 +22,9 @@ const ExamenWrapper = ({ activeGroup, isModelGroup, exams }) => {
   return (
     <div className='wrapper'>
       {component === 'EXAMENFORM' ? <ExamenForm activeGroup={activeGroup} isModelGroup={isModelGroup} onAddExam={(data) => {
-        setComponent(data.name);}} onPrevious={onPrevious} /> : <ExamsList exams={exams} onAdd={(data) => setComponent(data)} />}
+        setComponent(data.name);}} onPrevious={() => {
+          setComponent("EXAMSLIST")
+        }} /> : <ExamsList exams={exams} onAdd={(data) => setComponent(data)} />}
     </div>
   );
 }
