@@ -60,7 +60,8 @@ const styles = {
     opacity: 1
   },
   cancel:{
-    width: 210,
+    width: window.screen.width <= 500 ? "100%" : 210,
+    marginBottom: window.screen.width <= 500 ? "15px" : 0,
     height: 48,
   },
   annuler:{
@@ -76,8 +77,8 @@ const styles = {
   },
   submit:{
     top: 389,
-    left: 983,
-    width: 210,
+    left: "-20%",
+    width: window.screen.width <= 500 ? "100%" : 210,
     height: 48,
   
     background: "#5D9AD4 0% 0% no-repeat padding-box",

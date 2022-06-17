@@ -126,12 +126,13 @@ import styles from './styles';
         </EuiFlexGroup>
         </div>
 		    <div className="espacement_inter_examen_EuiModalFooter_spacer"></div>
-        <EuiFlexGroup className="btn_group espacement_inter_examen_EuiModalFooter">
+        <EuiFlexGroup style={{width: "100%"}} className="btn_group espacement_inter_examen_EuiModalFooter">
           <EuiButton onClick={goBack}
           style={styles.cancel}>
 		        	<p style={styles.annuler}>Annuler</p>
 			    </EuiButton>
-          <EuiButton type="submit" form={modalFormId} onClick={submit} style={styles.submit} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
+          <EuiButton 
+          type="submit" form={modalFormId} onClick={submit} style={styles.submit} css={{ backgroundColor: euiTheme.colors.disabled }}  className="button_next espacement_inter_examen_EuiModalFooter_right_button">
               Valider
           </EuiButton>
         </EuiFlexGroup>
