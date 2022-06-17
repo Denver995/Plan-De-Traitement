@@ -70,7 +70,7 @@ const Alert = ({ message, onAccept, onReject, buttonText, showInputForm, showBut
             <EuiButtonEmpty style={styles.abortBtn} onClick={goBack}>
               {alert?.buttonText?.cancelText ?? "Annuler"}
             </EuiButtonEmpty>
-            <EuiButton style={{...styles.btn, backgroundColor: colors.primary, borderColor: colors.primary}} onClick={submit} fill={true} className="button_add">
+            <EuiButton style={{...styles.btn, backgroundColor: colors.primary, borderColor: colors.primary}} onClick={submit} fill={true} >
               {alert?.buttonText?.confirmText ?? "Confirmer"}
             </EuiButton>
           </EuiModalFooter>
