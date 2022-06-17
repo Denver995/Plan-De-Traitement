@@ -22,9 +22,8 @@ const styles = {
     opacity: 1,
   },
   title: {
-    width: x <= 500 ? 320 : 500,
+    width: '100%',
     height: 27,
-    textAlign: x <= 500 ? "left" : "left",
     font: "normal normal 600 20px/27px Open Sans",
     letterSpacing: 0,
     color: "#464646",

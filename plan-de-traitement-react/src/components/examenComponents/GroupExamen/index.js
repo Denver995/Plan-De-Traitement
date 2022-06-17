@@ -1,13 +1,14 @@
 // import '../App.css';
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import elipse from "../../../assets/svgs/ellipsis-v.svg";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ExamenItem from "../ExamenItem";
+// import ExamenItem from "../ExamenItem";
+import ExamItem from "../ExamItem";
 import ExamenForm from "../ExamenForm";
 
 import { STEP3, STEP2 } from "../../../utils/constants";
@@ -24,6 +25,7 @@ import {
   getSelectedExamGroup,
   setActiveGroup,
   setShowExamForm,
+  deleteExamGroup,
 } from "../../../redux/examens/actions";
 import { setAlert, startLoading } from "../../../redux/commons/actions";
 
@@ -36,6 +38,8 @@ import Propover from "../../Propover";
 const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
+  const [reRenderDel, setRerenderDel] = useState(false);
+  const [groupList, setGroupList] = useState(examsGrouped);
   console.log("groupName 1: ", groupName);
   // const contextMenuPopoverId = useGeneratedHtmlId({
   //     prefix: 'contextMenuPopover',
@@ -74,6 +78,8 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
+  const [showInterExam, setShowInterExam] = useState(false);
+
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
     newToggledGroup[index] = !toggledGroup[index];
@@ -97,12 +103,14 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
       return newToggleGrp;
     });
     setToggledGroup(newToggleGrp);
+    setGroupList(examsGrouped);
   }, [examsGrouped]);
 
   useEffect(() => {
     setRerender(false);
     console.log("reRender: ", reRender);
-  }, [examsGrouped, reRender, toggledGroup]);
+    setRerender(false);
+  }, [examsGrouped, reRender, toggledGroup, reRenderDel]);
 
   // const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   //   const dispatch = useDispatch();
@@ -110,8 +118,13 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   //   const showForm = useSelector((state) => state.CommonReducer.examen.show);
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-
-  return (
+  console.log("ExamsGroupedGroupItem: ", examsGrouped);
+  return (<>
+  {showInterExam ? (
+        <EspacementInterExamenForm
+          onClose={(data) => setShowInterExam(!data)}
+        />
+      ) : (
     <div style={styles.container} className="contain">
       <div style={{ marginLeft: 30, marginTop: 28, marginBottom: 20 }}>
         <p
@@ -152,7 +165,14 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                       }}
                     >
                       <div style={{ marginRight: 25 }}>
-                        <Propover isModelGroup={true} />
+                        <Propover
+                          isModelGroup={true}
+                          onDelete={() => {
+                            console.log("data");
+                            dispatch(deleteExamGroup({payload: index}));
+                            setRerenderDel(true);
+                          }}
+                        />
                       </div>
                       <div
                         style={{
@@ -198,13 +218,11 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                         <hr className="divisor" color="#5d9ad4" size="1"></hr>
                         <button
                           className="divisor-btn"
-                          onClick={(e) => {
-                            e.preventDefault();
+                          onClick={() => {
                             dispatch(setShowExamForm(true));
                             dispatch(getSelectedExamGroup(index));
                             dispatch(setActiveGroup(index));
-                            // onAddExamenNew(index);
-                            console.log("show exam form");
+                            onAddExamenNew(index);
                           }}
                         >
                           <span
@@ -230,9 +248,10 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                           key={i}
                           style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <ExamenItem
+                          <ExamItem
                             color={colors[colorsArr[i]]}
                             data={exam}
+                            exam={exam}
                           />
                         </div>
                       ))}
@@ -242,13 +261,12 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                 {index !== examsGrouped.length - 1 && (
                   <div style={{ marginLeft: 50 }}>
                     <p
-                      onClick={onChooseDelaiEspacement}
+                      onClick={() => setShowInterExam(true)}
                       style={{
                         textDecoration: "underline",
                         font: "normal normal normal 17px/23px Open Sans",
                         letterSpacing: 0,
                         color: colors.primary,
-                        cursor: "pointer",
                       }}
                     >
                       Choisir l'intervalle inter groupe
@@ -261,6 +279,8 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
         </Draggable>
       ))}
     </div>
+    )}
+    </>
   );
 };
 
@@ -285,9 +305,9 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   };
 
   useEffect(() => {
-    onPrevious();
-    console.log("group changed...", showForm);
-  }, [examsGrouped, showForm]);
+    // onPrevious();
+    console.log("showform...", showForm);
+  }, [showForm]);
 
   const handleOnDragEnd = (result) => {
     console.log("Handle On Drag");
@@ -301,10 +321,15 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
     console.log("nbrGroupe: ", nbrGroupe);
   };
   console.log("nbrGroupe: ", nbrGroupe);
+  console.log("examGroupSumm: ", examsGrouped);
+
+  useEffect(() => {
+    setGroupList(examsGrouped);
+  }, [examsGrouped]);
 
   return (
     <ModalWrapper style={styles.modal}>
-      {showForm && onPrevious ? (
+      {showForm ? (
         <ExamenForm isModelGroup={isModelGroup} onPrevious={onPrevious} />
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -359,4 +384,9 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
   );
 };
 
-export default GroupExamenSummary;
+const mapStateToProps = ({ ExamenReducer }) => ({
+  examsGrouped: ExamenReducer.examsGrouped,
+  groupSelected: ExamenReducer.examenSelected,
+});
+
+export default connect(mapStateToProps)(GroupExamenSummary);

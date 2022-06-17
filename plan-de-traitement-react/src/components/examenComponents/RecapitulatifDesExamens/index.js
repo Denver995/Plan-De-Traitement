@@ -118,7 +118,7 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
                   <TimeLineHelper index={index} />
                   <ExamCard
                     examen={"Examen1"}
-                    color={colors[colorsArr[index]]}
+                    color={colors[colorsArr[Math.round(Math.random() * 3)]]}
                     date="12 mars"
                     position={index % 2 === 0 ? "left" : "right"}
                   />

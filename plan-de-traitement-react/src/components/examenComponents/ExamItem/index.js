@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
 import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
+import { deleteExamSimple } from '../../../redux/examens/actions';
 
 import styles from "./styles";
 
 const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
-  console.log("COlor: ", color);
+  const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
     function handleWindowResiwe() {
@@ -19,13 +21,17 @@ const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
     };
   });
 
+  console.log('data: ', data)
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
         {/* <img src={elipse} alt='' height={15} width={15} /> */}
         {/* <span onClick={togglePropover} class="icon-ellipsis-v"></span> */}
         <div>
-          <Propover data={data} showEditForm={showEditForm} />
+          <Propover onDelete={() => {
+            console.log('examen simple delete')
+            dispatch(deleteExamSimple(data))}
+          } data={data} showEditForm={showEditForm} />
         </div>
         {/* <RouteIcon className='cardio-img' /> */}
         <div>

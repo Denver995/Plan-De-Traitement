@@ -35,6 +35,7 @@ const ExamenItem = ({ data, showEditForm, color }) => {
     <span onClick={togglePropover} className="icon-ellipsis-v"></span>
   );
 
+  console.log('data: ', data)
   const Pop = () => (
     <div style={styles.flex}>
             <span className="icon_ellipsis">

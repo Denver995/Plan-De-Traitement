@@ -1,10 +1,13 @@
+import colors from "./colors";
+
 export const fakeData = {
   id: 1,
   label: "Emam",
   specialtite: "Spécialité",
   motif: "Motif",
   praticien: "Praticien",
-  lieu: "Lieu"
+  lieu: "Lieu",
+  color: colors[Math.round(Math.random() * Object.keys(colors).length - 1)]
 }
 
 // const examList = [
