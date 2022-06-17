@@ -19,12 +19,12 @@ const styles = {
   },
 
   message: { fontSize: 22, fontWeight: "500", textAlign: "center", marginRight: x < 768 ? "20%" : "" },
-  
-  footer: {display: "flex", flexDirection: x <= 500 ? "column" : "row", justifyContent: "center", padding: 0, marginBottom: 30 },
+
+  footer: { display: "flex", flexDirection: x <= 500 ? "column" : "row", justifyContent: "center", padding: 0, marginBottom: 30 },
 
   saveBtn: {
     width: "210px",
-    heiht:  "48px",
+    heiht: "48px",
     borderRadius: "30px",
     justifyContent: "center",
     alignItem: "center",
@@ -34,12 +34,12 @@ const styles = {
   },
 
   abortBtn: {
-    fontSize:x <= 500 ? 20 : 25,
-    padding: x <= 500  ? "5px" : "",
+    fontSize: x <= 500 ? 20 : 25,
+    padding: x <= 500 ? "5px" : "",
     border: "1px solid #5D9AD4",
     borderRadius: "39px",
     opacity: 1,
-    width: x <= 500 ? "100%" :  "210px",
+    width: x <= 500 ? "100%" : "210px",
     height: "48px",
     marginRight: "46px",
     textDecoration: "none",
@@ -48,7 +48,7 @@ const styles = {
   // body: { marginTop: 30, marginBottom: 30 },
   // message: { textAlign: "center", fontSize: 22, fontWeight: "600" },
   // footer: { justifyContent: "center", padding: 0, marginBottom: 30 },
-  btn: { fontSize: x <= 500 ? 20 : 25, fontFamily: 'Open Sans, Sans Serif', width: x <= 500 ? "100%" : "210px", padding: x <= 500  ? "5px" : "",},
+  btn: { fontSize: x <= 500 ? 20 : 25, fontFamily: 'Open Sans, Sans Serif', width: x <= 500 ? "100%" : "210px", padding: x <= 500 ? "5px" : "", },
 };
 
 export default styles;

@@ -13,15 +13,19 @@ import ExamenForm from "../ExamenForm";
 import { STEP3, STEP2 } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import { EuiFlexGroup, EuiButton, EuiButtonEmpty } from "@elastic/eui";
-import { deleteStep, desactivateStep, addStep } from "../../../redux/steps/actions";
+import {
+  deleteStep,
+  desactivateStep,
+  addStep,
+} from "../../../redux/steps/actions";
 import {
   createExamGroup,
   addExamGrouped,
   getSelectedExamGroup,
   setActiveGroup,
-  setShowExamForm
+  setShowExamForm,
 } from "../../../redux/examens/actions";
-import { setAlert, startLoading } from '../../../redux/commons/actions';
+import { setAlert, startLoading } from "../../../redux/commons/actions";
 
 import { fakeData } from "../../../utils/defaultData";
 import styles from "./styles";
@@ -110,19 +114,27 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
   return (
     <div style={styles.container} className="contain">
       <div style={{ marginLeft: 30, marginTop: 28, marginBottom: 20 }}>
-        <p style={{
-          font: "normal normal bold 14px/19px Open Sans",
-          letterSpacing: 0,
-          color: colors.blackClaire
-        }}>Modéle</p>
-        <p style={{
-          font: "normal normal normal 20px/27px Open Sans",
-          letterSpacing: 0,
-          color: colors.primary
-        }}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>
+        <p
+          style={{
+            font: "normal normal bold 14px/19px Open Sans",
+            letterSpacing: 0,
+            color: colors.blackClaire,
+          }}
+        >
+          Modéle
+        </p>
+        <p
+          style={{
+            font: "normal normal normal 20px/27px Open Sans",
+            letterSpacing: 0,
+            color: colors.primary,
+          }}
+        >
+          Xxxxxxxxxx xxxxxxxxxxx XXXX
+        </p>
       </div>
       {examsGrouped.map((group, index) => (
-        <Draggable key={index} draggableId={'draggable-' + index} index={index}>
+        <Draggable key={index} draggableId={"draggable-" + index} index={index}>
           {(provided) => (
             <div
               {...provided.draggableProps}
@@ -132,17 +144,40 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
               <div key={index}>
                 <div className="groups-content">
                   <div className="group-exam-item">
-                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: 50 }}>
-                      <div style={{ marginRight: 25 }}><Propover isModelGroup={true} /></div><div style={{ color: colors.primarySombre, fontWeight: '600' }}>{"Group" + index}</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: 50,
+                      }}
+                    >
+                      <div style={{ marginRight: 25 }}>
+                        <Propover isModelGroup={true} />
+                      </div>
+                      <div
+                        style={{
+                          color: colors.primarySombre,
+                          fontWeight: "600",
+                        }}
+                      >
+                        {"Group" + index}
+                      </div>
                     </div>
 
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginRight: 30
-                    }}>
-                      <p style={{ fontSize: 17, color: colors.primarySombre }}><pan className = "period-recherche-label">Periode de recherche :</pan> 00h</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginRight: 30,
+                      }}
+                    >
+                      <p style={{ fontSize: 17, color: colors.primarySombre }}>
+                        <pan className="period-recherche-label">
+                          Periode de recherche :
+                        </pan>{" "}
+                        00h
+                      </p>
                       {toggledGroup[index] ? (
                         <ArrowDropUpIcon
                           onClick={() => toggle(index)}
@@ -169,16 +204,25 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                             dispatch(getSelectedExamGroup(index));
                             dispatch(setActiveGroup(index));
                             // onAddExamenNew(index);
-                            console.log('show exam form')
+                            console.log("show exam form");
                           }}
                         >
-                          <span 
-                          className="dividor-btn-icon"
-                          style={{
-                            fontWeight: 'bold',
-                            fontSize: 25,
-                            marginRight: 5
-                          }}>+</span><span className="dividor-btn-text" style={{ marginTop: 4 }}>Ajouter un examen</span>
+                          <span
+                            className="dividor-btn-icon"
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: 25,
+                              marginRight: 5,
+                            }}
+                          >
+                            +
+                          </span>
+                          <span
+                            className="dividor-btn-text"
+                            style={{ marginTop: 4 }}
+                          >
+                            Ajouter un examen
+                          </span>
                         </button>
                       </div>
                       {Object.keys(group).map((exam, i) => (
@@ -186,23 +230,31 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                           key={i}
                           style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <ExamenItem color={colors[colorsArr[i]]} data={exam} />
+                          <ExamenItem
+                            color={colors[colorsArr[i]]}
+                            data={exam}
+                          />
                         </div>
                       ))}
                     </div>
                   )}
                 </div>
-                {index !== examsGrouped.length - 1 && <div style={{ marginLeft: 50 }}>
-                  <p 
-                  onClick={onChooseDelaiEspacement}
-                  style={{
-                    textDecoration: "underline",
-                    font: "normal normal normal 17px/23px Open Sans",
-                    letterSpacing: 0,
-                    color: colors.primary,
-                    cursor: "default"
-                  }}>Choisir l'intervalle inter groupe</p>
-                </div>}
+                {index !== examsGrouped.length - 1 && (
+                  <div style={{ marginLeft: 50 }}>
+                    <p
+                      onClick={onChooseDelaiEspacement}
+                      style={{
+                        textDecoration: "underline",
+                        font: "normal normal normal 17px/23px Open Sans",
+                        letterSpacing: 0,
+                        color: colors.primary,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Choisir l'intervalle inter groupe
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -230,34 +282,30 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
 
   const onPrevious = () => {
     dispatch(setShowExamForm(false));
-  }
+  };
 
   useEffect(() => {
-    onPrevious()
+    onPrevious();
     console.log("group changed...", showForm);
   }, [examsGrouped, showForm]);
 
-
   const handleOnDragEnd = (result) => {
-    console.log('Handle On Drag');
+    console.log("Handle On Drag");
     if (!result.destination) return;
     const items = Array.from(groupList);
-    console.log('items: ', items);
+    console.log("items: ", items);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
     setGroupList([...items]);
-    console.log('nbrGroupe: ', nbrGroupe);
-  }
-  console.log('nbrGroupe: ', nbrGroupe);
+    console.log("nbrGroupe: ", nbrGroupe);
+  };
+  console.log("nbrGroupe: ", nbrGroupe);
 
   return (
     <ModalWrapper style={styles.modal}>
       {showForm && onPrevious ? (
-        <ExamenForm
-          isModelGroup={isModelGroup}
-          onPrevious={onPrevious}
-        />
+        <ExamenForm isModelGroup={isModelGroup} onPrevious={onPrevious} />
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="droppable">
@@ -290,8 +338,9 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped }) => {
               ...styles.cancelBtn,
               display: "flex",
               flexDirection: "row-reverse",
-              justifyContent: "space-between"
-            }}>
+              justifyContent: "space-between",
+            }}
+          >
             <EuiButton
               fill={true}
               style={{ ...styles.addBtn }}
