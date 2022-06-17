@@ -5,9 +5,7 @@
 /* Small Devices (Portrait Tablets & Small Desktops) */
 
 @media (min-width: 768px) and (max-width: 991px) {
-
 }
-
 
 /* Extra Small Devices (Landscape Phones & Portrait Tablets) */
 
@@ -25,31 +23,44 @@
   .examen__form__button__container {
     justify-content: space-between !important;
   }
-  .ExamenFormCancel_btn{
+  .ExamenFormCancel_btn {
     font-size: 27px;
-    color: #5D9AD4;
+    color: #5d9ad4;
     width: 100%;
     height: 48px;
-    border: 3px solid #5D9AD4;
+    border: 3px solid #5d9ad4;
     border-radius: 35px;
     /* margin-right: 55% !important; */
-    text-decoration: none,
-}
-.ExamenFormAdd_btn{
-font-size: 27px;
-color: #fff;
-width: 100%;
-height: 48px; 
-border: 3px solid #5D9AD4; 
-border-radius: 35px; 
-/* margin-left: 55%; */
-text-decoration: none;
-/* margin-top: -49px */
-}
+    text-decoration: none;
+  }
+  .ExamenFormAdd_btn {
+    font-size: 27px;
+    color: #fff;
+    width: 100%;
+    height: 48px;
+    border: 3px solid #5d9ad4;
+    border-radius: 35px;
+    /* margin-left: 55%; */
+    text-decoration: none;
+    /* margin-top: -49px */
+  }
+
+  .exam-inter-footer {
+    display: block !important;
+  }
+
+  .inter-cancel {
+    margin-bottom: 20px;
+  }
+
+  .inter-cancel, .inter-add {
+    width: 100% !important;
+  }
 }
 
 @media (max-width: 766px) and (min-width: 481px) {
-  .ExamenFormCancel_btn, .ExamenFormAdd_btn {
+  .ExamenFormCancel_btn,
+  .ExamenFormAdd_btn {
     width: 100% !important;
     margin-bottom: 20px;
   }
@@ -57,8 +68,6 @@ text-decoration: none;
     margin-right: 0;
   }
 }
-
-
 
 /* Extra Small Devices (Portrait Phones & Smaller Devices) */
 
@@ -76,38 +85,39 @@ text-decoration: none;
     height: 22px;
   }
 
-  .ExamenFormCancel_btn, .ExamenFormAdd_btn {
+  .ExamenFormCancel_btn,
+  .ExamenFormAdd_btn {
     width: 100% !important;
   }
 }
 @media screen and (max-width: 1033px) {
+  .divisor-btn {
+    max-width: 25%;
+    width: 25%;
+  }
+  @media screen and (max-width: 766px) {
     .divisor-btn {
-      max-width: 25%;
-      width: 25%;
+      max-width: 30%;
+      width: 30%;
     }
-    @media screen and (max-width: 766px) {
+
+    @media screen and (max-width: 641px) {
+      .period-recherche-label {
+        display: none;
+      }
+      .dividor-btn-text {
+        display: none;
+      }
+      .dividor-btn-icon {
+        text-align: center;
+        size: 30px;
+        margin-left: 5px;
+      }
       .divisor-btn {
-        max-width: 30%;
-        width: 30%;
-      }
-  
-      @media screen and (max-width: 641px) {
-        .period-recherche-label{
-          display: none;
-        }
-        .dividor-btn-text{
-          display: none;
-        }
-        .dividor-btn-icon{
-          text-align: center;
-          size: 30px;
-          margin-left: 5px;
-        }
-        .divisor-btn {
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-        }
-        }
+        justify-content: center;
+        align-items: center;
+        text-align: center;
       }
     }
+  }
+}
