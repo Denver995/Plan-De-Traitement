@@ -13,7 +13,7 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { setAlert } from "../../../redux/commons/actions";
+import { setAlert, setComponent } from "../../../redux/commons/actions";
 import { deleteStep } from "../../../redux/steps/actions";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { STEP3 } from "../../../utils/constants";
@@ -23,7 +23,7 @@ import ExamGroupCard from "./ExamGroupCard";
 import colors from "../../../utils/colors";
 import TimeLineHelper from "../../common/TimeLineHelper";
 
-const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
+const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
@@ -42,9 +42,12 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
         },
       })
     );
-  const onBack = () => dispatch(deleteStep(previousStep));
+  const onBack = () => {
+    console.log('componentTodisplay ', componentTodisplay);
+    dispatch(setComponent({name: 'GROUPSUMMARY'}));
+    // dispatch(deleteStep(previousStep));
+  }
 
-  console.log("examGrouped: ", examsGrouped);
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
@@ -178,7 +181,8 @@ const SummaryGroupedExam = ({ closeModal, examsGrouped }) => {
   );
 };
 
-const mapStateToProps = ({ ExamenReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, CommonReducer }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
+  componentTodisplay: CommonReducer.componentTodisplay
 });
 export default connect(mapStateToProps)(SummaryGroupedExam);

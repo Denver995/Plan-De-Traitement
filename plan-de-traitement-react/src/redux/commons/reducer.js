@@ -42,6 +42,11 @@ function CommonReducer(state = INITIAL_STATE, action) {
         ...state,
         dataSource: action.payload
       }
+    case types.SET_COMPONENT:
+      return {
+        ...state,
+        componentTodisplay: action.componentTodisplay
+      }
     default:
       return state;
   }

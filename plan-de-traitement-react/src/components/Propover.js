@@ -4,14 +4,15 @@ import {
   EuiListGroupItem,
   EuiListGroup,
   EuiAccordion,
-  EuiPanel,
+  EuiPanel
 } from "@elastic/eui";
 import React, { useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { editExam } from "../redux/examens/actions";
+import { setComponent } from "../redux/commons/actions";
 
-const Propover = ({ data, showEditForm, isModelGroup, onDelete, onFixPosition, examsGrouped, exams }) => {
+const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGrouped, exams }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   const [panelRef] = useState(null);
@@ -19,15 +20,24 @@ const Propover = ({ data, showEditForm, isModelGroup, onDelete, onFixPosition, e
     prefix: "contextMenuPopover",
   });
 
-  const simpleAccordionId = useGeneratedHtmlId({ prefix: 'simpleAccordion' });
   const closePopover = () => setPopover(false);
 
   const togglePropover = () => setPopover(!isPopoverOpen);
 
   const onEdit = () => {
+    if (isModelGroup) {
+      dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
+      return;
+    }
     dispatch(editExam(data));
-    showEditForm(true);
+    dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
   };
+
+  const onDelete = () => {};
+
+  const onFixPosition = () => {};
+
+  console.log("data ", data);
 
   const button = (
     <span onClick={togglePropover} className="icon-ellipsis-v"></span>
@@ -52,27 +62,36 @@ const Propover = ({ data, showEditForm, isModelGroup, onDelete, onFixPosition, e
             onClick={() => {}}
             label="Lier avec un autre examen"
           > */}
-            <EuiAccordion style={{marginLeft: 9, marginTop: 8}} arrowDisplay="right" id={simpleAccordionId} buttonContent={isModelGroup ? "Lier avec un autre groupe": "Lier avec un autre examen"}>
-              <EuiPanel color="red">
-                {isModelGroup || isModelGroup === 0 ? (
-                  examsGrouped.length > 0 && examsGrouped.map((group, i) => <p style={{cursor: "pointer", paddingBottom: 5}} key={i}>{"group " + i}</p>)
-                ): (
-                  exams.map((exam, i) => <p style={{cursor: "pointer", paddingBottom: 5}} key={i}>{exam.nom + " " + exam.id_modele}</p>)
-                )}
-              </EuiPanel>
-            </EuiAccordion>
+          <EuiAccordion
+            style={{ marginLeft: 9, marginTop: 8 }}
+            arrowDisplay="right"
+            id={simpleAccordionId}
+            buttonContent={
+              isModelGroup
+                ? "Lier avec un autre groupe"
+                : "Lier avec un autre examen"
+            }
+          >
+            <EuiPanel color="red">
+              {isModelGroup || isModelGroup === 0
+                ? examsGrouped.length > 0 &&
+                  examsGrouped.map((group, i) => (
+                    <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
+                      {"group " + i}
+                    </p>
+                  ))
+                : exams.map((exam, i) => (
+                    <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
+                      {exam.nom + " " + exam.id_modele}
+                    </p>
+                  ))}
+            </EuiPanel>
+          </EuiAccordion>
           {/* </EuiListGroupItem> */}
         </EuiListGroup>
       </EuiPopover>
-      {/* <EuiSpacer size="xxl" />
-                    <EuiSpacer size="xxl" /> */}
     </div>
   );
 };
 
-const mapStateToProps = ({ ExamenReducer }) => ({
-  exams: ExamenReducer.exams,
-  examsGrouped: ExamenReducer.examsGrouped
-});
-
-export default connect(mapStateToProps)(Propover);
+export default Propover;

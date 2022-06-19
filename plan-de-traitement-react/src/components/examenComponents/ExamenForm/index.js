@@ -41,9 +41,8 @@ import {
   getSelectedExamGroup,
   setShowExamForm,
 } from "../../../redux/examens/actions";
-import { setAlert } from "../../../redux/commons/actions";
-// import ExamenItem from "../ExamenItem";
-import ExamItem from "../ExamItem";
+import { setAlert, setComponent } from "../../../redux/commons/actions";
+import ExamenItem from "../ExamenItem";
 
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import "../../../modifierexamen.css";
@@ -59,8 +58,8 @@ const ExamenForm = ({
   activeGroup,
   examsGrouped,
   onPrevious,
+  formType
 }) => {
-  console.log("activeGroup: ", activeGroup);
   const dispatch = useDispatch();
   const model = useSelector((state) => state.CommonReducer.dataSource);
   const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -70,16 +69,18 @@ const ExamenForm = ({
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examenSelected
   );
+  const componentTodisplay = useSelector(
+    (state) => state.CommonReducer.componentTodisplay
+  );
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [listExam, setListExam] = useState([]);
-  const [showEditForm, setShowEditForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(formType === "EXAMENFORMEDIT");
   const [reload, setReload] = useState(false);
   const [specialite, setSpecialite] = useState("");
   const [motif, setMotif] = useState("");
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
-  const [fisrtLoad, setFirstLoad] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [buttonText, setButtonText] = useState({
     cancelText: "Ne pas appliquer",
@@ -231,11 +232,15 @@ const ExamenForm = ({
   };
 
   const onEditExamen = () => {
-    updateFormData(true);
-    setShowEditForm(false);
+    dispatch(setComponent("EXAMSLIST"));
+    return;
   };
 
   const onCancel = () => {
+    if(formType === "EXAMENFORMEDIT"){
+      dispatch(setComponent("EXAMSLIST"));
+      return;
+    }
     console.log(typeof onPrevious);
     onPrevious && onPrevious();
   };
@@ -389,7 +394,13 @@ const ExamenForm = ({
               </div>
               {showEditForm ? (
                 <EuiFlexGroup className="btn_group">
-                  <EuiButtonEmpty fill="true" className="button_cancel_me">
+                  <EuiButtonEmpty
+                    fill="true"
+                    className="button_cancel_me"
+                    onClick={() => {
+                      onCancel();
+                    }}
+                  >
                     Retour
                   </EuiButtonEmpty>
                   <EuiButton onClick={onEditExamen} className="button_next_me">
