@@ -52,3 +52,13 @@ export const numOfGroupsChange = (number) => ({
 export const createGroups = () => ({
   type: types.CREATE_GROUPS
 })
+
+export const deleteExamGroup = ({payload}) => ({
+  type: types.DELETE_EXAM_GROUP,
+  payload,
+});
+
+export const deleteExamSimple = ({payload}) => ({
+  type: types.DELETE_EXAM_SIMPLE,
+  payload,
+})

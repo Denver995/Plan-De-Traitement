@@ -49,12 +49,12 @@
   color: #464646;
   opacity: 1;
 }
-.position {
+/* .position {
   display: flex;
   justify-content: center;
   margin-top: 50px;
   height: 70px;
-}
+} */
 .euiComboBox .euiComboBox__inputWrap:not(.euiComboBox__inputWrap--noWrap) {
   top: 305px;
   left: 1171px;
@@ -85,11 +85,11 @@
 }
 .container {
   top: 264px;
-left: 583px;
-width: 761px;
-height: 81px;
-/* UI Properties */
-opacity: 1;
+  left: 583px;
+  width: 761px;
+  height: 81px;
+  /* UI Properties */
+  opacity: 1;
 }
 .second {
   margin-left: 13px;
@@ -105,7 +105,9 @@ opacity: 1;
   left: 590px;
   width: 205px;
   height: 19px;
-  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-14) / var(--unnamed-line-spacing-19) var(--unnamed-font-family-open-sans);
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold)
+    var(--unnamed-font-size-14) / var(--unnamed-line-spacing-19)
+    var(--unnamed-font-family-open-sans);
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--unnamed-color-464646);
   text-align: left;
@@ -114,6 +116,8 @@ opacity: 1;
   color: #464646;
   opacity: 1;
 }
-.position .euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect{
+.position .euiModalBody .euiFieldText,
+.euiModalBody .euiFieldNumber,
+.euiModalBody .euiSelect {
   margin-top: -3px;
 }

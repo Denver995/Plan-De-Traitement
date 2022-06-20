@@ -53,6 +53,9 @@ const ExamsList = ({ exams, onAdd, steps }) => {
     console.log("examsList: ", examsList);
   };
 
+  useEffect(() => {
+    setExamsList(exams);
+  }, [exams]);
   return (
     <>
       {showInterExam ? (

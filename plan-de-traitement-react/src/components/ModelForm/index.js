@@ -11,7 +11,7 @@ import {
   EuiButton,
   EuiButtonEmpty,
   EuiToolTip,
-  EuiSelect
+  EuiSelect,
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { useDispatch, useSelector, connect } from "react-redux";
@@ -26,10 +26,10 @@ import { createModel as createModelAction } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
-import ModalWrapper from '../common/ModalWrapper';
-import { ReactComponent as InfoIcon } from '../../assets/svgs/Soustraction-1.svg';
-import Radio from '../Radio';
-import colors from '../../utils/colors';
+import ModalWrapper from "../common/ModalWrapper";
+import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
+import Radio from "../Radio";
+import colors from "../../utils/colors";
 
 import styles from "./styles";
 
@@ -49,9 +49,9 @@ const ModalForm = ({ closeModal }) => {
   let step = getStepByKey(steps, STEP1);
 
   const listTypePeriode = [
-    { value: 'jour', text: 'Jour' },
-    { value: 'mois', text: 'Mois' },
-    { value: 'année', text: 'Année' },
+    { value: "jour", text: "Jour" },
+    { value: "mois", text: "Mois" },
+    { value: "année", text: "Année" },
   ];
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
@@ -82,16 +82,16 @@ const ModalForm = ({ closeModal }) => {
       console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       createModele(step);
-      dispatch(createModelAction({
-        nom: nomModele + Math.round(Math.random() * 100),
-        nb_occurence: nombreOccurence,
-        groupe_rdv: groupe_rdv ? 1 : 0,
-        id_granularite_groupe: 4,
-        id_granularite_examen: 4,
-        id_entite: 4,
-        espacement_groupe: 2,
-        espacement_examen: 4,
-      }))
+      // dispatch(createModelAction({
+      //   nom: nomModele + Math.round(Math.random() * 100),
+      //   nb_occurence: nombreOccurence,
+      //   groupe_rdv: groupe_rdv ? 1 : 0,
+      //   id_granularite_groupe: 4,
+      //   id_granularite_examen: 4,
+      //   id_entite: 4,
+      //   espacement_groupe: 2,
+      //   espacement_examen: 4,
+      // }))
     } else setShowGroupOption(true);
   };
 
@@ -147,43 +147,56 @@ const ModalForm = ({ closeModal }) => {
                   </EuiToolTip>
                 </span>
               </div>
-              <EuiSpacer size="l" />
+              <EuiSpacer size="m" />
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <EuiFlexGroup className="radio-first-container" style={{ maxWidth: "100%"}}>
-                    <EuiFlexItem style={{marginBottom: 13}}>
+                  <EuiFlexGroup
+                    className="radio-first-container"
+                    style={{ maxWidth: "100%", paddingLeft: 5 }}
+                  >
+                    <EuiFlexItem style={{ marginBottom: 13 }}>
                       <EuiFormRow>
-                        <Radio onChange={(data) => onChangeGroupModelCheckbox(data)} />
+                        <Radio
+                          onChange={(data) => onChangeGroupModelCheckbox(data)}
+                        />
                       </EuiFormRow>
                     </EuiFlexItem>
                   </EuiFlexGroup>
                 </EuiFlexItem>
               </EuiFlexGroup>
+              <EuiSpacer size="s" />
             </EuiFlexItem>
           )}
           {groupe_rdv && showGroupOption && (
-            <EuiFlexItem className="nombre-occurence-nomberField">
-              <EuiFormRow style={{ fontSize: 14 }} label="Nombre d'occurrences*:" fullWidth>
-                <EuiFieldNumber
-                style={{color: colors.primary, width: '100%'}}
-                  name={nombreOccurence}
-                  value={nombreOccurence}
-                  onChange={(e) => {
-                    setNombreOccurence(e.target.value);
-                    dispatch(numOfGroupsChange(e.target.value));
-                  }}
-                  fullWidth
-                  min={1}
-                />
-              </EuiFormRow>
+            <EuiFlexItem
+              style={{ paddingTop: 5 }}
+              className="nombre-occurence-nomberField"
+            >
+              <div style={styles.occurence}>Nombre d'occurences* :</div>
+              <EuiFieldNumber
+                style={styles.fieldNumber}
+                name={nombreOccurence}
+                value={nombreOccurence}
+                onChange={(e) => {
+                  setNombreOccurence(e.target.value);
+                  dispatch(numOfGroupsChange(e.target.value));
+                }}
+                fullWidth
+                min={1}
+              />
             </EuiFlexItem>
           )}
         </EuiFlexGroup>
         <EuiSpacer size="m" />
         {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup style={{marginLeft: -12, marginRight: -12, marginBottom: 33}} direction="column">
+          <EuiFlexGroup
+            style={{ marginLeft: -12, marginRight: -12, marginBottom: 33 }}
+            direction="column"
+          >
             <div style={styles.periodeRecherche}>
-              <div style={styles.groupeTitle}>Période de recherche d'un groupe :</div>
+              <div style={styles.groupeTitle2}>
+                Période de recherche d'un groupe :
+              </div>
               <span style={{ marginTop: 2 }}>
                 <EuiToolTip
                   position="right"
@@ -194,17 +207,26 @@ const ModalForm = ({ closeModal }) => {
               </span>
             </div>
             <EuiFlexItem>
-              <div className="periode_recherche_group_inputs" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap'}}>
+              <div
+                className="periode_recherche_group_inputs"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  flexWrap: "wrap",
+                  marginTop: -18
+                }}
+              >
                 {/* <EuiFlexItem> */}
-                <div style={{width: '49%'}}>
+                <div style={{ width: "49%" }}>
                   <EuiFieldNumber
-                  className="inputNomber-for-periode"
+                    className="inputNomber-for-periode"
+                    style={styles.fieldNumber}
                     name="periode"
                     value={periode}
                     onChange={(e) => {
                       setPeriode(e.target.value);
                     }}
-                    style={{width: '100%', color: colors.primary}}
                     fullWidth
                   />
                 </div>
@@ -217,12 +239,18 @@ const ModalForm = ({ closeModal }) => {
                   onChange={(e) => onChangeTypePeriode(e)}
                   style={{width: '50%'}}
                 /> */}
-                <div style={{width: '49%'}}>
-                <select name="cars" id="cars" style={{width: '100%', paddingLeft: 10, paddingRight: 10, backgroundColor: '#fff',
-borderRadius: 5,
-border: "1px solid gray", height: 40}}>
-                  {listTypePeriode.map((item, index) => <option key={index} value={item.value}>{item.text}</option>)}
-                </select>
+                <div style={{ width: "49%" }}>
+                  <select
+                    name="cars"
+                    id="cars"
+                    style={styles.fieldNumber2}
+                  >
+                    {listTypePeriode.map((item, index) => (
+                      <option key={index} value={item.value}>
+                        {item.text}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* </EuiFlexItem> */}
@@ -230,8 +258,15 @@ border: "1px solid gray", height: 40}}>
             </EuiFlexItem>
           </EuiFlexGroup>
         )}
-        <EuiFlexGroup className="modal__form__button__container groupe-btn-modelForm" style={styles.footer}>
-          <EuiButtonEmpty className="button_global btn-annuler-modelForm" onClick={closeModal} style={styles.cancelButton}>
+        <EuiFlexGroup
+          className="modal__form__button__container groupe-btn-modelForm"
+          style={styles.footer}
+        >
+          <EuiButtonEmpty
+            className="button_global btn-annuler-modelForm"
+            onClick={closeModal}
+            style={styles.cancelButton}
+          >
             Annuler
           </EuiButtonEmpty>
           <EuiButton
