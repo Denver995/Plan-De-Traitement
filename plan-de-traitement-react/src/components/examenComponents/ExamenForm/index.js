@@ -42,7 +42,7 @@ import {
   setShowExamForm,
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
-import ExamenItem from "../ExamenItem";
+import ExamItem from "../ExamItem";
 
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import "../../../modifierexamen.css";

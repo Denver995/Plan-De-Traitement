@@ -62,7 +62,7 @@ const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGr
             onClick={() => {}}
             label="Lier avec un autre examen"
           > */}
-          <EuiAccordion
+          {/* <EuiAccordion
             style={{ marginLeft: 9, marginTop: 8 }}
             arrowDisplay="right"
             id={simpleAccordionId}
@@ -73,7 +73,7 @@ const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGr
             }
           >
             <EuiPanel color="red">
-              {isModelGroup || isModelGroup === 0
+              {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
                   examsGrouped.map((group, i) => (
                     <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
@@ -86,7 +86,7 @@ const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGr
                     </p>
                   ))}
             </EuiPanel>
-          </EuiAccordion>
+          </EuiAccordion> */}
           {/* </EuiListGroupItem> */}
         </EuiListGroup>
       </EuiPopover>
