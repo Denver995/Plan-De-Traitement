@@ -27,3 +27,8 @@ export const addFieldData = (key, value) => ({
   type: types.SET_FIELD_DATA,
   payload: { [key]: value },
 });
+
+export const setComponent = (componentTodisplay) => ({
+  type: types.SET_COMPONENT,
+  componentTodisplay
+});

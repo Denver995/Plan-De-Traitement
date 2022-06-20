@@ -89,6 +89,14 @@
   .ExamenFormAdd_btn {
     width: 100% !important;
   }
+
+  .btn-annuler-modelForm, .btn-suivant-modelForm {
+    width: 100% !important;
+  }
+
+  .btn-annuler-modelForm {
+    margin-right: 0 !important;
+  }
 }
 @media screen and (max-width: 1033px) {
   .divisor-btn {

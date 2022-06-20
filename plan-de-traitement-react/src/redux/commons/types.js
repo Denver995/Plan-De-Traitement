@@ -8,3 +8,4 @@ export const START_LOADING = 'START_LOADING';
 
 export const SET_MODEL_TYPE = 'SET_MODEL_TYPE';
 export const SET_FIELD_DATA = 'SET_FIELD_DATA';
+export const SET_COMPONENT = 'SET_COMPONENT';
