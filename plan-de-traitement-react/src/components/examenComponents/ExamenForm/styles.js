@@ -5,9 +5,9 @@ const styles = {
     width: "70rem",
   },
 
-  examForm: { 
-    marginLeft: 40, 
-    marginRight: 40 
+  examForm: {
+    marginLeft: 40,
+    marginRight: 40,
   },
 
   titleContainer: {
@@ -67,12 +67,13 @@ const styles = {
   cancelBtn: {
     fontSize: "27px",
     color: colors.primary,
-   width: "210px",
+    width: "210px",
     height: "59px",
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
     //marginRight: "8%",
     textDecoration: "none",
+    marginRight: 50
   },
 
   addBtn: {
