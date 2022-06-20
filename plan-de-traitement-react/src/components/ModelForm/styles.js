@@ -80,7 +80,17 @@ const styles = {
   addButton: {
     height: "59px",
     border: "none",
-    background: "#5D9AD4",
+    background: colors.primary,
+    borderRadius: "41px",
+    fontSize: "27px",
+    color: colors.white,
+    textDecoration: "none",
+  },
+
+  addButton2: {
+    height: "59px",
+    border: "none",
+    background: colors.lightGray,
     borderRadius: "41px",
     fontSize: "27px",
     color: colors.white,

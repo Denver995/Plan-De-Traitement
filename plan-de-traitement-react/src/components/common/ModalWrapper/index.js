@@ -32,7 +32,7 @@ const ModalWrapper = ({
       className={`${classContainer} espacement_inter_examen_EuiModalBody baseModalWrapper ${className}`}
       maxWidth="100%"
     >
-      <div onClick={handleClose} style={{position: 'absolute', top: 0, right: 10, fontSize: 50, color: colors.primaryDark}}>&times;</div>
+      <div onClick={handleClose} style={{position: 'absolute', top: 0, right: 10, fontSize: 50, color: colors.primaryDark, cursor: "pointer"}}>&times;</div>
       <EuiModalHeader>
         {titleText && (
           <EuiModalHeaderTitle>
