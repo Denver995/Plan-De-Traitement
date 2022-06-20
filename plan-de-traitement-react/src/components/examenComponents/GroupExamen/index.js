@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import elipse from "../../../assets/svgs/ellipsis-v.svg";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -172,6 +171,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                             dispatch(deleteExamGroup({payload: index}));
                             setRerenderDel(true);
                           }}
+                          data={{groupeId: groupName, data: examsGrouped}}
                         />
                       </div>
                       <div

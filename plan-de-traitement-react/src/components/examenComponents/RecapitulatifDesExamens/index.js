@@ -43,23 +43,6 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
       </div>
     </EuiText>
   `;
-  // const onSave = () =>
-  //   dispatch(
-  //     setAlert({
-  //       title: "Enregistrer le modèle",
-  //       message: alertMessage,
-  //       showAlert: true,
-  //       // showInputForm: true,
-  //       showButtonBlock: true,
-  //       buttonText: button,
-  //       onAccept: () => {
-  //         dispatch(setAlert(false));
-  //       },
-  //       onReject: () => {
-  //         console.log('ON REJECT');
-  //       }
-  //     })
-  //   );
 
   const onSave = () => {
     setAlert({

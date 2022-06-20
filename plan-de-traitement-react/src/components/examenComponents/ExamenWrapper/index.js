@@ -1,34 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { deleteStep } from "../../../redux/steps/actions";
+import { setComponent } from "../../../redux/commons/actions";
 import { getStepByKey } from "../../../utils/helper";
 import { STEP2 } from "../../../utils/constants";
 
 import ExamenForm from '../ExamenForm';
 import ExamsList from '../ExamsList';
-import ModalWrapper from '../../common/ModalWrapper';
-import styles from './styles';
 
-const ExamenWrapper = ({ activeGroup, isModelGroup, exams }) => {
-  const [component, setComponent] = useState('EXAMENFORM');
+const ExamenWrapper = ({ activeGroup, isModelGroup, exams, componentTodisplay }) => {
+  const [component, setComponentName] = useState(componentTodisplay ? componentTodisplay.name : 'EXAMENFORM');
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP2);
-  
+
   const onPrevious = () => {
     dispatch(deleteStep(previousStep));
   }
 
+  const onChangeComponent = (name, data=null) => {
+    dispatch(setComponent(name, data));
+    setComponentName(name);
+  }
+
+  useEffect(() => {
+    if(componentTodisplay && componentTodisplay.name !== component){
+      setComponentName(componentTodisplay.name);
+    }
+  });
+
   return (
     <div className='wrapper'>
-      {component === 'EXAMENFORM' ? <ExamenForm activeGroup={activeGroup} isModelGroup={isModelGroup} onAddExam={(data) => {
-        setComponent(data.name);}} onPrevious={onPrevious} /> : <ExamsList exams={exams} onAdd={(data) => setComponent(data)} />}
+      {(component === 'EXAMENFORM' || component === 'EXAMENFORMEDIT') ? <ExamenForm activeGroup={activeGroup} isModelGroup={isModelGroup} onAddExam={(data) => {
+        onChangeComponent(data.name);}} onPrevious={onPrevious} formType={component}/> : <ExamsList exams={exams} onAdd={(data) => onChangeComponent({name: data})} />}
     </div>
   );
 }
 
-const mapStateToProps = ({ ExamenReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, CommonReducer }) => ({
   exams: ExamenReducer.exams,
+  componentTodisplay: CommonReducer.componentTodisplay
 });
 
 export default connect(mapStateToProps)(ExamenWrapper);

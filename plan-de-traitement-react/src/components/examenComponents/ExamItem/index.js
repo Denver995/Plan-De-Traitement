@@ -25,15 +25,12 @@ const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
-        {/* <img src={elipse} alt='' height={15} width={15} /> */}
-        {/* <span onClick={togglePropover} class="icon-ellipsis-v"></span> */}
         <div>
           <Propover onDelete={() => {
             console.log('examen simple delete')
             dispatch(deleteExamSimple(data))}
           } data={data} showEditForm={showEditForm} />
         </div>
-        {/* <RouteIcon className='cardio-img' /> */}
         <div>
           <span
             className="icon-Trac-39 cardio-img"
