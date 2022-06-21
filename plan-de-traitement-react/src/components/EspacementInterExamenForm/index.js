@@ -1,7 +1,6 @@
 import {
   useEuiTheme,
   EuiFieldNumber,
-  EuiComboBox,
   EuiFlexItem,
   EuiSelect,
   EuiSpacer,
@@ -9,26 +8,69 @@ import {
 import {
   EuiButton,
   EuiForm,
-  EuiFormRow,
   EuiFlexGroup,
   useGeneratedHtmlId,
 } from "@elastic/eui";
-// import '../EspacementInterExamenForm.css';
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addExamOnAllGroups } from "../../redux/examens/actions";
 import { setAlert } from "../../redux/commons/actions";
+import { setEspacement } from "../../redux/examens/actions";
 import ModalWrapper from "../common/ModalWrapper";
+import { type_espacement } from "../../utils/constants";
 import styles from "./styles";
 
-const EspacementInterExamenForm = ({ closeModal, onClose }) => {
+const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initialIndex }) => {
   const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
+  const [minInterval, setMinInterval] = useState();
+  const [minIntervalUnit, setMinIntervalUnit] = useState("Jour");
+  const [maxInterval, setMaxInterval] = useState();
+  const [maxIntervalUnit, setMaxIntervalUnit] = useState("Jour");
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
+  console.log('typeEspacement ', typeEspacement);
+  const options = [
+    {
+      value: "Jour",
+      text: "Jour",
+    },
+    {
+      value: "Minute",
+      text: "Minute",
+    },
+    {
+      value: "Heure",
+      text: "Heure",
+    },
+    {
+      value: "Semaine",
+      text: "Semaine",
+    },
+  ];
+
+  const onChangeMinInterval = (e) => setMinInterval(e.target.value);
+
+  const onChangeMinIntervalUnit = (e) => setMinIntervalUnit(e.target.value);
+
+  const onChangeMaxInterval = (e) => setMaxInterval(e.target.value);
+
+  const onChangeMaxIntervalUnit = (e) => setMaxIntervalUnit(e.target.value);
+
+  const applyInterVale = (onAll=false) => {
+    console.log('inside applyInterVale ');
+    dispatch(setEspacement({
+      applyOnAll: onAll,
+      minInterval: minInterval,
+      minIntervalUnit: minIntervalUnit,
+      maxInterval: maxInterval,
+      maxIntervalUnit: maxIntervalUnit
+    }));
+    dispatch(dispatch(setAlert(false)));
+  }
 
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
     const alertMessage =
-      '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cette intervalle à tous les espacement inter examens ?</EuiText>';
+      '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cette intervalle à tous les espacements inter examens ?</EuiText>';
     dispatch(
       setAlert({
         title: "Enregistrer le modèle",
@@ -37,14 +79,13 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
         buttonText: button,
         showButtonBlock: true,
         onAccept: () => {
-          dispatch(dispatch(setAlert(false)));
+          applyInterVale(true);
         },
         onReject: () => {
-          dispatch(dispatch(setAlert(false)));
+          applyInterVale();
         },
       })
     );
-    // dispatch(addExamOnAllGroups());
     return;
   };
 
@@ -57,9 +98,15 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
   return (
     <ModalWrapper style={styles.modal}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
-        <p className="label_exams" style={styles.title}>
-          <span></span>Espacement entre l'examen 00 et l'examen 00
-        </p>
+          {typeEspacement === type_espacement.group ?
+            <p className="label_exams" style={styles.title}>
+              Espacement entre le groupe {initialIndex} et le groupe {initialIndex+1}
+            </p>
+          :<p className="label_exams" style={styles.title}>
+              Espacement entre l'examen {initialIndex} et l'examen {initialIndex+1}
+            </p>
+          }
+
         <p className="inter" style={styles.secondTitle}>
           Espacement inter examens*:
         </p>
@@ -72,6 +119,7 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
                   fullWidth
                   style={styles.number}
                   placeholder=""
+                  onChange={(e) => onChangeMinInterval(e)}
                 />
               </div>
             </EuiFlexItem>
@@ -81,24 +129,8 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
                 <EuiSelect
                   fullWidth
                   style={styles.select}
-                  options={[
-                    {
-                      value: "Jour",
-                      text: "Jour",
-                    },
-                    {
-                      value: "Minute",
-                      text: "Minute",
-                    },
-                    {
-                      value: "Heure",
-                      text: "Heure",
-                    },
-                    {
-                      value: "Semaine",
-                      text: "Semaine",
-                    },
-                  ]}
+                  options={options}
+                  onChange={(e) => onChangeMinIntervalUnit(e)}
                   isClearable={true}
                 />
               </div>
@@ -109,6 +141,7 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
                 <EuiFieldNumber
                   fullWidth
                   style={styles.number}
+                  onChange={(e) => onChangeMaxInterval(e)}
                   placeholder=""
                 />
               </div>
@@ -119,24 +152,8 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
                 <EuiSelect
                   fullWidth
                   style={styles.select}
-                  options={[
-                    {
-                      value: "Jour",
-                      text: "Jour",
-                    },
-                    {
-                      value: "Minute",
-                      text: "Minute",
-                    },
-                    {
-                      value: "Heure",
-                      text: "Heure",
-                    },
-                    {
-                      value: "Semaine",
-                      text: "Semaine",
-                    },
-                  ]}
+                  onChange={(e) => onChangeMaxIntervalUnit(e)}
+                  options={options}
                   isClearable={true}
                 />
               </div>
@@ -158,10 +175,11 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
             form={modalFormId}
             onClick={submit}
             style={styles.submit}
+            disabled={!minInterval || (minInterval && minInterval < 0)|| !maxInterval || (maxInterval && maxInterval < 0) || ((minInterval && maxInterval) && maxInterval < minInterval)}
             css={{ backgroundColor: euiTheme.colors.disabled }}
             className="inter-add"
           >
-            <p style={styles.ajouter}>Ajouter</p>
+            <p style={styles.ajouter}>Valider</p>
           </EuiButton>
         </div>
       </EuiForm>

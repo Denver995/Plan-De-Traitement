@@ -37,8 +37,6 @@ const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGr
 
   const onFixPosition = () => {};
 
-  console.log("data ", data);
-
   const button = (
     <span onClick={togglePropover} className="icon-ellipsis-v"></span>
   );

@@ -1,9 +1,5 @@
 import * as types from "./types";
 
-// examLine = {
-//   0: {},
-//   1: {}
-// }
 const INITIAL_STATE = {
   creating: false,
   message: '',
@@ -101,7 +97,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examenSelected: examGroup,
       };
     case types.ADD_EXAM_ON_ALL_GROUP:
-      console.log("actionALL: ", action);
       let tempGroup = state.examsGrouped;
       tempGroup.map((group, i) => {
         tempGroup[i] = {
@@ -147,6 +142,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         exams: [...tempExams]
+      }
+    case types.SET_ESPACEMENT:
+      return {
+        ...state,
+        espacement: action.espacement
       }
     default:
       return state;
