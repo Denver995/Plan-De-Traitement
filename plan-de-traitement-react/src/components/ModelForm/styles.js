@@ -1,3 +1,4 @@
+
 import colors from "../../utils/colors";
 
 const styles = {
@@ -141,7 +142,6 @@ const styles = {
 
   fieldNumber: {
     fontSize: 20,
-    width: "100%",
     color: colors.primary,
   },
 

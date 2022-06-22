@@ -50,6 +50,7 @@ import colors from "../../../utils/colors";
 import styles from "./styles";
 import ModalWrapper from "../../common/ModalWrapper";
 import Alert from "../../Alert";
+import { useDimension } from "../../../hooks/dimensions";
 
 const ExamenForm = ({
   isModelGroup,
@@ -86,6 +87,7 @@ const ExamenForm = ({
     cancelText: "Ne pas appliquer",
     confirmText: "Appliquer",
   });
+  const {innerWidth} = useDimension()
 
   const onBack = () => dispatch(deleteStep(previousStep));
 
@@ -249,7 +251,7 @@ const ExamenForm = ({
     return (
       <EuiFlexGroup>
         <EuiFlexItem className="delaiInterExamen">
-          <EuiLink color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
+          <EuiLink style={{cursor : "default"}} color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
             Choisir l'intervale inter examen
           </EuiLink>
         </EuiFlexItem>
@@ -393,7 +395,7 @@ const ExamenForm = ({
                 <p style={styles.examPosition}>Fixer la position de l'examen</p>
               </div>
               {showEditForm ? (
-                <EuiFlexGroup className="btn_group">
+                <EuiFlexGroup style={{flexDirection: innerWidth < 768 ? "column-reverse" : ""}} className="btn_group">
                   <EuiButtonEmpty
                     fill="true"
                     className="button_cancel_me"
@@ -403,7 +405,7 @@ const ExamenForm = ({
                   >
                     Retour
                   </EuiButtonEmpty>
-                  <EuiButton onClick={onEditExamen} className="button_next_me">
+                  <EuiButton onClick={onEditExamen} style={{marginLeft: innerWidth >= 768 ? "30px" : "0px"}} className="button_next_me">
                     Enregistrer
                   </EuiButton>
                 </EuiFlexGroup>
@@ -417,7 +419,7 @@ const ExamenForm = ({
                     onClick={() => {
                       onCancel();
                     }}
-                    style={styles.cancelBtn}
+                    style={{...styles.cancelBtn, marginRight: innerWidth >= 768 ? 50 : 0 }}
                   >
                     Annuler
                   </EuiButtonEmpty>

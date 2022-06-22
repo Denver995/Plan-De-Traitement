@@ -35,6 +35,7 @@ const styles = {
     marginBottom: 10,
     font: "normal normal bold 14px/19px Open Sans",
     color: "#464646",
+    fontWeight : "bold",
     opacity: 1,
   },
 
@@ -53,6 +54,8 @@ const styles = {
   label: {
     font: "normal normal normal 13px/18px Open Sans",
     color: colors.blackClaire,
+    fontSize: 14,
+    fontWeight: "bold"
   },
 
   number: {
@@ -63,6 +66,7 @@ const styles = {
   select: {
     font: "normal normal 600 20px/27px Open Sans",
     color: colors.blackClaire,
+    fontFamily : "arial"
   },
 
   cancel: {
@@ -78,10 +82,12 @@ const styles = {
   annuler: {
     font: "normal normal normal 27px/37px Open Sans",
     color: colors.primary,
+    fontFamily: "arial"
   },
 
   ajouter: {
     font: "normal normal normal 27px/37px Open Sans",
+    fontFamily: "arial"
   },
 
   submit: {

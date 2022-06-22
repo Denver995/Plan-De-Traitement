@@ -263,6 +263,7 @@ const GroupItem = ({ groupName, examsGrouped, onAddExamenComp }) => {
                     <p
                       onClick={() => setShowInterExam(true)}
                       style={{
+                        cursor : "pointer",
                         textDecoration: "underline",
                         font: "normal normal normal 17px/23px Open Sans",
                         letterSpacing: 0,

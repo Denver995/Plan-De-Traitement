@@ -72,8 +72,7 @@ const styles = {
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
     //marginRight: "8%",
-    textDecoration: "none",
-    marginRight: 50
+    textDecoration: "none"
   },
 
   addBtn: {
