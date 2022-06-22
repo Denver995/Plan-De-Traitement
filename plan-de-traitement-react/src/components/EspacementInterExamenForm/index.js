@@ -19,11 +19,17 @@ import { addExamOnAllGroups } from "../../redux/examens/actions";
 import { setAlert } from "../../redux/commons/actions";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./styles";
+import { useState } from "react";
 
 const EspacementInterExamenForm = ({ closeModal, onClose }) => {
+  const [minDelai, setMinDelai] = useState();
+  const [maxDelai, setMaxDelai] = useState();
   const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
+
+  const handleMinChange = (e) => setMinDelai(e.target.value);
+  const handleMaxChange = (e) => setMaxDelai(e.target.value);
 
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
@@ -70,6 +76,8 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
                 <span style={styles.label}>Minimum:</span>
                 <EuiFieldNumber
                   fullWidth
+                  value={minDelai}
+                  onChange={handleMinChange}
                   style={styles.number}
                   placeholder=""
                 />
@@ -109,6 +117,8 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
                 <EuiFieldNumber
                   fullWidth
                   style={styles.number}
+                  value={maxDelai}
+                  onChange={handleMaxChange}
                   placeholder=""
                 />
               </div>
@@ -157,9 +167,17 @@ const EspacementInterExamenForm = ({ closeModal, onClose }) => {
             type="submit"
             form={modalFormId}
             onClick={submit}
-            style={styles.submit}
+            style={
+              minDelai === undefined ||
+              maxDelai === undefined ||
+              minDelai === "" ||
+              maxDelai === ""
+                ? styles.submitDeactivated
+                : styles.submit
+            }
             css={{ backgroundColor: euiTheme.colors.disabled }}
             className="inter-add"
+            disabled={minDelai === undefined || maxDelai === undefined}
           >
             <p style={styles.ajouter}>Ajouter</p>
           </EuiButton>

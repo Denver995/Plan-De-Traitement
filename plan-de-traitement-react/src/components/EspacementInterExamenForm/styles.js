@@ -93,6 +93,16 @@ const styles = {
     textDecoration: "none",
   },
 
+  submitDeactivated: {
+    width: 210,
+    height: 48,
+    background: colors.lightGray,
+    borderRadius: 39,
+    color: colors.white,
+    textDecoration: "none",
+    borderColor: colors.lightGray
+  },
+
   btnContainer: {
     display: "flex",
     justifyContent: "center",

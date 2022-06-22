@@ -58,7 +58,7 @@ const ExamenForm = ({
   activeGroup,
   examsGrouped,
   onPrevious,
-  formType
+  formType,
 }) => {
   const dispatch = useDispatch();
   const model = useSelector((state) => state.CommonReducer.dataSource);
@@ -74,7 +74,9 @@ const ExamenForm = ({
   );
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [listExam, setListExam] = useState([]);
-  const [showEditForm, setShowEditForm] = useState(formType === "EXAMENFORMEDIT");
+  const [showEditForm, setShowEditForm] = useState(
+    formType === "EXAMENFORMEDIT"
+  );
   const [reload, setReload] = useState(false);
   const [specialite, setSpecialite] = useState("");
   const [motif, setMotif] = useState("");
@@ -237,7 +239,7 @@ const ExamenForm = ({
   };
 
   const onCancel = () => {
-    if(formType === "EXAMENFORMEDIT"){
+    if (formType === "EXAMENFORMEDIT") {
       dispatch(setComponent("EXAMSLIST"));
       return;
     }
@@ -305,7 +307,7 @@ const ExamenForm = ({
                     <EuiSpacer size="s" />
                     <p>10000</p>
                   </EuiFlexItem>
-                ): null}
+                ) : null}
               </EuiFlexGroup>
               <EuiFlexGroup>
                 <EuiHorizontalRule className="horizontalRule" />
@@ -324,10 +326,9 @@ const ExamenForm = ({
                       />
                       {delaiInterExamen("1heure - 2heures")}
                     </div>
-                  )
-                  )}
+                  ))}
               </div>
-            ): null}
+            ) : null}
             <EuiFlexGroup style={styles.titleContainer}>
               <TracIcon width={"1rem"} />
               <EuiFlexItem style={styles.examTitle}>Examen 1</EuiFlexItem>
@@ -361,7 +362,7 @@ const ExamenForm = ({
               <EuiSpacer size="xl" />
               <EuiFlexGroup>
                 <EuiFlexItem>
-                  <p style={styles.selectLabel}>Praticien* :</p>
+                  <p style={styles.selectLabel}>Praticien :</p>
                   <EuiSpacer size="xs" />
                   <EuiSelect
                     fullWidth
@@ -403,7 +404,12 @@ const ExamenForm = ({
                   >
                     Retour
                   </EuiButtonEmpty>
-                  <EuiButton onClick={onEditExamen} className="button_next_me">
+                  <EuiButton
+                    disabled={motif === "" || lieu === "" || specialite === ""}
+                    style={(motif === "" || lieu === "" || specialite === "") ? styles.deactivated : styles.activated}
+                    onClick={onEditExamen}
+                    className="button_next_me"
+                  >
                     Enregistrer
                   </EuiButton>
                 </EuiFlexGroup>
@@ -427,7 +433,12 @@ const ExamenForm = ({
                       onAddExamen();
                       dispatch(getSelectedExamGroup(activeGroup));
                     }}
-                    style={styles.addBtn}
+                    style={
+                      motif === "" || lieu === "" || specialite === ""
+                        ? styles.btnDisabled
+                        : styles.addBtn
+                    }
+                    disabled={motif === "" || lieu === "" || specialite === ""}
                   >
                     Ajouter
                   </EuiButton>

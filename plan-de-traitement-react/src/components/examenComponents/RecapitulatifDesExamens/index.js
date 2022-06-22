@@ -89,13 +89,11 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
             <EuiSpacer size="s" />
             <div style={styles.headTitleContainer}>
               <p style={styles.headTitle}>xxxxxxxxxx xxxxxxxxxxxxx XXXXX</p>
-              <Pencil width={"1rem"} />
+              <Pencil onClick={() => console.log("Putain de merde")} width={"21px"} style={styles.pencil}/>
             </div>
           </div>
           <div>
-            <VerticalTimeline
-              lineColor={"rgba(19, 83, 117, 0.479)"}
-            >
+            <VerticalTimeline lineColor={"rgba(19, 83, 117, 0.479)"}>
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
@@ -127,7 +125,7 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
               fill={true}
               onClick={onSave}
             >
-              Enregistrer
+              Valider
             </EuiButton>
           </EuiFlexGroup>
           <EuiSpacer size="m" />
