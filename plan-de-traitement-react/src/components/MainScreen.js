@@ -64,7 +64,7 @@ const MainScreen = () => {
       content = (
         <RecapitulatifDesExamens
           closeModal={closeModal}
-          isModelGroup={steps[0].data.groupe_rdv == 1 ? true : false}
+          isModelGroup={steps[0].data.groupe_rdv === 1 ? true : false}
         />
       );
       break;

@@ -13,6 +13,7 @@ import {
   EuiToolTip,
   EuiSelect,
 } from "@elastic/eui";
+import { useDimension } from "../../hooks/dimensions";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { useDispatch, useSelector, connect } from "react-redux";
 import {
@@ -45,7 +46,7 @@ const ModalForm = ({ closeModal }) => {
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
-
+  const { innerWidth } = useDimension()
   let step = getStepByKey(steps, STEP1);
 
   const listTypePeriode = [
@@ -124,7 +125,7 @@ const ModalForm = ({ closeModal }) => {
     <ModalWrapper className="modale-modelForm" style={styles.modal}>
       <EuiForm id={modalFormId} style={styles.form}>
         <EuiSpacer size="xl" />
-        <p style={styles.nomModel}>Nom du modele: </p>
+        <strong><p style={styles.nomModel}>Nom du modèle: </p></strong>
         <EuiFieldText
           name="nomModele"
           style={styles.inputModal}
@@ -172,9 +173,9 @@ const ModalForm = ({ closeModal }) => {
               style={{ paddingTop: 5 }}
               className="nombre-occurence-nomberField"
             >
-              <div style={styles.occurence}>Nombre d'occurences* :</div>
+              <div style={{ ...styles.occurence, marginLeft: innerWidth >= 768 ? "6%" : "0%" }}>Nombre d'occurences* :</div>
               <EuiFieldNumber
-                style={styles.fieldNumber}
+                style={{ ...styles.fieldNumber, width: innerWidth >= 768 ? "95%" : "100%", marginLeft: innerWidth >= 768 ? "5%" : "0%" }}
                 name={nombreOccurence}
                 value={nombreOccurence}
                 onChange={(e) => {

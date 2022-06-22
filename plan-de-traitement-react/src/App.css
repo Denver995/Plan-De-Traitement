@@ -6,7 +6,20 @@
   width: 100%;
 }**/
 
-#inputNomber-for-periode {
+.containe::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+.containe::-webkit-scrollbar-track {
+  background: orange;        /* color of the tracking area */
+}
+
+.containe::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid orange;  /* creates padding around scroll thumb */
+}
+#inputNomber-for-periode{
   width: 95%;
 }
 .btn-annuler-examForm {
@@ -79,6 +92,26 @@ body {
 /*.euiModal__flex .euiModalBody .euiModalBody__overflow {
   /* overflow-y: hidden;
 }*/
+
+
+
+.euiModal__flex .euiModalBody .euiModalBody__overflow{
+  margin-right: 6px;
+}
+.euiModal__flex .euiModalBody .euiModalBody__overflow::-webkit-scrollbar {
+  width: 8px;        
+}
+
+.euiModal__flex .euiModalBody .euiModalBody__overflow::-webkit-scrollbar-track {
+  background: whitesmoke;        /* color of the tracking area */
+}
+
+.euiModal__flex .euiModalBody .euiModalBody__overflow::-webkit-scrollbar-thumb {
+  background-color: #5d9ad4;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 1px solid #5d9ad4;  /* creates padding around scroll thumb */
+}
+
 .euiModal__flex .euiModalBody .euiModalBody__overflow {
   padding-left: 0;
   padding-right: 0;
@@ -304,9 +337,9 @@ body {
   color: white;
   width: 235px;
   height: 49px;
-  background: #134058 0% 0% no-repeat padding-box;
+  background: rgb(93, 154, 212) 0% 0% no-repeat padding-box;
   box-shadow: 3px 3px 6px #00000029 !important;
-  background-color: #134058 !important;
+  background-color: rgb(93, 154, 212) !important;
   border-radius: 32px;
   border-color: #134058;
   opacity: 1;

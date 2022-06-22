@@ -88,7 +88,7 @@ const Alert = ({
             ...styles.abortBtn,
             fontSize: innerWidth <= 500 ? 20 : 25,
             padding: innerWidth <= 500 ? "5px" : "",
-            width: innerWidth <= 500 ? "100%" : "210px",
+            width: innerWidth <= 500 ? "100%" : 210,
             marginBottom: innerWidth <= 500 ? "20px" : "",
           }}
           onClick={goBack}
