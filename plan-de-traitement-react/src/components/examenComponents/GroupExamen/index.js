@@ -207,7 +207,6 @@ const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
                         </button>
                       </div>
                       {getExamByGroupIndex(exams, index).map((exam, i) => {
-                        console.log('exam ', exam);
                         return <div
                           key={i}
                           style={{ display: "flex", flexDirection: "column" }}
@@ -217,6 +216,7 @@ const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
                             data={exam}
                             exam={exam}
                             id_modele={modelData.id_modele}
+                            index={i}
                           />
                         </div>
                   })}

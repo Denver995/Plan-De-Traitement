@@ -211,22 +211,17 @@ const ExamenForm = ({
     onPrevious && onPrevious();
   };
 
-  const delaiInterExamen = (intervale) => {
-    return (
-      <EuiFlexGroup>
-        <EuiFlexItem className="delaiInterExamen">
-          <EuiLink
-            style={{ cursor: "default" }}
-            color={"primary"}
-            href="#"
-            onClick={onChooseDelaiEspacement}
-          >
-            Choisir l'intervale inter examen
-          </EuiLink>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    );
-  };
+  // const delaiInterExamen = (intervale) => {
+  //   return (
+  //     <EuiFlexGroup>
+  //       <EuiFlexItem className="delaiInterExamen">
+  //         <EuiLink style={{cursor : "default"}} color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
+  //           Choisir l'intervale inter examen
+  //         </EuiLink>
+  //       </EuiFlexItem>
+  //     </EuiFlexGroup>
+  //   );
+  // };
 
   useEffect(() => {
     if (reload) setReload(false);
@@ -237,7 +232,6 @@ const ExamenForm = ({
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
   useEffect(() => {
-    console.log("groupSelected: ", groupSelected);
   }, [groupSelected, examsGrouped]);
 
   return (

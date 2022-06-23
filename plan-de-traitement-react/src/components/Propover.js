@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { editExam } from "../redux/examens/actions";
+import { editExam, deleteExamSimple, deleteExamGroup } from "../redux/examens/actions";
 import { setComponent } from "../redux/commons/actions";
 
 const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGrouped, exams }) => {
@@ -33,7 +33,14 @@ const Propover = ({ data, showEditForm, isModelGroup, simpleAccordionId, examsGr
     dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
   };
 
-  const onDelete = () => {};
+  const onDelete = () => {
+    // if(isModelGroup){
+    //   dispatch(deleteExamSimple(data));
+    //   return;
+    // }
+    // else dispatch(deleteExamGroup(data));
+    dispatch(deleteExamSimple(data));
+  };
 
   const onFixPosition = () => {};
 

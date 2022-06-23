@@ -4,11 +4,10 @@ import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
-import { deleteExamSimple } from '../../../redux/examens/actions';
 
 import styles from "./styles";
 
-const ExamItem = ({ data, showEditForm, color, id_modele, exam }) => {
+const ExamItem = ({ data, showEditForm, color, id_modele, exam, index }) => {
   const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -24,10 +23,7 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam }) => {
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
         <div>
-          <Propover onDelete={() => {
-            console.log('examen simple delete')
-            dispatch(deleteExamSimple(data))}
-          } data={data} showEditForm={showEditForm} />
+          <Propover data={data} showEditForm={showEditForm} />
         </div>
         <div>
           <span
@@ -35,7 +31,7 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam }) => {
             style={styles.tracIcon}
           ></span>
           <span style={styles.examen}>
-            Examen {windowSize.innerWidth < 971 && windowSize.innerWidth > 729 ? formatExamNumber(id_modele) : id_modele}
+            Examen {windowSize.innerWidth < 971 && windowSize.innerWidth > 729 ? formatExamNumber(index) : index}
           </span>
         </div>
       </div>
