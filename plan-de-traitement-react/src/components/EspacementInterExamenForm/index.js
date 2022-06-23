@@ -149,7 +149,7 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
                   fullWidth
                   style={styles.number}
                   value={maxDelai}
-                  onChange={handleMaxChange}
+                  onChange={onChangeMaxInterval}
                   placeholder=""
                 />
               </div>
@@ -182,14 +182,21 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
             type="submit"
             form={modalFormId}
             onClick={submit}
-            disabled={!minInterval || (minInterval && minInterval < 0)|| !maxInterval || (maxInterval && maxInterval < 0) || ((minInterval && maxInterval) && maxInterval < minInterval)}
             style={
-              minDelai === undefined ||
-              maxDelai === undefined ||
-              minDelai === "" ||
-              maxDelai === ""
+              !minInterval ||
+              (minInterval && minInterval < 0) ||
+              !maxInterval ||
+              (maxInterval && maxInterval < 0) ||
+              (minInterval && maxInterval && maxInterval < minInterval)
                 ? styles.submitDeactivated
                 : styles.submit
+            }
+            disabled={
+              !minInterval ||
+              (minInterval && minInterval < 0) ||
+              !maxInterval ||
+              (maxInterval && maxInterval < 0) ||
+              (minInterval && maxInterval && maxInterval < minInterval)
             }
             css={{ backgroundColor: euiTheme.colors.disabled }}
             className="inter-add"
