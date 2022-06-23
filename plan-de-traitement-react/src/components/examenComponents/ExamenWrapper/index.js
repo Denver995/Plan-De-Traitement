@@ -34,7 +34,7 @@ const ExamenWrapper = ({ activeGroup, isModelGroup, exams, componentTodisplay })
   return (
     <div className='wrapper'>
       {(component === 'EXAMENFORM' || component === 'EXAMENFORMEDIT') ? <ExamenForm activeGroup={activeGroup} isModelGroup={isModelGroup} onAddExam={(data) => {
-        onChangeComponent(data.name);}} onPrevious={onPrevious} formType={component}/> : <ExamsList exams={exams} onAdd={(data) => onChangeComponent({name: data})} />}
+        onChangeComponent(data.name);}} onPrevious={onPrevious} formType={component}/> : <ExamsList exams={exams} onAdd={(data) => onChangeComponent({name: data})}/>}
     </div>
   );
 }

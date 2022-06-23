@@ -21,8 +21,7 @@ import colors from "../../../utils/colors";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ModalWrapper from "../../common/ModalWrapper";
 
-const ExamsList = ({ exams, onAdd, steps }) => {
-  console.log('exams ', exams);
+const ExamsList = ({ exams, onAdd, steps, modelData }) => {
   const getItems = (count) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `item-${k}`,
@@ -71,16 +70,9 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                 <p style={styles.title}>Modèle:</p>
                 <EuiSpacer size="s" />
                 <p style={styles.subtitleWrapper}>
-                  Xxxxxxxxxx xxxxxxxxxxx XXXX
+                  {modelData.nom}
                 </p>
               </EuiFlexItem>
-              {/* {isModelGroup &&
-                        <EuiFlexItem>
-                            <p>Groupe:</p>
-                            <EuiSpacer size='s' />
-                            <p>10000</p>
-                        </EuiFlexItem>
-                    } */}
             </EuiFlexGroup>
             <DragDropContext onDragEnd={handleOnDragEnd}>
               <Droppable droppableId="droppable">
@@ -157,7 +149,8 @@ const ExamsList = ({ exams, onAdd, steps }) => {
   );
 };
 
-const mapStateToProps = ({ StepReducer }) => ({
+const mapStateToProps = ({ StepReducer, ModelsReducer }) => ({
   steps: StepReducer.steps,
+  modelData: ModelsReducer.modelData
 });
 export default connect(mapStateToProps)(ExamsList);
