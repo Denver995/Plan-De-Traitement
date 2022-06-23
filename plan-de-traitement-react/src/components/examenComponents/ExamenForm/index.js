@@ -58,7 +58,8 @@ const ExamenForm = ({
   formType,
   modelData,
   handleGetExamByGroupIndex,
-  exams
+  exams,
+  predecessor,
 }) => {
   const dispatch = useDispatch();
   // const model = useSelector((state) => state.CommonReducer.dataSource);
@@ -80,7 +81,7 @@ const ExamenForm = ({
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
-  const {innerWidth} = useDimension()
+  const { innerWidth } = useDimension();
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const previousStep = getStepByKey(steps, STEP2);
@@ -144,7 +145,7 @@ const ExamenForm = ({
       id_lieu: lieu,
       id_modif: motif,
       fixe: fixedExamPosition ? 1 : 0,
-      position: 1
+      position: 1,
     };
     if (isModelGroup) {
       payload.id_group = activeGroup;
@@ -162,7 +163,7 @@ const ExamenForm = ({
             dispatch(setAlert(false));
           },
           onReject: () => {
-            console.log('inside not all ');
+            console.log("inside not all ");
             payload.allGroup = false;
             dispatch(addExam({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
@@ -179,7 +180,7 @@ const ExamenForm = ({
       dispatch(createExamen(payload));
       setReload(true);
       onAddExam({ name: "EXAMSLIST" });
-      dispatch(addExam({exam: payload }));
+      dispatch(addExam({ exam: payload }));
       dispatch(createExamenAction(payload));
     }
   };
@@ -201,6 +202,12 @@ const ExamenForm = ({
       dispatch(setComponent("EXAMSLIST"));
       return;
     }
+
+    if (predecessor === "EXAMSLIST") {
+      dispatch(setComponent("EXAMSLIST"));
+      return;
+    }
+
     onPrevious && onPrevious();
   };
 
@@ -208,7 +215,12 @@ const ExamenForm = ({
     return (
       <EuiFlexGroup>
         <EuiFlexItem className="delaiInterExamen">
-          <EuiLink style={{cursor : "default"}} color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
+          <EuiLink
+            style={{ cursor: "default" }}
+            color={"primary"}
+            href="#"
+            onClick={onChooseDelaiEspacement}
+          >
             Choisir l'intervale inter examen
           </EuiLink>
         </EuiFlexItem>
@@ -254,7 +266,8 @@ const ExamenForm = ({
           </div>
           {isModelGroup ? (
             <div style={{ marginTop: 28, marginBottom: 28 }}>
-              {handleGetExamByGroupIndex(exams, activeGroup).map((item, index) => (
+              {handleGetExamByGroupIndex(exams, activeGroup).map(
+                (item, index) => (
                   <div key={index}>
                     <ExamItem
                       color={item.color}
@@ -265,12 +278,17 @@ const ExamenForm = ({
                     />
                     {/* {delaiInterExamen("1heure - 2heures")} */}
                   </div>
-                ))}
+                )
+              )}
             </div>
           ) : null}
           <EuiFlexGroup style={styles.titleContainer}>
             <TracIcon width={"1rem"} />
-            <EuiFlexItem style={styles.examTitle}>Examen {isModelGroup && Object.keys(examsGrouped[activeGroup]).length+1}</EuiFlexItem>
+            <EuiFlexItem style={styles.examTitle}>
+              Examen{" "}
+              {isModelGroup &&
+                Object.keys(examsGrouped[activeGroup]).length + 1}
+            </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
           <EuiForm>
@@ -333,7 +351,12 @@ const ExamenForm = ({
               <p style={styles.examPosition}>Fixer la position de l'examen</p>
             </div>
             {showEditForm ? (
-              <EuiFlexGroup className="btn_group" style={{flexDirection: innerWidth < 768 ? "column-reverse" : ""}}>
+              <EuiFlexGroup
+                className="btn_group"
+                style={{
+                  flexDirection: innerWidth < 768 ? "column-reverse" : "",
+                }}
+              >
                 <EuiButtonEmpty
                   fill="true"
                   className="button_cancel_me"
@@ -345,8 +368,14 @@ const ExamenForm = ({
                 </EuiButtonEmpty>
                 <EuiButton
                   disabled={motif === "" || lieu === "" || specialite === ""}
-                  style={(motif === "" || lieu === "" || specialite === "") ? styles.deactivated : styles.activated}
-                  onClick={onEditExamen} className="button_next_me">
+                  style={
+                    motif === "" || lieu === "" || specialite === ""
+                      ? styles.deactivated
+                      : styles.activated
+                  }
+                  onClick={onEditExamen}
+                  className="button_next_me"
+                >
                   Enregistrer
                 </EuiButton>
               </EuiFlexGroup>
@@ -360,7 +389,10 @@ const ExamenForm = ({
                   onClick={() => {
                     onCancel();
                   }}
-                  style={{...styles.cancelBtn, marginRight: innerWidth >= 768 ? 50 : 0 }}
+                  style={{
+                    ...styles.cancelBtn,
+                    marginRight: innerWidth >= 768 ? 50 : 0,
+                  }}
                 >
                   Annuler
                 </EuiButtonEmpty>

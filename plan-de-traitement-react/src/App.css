@@ -30,9 +30,9 @@
   width: "210px";
 }
 
-.btn-ajouter-examForm:hover {
-  background: #5D9AD4 !important;
-}
+/* .btn-ajouter-examForm:hover {
+  background-color: transparent !important;
+} */
 
 .btn-suivant-modelForm {
   width: 187px;

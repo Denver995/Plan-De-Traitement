@@ -19,9 +19,12 @@ import ModalWrapper from "../common/ModalWrapper";
 import { type_espacement } from "../../utils/constants";
 import styles from "./styles";
 
-const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initialIndex }) => {
-  const [minDelai, setMinDelai] = useState();
-  const [maxDelai, setMaxDelai] = useState();
+const EspacementInterExamenForm = ({
+  closeModal,
+  onClose,
+  typeEspacement,
+  initialIndex,
+}) => {
   const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
   const [minInterval, setMinInterval] = useState();
@@ -29,7 +32,7 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
   const [maxInterval, setMaxInterval] = useState();
   const [maxIntervalUnit, setMaxIntervalUnit] = useState("Jour");
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
-  console.log('typeEspacement ', typeEspacement);
+  console.log("typeEspacement ", typeEspacement);
   const options = [
     {
       value: "Jour",
@@ -57,20 +60,19 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
 
   const onChangeMaxIntervalUnit = (e) => setMaxIntervalUnit(e.target.value);
 
-  const applyInterVale = (onAll=false) => {
-    console.log('inside applyInterVale ');
-    dispatch(setEspacement({
-      applyOnAll: onAll,
-      minInterval: minInterval,
-      minIntervalUnit: minIntervalUnit,
-      maxInterval: maxInterval,
-      maxIntervalUnit: maxIntervalUnit
-    }));
+  const applyInterVale = (onAll = false) => {
+    console.log("inside applyInterVale ");
+    dispatch(
+      setEspacement({
+        applyOnAll: onAll,
+        minInterval: minInterval,
+        minIntervalUnit: minIntervalUnit,
+        maxInterval: maxInterval,
+        maxIntervalUnit: maxIntervalUnit,
+      })
+    );
     dispatch(dispatch(setAlert(false)));
-  }
-
-  const handleMinChange = (e) => setMinDelai(e.target.value);
-  const handleMaxChange = (e) => setMaxDelai(e.target.value);
+  };
 
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
@@ -103,14 +105,17 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
   return (
     <ModalWrapper style={styles.modal}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
-          {typeEspacement === type_espacement.group ?
-            <p className="label_exams" style={styles.title}>
-              Espacement entre le groupe {initialIndex} et le groupe {initialIndex+1}
-            </p>
-          :<p className="label_exams" style={styles.title}>
-              Espacement entre l'examen {initialIndex} et l'examen {initialIndex+1}
-            </p>
-          }
+        {typeEspacement === type_espacement.group ? (
+          <p className="label_exams" style={styles.title}>
+            Espacement entre le groupe {initialIndex} et le groupe{" "}
+            {initialIndex + 1}
+          </p>
+        ) : (
+          <p className="label_exams" style={styles.title}>
+            Espacement entre l'examen {initialIndex} et l'examen{" "}
+            {initialIndex + 1}
+          </p>
+        )}
 
         <p className="inter" style={styles.secondTitle}>
           Espacement inter examens*:
@@ -122,8 +127,7 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
                 <span style={styles.label}>Minimum:</span>
                 <EuiFieldNumber
                   fullWidth
-                  value={minDelai}
-                  onChange={handleMinChange}
+                  value={minInterval}
                   style={styles.number}
                   placeholder=""
                   onChange={(e) => onChangeMinInterval(e)}
@@ -148,7 +152,7 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
                 <EuiFieldNumber
                   fullWidth
                   style={styles.number}
-                  value={maxDelai}
+                  value={maxInterval}
                   onChange={onChangeMaxInterval}
                   placeholder=""
                 />

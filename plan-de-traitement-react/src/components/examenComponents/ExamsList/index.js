@@ -21,8 +21,8 @@ import colors from "../../../utils/colors";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ModalWrapper from "../../common/ModalWrapper";
 
-const ExamsList = ({ exams, onAdd, steps }) => {
-  console.log('exams ', exams);
+const ExamsList = ({ exams, onAdd, steps, espacement }) => {
+  console.log("exams ", exams);
   const getItems = (count) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `item-${k}`,
@@ -116,7 +116,15 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                                   onClick={() => setShowInterExam(true)}
                                   className="delai-inter-group"
                                 >
-                                  Choisir l'intervale inter examen
+                                  {espacement && espacement.minInterval
+                                    ? `Délai entre "l'examen ${index}" et "l'examen ${
+                                        index + 1
+                                      }" : ${espacement.minInterval} ${
+                                        espacement.minIntervalUnit
+                                      } - ${espacement.maxInterval} ${
+                                        espacement.minIntervalUnit
+                                      }`
+                                    : "Choisir l'intervalle inter groupe"}
                                 </span>
                               )}
                               <EuiSpacer size="xs" />
@@ -133,7 +141,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  onAdd("EXAMENFORM");
+                  onAdd("EXAMENFORM", "EXAMSLIST");
                 }}
                 style={styles.plusBtn}
               >
@@ -157,7 +165,8 @@ const ExamsList = ({ exams, onAdd, steps }) => {
   );
 };
 
-const mapStateToProps = ({ StepReducer }) => ({
+const mapStateToProps = ({ StepReducer, ExamenReducer }) => ({
   steps: StepReducer.steps,
+  espacement: ExamenReducer.espacement,
 });
 export default connect(mapStateToProps)(ExamsList);
