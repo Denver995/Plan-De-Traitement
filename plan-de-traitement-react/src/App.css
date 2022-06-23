@@ -21,18 +21,23 @@
 }
 #inputNomber-for-periode{
   width: 95%;
- }
-.btn-annuler-examForm{
+}
+.btn-annuler-examForm {
   margin-right: 15px;
-  width: "210px"
+  width: "210px";
 }
-.btn-ajouter-examForm{
-  width: "210px"
+.btn-ajouter-examForm {
+  width: "210px";
 }
-.btn-suivant-modelForm{
+
+.btn-ajouter-examForm:hover {
+  background: #5D9AD4 !important;
+}
+
+.btn-suivant-modelForm {
   width: 187px;
 }
-.btn-annuler-modelForm{
+.btn-annuler-modelForm {
   margin-right: 8px;
   width: 187px;
 }
@@ -41,8 +46,7 @@
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -59,7 +63,7 @@ body {
 }
 
 .App-header {
-  background-color:#282c34 ;
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -77,7 +81,6 @@ body {
 /******************* EUI ***************************/
 /***************************************************/
 
-
 /*****************************  euiModalHeader *****************/
 /* .euiModalHeader {
   background: #5D9AD4 0% 0% no-repeat padding-box;
@@ -89,7 +92,6 @@ body {
 .euiModal__closeIcon {
   background-color: none;
 } */
-
 
 /***************************** CUSTOM BUTTON *****************/
 /*.euiModal__flex .euiModalBody .euiModalBody__overflow {
@@ -124,42 +126,43 @@ body {
 }
 
 .euiModal .euiModalHeader {
-  background: #5D9AD4 0% 0% no-repeat padding-box;
+  background: #5d9ad4 0% 0% no-repeat padding-box;
   border-radius: 10px 10px 0px 0px;
   height: 89px;
   opacity: 1;
 }
 .euiModal .euiButton--primary {
-  background: #5D9AD4;
+  background: #5d9ad4;
 }
 .euiModal .euiModal__closeIcon {
-  background-color: #5D9AD4;
-  color: #4B759C;
+  background-color: #5d9ad4;
+  color: #4b759c;
   height: 19px;
   width: 19px;
   display: none;
 }
 
 /** ------------------ ***/
-.nombre-occurence-nomberField{
+.nombre-occurence-nomberField {
   max-width: "100%";
   margin-left: "15%";
 }
 
-.euiFieldNumber euiFieldNumber--fullWidth{
-  width: 100%; 
+.euiFieldNumber euiFieldNumber--fullWidth {
+  width: 100%;
   color: rgb(93, 154, 212);
 }
-.euiFieldText euiFieldText--fullWidth{
-  letter-spacing: 0px; 
-  color: rgb(93, 154, 212); 
-  font-size: 20px; 
+.euiFieldText euiFieldText--fullWidth {
+  letter-spacing: 0px;
+  color: rgb(93, 154, 212);
+  font-size: 20px;
   border-color: rgb(112, 112, 112);
 }
 
-
-.euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+.euiModalBody .euiFieldText,
+.euiModalBody .euiFieldNumber,
+.euiModalBody .euiSelect {
+  background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #707070;
   border-radius: 7px;
   opacity: 1;
@@ -167,7 +170,7 @@ body {
 }
 
 .euiModal .button_cancel {
-  border: 3px solid #5D9AD4;
+  border: 3px solid #5d9ad4;
   border-radius: 36px;
   opacity: 1;
   width: 186px;
@@ -175,8 +178,8 @@ body {
   font: normal normal normal 27px/37px Open Sans;
 }
 
-.euiModal .button_cancel_small{
-  border: 3px solid #5D9AD4;
+.euiModal .button_cancel_small {
+  border: 3px solid #5d9ad4;
   border-radius: 39px;
   opacity: 1;
   width: 210px;
@@ -203,7 +206,7 @@ body {
   font: normal normal normal 27px/37px Open Sans;
 }
 
-.euiFlexItem  .button_finished {
+.euiFlexItem .button_finished {
   opacity: 1;
   width: 210px;
   height: 48px;
@@ -213,7 +216,7 @@ body {
   background-color: #134058 !important;
   border-radius: 32px;
 }
-.euiFlexItem  .button_finished_new{
+.euiFlexItem .button_finished_new {
   opacity: 1;
   width: 210px;
   height: 48px;
@@ -224,7 +227,6 @@ body {
   display: block;
   margin-left: 83%;
   margin-top: 50px;
-
 }
 
 .icon_container {
@@ -236,12 +238,12 @@ body {
   margin: auto;
 }
 
-.icon_ellipsis span{
+.icon_ellipsis span {
   margin-top: 27px;
   cursor: pointer;
 }
 
-.examenItem_rigth .euiFlexGroup{
+.examenItem_rigth .euiFlexGroup {
   margin-left: auto;
 }
 
@@ -260,7 +262,7 @@ body {
   font: normal normal normal 27px/37px Open Sans;
 }
 
-.euiFlexItem  .button_finished {
+.euiFlexItem .button_finished {
   opacity: 1;
   width: 210px;
   height: 48px;
@@ -280,12 +282,12 @@ body {
   margin: auto;
 }
 
-.icon_ellipsis span{
+.icon_ellipsis span {
   margin-top: 7px;
   cursor: pointer;
 }
 
-.examenItem_rigth .euiFlexGroup{
+.examenItem_rigth .euiFlexGroup {
   margin-left: auto;
 }
 
@@ -295,11 +297,10 @@ body {
   opacity: 1;
 }
 
-
 .examenItem {
   width: 100%;
   height: 42px;
-  background: #C9EBD7 0% 0% no-repeat padding-box;
+  background: #c9ebd7 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
   padding-left: 41px;
@@ -316,37 +317,40 @@ body {
 }
 
 .euiForm .btn_group {
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 30px;
   margin-bottom: 15px;
 }
 
-.btn_group .button_cancel_me
-{
-  font-size: 25px;
-  border: 3px solid rgb(93, 154, 212);
-  width: 25%;
+.btn_group .button_cancel_me {
+  font-size: 27px;
+  border: 3px solid #1d3d5b;
+  width: 235px;
   height: 49px;
-  color: rgb(93, 154, 212);
+  color: #1d3d5b;
   border-radius: 39px;
   opacity: 1;
 }
 
-.btn_group .button_next_me
-{
-  font-size: 25px;
-  width: 25%;
+.btn_group .button_cancel_me:hover,
+.btn_group .button_next_me:hover {
+  text-decoration: none !important;
+}
+
+/* .btn_group .button_next_me {
+  font-size: 27px;
   color: white;
+  width: 235px;
   height: 49px;
   background: rgb(93, 154, 212) 0% 0% no-repeat padding-box;
   box-shadow: 3px 3px 6px #00000029 !important;
   background-color: rgb(93, 154, 212) !important;
   border-radius: 32px;
+  border-color: #134058;
   opacity: 1;
-}
+} */
 
-.btn_group .xs
-{
+.btn_group .xs {
   width: 187px;
   margin-left: auto;
 }
@@ -361,14 +365,13 @@ body {
   width: 1361px;
   margin-top: 5px;
 }
-.rendezvousFormContainer{
+.rendezvousFormContainer {
   top: 80px;
-width: 1361px;
-background: var(--unnamed-color-ddeaf6) 0% 0% no-repeat padding-box;
-background: #DDEAF6 0% 0% no-repeat padding-box;
-border-radius: 10px;
-opacity: 1;
-
+  width: 1361px;
+  background: var(--unnamed-color-ddeaf6) 0% 0% no-repeat padding-box;
+  background: #ddeaf6 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 1;
 }
 
 .euiFlexGroup .delaiInterExamen {
@@ -384,7 +387,7 @@ opacity: 1;
 }
 
 .euiFlexGroup .horizontalRule {
-  background-color: #5D9AD4;
+  background-color: #5d9ad4;
 }
 /***************************** CARD BUTTON ******************/
 
@@ -428,7 +431,7 @@ hr {
 
 /* Extra big screen devices (1200px and above) */
 @media only screen and (min-width: 1200px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 70rem !important;
   }
 }
@@ -438,264 +441,255 @@ hr {
     width: 30rem !important;
   }
 }**/
-@media screen and (max-width: 370px) and (min-width : 361px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 370px) and (min-width: 361px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 22.5rem !important;
   }
 }
 
-@media screen and (max-width: 380px) and (min-width : 371px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 380px) and (min-width: 371px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 24rem !important;
   }
 }
-@media screen and (max-width: 640px) and (min-width : 0px) {
-  .btn-annuler-examForm{
+@media screen and (max-width: 640px) and (min-width: 0px) {
+  .btn-annuler-examForm {
     width: 100%;
     margin-right: 0px;
     margin-bottom: 10px;
     margin-top: 10px;
-   }
-   .btn-ajouter-examForm{
+  }
+  .btn-ajouter-examForm {
     width: 100%;
-   }
+  }
 }
-@media screen and (max-width: 446px) and (min-width : 0px) {
- 
- .btn-suivant-modelForm{
-   width: 100%;
- }
- .btn-annuler-modelForm{
-   width: 100%;
-   margin-bottom: 10px;
-   margin-top: 10px;
- }
- .btn_group{
-   display: flex;
-   flex-direction: column;
- }
- .btn_group .button_cancel_me{
-  width: 100%;
- }
- .btn_group .button_next_me{
-   width: 100%;
+@media screen and (max-width: 446px) and (min-width: 0px) {
+  .btn-suivant-modelForm {
+    width: 100%;
+  }
+  .btn-annuler-modelForm {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  .btn_group {
+    display: flex;
+    flex-direction: column;
+  }
+  .btn_group .button_cancel_me {
+    margin-bottom: 20px !important;
+    width: 100%;
+  }
+  .btn_group .button_next_me {
+    width: 100% !important;
+  }
 }
-}
-@media screen and (max-width: 510px) and (min-width : 500px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 510px) and (min-width: 500px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 30rem !important;
   }
- 
 }
-@media screen and (max-width: 520px) and (min-width : 511px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 520px) and (min-width: 511px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 31rem !important;
   }
- 
 }
-@media screen and (max-width: 530px) and (min-width : 521px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 530px) and (min-width: 521px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 32rem !important;
   }
- 
 }
-@media screen and (max-width: 540px) and (min-width : 531px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 540px) and (min-width: 531px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 32.5rem !important;
   }
- 
 }
-@media screen and (max-width: 550px) and (min-width : 541px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 550px) and (min-width: 541px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 32rem !important;
   }
- 
 }
-@media screen and (max-width: 560px) and (min-width : 551px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 560px) and (min-width: 551px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 33rem !important;
   }
- 
 }
-@media screen and (max-width: 768px) and (min-width : 0) {
- 
-  .radio-second-container{
+@media screen and (max-width: 768px) and (min-width: 0) {
+  .radio-second-container {
     justify-content: space-between;
     /**margin-right: -100px;**/
   }
-  .btn_group .button_cancel_me
-{
-  width: 100%;  
-}
+  .btn_group .button_cancel_me {
+    width: 100%;
+    margin-bottom: 20px !important;
+  }
 
-.btn_group .button_next_me
-{
-  width: 100%;
-  margin-bottom: 20px;
+  .btn_group .button_next_me {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
 }
-}
-@media screen and (max-width: 574px) and (min-width : 560px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 574px) and (min-width: 560px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 33rem !important;
   }
-  .radio-first-container{
+  .radio-first-container {
     padding-left: 40px;
   }
 }
 
 @media only screen and (min-width: 574px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 40rem !important;
   }
 }
 
 @media only screen and (min-width: 600px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 40rem !important;
   }
 }
 
 @media only screen and (min-width: 690px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 40rem !important;
   }
 }
 
-@media screen and  (max-width : 767px) and (min-width : 766px) {
-  .euiModal{
-    margin-left:3%;
+@media screen and (max-width: 767px) and (min-width: 766px) {
+  .euiModal {
+    margin-left: 3%;
   }
 }
 
-@media screen and  (max-width : 767px) and (min-width : 0px) {
-  .euiFieldText euiFieldText--fullWidth{
-    letter-spacing: 0px; 
-    color: rgb(93, 154, 212); 
-    font-size: 20px; 
+@media screen and (max-width: 767px) and (min-width: 0px) {
+  .euiFieldText euiFieldText--fullWidth {
+    letter-spacing: 0px;
+    color: rgb(93, 154, 212);
+    font-size: 20px;
     border-color: rgb(112, 112, 112);
-    width : 80%;
+    width: 80%;
   }
 
-  #inputNomber-for-periode{
- width: 100%;
-}
+  #inputNomber-for-periode {
+    width: 100%;
+  }
 
-  .inputSelect-for-periode{
+  .inputSelect-for-periode {
     margin-top: 15px;
   }
 }
 
-@media screen and  (max-width : 520px) and (min-width : 500px) {
-  @media screen and  (max-width : 520px) and (min-width : 500px) {
-  .euiModal{
-    margin-left:2%;
+@media screen and (max-width: 520px) and (min-width: 500px) {
+  @media screen and (max-width: 520px) and (min-width: 500px) {
+    .euiModal {
+      margin-left: 2%;
+    }
   }
 }
-}
-@media screen and  (max-width : 540px) and (min-width : 520px) {
-  .euiModal{
-    margin-left:2%;
+@media screen and (max-width: 540px) and (min-width: 520px) {
+  .euiModal {
+    margin-left: 2%;
   }
 }
-@media screen and  (max-width : 560px) and (min-width : 540px) {
-  .euiModal{
-    margin-left:3.5%;
+@media screen and (max-width: 560px) and (min-width: 540px) {
+  .euiModal {
+    margin-left: 3.5%;
   }
 }
-@media screen and  (max-width : 573px) and (min-width : 560px) {
-  .euiModal{
-    margin-left:4%;
+@media screen and (max-width: 573px) and (min-width: 560px) {
+  .euiModal {
+    margin-left: 4%;
   }
 }
-@media only screen and  (max-width : 590px) and (min-width : 574px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media only screen and (max-width: 590px) and (min-width: 574px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 30rem !important;
   }
-  .euiModal{
-    margin-left:9%;
+  .euiModal {
+    margin-left: 9%;
   }
 }
-@media screen and (max-width: 640px) and (min-width : 591px) {
-  div.espacement_inter_examen_EuiModalBody{
+@media screen and (max-width: 640px) and (min-width: 591px) {
+  div.espacement_inter_examen_EuiModalBody {
     width: 30rem !important;
   }
-  @media screen and (max-width: 610px) and (min-width : 591px) {
-  .euiModal{
-    margin-left:10%;
+  @media screen and (max-width: 610px) and (min-width: 591px) {
+    .euiModal {
+      margin-left: 10%;
+    }
   }
-}
-@media screen and (max-width: 640px) and (min-width : 610px) {
-  .euiModal{
-    margin-left:12%;
+  @media screen and (max-width: 640px) and (min-width: 610px) {
+    .euiModal {
+      margin-left: 12%;
+    }
   }
-}
 }
 
-@media screen and (max-width: 645px) and (min-width : 641px) {
-  .euiModal{
-    margin-left:0%;
+@media screen and (max-width: 645px) and (min-width: 641px) {
+  .euiModal {
+    margin-left: 0%;
   }
 }
-@media screen and (max-width: 650px) and (min-width : 646px) {
-  .euiModal{
-    margin-left:0.7%;
+@media screen and (max-width: 650px) and (min-width: 646px) {
+  .euiModal {
+    margin-left: 0.7%;
   }
 }
-@media screen and (max-width: 670px) and (min-width : 651px) {
-  .euiModal{
-    margin-left:1.5%;
+@media screen and (max-width: 670px) and (min-width: 651px) {
+  .euiModal {
+    margin-left: 1.5%;
   }
 }
-@media screen and (max-width: 690px) and (min-width : 671px) {
-  .euiModal{
-    margin-left:3%;
+@media screen and (max-width: 690px) and (min-width: 671px) {
+  .euiModal {
+    margin-left: 3%;
   }
 }
-@media screen and (max-width: 710px) and (min-width : 691px) {
-  .euiModal{
-    margin-left:4.5%;
+@media screen and (max-width: 710px) and (min-width: 691px) {
+  .euiModal {
+    margin-left: 4.5%;
   }
 }
-@media screen and (max-width: 730px) and (min-width : 711px) {
-  .euiModal{
-    margin-left:5.5%;
+@media screen and (max-width: 730px) and (min-width: 711px) {
+  .euiModal {
+    margin-left: 5.5%;
   }
 }
-@media screen and (max-width: 750px) and (min-width : 731px) {
-  .euiModal{
-    margin-left:6.5%;
+@media screen and (max-width: 750px) and (min-width: 731px) {
+  .euiModal {
+    margin-left: 6.5%;
   }
 }
-@media screen and (max-width: 765px) and (min-width : 751px) {
-  .euiModal{
-    margin-left:7.5%;
+@media screen and (max-width: 765px) and (min-width: 751px) {
+  .euiModal {
+    margin-left: 7.5%;
   }
 }
 
 @media only screen and (min-width: 766px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 45rem !important;
   }
 }
 
 @media only screen and (min-width: 971px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 56rem !important;
   }
 }
 
 @media only screen and (min-width: 1032px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 63rem !important;
   }
 }
 
 @media only screen and (min-width: 1100px) {
-  div.espacement_inter_examen_EuiModalBody{
+  div.espacement_inter_examen_EuiModalBody {
     width: 65rem !important;
   }
 }
-
 
 /* @media only screen and (min-width: 1230px) {
   div.espacement_inter_examen_EuiModalBody{

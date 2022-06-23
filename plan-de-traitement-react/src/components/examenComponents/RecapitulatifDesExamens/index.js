@@ -34,12 +34,12 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
   const previousStep = getStepByKey(steps, STEP3);
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const alertMessage = `
-    <EuiText className="text_alert">
+    <EuiText style="float: left; font-size: 22px; color: #242729">
       Ce modèle va être enregistré sous le nom : 
       <br/>
-      <div style="color: #5D9AD4; margin-top: 10px; margin-bottom: 20px; display: flex; alignItems: center;">
+      <div style="font-size: 20px; color: #5D9AD4; margin-top: 10px; margin-bottom: 20px; display: flex; alignItems: center;">
         Xxxxxxxxxx xxxxxxxxxxx XXXX
-        <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px"><Pencil size={"1rem"} /></div>
+        <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px; cursor: pointer"><Pencil size={"1rem"} /></div>
       </div>
     </EuiText>
   `;
@@ -89,13 +89,11 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
             <EuiSpacer size="s" />
             <div style={styles.headTitleContainer}>
               <p style={styles.headTitle}>xxxxxxxxxx xxxxxxxxxxxxx XXXXX</p>
-              <Pencil width={"1rem"} />
+              <Pencil onClick={() => console.log("add somes actions")} width={"21px"} style={styles.pencil}/>
             </div>
           </div>
           <div>
-            <VerticalTimeline
-              lineColor={"rgba(19, 83, 117, 0.479)"}
-            >
+            <VerticalTimeline lineColor={"rgba(19, 83, 117, 0.479)"}>
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
@@ -127,7 +125,7 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
               fill={true}
               onClick={onSave}
             >
-              Enregistrer
+              Valider
             </EuiButton>
           </EuiFlexGroup>
           <EuiSpacer size="m" />

@@ -250,7 +250,7 @@ const ModalForm = ({ closeModal }) => {
             Annuler
           </EuiButtonEmpty>
           <EuiButton
-            style={styles.addButton}
+            style={nomModele.length < 3 ? styles.addButton2 : styles.addButton}
             form={modalFormId}
             onClick={() => {
               onClickNext();

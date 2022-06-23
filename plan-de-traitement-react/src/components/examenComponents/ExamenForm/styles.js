@@ -72,7 +72,8 @@ const styles = {
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
     //marginRight: "8%",
-    textDecoration: "none"
+    textDecoration: "none",
+    marginRight: 50,
   },
 
   addBtn: {
@@ -83,6 +84,38 @@ const styles = {
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
     textDecoration: "none",
+  },
+
+  btnDisabled: {
+    fontSize: "27px",
+    color: colors.white,
+    width: "210px",
+    height: "59px",
+    borderRadius: "35px",
+    textDecoration: "none",
+    background: colors.lightGray,
+  },
+
+  activated: {
+    background: "#134058",
+    fontSize: 27,
+    width: 235,
+    height: 49,
+    boxShadow: "3px 3px 6px #00000029",
+    borderRadius: 32,
+    borderColor: "#134058",
+    color: colors.white,
+  },
+
+  deactivated: {
+    background: colors.lightGray,
+    fontSize: 27,
+    width: 235,
+    height: 49,
+    boxShadow: "3px 3px 6px #00000029",
+    borderRadius: 32,
+    borderColor: colors.lightGray,
+    color: colors.white,
   },
 };
 

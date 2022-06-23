@@ -223,7 +223,7 @@ const ExamenForm = ({
       setSelectedExamId(examenSelected.id);
       updateFormData(examenSelected, false);
     }
-  }, [reload, examenSelected, showEditForm, steps]);
+  }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
   useEffect(() => {
     console.log("groupSelected: ", groupSelected);
@@ -344,7 +344,10 @@ const ExamenForm = ({
                 >
                   Retour
                 </EuiButtonEmpty>
-                <EuiButton onClick={onEditExamen} className="button_next_me">
+                <EuiButton
+                  disabled={motif === "" || lieu === "" || specialite === ""}
+                  style={(motif === "" || lieu === "" || specialite === "") ? styles.deactivated : styles.activated}
+                  onClick={onEditExamen} className="button_next_me">
                   Enregistrer
                 </EuiButton>
               </EuiFlexGroup>
@@ -365,7 +368,12 @@ const ExamenForm = ({
                 <EuiButton
                   className="ExamenFormAdd_btn btn-ajouter-examForm"
                   onClick={onAddExamen}
-                  style={styles.addBtn}
+                  style={
+                    motif === "" || lieu === "" || specialite === ""
+                      ? styles.btnDisabled
+                      : styles.addBtn
+                  }
+                  disabled={motif === "" || lieu === "" || specialite === ""}
                 >
                   Ajouter
                 </EuiButton>

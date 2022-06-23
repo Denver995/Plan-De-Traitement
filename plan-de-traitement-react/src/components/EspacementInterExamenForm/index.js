@@ -20,6 +20,8 @@ import { type_espacement } from "../../utils/constants";
 import styles from "./styles";
 
 const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initialIndex }) => {
+  const [minDelai, setMinDelai] = useState();
+  const [maxDelai, setMaxDelai] = useState();
   const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
   const [minInterval, setMinInterval] = useState();
@@ -66,6 +68,9 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
     }));
     dispatch(dispatch(setAlert(false)));
   }
+
+  const handleMinChange = (e) => setMinDelai(e.target.value);
+  const handleMaxChange = (e) => setMaxDelai(e.target.value);
 
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
@@ -117,6 +122,8 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
                 <span style={styles.label}>Minimum:</span>
                 <EuiFieldNumber
                   fullWidth
+                  value={minDelai}
+                  onChange={handleMinChange}
                   style={styles.number}
                   placeholder=""
                   onChange={(e) => onChangeMinInterval(e)}
@@ -141,7 +148,8 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
                 <EuiFieldNumber
                   fullWidth
                   style={styles.number}
-                  onChange={(e) => onChangeMaxInterval(e)}
+                  value={maxDelai}
+                  onChange={handleMaxChange}
                   placeholder=""
                 />
               </div>
@@ -174,8 +182,15 @@ const EspacementInterExamenForm = ({ closeModal, onClose, typeEspacement, initia
             type="submit"
             form={modalFormId}
             onClick={submit}
-            style={styles.submit}
             disabled={!minInterval || (minInterval && minInterval < 0)|| !maxInterval || (maxInterval && maxInterval < 0) || ((minInterval && maxInterval) && maxInterval < minInterval)}
+            style={
+              minDelai === undefined ||
+              maxDelai === undefined ||
+              minDelai === "" ||
+              maxDelai === ""
+                ? styles.submitDeactivated
+                : styles.submit
+            }
             css={{ backgroundColor: euiTheme.colors.disabled }}
             className="inter-add"
           >

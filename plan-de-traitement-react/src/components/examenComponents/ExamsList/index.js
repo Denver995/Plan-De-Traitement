@@ -109,6 +109,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                                 index={index}
                                 id_modele={item.id_modele}
                               />
+                              <EuiSpacer size="xs" />
                               {index !== exams.length - 1 && (
                                 <span
                                   onClick={() => setShowInterExam(true)}
@@ -117,6 +118,7 @@ const ExamsList = ({ exams, onAdd, steps }) => {
                                   Choisir l'intervale inter examen
                                 </span>
                               )}
+                              <EuiSpacer size="xs" />
                             </div>
                           )}
                         </Draggable>

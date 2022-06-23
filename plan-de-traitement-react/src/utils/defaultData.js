@@ -7,8 +7,8 @@ export const fakeData = {
   motif: "Motif",
   praticien: "Praticien",
   lieu: "Lieu",
-  color: colors[Math.round(Math.random() * Object.keys(colors).length - 1)]
-}
+  color: colors[Math.round(Math.random() * Object.keys(colors).length - 1)],
+};
 
 // const examList = [
 //     { value: 'exam_one', text: 'Exam1' },
@@ -17,25 +17,29 @@ export const fakeData = {
 // ];
 
 export const listMotif = [
-  { value: 'motif_one', text: 'IVT antiVEGF' },
-  { value: 'motif_two', text: 'Motif2' },
-  { value: 'motif_three', text: 'Motif3' },
+  { vqlue: "", text: "" },
+  { value: "motif_one", text: "IVT antiVEGF" },
+  { value: "motif_two", text: "Motif2" },
+  { value: "motif_three", text: "Motif3" },
 ];
 
 export const listSpecialite = [
-  { value: 'specialite_one', text: 'Ophtalmologie' },
-  { value: 'specialite_two', text: 'Spécialité2' },
-  { value: 'specialite_thr', text: 'Spécialité3' },
+  { value: "", text: "" },
+  { value: "specialite_one", text: "Ophtalmologie" },
+  { value: "specialite_two", text: "Spécialité2" },
+  { value: "specialite_thr", text: "Spécialité3" },
 ];
 
 export const listPraticien = [
-  { value: 'praticien_one', text: 'Dr.Dupont' },
-  { value: 'praticien_two', text: 'Praticien2' },
-  { value: 'praticien_thr', text: 'Praticien3' },
+  { value: "", text: "" },
+  { value: "praticien_one", text: "Dr.Dupont" },
+  { value: "praticien_two", text: "Praticien2" },
+  { value: "praticien_thr", text: "Praticien3" },
 ];
 
 export const listLieu = [
-  { value: 'lieu_one', text: 'Centre Perpignan' },
-  { value: 'lieu_two', text: 'Lieu2' },
-  { value: 'lieu_thr', text: 'Lieu3' },
+  { value: "", text: "" },
+  { value: "lieu_one", text: "Centre Perpignan" },
+  { value: "lieu_two", text: "Lieu2" },
+  { value: "lieu_thr", text: "Lieu3" },
 ];

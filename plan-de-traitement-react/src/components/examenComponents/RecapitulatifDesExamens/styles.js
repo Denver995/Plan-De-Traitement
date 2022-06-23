@@ -7,7 +7,7 @@ const styles = {
 
   container: { 
     marginLeft: 20, 
-    marginRight: 20 
+    marginRight: 20,
   },
 
   titleContainer: {
@@ -49,6 +49,10 @@ const styles = {
     marginRight: "10px",
   },
 
+  pencil: {
+    cursor: "pointer",
+  },
+
   btnContainer: {
     position: "absolute",
     bottom: 0,
@@ -78,8 +82,8 @@ const styles = {
     border: "3px solid #052A3E",
     backgroundColor: colors.darkBlue,
     borderRadius: "39px",
-    width: "187px",
-    height: "59px",
+    width: 187,
+    height: 59,
     marginRight: "45px",
     textDecoration: "none",
   },

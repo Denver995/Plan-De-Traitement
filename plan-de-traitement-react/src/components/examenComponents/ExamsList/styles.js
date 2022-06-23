@@ -56,7 +56,7 @@ const styles = {
 
   subtitleWrapper: {
     textAlign: "left",
-    font: "normal normal normal 20px/27px Open Sans",
+    fontSize: 20,
     letterSpacing: 0,
     color: colors.primary,
     opacity: 1,
@@ -74,7 +74,9 @@ const styles = {
     backgroundColor: colors.darkBlue,
     borderRadius: 32,
     color: colors.white,
-    font: "normal normal normal 27px/37px Open Sans",
+    fontSize: 27,
+    textDecoration: "none",
+    borderColor: colors.darkBlue
   }
 };
 

@@ -79,11 +79,21 @@ const styles = {
   },
 
   addButton: {
-    height: "59px",
+    height: 59,
     border: "none",
-    background: "#5D9AD4",
-    borderRadius: "41px",
-    fontSize: "27px",
+    background: colors.primary,
+    borderRadius: 41,
+    fontSize: 27,
+    color: colors.white,
+    textDecoration: "none",
+  },
+
+  addButton2: {
+    height: 59,
+    border: "none",
+    background: colors.lightGray,
+    borderRadius: 41,
+    fontSize: 27,
     color: colors.white,
     textDecoration: "none",
   },

@@ -3,8 +3,8 @@ import colors from "../../utils/colors";
 var win = window,
   doc = document,
   docElem = doc.documentElement,
-  body = doc.getElementsByTagName('body')[0],
-  x = win.innerWidth || docElem.clientWidth || body.clientWidth
+  body = doc.getElementsByTagName("body")[0],
+  x = win.innerWidth || docElem.clientWidth || body.clientWidth;
 console.log(x);
 const styles = {
   container: {
@@ -12,7 +12,7 @@ const styles = {
   },
 
   bodyContainer: {
-    alignItems: 'center'
+    alignItems: "center",
   },
   modal: {
     width: 837,
@@ -22,7 +22,7 @@ const styles = {
     opacity: 1,
   },
   title: {
-    width: '100%',
+    width: "100%",
     height: 27,
     font: "normal normal 600 20px/27px Open Sans",
     letterSpacing: 0,
@@ -35,7 +35,7 @@ const styles = {
     marginBottom: 10,
     font: "normal normal bold 14px/19px Open Sans",
     color: "#464646",
-    fontWeight : "bold",
+    fontWeight: "bold",
     opacity: 1,
   },
 
@@ -55,18 +55,17 @@ const styles = {
     font: "normal normal normal 13px/18px Open Sans",
     color: colors.blackClaire,
     fontSize: 14,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 
   number: {
-    font: "normal normal normal 20px/27px Open Sans",
+    fontSize: 20,
     color: colors.primary,
   },
 
   select: {
-    font: "normal normal 600 20px/27px Open Sans",
+    fontSize: 20,
     color: colors.blackClaire,
-    fontFamily : "arial"
   },
 
   cancel: {
@@ -76,18 +75,18 @@ const styles = {
     borderRadius: 35,
     background: colors.white,
     textDecoration: "none",
-    marginRight: 50
+    marginRight: 50,
   },
 
   annuler: {
     font: "normal normal normal 27px/37px Open Sans",
     color: colors.primary,
-    fontFamily: "arial"
+    fontFamily: "arial",
   },
 
   ajouter: {
     font: "normal normal normal 27px/37px Open Sans",
-    fontFamily: "arial"
+    fontFamily: "arial",
   },
 
   submit: {
@@ -99,15 +98,25 @@ const styles = {
     textDecoration: "none",
   },
 
+  submitDeactivated: {
+    width: 210,
+    height: 48,
+    background: colors.lightGray,
+    borderRadius: 39,
+    color: colors.white,
+    textDecoration: "none",
+    borderColor: colors.lightGray,
+  },
+
   btnContainer: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   inputContainer: {
-    paddingTop: 4
-  }
+    paddingTop: 4,
+  },
 };
 
 export default styles;

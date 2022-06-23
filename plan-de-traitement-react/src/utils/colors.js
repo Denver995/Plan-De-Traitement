@@ -14,7 +14,8 @@ const colors = {
   blackClaire: "#464646",
   borderColor: "#707070",
   darkBlue: "#052A3E",
-  inputBorder: '#707070'
+  inputBorder: '#707070',
+  lightGray: '#C1C1C1'
 };
 
 export default colors;
