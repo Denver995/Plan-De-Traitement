@@ -23,7 +23,7 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
-import { createModel as createModelAction } from "../../redux/models/actions";
+import { createModel as createModelAction, setModelData } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
@@ -78,21 +78,12 @@ const ModalForm = ({ closeModal }) => {
         groupe_rdv: groupe_rdv ? 1 : 0,
         id_entite: 4,
         periode: periode ? periode : 1,
+        id_modele: 1
       };
       step.data = data;
-      console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       createModele(step);
-      // dispatch(createModelAction({
-      //   nom: nomModele + Math.round(Math.random() * 100),
-      //   nb_occurence: nombreOccurence,
-      //   groupe_rdv: groupe_rdv ? 1 : 0,
-      //   id_granularite_groupe: 4,
-      //   id_granularite_examen: 4,
-      //   id_entite: 4,
-      //   espacement_groupe: 2,
-      //   espacement_examen: 4,
-      // }))
+      dispatch(setModelData(data));
     } else setShowGroupOption(true);
   };
 
@@ -105,7 +96,6 @@ const ModalForm = ({ closeModal }) => {
         periode: periode,
       };
       step.data = data;
-      console.log("updateDStep: ", step);
       dispatch(updateStep(step));
       setIsFirstLoad(false);
     }
@@ -231,15 +221,6 @@ const ModalForm = ({ closeModal }) => {
                     fullWidth
                   />
                 </div>
-                {/* </EuiFlexItem>
-                <EuiFlexItem> */}
-                {/* <EuiSelect
-                className="inputSelect-for-periode"
-                  options={listTypePeriode}
-                  value={typePeriode}
-                  onChange={(e) => onChangeTypePeriode(e)}
-                  style={{width: '50%'}}
-                /> */}
                 <div style={{ width: "49%" }}>
                   <select
                     name="cars"
@@ -253,8 +234,6 @@ const ModalForm = ({ closeModal }) => {
                     ))}
                   </select>
                 </div>
-
-                {/* </EuiFlexItem> */}
               </div>
             </EuiFlexItem>
           </EuiFlexGroup>

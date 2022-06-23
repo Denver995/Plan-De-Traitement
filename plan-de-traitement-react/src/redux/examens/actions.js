@@ -62,3 +62,8 @@ export const deleteExamSimple = ({payload}) => ({
   type: types.DELETE_EXAM_SIMPLE,
   payload,
 })
+
+export const setEspacement = (espacement) => ({
+  type: types.SET_ESPACEMENT,
+  espacement,
+});

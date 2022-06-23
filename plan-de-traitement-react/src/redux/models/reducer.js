@@ -15,6 +15,11 @@ function ModelsReducer(state = INITIAL_STATE, action) {
         ...state,
         creating: true,
       }
+    case types.SET_MODEL_DATA:
+      return {
+        ...state,
+        modelData: action.payload,
+      }
     case types.UPDATE_MODEL_REQUEST:
       return {
         ...state,

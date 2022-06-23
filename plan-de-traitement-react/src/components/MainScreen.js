@@ -1,12 +1,5 @@
-import {
-  EuiSpacer,
-  EuiModal,
-  EuiModalBody,
-  EuiModalHeader,
-} from "@elastic/eui";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ModelForm from "./ModelForm";
-import ExamenForm from "./examenComponents/ExamenForm";
 import Alert from "./Alert";
 import { useSelector } from "react-redux";
 import { getActiveStep, getStepByKey } from "../utils/helper";
@@ -25,7 +18,7 @@ const MainScreen = () => {
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);
 
-  console.log("alert: ", alert);
+  console.log("examsGrouped: ", examsGrouped);
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -38,13 +31,11 @@ const MainScreen = () => {
   let activeStep = getActiveStep(steps);
   let stepData = getStepByKey(steps, activeStep);
   let isModelGroup = false;
-  let classContainer = "modelFormContainer";
   switch (activeStep) {
     case STEP1:
       content = <ModelForm closeModal={closeModal} />;
       break;
     case STEP2:
-      classContainer = "examenFormContainer";
       stepData = getStepByKey(steps, STEP1);
       isModelGroup = stepData.data.groupe_rdv;
       content = isModelGroup ? (
@@ -71,10 +62,6 @@ const MainScreen = () => {
     default:
       return content;
   }
-
-  // useEffect(() => {
-  //   console.log('s')
-  // }, [steps, alert])
 
   if (isModalVisible && !alert.showAlert) {
     modal = content;

@@ -1,9 +1,5 @@
 import * as types from "./types";
 
-// examLine = {
-//   0: {},
-//   1: {}
-// }
 const INITIAL_STATE = {
   creating: false,
   message: '',
@@ -70,9 +66,10 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.SHOW_EXAM_EDIT_FORM:
       return state;
     case types.ADD_EXAM:
+      state.exams.push(action.payload.exam);
       return {
         ...state,
-        exams: [...state.exams, action.payload],
+        exams: state.exams,
       };
     case types.CREATE_EXAMEN_GROUP:
       const id = state.examsGrouped.length + 1;
@@ -90,7 +87,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       examsGrouped[action.payload.index] = group;
       return {
         ...state,
-        examsGrouped,
+        examGroup: examsGrouped,
       };
     case types.GET_EXAM_GROUP:
       let examGroup = {};
@@ -101,7 +98,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examenSelected: examGroup,
       };
     case types.ADD_EXAM_ON_ALL_GROUP:
-      console.log("actionALL: ", action);
+      console.log('ADD_EXAM_ON_ALL_GROUP');
+      console.log("actionE: ", action.payload);
+      console.log('activeGroupAdd: ', state.activeGroup);
       let tempGroup = state.examsGrouped;
       tempGroup.map((group, i) => {
         tempGroup[i] = {
@@ -110,6 +109,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         };
         return tempGroup;
       });
+      console.log("group: ", tempGroup);
       return {
         ...state,
         examsGrouped: tempGroup,
@@ -131,7 +131,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
 
     case types.DELETE_EXAM_GROUP:
-      console.log('action.paylaod', action);
       let examsGroupTemp = [...state.examsGrouped];
       console.log('examsGroupTemp: ', examsGroupTemp);
       // examsGroupTemp.pop();
@@ -147,6 +146,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         exams: [...tempExams]
+      }
+    case types.SET_ESPACEMENT:
+      return {
+        ...state,
+        espacement: action.espacement
       }
     default:
       return state;
