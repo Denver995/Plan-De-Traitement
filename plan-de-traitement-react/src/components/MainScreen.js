@@ -9,6 +9,7 @@ import RecapitulatifDesExamens from "./examenComponents/RecapitulatifDesExamens"
 
 import ExamenWrapper from "./examenComponents/ExamenWrapper";
 import GroupWrapper from "./examenComponents/GroupWrapper";
+import RecapitulatifWrapper from "./examenComponents/recapitulatifWrapper";
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -53,7 +54,7 @@ const MainScreen = () => {
       stepData = getStepByKey(steps, STEP2);
       isModelGroup = stepData.data.groupe_rdv;
       content = (
-        <RecapitulatifDesExamens
+        <RecapitulatifWrapper
           closeModal={closeModal}
           isModelGroup={steps[0].data.groupe_rdv === 1 ? true : false}
         />
