@@ -17,6 +17,7 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import { startLoading } from "../../../redux/commons/actions";
 import {
   addStep,
+  // deleteStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
 import { createExamen as createExamenAction } from "../../../redux/examens/actions";
@@ -44,6 +45,7 @@ import "../../../modifierexamen.css";
 import colors from "../../../utils/colors";
 import styles from "./styles";
 import ModalWrapper from "../../common/ModalWrapper";
+// import Alert from "../../Alert";
 import { useDimension } from "../../../hooks/dimensions";
 
 const ExamenForm = ({
@@ -207,7 +209,7 @@ const ExamenForm = ({
     return (
       <EuiFlexGroup>
         <EuiFlexItem className="delaiInterExamen">
-          <EuiLink style={{cursor : "default"}} color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
+          <EuiLink color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
             Choisir l'intervale inter examen
           </EuiLink>
         </EuiFlexItem>
@@ -299,6 +301,7 @@ const ExamenForm = ({
             </EuiFlexGroup>
             <EuiSpacer size="xl" />
             <EuiFlexGroup>
+              <EuiFlexItem>
                 <p style={styles.selectLabel}>Praticien* :</p>
                 <EuiSpacer size="xs" />
                 <EuiSelect
@@ -308,6 +311,7 @@ const ExamenForm = ({
                   value={praticien}
                   onChange={onChangePraticien}
                 />
+              </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Lieu* :</p>
                 <EuiSpacer size="xs" />
@@ -330,7 +334,7 @@ const ExamenForm = ({
               <p style={styles.examPosition}>Fixer la position de l'examen</p>
             </div>
             {showEditForm ? (
-              <EuiFlexGroup style={{flexDirection: innerWidth < 768 ? "column-reverse" : ""}} className="btn_group">
+              <EuiFlexGroup className="btn_group" style={{flexDirection: innerWidth < 768 ? "column-reverse" : ""}}>
                 <EuiButtonEmpty
                   fill="true"
                   className="button_cancel_me"
