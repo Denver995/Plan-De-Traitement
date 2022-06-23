@@ -102,6 +102,7 @@ const Alert = ({
             borderColor: colors.primary,
             fontSize: innerWidth <= 500 ? 20 : 25,
             width: innerWidth <= 500 ? "100%" : "210px",
+            textDecoration: "none"
           }}
           onClick={submit}
           fill={true}
