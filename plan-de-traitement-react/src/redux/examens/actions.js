@@ -1,0 +1,69 @@
+import * as types from './types';
+
+export const editExam = (examData) => ({
+  type: types.EDIT_EXAM,
+  examData,
+});
+export const setShowExamForm = show => ({
+  type: types.SHOW_EXAM_FORM,
+  show
+})
+
+export const createExamen = (payload) => ({
+  type: types.CREATE_EXAMEN_REQUEST,
+  payload
+})
+
+export const addExam = (payload) => ({
+  type: types.ADD_EXAM,
+  payload,
+});
+
+export const addExamGrouped = (payload) => ({
+  type: types.ADD_EXAM_GROUPED,
+  payload,
+})
+
+export const createExamGroup = (payload) => ({
+  type: types.CREATE_EXAMEN_GROUP,
+  payload,
+});
+
+export const getSelectedExamGroup = (index) => ({
+  type: types.GET_EXAM_GROUP,
+  index,
+});
+
+export const addExamOnAllGroups = (payload) => ({
+  type: types.ADD_EXAM_ON_ALL_GROUP,
+  payload,
+});
+
+export const setActiveGroup = (payload) => ({
+  type: types.SET_ACTIVE_GROUP,
+  payload,
+});
+
+export const numOfGroupsChange = (number) => ({
+  type: types.NUMBER_OF_GROUPS_CHANGE,
+  number,
+})
+
+export const createGroups = () => ({
+  type: types.CREATE_GROUPS
+})
+
+export const deleteExamGroup = ({payload}) => ({
+  type: types.DELETE_EXAM_GROUP,
+  payload,
+});
+
+export const deleteExamSimple = ({payload}) => ({
+  type: types.DELETE_EXAM_SIMPLE,
+  payload,
+})
+
+export const setEspacement = (espacement) => ({
+  type: types.SET_ESPACEMENT,
+  espacement,
+});

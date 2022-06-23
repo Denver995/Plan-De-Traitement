@@ -1,5 +1,5 @@
 /*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
-.espacement_inter_examen_EuiModalBody{
+/*.espacement_inter_examen_EuiModalBody{
   width: 650px;
 }
 .espacement_inter_examen_EuiModalHeader{
@@ -34,5 +34,90 @@
 .espacement_inter_examen_EuiModalFooter_spacer{
   height:30px;
 }
-                              
-  /*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
+
+/*       <<------- EspacementInterExamenForm - Valentin -------<     Add    (+)  */
+
+.label_exams {
+  margin-top: revert;
+  font: var(--unnamed-font-style-normal) normal 600 20px/27px
+    var(--unnamed-font-family-open-sans);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-464646);
+  text-align: left;
+  font: normal normal 600 20px/27px Open Sans;
+  letter-spacing: 0px;
+  color: #464646;
+  opacity: 1;
+}
+/* .position {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  height: 70px;
+} */
+.euiComboBox .euiComboBox__inputWrap:not(.euiComboBox__inputWrap--noWrap) {
+  top: 305px;
+  left: 1171px;
+  width: 173px;
+  height: 40px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  border: 1px solid var(--unnamed-color-707070);
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  border-radius: 7px;
+  opacity: 1;
+}
+/*.position .euiModalBody .euiFieldText, .euiModalBody .euiFieldNumber, .euiModalBody .euiSelect{
+  top: 305px;
+  left: 975px;
+  width: 189px;
+  height: 40px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  border: 1px solid var(--unnamed-color-707070);
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  border-radius: 7px;
+  opacity: 1;
+}*/
+.container .second {
+  justify-content: center;
+  display: flex;
+}
+.container {
+  top: 264px;
+  left: 583px;
+  width: 761px;
+  height: 81px;
+  /* UI Properties */
+  opacity: 1;
+}
+.second {
+  margin-left: 13px;
+  margin-right: 2px;
+}
+.espacement_inter_examen_EuiModalBody_form_group_left_element {
+  margin-left: 20px;
+  margin-right: 8px;
+}
+.inter {
+  margin-top: revert;
+  margin-bottom: -35px;
+  left: 590px;
+  width: 205px;
+  height: 19px;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold)
+    var(--unnamed-font-size-14) / var(--unnamed-line-spacing-19)
+    var(--unnamed-font-family-open-sans);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-464646);
+  text-align: left;
+  font: normal normal bold 14px/19px Open Sans;
+  letter-spacing: 0px;
+  color: #464646;
+  opacity: 1;
+}
+.position .euiModalBody .euiFieldText,
+.euiModalBody .euiFieldNumber,
+.euiModalBody .euiSelect {
+  margin-top: -3px;
+}

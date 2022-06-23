@@ -49,7 +49,7 @@ const AffichageDesGroupes = () => {
                         <EuiButton
                             size="s"
                             style={{ borderRadius: '20px'}}
-                            fill>
+                            fill="true">
                             Enregistrer
                         </EuiButton>
                     </EuiFlexItem>
