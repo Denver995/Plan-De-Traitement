@@ -8,7 +8,7 @@ import { deleteExamSimple } from '../../../redux/examens/actions';
 
 import styles from "./styles";
 
-const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
+const ExamItem = ({ data, showEditForm, color, id_modele, exam }) => {
   const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -20,8 +20,6 @@ const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
       window.removeEventListener("resize", handleWindowResiwe);
     };
   });
-
-  console.log('data: ', data)
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
@@ -50,4 +48,4 @@ const ExamenItem = ({ data, showEditForm, color, id_modele, exam }) => {
   );
 };
 
-export default ExamenItem;
+export default ExamItem;

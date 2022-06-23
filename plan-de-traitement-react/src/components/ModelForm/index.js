@@ -22,7 +22,7 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
-import { createModel as createModelAction } from "../../redux/models/actions";
+import { createModel as createModelAction, setModelData } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
@@ -77,10 +77,12 @@ const ModalForm = ({ closeModal }) => {
         groupe_rdv: groupe_rdv ? 1 : 0,
         id_entite: 4,
         periode: periode ? periode : 1,
+        id_modele: 1
       };
       step.data = data;
       dispatch(updateStep(step));
       createModele(step);
+      dispatch(setModelData(data));
     } else setShowGroupOption(true);
   };
 
@@ -218,15 +220,6 @@ const ModalForm = ({ closeModal }) => {
                     fullWidth
                   />
                 </div>
-                {/* </EuiFlexItem>
-                <EuiFlexItem> */}
-                {/* <EuiSelect
-                className="inputSelect-for-periode"
-                  options={listTypePeriode}
-                  value={typePeriode}
-                  onChange={(e) => onChangeTypePeriode(e)}
-                  style={{width: '50%'}}
-                /> */}
                 <div style={{ width: "49%" }}>
                   <select
                     name="cars"

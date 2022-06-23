@@ -6,7 +6,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-// import ExamenItem from "../ExamenItem";
 import ExamItem from "../ExamItem";
 import ExamenForm from "../ExamenForm";
 
@@ -19,24 +18,28 @@ import {
   addStep,
 } from "../../../redux/steps/actions";
 import {
-  addExamGrouped,
   getSelectedExamGroup,
   setActiveGroup,
   setShowExamForm,
   deleteExamGroup,
 } from "../../../redux/examens/actions";
-import { setAlert, startLoading } from "../../../redux/commons/actions";
+import { startLoading } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
 import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
 
-const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => {
+const getExamByGroupIndex = (exams, index) => {
+  const result = exams.length > 0 ? exams.filter(exam => (exam.id_group === index || exam.allGroup)) : [];
+  return result;
+}
+
+const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
-  const [groupList, setGroupList] = useState(examsGrouped);
-
+  // const [groupList, setGroupList] = useState(examsGrouped);
+  const modelData = useSelector((state) => state.ModelsReducer.modelData);
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
@@ -50,20 +53,12 @@ const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => 
     setRerender(true);
   };
 
-  const onAddExamen = (index) => {
-    const exam = {
-      name: "some name",
-    };
-    dispatch(addExamGrouped({ exam, index }));
-    setRerender(true);
-  };
 
   const handleAddExam = (index) => {
-    console.log('inside handleAddExam');
     dispatch(setShowExamForm(true));
     dispatch(getSelectedExamGroup(index));
     dispatch(setActiveGroup(index));
-    // onAddExamen(index);
+    setRerender(true);
   }
 
   useEffect(() => {
@@ -73,7 +68,6 @@ const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => 
       return newToggleGrp;
     });
     setToggledGroup(newToggleGrp);
-    setGroupList(examsGrouped);
   }, [examsGrouped]);
 
   useEffect(() => {
@@ -115,11 +109,11 @@ const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => 
             color: colors.primary,
           }}
         >
-          Xxxxxxxxxx xxxxxxxxxxx {groupName}
+          {modelData?.nom} {groupName}
         </p>
       </div>
-      {examsGrouped.map((group, index) => (
-        <Draggable key={index} draggableId={"draggable-" + index} index={index}>
+      {examsGrouped.map((group, index) => {
+        return <Draggable key={index} draggableId={"draggable-" + index} index={index}>
           {(provided) => (
             <div
               {...provided.draggableProps}
@@ -211,8 +205,9 @@ const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => 
                           </span>
                         </button>
                       </div>
-                      {Object.keys(group).map((exam, i) => (
-                        <div
+                      {getExamByGroupIndex(exams, index).map((exam, i) => {
+                        console.log('exam ', exam);
+                        return <div
                           key={i}
                           style={{ display: "flex", flexDirection: "column" }}
                         >
@@ -220,9 +215,10 @@ const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => 
                             color={colors[colorsArr[i]]}
                             data={exam}
                             exam={exam}
+                            id_modele={modelData.id_modele}
                           />
                         </div>
-                      ))}
+                  })}
                     </div>
                   )}
                 </div>
@@ -247,14 +243,14 @@ const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => 
             </div>
           )}
         </Draggable>
-      ))}
+      })}
     </div>
     )}
     </>
   );
 };
 
-const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped, espacement }) => {
+const GroupExamenSummary = ({ nbrGroupe, isModelGroup=true, examsGrouped, exams, espacement }) => {
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(examsGrouped);
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -289,10 +285,11 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped, espacement 
     setGroupList(examsGrouped);
   }, [examsGrouped]);
 
+
   return (
     <ModalWrapper style={styles.modal}>
       {showForm ? (
-        <ExamenForm isModelGroup={isModelGroup} onPrevious={onPrevious} />
+        <ExamenForm isModelGroup={true} onPrevious={onPrevious} handleGetExamByGroupIndex={getExamByGroupIndex}/>
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="droppable">
@@ -307,8 +304,8 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped, espacement 
                     examsGrouped={groupList}
                     groupName={"Group " + index}
                     key={index}
-                    listExam={[]}
                     espacement={espacement}
+                    exams={exams}
                   />
                 ))}
                 {provided.placeholder}
@@ -349,6 +346,7 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped, espacement 
 
 const mapStateToProps = ({ ExamenReducer }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
+  exams: ExamenReducer.exams,
   groupSelected: ExamenReducer.examenSelected,
   espacement: ExamenReducer.espacement
 });
