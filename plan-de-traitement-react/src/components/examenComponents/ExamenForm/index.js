@@ -156,7 +156,6 @@ const ExamenForm = ({
           buttonText: button,
           showButtonBlock: true,
           onAccept: () => {
-            console.log('inside all ');
             payload.allGroup = true;
             dispatch(addExam({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
@@ -180,7 +179,7 @@ const ExamenForm = ({
       dispatch(createExamen(payload));
       setReload(true);
       onAddExam({ name: "EXAMSLIST" });
-      dispatch(addExam(payload));
+      dispatch(addExam({exam: payload }));
       dispatch(createExamenAction(payload));
     }
   };

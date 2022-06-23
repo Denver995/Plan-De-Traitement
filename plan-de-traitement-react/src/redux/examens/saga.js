@@ -4,12 +4,12 @@ import { createExamen as createExamenService } from '../../services/examens';
 
 function* createExamen({ payload }) {
   console.log("PAYLOAD: ", payload);
-  try {
-    const data = yield createExamenService(payload);
-    console.log('dataS: ', data);
-  } catch (error) {
-    console.error('Some Error CreateExamSaga: ', error);
-  }
+  // try {
+  //   const data = yield createExamenService(payload);
+  //   console.log('dataS: ', data);
+  // } catch (error) {
+  //   console.error('Some Error CreateExamSaga: ', error);
+  // }
 }
 
 export default function* examensSaga() {

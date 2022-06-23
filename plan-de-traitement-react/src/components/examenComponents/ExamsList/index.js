@@ -22,6 +22,7 @@ import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ModalWrapper from "../../common/ModalWrapper";
 
 const ExamsList = ({ exams, onAdd, steps }) => {
+  console.log('exams ', exams);
   const getItems = (count) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `item-${k}`,
