@@ -82,7 +82,10 @@ const ModalForm = ({ closeModal }) => {
       step.data = data;
       dispatch(updateStep(step));
       createModele(step);
+<<<<<<< HEAD
       dispatch(setModelData(data));
+=======
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
     } else setShowGroupOption(true);
   };
 

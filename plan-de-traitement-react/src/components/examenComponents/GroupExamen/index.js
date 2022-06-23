@@ -18,18 +18,27 @@ import {
   addStep,
 } from "../../../redux/steps/actions";
 import {
+<<<<<<< HEAD
+=======
+  addExamGrouped,
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
   getSelectedExamGroup,
   setActiveGroup,
   setShowExamForm,
   deleteExamGroup,
 } from "../../../redux/examens/actions";
+<<<<<<< HEAD
 import { startLoading } from "../../../redux/commons/actions";
+=======
+import { setAlert, startLoading } from "../../../redux/commons/actions";
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
 import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
 
+<<<<<<< HEAD
 const getExamByGroupIndex = (exams, index) => {
   const result = exams.length > 0 ? exams.filter(exam => (exam.id_group === index || exam.allGroup)) : [];
   return result;
@@ -40,6 +49,13 @@ const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
   const [reRenderDel, setRerenderDel] = useState(false);
   // const [groupList, setGroupList] = useState(examsGrouped);
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
+=======
+const GroupItem = ({ groupName, examsGrouped, espacement, onAddExamenComp }) => {
+  const dispatch = useDispatch();
+  const [reRenderDel, setRerenderDel] = useState(false);
+  const [groupList, setGroupList] = useState(examsGrouped);
+
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
@@ -53,12 +69,28 @@ const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
     setRerender(true);
   };
 
+<<<<<<< HEAD
 
   const handleAddExam = (index) => {
     dispatch(setShowExamForm(true));
     dispatch(getSelectedExamGroup(index));
     dispatch(setActiveGroup(index));
+=======
+  const onAddExamen = (index) => {
+    const exam = {
+      name: "some name",
+    };
+    dispatch(addExamGrouped({ exam, index }));
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
     setRerender(true);
+  }
+
+  const handleAddExam = (index) => {
+    console.log('inside handleAddExam');
+    dispatch(setShowExamForm(true));
+    dispatch(getSelectedExamGroup(index));
+    dispatch(setActiveGroup(index));
+    // onAddExamen(index);
   }
 
   useEffect(() => {
@@ -109,7 +141,11 @@ const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
             color: colors.primary,
           }}
         >
+<<<<<<< HEAD
           {modelData?.nom} {groupName}
+=======
+          Xxxxxxxxxx xxxxxxxxxxx {groupName}
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
         </p>
       </div>
       {examsGrouped.map((group, index) => {
@@ -250,7 +286,11 @@ const GroupItem = ({ groupName, exams, examsGrouped, espacement }) => {
   );
 };
 
+<<<<<<< HEAD
 const GroupExamenSummary = ({ nbrGroupe, isModelGroup=true, examsGrouped, exams, espacement }) => {
+=======
+const GroupExamenSummary = ({ nbrGroupe, isModelGroup, examsGrouped, espacement }) => {
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(examsGrouped);
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -304,8 +344,13 @@ const GroupExamenSummary = ({ nbrGroupe, isModelGroup=true, examsGrouped, exams,
                     examsGrouped={groupList}
                     groupName={"Group " + index}
                     key={index}
+<<<<<<< HEAD
                     espacement={espacement}
                     exams={exams}
+=======
+                    listExam={[]}
+                    espacement={espacement}
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
                   />
                 ))}
                 {provided.placeholder}

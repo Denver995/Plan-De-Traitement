@@ -98,9 +98,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examenSelected: examGroup,
       };
     case types.ADD_EXAM_ON_ALL_GROUP:
+<<<<<<< HEAD
       console.log('ADD_EXAM_ON_ALL_GROUP');
       console.log("actionE: ", action.payload);
       console.log('activeGroupAdd: ', state.activeGroup);
+=======
+>>>>>>> a82d968 (Fix: fix espacement modèle groupé)
       let tempGroup = state.examsGrouped;
       tempGroup.map((group, i) => {
         tempGroup[i] = {
