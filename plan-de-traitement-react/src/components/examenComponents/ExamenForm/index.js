@@ -17,7 +17,6 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import { startLoading } from "../../../redux/commons/actions";
 import {
   addStep,
-  // deleteStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
 import { createExamen as createExamenAction } from "../../../redux/examens/actions";
@@ -45,11 +44,7 @@ import "../../../modifierexamen.css";
 import colors from "../../../utils/colors";
 import styles from "./styles";
 import ModalWrapper from "../../common/ModalWrapper";
-<<<<<<< HEAD
-// import Alert from "../../Alert";
-=======
 import { useDimension } from "../../../hooks/dimensions";
->>>>>>> 6fb414d (fix: pull and rebase on dev branch)
 
 const ExamenForm = ({
   isModelGroup,
@@ -83,11 +78,7 @@ const ExamenForm = ({
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
-<<<<<<< HEAD
-
-=======
   const {innerWidth} = useDimension()
->>>>>>> 6fb414d (fix: pull and rebase on dev branch)
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const previousStep = getStepByKey(steps, STEP2);
@@ -216,7 +207,7 @@ const ExamenForm = ({
     return (
       <EuiFlexGroup>
         <EuiFlexItem className="delaiInterExamen">
-          <EuiLink color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
+          <EuiLink style={{cursor : "default"}} color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
             Choisir l'intervale inter examen
           </EuiLink>
         </EuiFlexItem>
@@ -308,10 +299,6 @@ const ExamenForm = ({
             </EuiFlexGroup>
             <EuiSpacer size="xl" />
             <EuiFlexGroup>
-<<<<<<< HEAD
-              <EuiFlexItem>
-=======
->>>>>>> 6fb414d (fix: pull and rebase on dev branch)
                 <p style={styles.selectLabel}>Praticien* :</p>
                 <EuiSpacer size="xs" />
                 <EuiSelect
@@ -321,10 +308,6 @@ const ExamenForm = ({
                   value={praticien}
                   onChange={onChangePraticien}
                 />
-<<<<<<< HEAD
-              </EuiFlexItem>
-=======
->>>>>>> 6fb414d (fix: pull and rebase on dev branch)
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Lieu* :</p>
                 <EuiSpacer size="xs" />
@@ -347,11 +330,7 @@ const ExamenForm = ({
               <p style={styles.examPosition}>Fixer la position de l'examen</p>
             </div>
             {showEditForm ? (
-<<<<<<< HEAD
-              <EuiFlexGroup className="btn_group">
-=======
               <EuiFlexGroup style={{flexDirection: innerWidth < 768 ? "column-reverse" : ""}} className="btn_group">
->>>>>>> 6fb414d (fix: pull and rebase on dev branch)
                 <EuiButtonEmpty
                   fill="true"
                   className="button_cancel_me"
@@ -375,11 +354,7 @@ const ExamenForm = ({
                   onClick={() => {
                     onCancel();
                   }}
-<<<<<<< HEAD
-                  style={styles.cancelBtn}
-=======
                   style={{...styles.cancelBtn, marginRight: innerWidth >= 768 ? 50 : 0 }}
->>>>>>> 6fb414d (fix: pull and rebase on dev branch)
                 >
                   Annuler
                 </EuiButtonEmpty>
