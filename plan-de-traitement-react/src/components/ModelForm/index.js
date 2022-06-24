@@ -22,7 +22,7 @@ import {
   desactivateStep,
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
-import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
+import { createGroups, numOfGroupsChange, CreateEspacement } from "../../redux/examens/actions";
 import {
   createModel as createModelAction,
   setModelData,
@@ -86,6 +86,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
       };
       step.data = data;
       dispatch(createGroups(nombreOccurence));
+      dispatch(CreateEspacement(nombreOccurence-1));
       dispatch(updateStep(step));
       createModele(step);
       dispatch(setModelData(data));
