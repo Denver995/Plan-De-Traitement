@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   creating: false,
   error: "",
   updating: false,
+  isRecorded: false,
 };
 
 function ModelsReducer(state = INITIAL_STATE, action) {
@@ -28,6 +29,11 @@ function ModelsReducer(state = INITIAL_STATE, action) {
           nom: action.payload,
         },
         updating: true,
+      };
+    case types.SAVE_MODEL_REQUEST:
+      return {
+        ...state,
+        isRecorded: true,
       };
     default:
       return state;

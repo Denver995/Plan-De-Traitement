@@ -10,17 +10,19 @@ import {
   EuiForm,
   EuiFormRow,
   EuiFieldText,
+  EuiText,
 } from "@elastic/eui";
 import React, { useEffect } from "react";
 import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 
-import { setAlert } from "../../redux/commons/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { setAlert, setComponent } from "../../redux/commons/actions";
+import { connect, useDispatch, useSelector } from "react-redux";
 import EspacementInterExamenForm from "../EspacementInterExamenForm";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./style";
 import colors from "../../utils/colors";
 import { useDimension } from "../../hooks/dimensions";
+import { saveModel } from "../../redux/models/actions";
 
 const Alert = ({
   message,
@@ -29,6 +31,9 @@ const Alert = ({
   buttonText,
   showInputForm,
   showButtonBlock,
+  isConfirmation,
+  modelData,
+  closeModal,
 }) => {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.CommonReducer.alert);
@@ -41,6 +46,10 @@ const Alert = ({
     if (onAccept) {
       onAccept();
       dispatch(setAlert({ showAlert: false, message: "" }));
+      if (isConfirmation) {
+        closeModal();
+        dispatch(saveModel());
+      }
       return;
     }
     dispatch(setAlert({ showAlert: false, message: "" }));
@@ -58,7 +67,10 @@ const Alert = ({
 
   console.log("alertAlert: ", alert);
   return (
-    <ModalWrapper style={styles.modal} titleText={alert.title}>
+    <ModalWrapper
+      style={styles.modal}
+      titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
+    >
       <EuiModalBody style={styles.body}>
         {showInputForm ? (
           <EuiForm id="">
@@ -67,6 +79,22 @@ const Alert = ({
               <EuiFieldText name="nomModele" value={""} fullWidth />
             </EuiFormRow>
           </EuiForm>
+        ) : isConfirmation ? (
+          <div>
+            <EuiText style={styles.textContainer}>
+              Ce modèle va être enregistré sous le nom :
+              <br />
+              <div style={styles.textTitle}>
+                {modelData.nom}
+                <div
+                  style={styles.pencil}
+                  onClick={() => dispatch(setComponent("EDITMODEL"))}
+                >
+                  <Pencil width={"1rem"} />
+                </div>
+              </div>
+            </EuiText>
+          </div>
         ) : (
           <div
             style={styles.message}
@@ -102,12 +130,12 @@ const Alert = ({
             borderColor: colors.primary,
             fontSize: innerWidth <= 500 ? 20 : 25,
             width: innerWidth <= 500 ? "100%" : "210px",
-            textDecoration: "none"
+            textDecoration: "none",
           }}
           onClick={submit}
           fill={true}
         >
-          {alert?.buttonText?.confirmText ?? "Confirmer"}
+          {alert?.buttonText?.confirmText ?? "Enregistrer"}
         </EuiButton>
       </EuiModalFooter>
       {/* )} */}
@@ -115,4 +143,8 @@ const Alert = ({
   );
 };
 
-export default Alert;
+const mapStateToProps = ({ ModelsReducer }) => ({
+  modelData: ModelsReducer.modelData,
+});
+
+export default connect(mapStateToProps)(Alert);

@@ -70,6 +70,8 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData })
           message={alertMessage}
           onAccept={() => setShowAlert(false)}
           onReject={() => setShowAlert(false)}
+          isConfirmation={true}
+          closeModal={closeModal}
         />
       ) : (
         <div style={styles.container}>

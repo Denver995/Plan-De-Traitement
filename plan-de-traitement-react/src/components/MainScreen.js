@@ -5,11 +5,12 @@ import { useSelector } from "react-redux";
 import { getActiveStep, getStepByKey } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from "../utils/constants";
 import ButtonLight from "./Buttons/ButtonLight";
-import RecapitulatifDesExamens from "./examenComponents/RecapitulatifDesExamens";
 
 import ExamenWrapper from "./examenComponents/ExamenWrapper";
 import GroupWrapper from "./examenComponents/GroupWrapper";
 import RecapitulatifWrapper from "./examenComponents/recapitulatifWrapper";
+
+import PopUp from "./PopUp";
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,13 +19,23 @@ const MainScreen = () => {
   const alert = useSelector((state) => state.CommonReducer.alert);
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);
+  const isRecorded = useSelector((state) => state.ModelsReducer.isRecorded);
 
   console.log("examsGrouped: ", examsGrouped);
+  console.log("isRecorded: ", isRecorded);
 
   const closeModal = () => {
     setIsModalVisible(false);
+    if (isRecorded) {
+      const timer = setTimeout(() => {
+        window.location = "";
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+    
     window.location = "";
   };
+
   const showModal = () => setIsModalVisible(true);
 
   let modal;
@@ -80,6 +91,7 @@ const MainScreen = () => {
           noAccept={alert.noAccept}
         />
       )}
+      {isRecorded && <PopUp />}
       {modal}
     </div>
   );
