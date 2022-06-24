@@ -20,7 +20,6 @@ import {
   // deleteStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
-import { createExamen as createExamenAction } from "../../../redux/examens/actions";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import { STEP2, STEP3 } from "../../../utils/constants";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
@@ -32,10 +31,12 @@ import {
 } from "../../../utils/defaultData";
 // import { createExamen } from '../../utils/fetcher';
 import {
+  createExamen as createExamenAction,
   createExamen,
   addExam,
   addExamGrouped,
   setShowExamForm,
+  addExamOnAllGroups
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
@@ -58,8 +59,8 @@ const ExamenForm = ({
   formType,
   modelData,
   handleGetExamByGroupIndex,
-  exams,
   predecessor,
+  groupWithData
 }) => {
   const dispatch = useDispatch();
   // const model = useSelector((state) => state.CommonReducer.dataSource);
@@ -159,6 +160,7 @@ const ExamenForm = ({
           onAccept: () => {
             payload.allGroup = true;
             dispatch(addExam({ index: activeGroup, exam: payload }));
+            dispatch(addExamOnAllGroups({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
           },
@@ -166,6 +168,7 @@ const ExamenForm = ({
             console.log("inside not all ");
             payload.allGroup = false;
             dispatch(addExam({ index: activeGroup, exam: payload }));
+            dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
           },
@@ -260,7 +263,7 @@ const ExamenForm = ({
           </div>
           {isModelGroup ? (
             <div style={{ marginTop: 28, marginBottom: 28 }}>
-              {handleGetExamByGroupIndex(exams, activeGroup).map(
+              {handleGetExamByGroupIndex(groupWithData, activeGroup).map(
                 (item, index) => (
                   <div key={index}>
                     <ExamItem
@@ -280,8 +283,8 @@ const ExamenForm = ({
             <TracIcon width={"1rem"} />
             <EuiFlexItem style={styles.examTitle}>
               Examen{" "}
-              {isModelGroup &&
-                Object.keys(examsGrouped[activeGroup]).length + 1}
+              {/* {isModelGroup &&
+                Object.keys(examsGrouped[activeGroup]).length + 1} */}
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
@@ -440,6 +443,6 @@ const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   groupSelected: ExamenReducer.examenSelected,
   activeGroup: ExamenReducer.activeGroup,
   modelData: ModelsReducer.modelData,
-  exams: ExamenReducer.exams,
+  groupWithData: ExamenReducer.groupWithData
 });
 export default connect(mapStateToProps)(ExamenForm);

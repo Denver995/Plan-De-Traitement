@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   show: false,
   numOfGroups: 1,
   exams: [],
+  groupWithData: {},
   examsGrouped: [
     {
       exam1: { id: 1 },
@@ -78,16 +79,15 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examsGrouped: [...state.examsGrouped, { id, ...action.payload }],
       };
     case types.ADD_EXAM_GROUPED:
-      console.log("actionE: ", action.payload);
-      console.log('activeGroupAdd: ', state.activeGroup);
-      let group = state.examsGrouped[state.activeGroup];
-      console.log("group: ", group);
-      group["exam" + Object.keys(group).length + 1] = action.payload.exam;
-      let examsGrouped = state.examsGrouped;
-      examsGrouped[action.payload.index] = group;
+      let active_group = state.groupWithData[state.activeGroup];
+      console.log('active ', active_group);
+      active_group.push(action.payload.exam);
+      let groupWithData = state.groupWithData;
+      groupWithData[state.activeGroup] = active_group;
+      console.log('groupWithData update ', groupWithData);
       return {
         ...state,
-        examGroup: examsGrouped,
+        groupWithData: groupWithData,
       };
     case types.GET_EXAM_GROUP:
       let examGroup = {};
@@ -98,21 +98,15 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examenSelected: examGroup,
       };
     case types.ADD_EXAM_ON_ALL_GROUP:
-      console.log('ADD_EXAM_ON_ALL_GROUP');
-      console.log("actionE: ", action.payload);
-      console.log('activeGroupAdd: ', state.activeGroup);
-      let tempGroup = state.examsGrouped;
-      tempGroup.map((group, i) => {
-        tempGroup[i] = {
-          ...tempGroup[i],
-          ["exam" + Object.keys(group).length + 1]: action.payload,
-        };
-        return tempGroup;
+      let groupKeys = Object.keys(state.groupWithData);
+      let groupData = state.groupWithData;
+      groupKeys.forEach(key => {
+        groupData[key].push(action.payload.exam);
       });
-      console.log("group: ", tempGroup);
+      console.log('groupData ', groupData);
       return {
         ...state,
-        examsGrouped: tempGroup,
+        groupWithData: groupData,
       };
     case types.SET_ACTIVE_GROUP:
       return {
@@ -125,9 +119,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         numOfGroups: action.number,
       };
     case types.CREATE_GROUPS:
+      let groups = {};
+      for(let i=0; i < action.nombreOccurence; i++){groups['group '+i] = []}
       return {
         ...state,
-        examsGrouped: Array(Number(state.numOfGroups)).fill({}),
+        examsGrouped: Array(Number(action.nombreOccurence)).fill({}),
+        groupWithData: groups
       };
 
     case types.DELETE_EXAM_GROUP:
@@ -146,6 +143,17 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         exams: [...tempExams]
+      }
+    case types.DELETE_GROUP:
+      let tempGroup = state.groupWithData;
+      delete tempGroup[action.groupKey];
+      let examGroupTemp = state.examsGrouped;
+      examGroupTemp.pop();
+      return {
+        ...state,
+        groupWithData: tempGroup,
+        examsGrouped: examGroupTemp,
+        numOfGroups: state.numOfGroups - 1
       }
     case types.SET_ESPACEMENT:
       return {
