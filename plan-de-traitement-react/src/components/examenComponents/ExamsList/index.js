@@ -12,6 +12,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { fakeData } from "../../../utils/defaultData";
 import { startLoading, setComponent } from "../../../redux/commons/actions";
+import { deleteStep } from "../../../redux/steps/actions";
 import { desactivateStep, addStep } from "../../../redux/steps/actions";
 import ExamenItem from "../ExamItem";
 import { Plus } from "../../../assets/images";
@@ -57,8 +58,8 @@ import ModalWrapper from "../../common/ModalWrapper";
     console.log("examsList: ", examsList);
   };
   const onCancel = () => {
-    console.log("clicked new")
-    dispatch(setComponent({name: "EXAMENFORM"}));
+    console.log("clicked")
+    dispatch(deleteStep(previousStep));
 
     // if (formType === "EXAMSLIST") {
     //   return;
@@ -82,7 +83,7 @@ import ModalWrapper from "../../common/ModalWrapper";
         />
       ) : (
         <ModalWrapper style={styles.modal}>
-          <div>
+          <div style={styles.contain}>
             <EuiFlexGroup>
               <EuiFlexItem style={styles.titleWrapper}>
                 <p style={styles.title}>Modèle:</p>

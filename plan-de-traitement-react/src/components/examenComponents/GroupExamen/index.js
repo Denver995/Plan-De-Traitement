@@ -24,7 +24,7 @@ import {
   deleteExamGroup,
   deleteGroup,
 } from "../../../redux/examens/actions";
-import { startLoading } from "../../../redux/commons/actions";
+import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -146,6 +146,17 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                                 data={{
                                   groupKey: groupKey,
                                   data: groupWithData,
+                                }}
+                                onEditItem={() => {
+                                  dispatch(
+                                    setComponent({
+                                      name: "RECAPITULATIF",
+                                      data: {
+                                        groupKey: groupKey,
+                                        data: groupWithData,
+                                      },
+                                    })
+                                  );
                                 }}
                               />
                             </div>
@@ -289,7 +300,7 @@ const GroupExamenSummary = ({
   nbrGroupe,
   groupWithData,
   examsGrouped,
-  espacement
+  espacement,
 }) => {
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(Object.keys(groupWithData));
@@ -310,8 +321,7 @@ const GroupExamenSummary = ({
     dispatch(setShowExamForm(false));
   };
 
-  useEffect(() => {
-  }, [showForm]);
+  useEffect(() => {}, [showForm]);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -320,7 +330,6 @@ const GroupExamenSummary = ({
     items.splice(result.destination.index, 0, reorderedItem);
     setGroupList([...items]);
   };
-
 
   return (
     <ModalWrapper style={styles.modal}>

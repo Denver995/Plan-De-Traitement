@@ -4,7 +4,8 @@ import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
-import { deleteExamSimple, deleteExamGroup } from "../../../redux/examens/actions";
+import { deleteExamSimple, deleteExamGroup, editExam } from "../../../redux/examens/actions";
+import { setComponent } from "../../../redux/commons/actions";
 
 import styles from "./styles";
 
@@ -32,6 +33,13 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGro
                 dispatch(deleteExamGroup({groupKey: groupKey, examId: index}));
                 setReload(!reload);
               }else dispatch(deleteExamSimple(data));
+            }}
+            onEditItem={() => {
+              dispatch(editExam(data));
+              if(isExamGroup){
+                dispatch(setComponent({ name: "EXAMENFORMEDIT", groupKey: groupKey, examId: index }));
+                // setReload(!reload);
+              }else dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
             }}
           />
         </div>
