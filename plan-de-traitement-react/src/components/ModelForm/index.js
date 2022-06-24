@@ -85,6 +85,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         id_modele: 1,
       };
       step.data = data;
+      dispatch(createGroups(nombreOccurence));
       dispatch(updateStep(step));
       createModele(step);
       dispatch(setModelData(data));
@@ -288,7 +289,6 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
               form={modalFormId}
               onClick={() => {
                 onClickNext();
-                dispatch(createGroups());
               }}
               disabled={nomModele.length < 3}
               fill={true}
