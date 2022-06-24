@@ -39,13 +39,14 @@ const getExamByGroupIndex = (group, groupKey) => {
 const GroupItem = ({ groupName, espacement, groupWithData }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
-  const [groupList] = useState(Object.keys(groupWithData));
+  // const [groupList] = useState(Object.keys(groupWithData));
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
 
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
   const [showInterExam, setShowInterExam] = useState(false);
   const [intervalGroupIndex, setIntervalGroupIndex] = useState(1);
+  const [reload, setReload] = useState(false);
 
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
@@ -68,7 +69,7 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
       return newToggleGrp;
     });
     setToggledGroup(newToggleGrp);
-  }, [groupWithData]);
+  }, [groupWithData, reload]);
 
   useEffect(() => {
     setRerender(false);
@@ -237,6 +238,10 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                                       exam={exam}
                                       id_modele={modelData.id_modele}
                                       index={i}
+                                      isExamGroup={true}
+                                      groupKey={groupKey}
+                                      setReload={setReload}
+                                      reload={reload}
                                     />
                                   </div>
                                 );

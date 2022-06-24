@@ -4,10 +4,11 @@ import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
+import { deleteExamSimple, deleteExamGroup } from "../../../redux/examens/actions";
 
 import styles from "./styles";
 
-const ExamItem = ({ data, showEditForm, color, id_modele, exam, index }) => {
+const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGroup=false, groupKey, reload, setReload }) => {
   const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -23,7 +24,16 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam, index }) => {
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
         <div>
-          <Propover data={data} showEditForm={showEditForm} />
+          <Propover
+            data={data}
+            showEditForm={showEditForm}
+            onDeleteExam={() => {
+              if(isExamGroup){
+                dispatch(deleteExamGroup({groupKey: groupKey, examId: index}));
+                setReload(!reload);
+              }else dispatch(deleteExamSimple(data));
+            }}
+          />
         </div>
         <div>
           <span
