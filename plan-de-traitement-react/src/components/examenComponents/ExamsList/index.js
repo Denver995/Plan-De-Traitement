@@ -5,12 +5,13 @@ import {
   EuiSpacer,
   EuiHorizontalRule,
   EuiButton,
+  EuiButtonEmpty,
 } from "@elastic/eui";
 import { connect, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { fakeData } from "../../../utils/defaultData";
-import { startLoading } from "../../../redux/commons/actions";
+import { startLoading, setComponent } from "../../../redux/commons/actions";
 import { desactivateStep, addStep } from "../../../redux/steps/actions";
 import ExamenItem from "../ExamItem";
 import { Plus } from "../../../assets/images";
@@ -19,15 +20,18 @@ import { STEP2, STEP3 } from "../../../utils/constants";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import colors from "../../../utils/colors";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
-import ModalWrapper from "../../common/ModalWrapper";
+import ModalWrapper from "../../common/ModalWrapper"; 
 
-const ExamsList = ({ exams, onAdd, steps, modelData, espacement }) => {
+  
+  const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPrevious, predecessor  }) => {
   const getItems = (count) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `item-${k}`,
       content: `item ${k}`,
     }));
-
+    const [showEditForm, setShowEditForm] = useState(
+      formType === "EXAMENFORMEDIT"
+    );
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
   const [examsList, setExamsList] = useState(exams);
@@ -51,6 +55,20 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement }) => {
 
     setExamsList([...items]);
     console.log("examsList: ", examsList);
+  };
+  const onCancel = () => {
+    console.log("clicked new")
+    dispatch(setComponent({name: "EXAMENFORM"}));
+
+    // if (formType === "EXAMSLIST") {
+    //   return;
+    // }
+    // if (predecessor === "EXAMENFORMEDIT") {
+    //   dispatch(setComponent("EXAMENFORMEDIT"));
+    //   return;
+    // }
+
+    // onPrevious && onPrevious();
   };
 
   useEffect(() => {
@@ -120,6 +138,7 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement }) => {
                                 </span>
                               )}
                               <EuiSpacer size="xs" />
+                              
                             </div>
                           )}
                         </Draggable>
@@ -143,14 +162,53 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement }) => {
             <EuiSpacer size="xl" />
             <EuiSpacer size="l" />
             <EuiSpacer size="xxl" />
-            <div style={styles.terminer}>
-              {exams.length > 2 && (
+            <EuiSpacer size="xxl" />
+            
+          </div>
+          <div style={styles.terminer}>
+              {/* {exams.length > 2 && (
                 <EuiButton onClick={onClickNext} style={styles.btnTerminer}>
                   Terminer
                 </EuiButton>
-              )}
+              )} */}
+               <EuiFlexGroup
+                className="btn_group"
+                style={{
+                  margin: 17,
+                  ...styles.cancelBtn,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <EuiButtonEmpty
+                  fill="true"
+                  className="button_cancel_me"
+                    onClick={() => {
+                    onCancel();
+                  }} 
+                >
+                  Retour
+                </EuiButtonEmpty>
+                {exams.length > 2 ? (
+                <EuiButton
+                  style={ styles.activated}
+                  className="button_next_me"
+                  onClick={onClickNext}
+                >
+                  
+                  Terminer 
+                </EuiButton>
+                ): (
+                  <EuiButton
+                  style={ styles.deactivated}
+                  className="button_next_me"
+                >
+                  
+                  Terminer 
+                </EuiButton>
+                )}
+              </EuiFlexGroup>
             </div>
-          </div>
         </ModalWrapper>
       )}
     </>
