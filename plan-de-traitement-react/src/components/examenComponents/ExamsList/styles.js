@@ -5,6 +5,9 @@ const styles = {
     width: 1361,
     height: 582,
   },
+  contain :{
+    height:"100%", 
+  },
 
   btnContainer: {
     // width: "100%",
@@ -64,7 +67,8 @@ const styles = {
 
   terminer: {
     display: "flex",
-    width: "100%"
+    width: "100%",
+    bottom: 15
   },
 
   btnTerminer: {

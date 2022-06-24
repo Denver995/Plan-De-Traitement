@@ -162,7 +162,10 @@ import ModalWrapper from "../../common/ModalWrapper";
             <EuiSpacer size="xl" />
             <EuiSpacer size="l" />
             <EuiSpacer size="xxl" />
-            <div style={styles.terminer}>
+            <EuiSpacer size="xxl" />
+            
+          </div>
+          <div style={styles.terminer}>
               {/* {exams.length > 2 && (
                 <EuiButton onClick={onClickNext} style={styles.btnTerminer}>
                   Terminer
@@ -172,7 +175,6 @@ import ModalWrapper from "../../common/ModalWrapper";
                 className="btn_group"
                 style={{
                   margin: 17,
-                  marginTop: 80,
                   ...styles.cancelBtn,
                   display: "flex",
                   justifyContent: "space-between",
@@ -207,7 +209,6 @@ import ModalWrapper from "../../common/ModalWrapper";
                 )}
               </EuiFlexGroup>
             </div>
-          </div>
         </ModalWrapper>
       )}
     </>
