@@ -129,7 +129,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
     case types.DELETE_EXAM_GROUP:
       let examsGroupTemp = [...state.examsGrouped];
-      console.log('examsGroupTemp: ', examsGroupTemp);
       // examsGroupTemp.pop();
       examsGroupTemp.splice(action.payload, 1);
       return {
