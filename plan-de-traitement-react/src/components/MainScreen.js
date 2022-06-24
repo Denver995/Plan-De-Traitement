@@ -26,14 +26,10 @@ const MainScreen = () => {
 
   const closeModal = () => {
     setIsModalVisible(false);
-    if (isRecorded) {
       const timer = setTimeout(() => {
         window.location = "";
-      }, 2000);
+      }, 5000);
       return () => clearTimeout(timer);
-    }
-    
-    window.location = "";
   };
 
   const showModal = () => setIsModalVisible(true);
