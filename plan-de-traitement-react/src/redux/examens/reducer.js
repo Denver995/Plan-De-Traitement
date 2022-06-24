@@ -3,6 +3,7 @@ import * as types from "./types";
 const INITIAL_STATE = {
   creating: false,
   message: '',
+  espaceInterGroupe: [],
   examenSelected: {},
   activeGroup: 0,
   show: false,
@@ -120,7 +121,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.CREATE_GROUPS:
       let groups = {};
-      for(let i=0; i < action.nombreOccurence; i++){groups['group '+i] = []}
+      for (let i = 0; i < action.nombreOccurence; i++) { groups['group ' + i] = [] }
       return {
         ...state,
         examsGrouped: Array(Number(action.nombreOccurence)).fill({}),
@@ -156,6 +157,18 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         numOfGroups: state.numOfGroups - 1
       }
     case types.SET_ESPACEMENT:
+      let n = state.nombreOccurence
+      if (action.espacement.applyOnAll) {
+        for (var i = 0; i < n; i++) {
+          if (state.espaceInterGroupe.includes(action.espacement)) {
+
+          } else {
+            state.espaceInterGroupe.push(action.espacement)
+          }
+        }
+      } else {
+            state.espaceInterGroupe[action.espacement.initialIndex] = action.espacement
+      }
       return {
         ...state,
         espacement: action.espacement

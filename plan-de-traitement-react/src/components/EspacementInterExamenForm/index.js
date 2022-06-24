@@ -64,6 +64,7 @@ const EspacementInterExamenForm = ({
     console.log("inside applyInterVale ");
     dispatch(
       setEspacement({
+        initialIndex,
         applyOnAll: onAll,
         minInterval: minInterval,
         minIntervalUnit: minIntervalUnit,

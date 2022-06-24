@@ -37,6 +37,7 @@ const getExamByGroupIndex = (group, groupKey) => {
 };
 
 const GroupItem = ({ groupName, espacement, groupWithData }) => {
+  const espaceInterGroupe = useSelector(state => state.ExamenReducer.espaceInterGroupe)[0];
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
   const [groupList] = useState(Object.keys(groupWithData));
@@ -62,8 +63,8 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
   };
 
   useEffect(() => {
-   let newToggleGrp = [];
-   Object.keys(groupWithData).map((item, i) => {
+    let newToggleGrp = [];
+    Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
       return newToggleGrp;
     });
@@ -80,7 +81,7 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
     setShowInterExam(true);
     setIntervalGroupIndex(initialIndex);
   };
-
+  console.log("tab espacement intergroup : ",espaceInterGroupe)
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
     <>
@@ -259,14 +260,8 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                               color: colors.primary,
                             }}
                           >
-                            {espacement && espacement.minInterval
-                              ? `Délai entre "le groupe ${index}" et "le groupe ${
-                                  index + 1
-                                }" : ${espacement.minInterval} ${
-                                  espacement.minIntervalUnit
-                                } - ${espacement.maxInterval} ${
-                                  espacement.minIntervalUnit
-                                }`
+                            {(espacement && espacement.minInterval) ?
+                              `Délai entre "le groupe ${index}" et "le groupe ${index + 1}" : ${espacement.minInterval} ${espacement.minIntervalUnit} - ${espacement.maxInterval} ${espacement.minIntervalUnit}`
                               : "Choisir l'intervalle inter groupe"}
                           </p>
                         </div>
@@ -330,25 +325,25 @@ const GroupExamenSummary = ({
         />
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
-           <Droppable droppableId="droppable">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{ marginTop: 28, marginBottom: 60 }}
-                >
-                  {[...Array(nbrGroupe).keys()].map((item, index) => (
-                    <GroupItem
-                      groupName={"Group " + index}
-                      key={index}
-                      espacement={espacement}
-                      groupWithData={groupWithData}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{ marginTop: 28, marginBottom: 60 }}
+              >
+                {[...Array(nbrGroupe).keys()].map((item, index) => (
+                  <GroupItem
+                    groupName={"Group " + index}
+                    key={index}
+                    espacement={espacement}
+                    groupWithData={groupWithData}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </DragDropContext>
       )}
       {!showForm && (
