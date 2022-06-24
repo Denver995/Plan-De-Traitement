@@ -316,7 +316,7 @@ const ExamenForm = ({
             <EuiSpacer size="xl" />
             <EuiFlexGroup>
               <EuiFlexItem>
-                <p style={styles.selectLabel}>Praticien* :</p>
+                <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
                 <EuiSelect
                   fullWidth

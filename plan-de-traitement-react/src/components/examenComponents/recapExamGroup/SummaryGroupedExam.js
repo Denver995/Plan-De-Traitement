@@ -22,6 +22,7 @@ import RecapExamItem from "./RecapExamItem";
 import ExamGroupCard from "./ExamGroupCard";
 import colors from "../../../utils/colors";
 import TimeLineHelper from "../../common/TimeLineHelper";
+import RecapExamItemV2 from "./RecapExamItemV2";
 
 const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
           {examsGrouped.map((group, index) => (
             <div key={index} style={{ position: "relative" }}>
               <TimeLineHelper index={index} />
-              <RecapExamItem
+              <RecapExamItemV2
                 color={""}
                 data={Object.keys(group)}
                 date={new Date().toDateString()}
