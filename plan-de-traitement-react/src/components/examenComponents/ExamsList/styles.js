@@ -6,7 +6,7 @@ const styles = {
     height: 582,
   },
   contain :{
-    height:"100%", 
+    height:"84%", 
   },
 
   btnContainer: {
