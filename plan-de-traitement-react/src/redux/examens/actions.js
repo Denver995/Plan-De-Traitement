@@ -54,7 +54,7 @@ export const createGroups = (nombreOccurence) => ({
   nombreOccurence
 })
 
-export const deleteExamGroup = ({payload}) => ({
+export const deleteExamGroup = (payload) => ({
   type: types.DELETE_EXAM_GROUP,
   payload,
 });
@@ -66,6 +66,16 @@ export const deleteExamSimple = ({payload}) => ({
 
 export const deleteGroup = (groupKey) => ({
   type: types.DELETE_GROUP,
+  groupKey,
+});
+
+export const fixExamPosition = ({payload}) => ({
+  type: types.FIX_EXAMEN_POSITION,
+  payload,
+});
+
+export const fixGroupPosition = (groupKey) => ({
+  type: types.FIX_GROUP_POSITION,
   groupKey,
 });
 
