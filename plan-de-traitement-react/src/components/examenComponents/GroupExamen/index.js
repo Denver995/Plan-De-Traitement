@@ -24,7 +24,7 @@ import {
   deleteExamGroup,
   deleteGroup,
 } from "../../../redux/examens/actions";
-import { startLoading } from "../../../redux/commons/actions";
+import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -63,8 +63,8 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
   };
 
   useEffect(() => {
-   let newToggleGrp = [];
-   Object.keys(groupWithData).map((item, i) => {
+    let newToggleGrp = [];
+    Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
       return newToggleGrp;
     });
@@ -146,6 +146,17 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                                 data={{
                                   groupKey: groupKey,
                                   data: groupWithData,
+                                }}
+                                onEditItem={() => {
+                                  dispatch(
+                                    setComponent({
+                                      name: "RECAPITULATIF",
+                                      data: {
+                                        groupKey: groupKey,
+                                        data: groupWithData,
+                                      },
+                                    })
+                                  );
                                 }}
                               />
                             </div>
@@ -292,7 +303,7 @@ const GroupExamenSummary = ({
   nbrGroupe,
   groupWithData,
   examsGrouped,
-  espacement
+  espacement,
 }) => {
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(Object.keys(groupWithData));
@@ -313,8 +324,7 @@ const GroupExamenSummary = ({
     dispatch(setShowExamForm(false));
   };
 
-  useEffect(() => {
-  }, [showForm]);
+  useEffect(() => {}, [showForm]);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -323,7 +333,6 @@ const GroupExamenSummary = ({
     items.splice(result.destination.index, 0, reorderedItem);
     setGroupList([...items]);
   };
-
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -335,25 +344,25 @@ const GroupExamenSummary = ({
         />
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
-           <Droppable droppableId="droppable">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{ marginTop: 28, marginBottom: 60 }}
-                >
-                  {[...Array(nbrGroupe).keys()].map((item, index) => (
-                    <GroupItem
-                      groupName={"Group " + index}
-                      key={index}
-                      espacement={espacement}
-                      groupWithData={groupWithData}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{ marginTop: 28, marginBottom: 60 }}
+              >
+                {[...Array(nbrGroupe).keys()].map((item, index) => (
+                  <GroupItem
+                    groupName={"Group " + index}
+                    key={index}
+                    espacement={espacement}
+                    groupWithData={groupWithData}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </DragDropContext>
       )}
       {!showForm && (

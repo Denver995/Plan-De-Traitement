@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { editExam } from "../redux/examens/actions";
 import { setComponent } from "../redux/commons/actions";
 
-const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExam }) => {
+const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onEditItem, onDeleteExam }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   const [panelRef] = useState(null);
@@ -23,16 +23,16 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExa
   const togglePropover = () => setPopover(!isPopoverOpen);
 
   const onEdit = () => {
-    if (isModelGroup) {
-      dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
-      return;
-    }
-    dispatch(editExam(data));
-    dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
+    // if (isModelGroup) {
+    //   dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
+    //   return;
+    // }
+    // dispatch(editExam(data));
+    // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
+    onEditItem()
   };
 
   const onDelete = () => {
-    console.log('data.groupKey ', data.groupKey);
     if(isModelGroup){
       onDeleteGroup();
       return;
