@@ -2,17 +2,15 @@ import {
   EuiPopover,
   useGeneratedHtmlId,
   EuiListGroupItem,
-  EuiListGroup,
-  EuiAccordion,
-  EuiPanel
+  EuiListGroup
 } from "@elastic/eui";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { editExam, deleteExamSimple } from "../redux/examens/actions";
+import { editExam } from "../redux/examens/actions";
 import { setComponent } from "../redux/commons/actions";
 
-const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup }) => {
+const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExam }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   const [panelRef] = useState(null);
@@ -39,7 +37,8 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup }) => {
       onDeleteGroup();
       return;
     }
-    dispatch(deleteExamSimple(data));
+    onDeleteExam();
+    return;
   };
 
   const onFixPosition = () => {};
