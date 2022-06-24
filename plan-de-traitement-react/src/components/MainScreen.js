@@ -26,10 +26,12 @@ const MainScreen = () => {
 
   const closeModal = () => {
     setIsModalVisible(false);
-      const timer = setTimeout(() => {
-        window.location = "";
-      }, 5000);
-      return () => clearTimeout(timer);
+    window.location = "";
+
+    // const timer = setTimeout(() => {
+    //   window.location = "";
+    // }, 5000);
+    // return () => clearTimeout(timer);
   };
 
   const showModal = () => setIsModalVisible(true);
