@@ -82,7 +82,7 @@ import ModalWrapper from "../../common/ModalWrapper";
         />
       ) : (
         <ModalWrapper style={styles.modal}>
-          <div>
+          <div style={styles.contain}>
             <EuiFlexGroup>
               <EuiFlexItem style={styles.titleWrapper}>
                 <p style={styles.title}>Modèle:</p>
