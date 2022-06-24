@@ -24,10 +24,11 @@ import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
 import styles from "./styles";
 import Alert from "../../Alert";
+import { setComponent } from "../../../redux/commons/actions";
 
 import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
 
-const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
+const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData }) => {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -88,8 +89,12 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
             <p style={styles.headLabel}>Modèle :</p>
             <EuiSpacer size="s" />
             <div style={styles.headTitleContainer}>
-              <p style={styles.headTitle}>xxxxxxxxxx xxxxxxxxxxxxx XXXXX</p>
-              <Pencil onClick={() => console.log("add somes actions")} width={"21px"} style={styles.pencil}/>
+              <p style={styles.headTitle}>{modelData.nom}</p>
+              <Pencil
+                onClick={() => dispatch(setComponent("EDITMODEL"))}
+                width={"21px"}
+                style={styles.pencil}
+              />
             </div>
           </div>
           <div>
@@ -148,8 +153,9 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams }) => {
   );
 };
 
-const mapStateToProps = ({ ExamenReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   exams: ExamenReducer.exams,
+  modelData: ModelsReducer.modelData
 });
 
 export default connect(mapStateToProps)(RecapitulatifDesExamens);

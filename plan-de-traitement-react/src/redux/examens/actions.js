@@ -49,8 +49,9 @@ export const numOfGroupsChange = (number) => ({
   number,
 })
 
-export const createGroups = () => ({
-  type: types.CREATE_GROUPS
+export const createGroups = (nombreOccurence) => ({
+  type: types.CREATE_GROUPS,
+  nombreOccurence
 })
 
 export const deleteExamGroup = ({payload}) => ({
@@ -61,7 +62,12 @@ export const deleteExamGroup = ({payload}) => ({
 export const deleteExamSimple = ({payload}) => ({
   type: types.DELETE_EXAM_SIMPLE,
   payload,
-})
+});
+
+export const deleteGroup = (groupKey) => ({
+  type: types.DELETE_GROUP,
+  groupKey,
+});
 
 export const setEspacement = (espacement) => ({
   type: types.SET_ESPACEMENT,

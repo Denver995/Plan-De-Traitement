@@ -23,7 +23,11 @@ import {
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import { createGroups, numOfGroupsChange } from "../../redux/examens/actions";
-import { createModel as createModelAction, setModelData } from "../../redux/models/actions";
+import {
+  createModel as createModelAction,
+  setModelData,
+  updateModel,
+} from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
@@ -34,19 +38,19 @@ import colors from "../../utils/colors";
 
 import styles from "./styles";
 
-const ModalForm = ({ closeModal }) => {
+const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const [groupe_rdv, setIsGroup] = useState(false);
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const [nomModele, setNomModele] = useState("");
+  const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : "");
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
-  const { innerWidth } = useDimension()
+  const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
 
   const listTypePeriode = [
@@ -78,9 +82,10 @@ const ModalForm = ({ closeModal }) => {
         groupe_rdv: groupe_rdv ? 1 : 0,
         id_entite: 4,
         periode: periode ? periode : 1,
-        id_modele: 1
+        id_modele: 1,
       };
       step.data = data;
+      dispatch(createGroups(nombreOccurence));
       dispatch(updateStep(step));
       createModele(step);
       dispatch(setModelData(data));
@@ -115,7 +120,9 @@ const ModalForm = ({ closeModal }) => {
     <ModalWrapper className="modale-modelForm" style={styles.modal}>
       <EuiForm id={modalFormId} style={styles.form}>
         <EuiSpacer size="xl" />
-        <strong><p style={styles.nomModel}>Nom du modèle: </p></strong>
+        <strong>
+          <p style={styles.nomModel}>Nom du modèle: </p>
+        </strong>
         <EuiFieldText
           name="nomModele"
           style={styles.inputModal}
@@ -163,9 +170,20 @@ const ModalForm = ({ closeModal }) => {
               style={{ paddingTop: 5 }}
               className="nombre-occurence-nomberField"
             >
-              <div style={{ ...styles.occurence, marginLeft: innerWidth >= 768 ? "6%" : "0%" }}>Nombre d'occurences* :</div>
+              <div
+                style={{
+                  ...styles.occurence,
+                  marginLeft: innerWidth >= 768 ? "6%" : "0%",
+                }}
+              >
+                Nombre d'occurences* :
+              </div>
               <EuiFieldNumber
-                style={{ ...styles.fieldNumber, width: innerWidth >= 768 ? "95%" : "100%", marginLeft: innerWidth >= 768 ? "5%" : "0%" }}
+                style={{
+                  ...styles.fieldNumber,
+                  width: innerWidth >= 768 ? "95%" : "100%",
+                  marginLeft: innerWidth >= 768 ? "5%" : "0%",
+                }}
                 name={nombreOccurence}
                 value={nombreOccurence}
                 onChange={(e) => {
@@ -205,7 +223,7 @@ const ModalForm = ({ closeModal }) => {
                   justifyContent: "space-between",
                   width: "100%",
                   flexWrap: "wrap",
-                  marginTop: -18
+                  marginTop: -18,
                 }}
               >
                 {/* <EuiFlexItem> */}
@@ -222,11 +240,7 @@ const ModalForm = ({ closeModal }) => {
                   />
                 </div>
                 <div style={{ width: "49%" }}>
-                  <select
-                    name="cars"
-                    id="cars"
-                    style={styles.fieldNumber2}
-                  >
+                  <select name="cars" id="cars" style={styles.fieldNumber2}>
                     {listTypePeriode.map((item, index) => (
                       <option key={index} value={item.value}>
                         {item.text}
@@ -244,24 +258,45 @@ const ModalForm = ({ closeModal }) => {
         >
           <EuiButtonEmpty
             className="button_global btn-annuler-modelForm"
-            onClick={closeModal}
+            onClick={() =>
+              isEdited ? onSaveChange("RECAPITULATIF") : closeModal()
+            }
             style={styles.cancelButton}
           >
             Annuler
           </EuiButtonEmpty>
-          <EuiButton
-            style={nomModele.length < 3 ? styles.addButton2 : styles.addButton}
-            form={modalFormId}
-            onClick={() => {
-              onClickNext();
-              dispatch(createGroups());
-            }}
-            disabled={nomModele.length < 3}
-            fill={true}
-            className="button_global btn-suivant-modelForm"
-          >
-            Suivant
-          </EuiButton>
+          {isEdited ? (
+            <EuiButton
+              style={
+                nomModele.length < 3 ? styles.addButton2 : styles.addButton
+              }
+              form={modalFormId}
+              onClick={() => {
+                dispatch(updateModel(nomModele));
+                onSaveChange("RECAPITULATIF");
+              }}
+              disabled={nomModele.length < 3}
+              fill={true}
+              className="button_global btn-suivant-modelForm"
+            >
+              Modifier
+            </EuiButton>
+          ) : (
+            <EuiButton
+              style={
+                nomModele.length < 3 ? styles.addButton2 : styles.addButton
+              }
+              form={modalFormId}
+              onClick={() => {
+                onClickNext();
+              }}
+              disabled={nomModele.length < 3}
+              fill={true}
+              className="button_global btn-suivant-modelForm"
+            >
+              Suivant
+            </EuiButton>
+          )}
         </EuiFlexGroup>
       </EuiForm>
       <EuiSpacer size="m" />
@@ -269,4 +304,8 @@ const ModalForm = ({ closeModal }) => {
   );
 };
 
-export default ModalForm;
+const mapStateToProps = ({ ModelsReducer }) => ({
+  modelData: ModelsReducer.modelData,
+});
+
+export default connect(mapStateToProps)(ModalForm);
