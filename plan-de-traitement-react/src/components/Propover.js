@@ -2,10 +2,14 @@ import {
   EuiPopover,
   useGeneratedHtmlId,
   EuiListGroupItem,
-  EuiListGroup
+  EuiListGroup,
+  EuiAccordion,
+  EuiPanel
+ 
 } from "@elastic/eui";
+
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { editExam } from "../redux/examens/actions";
 import { setComponent } from "../redux/commons/actions";
@@ -17,6 +21,21 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExa
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
+  
+// const deploymentsList: EuiListGroupProps['listItems'] = [
+//   {
+//     label: 'combining-binaries',
+//     iconType: 'logoAzureMono',
+//     size: 's',
+//   },
+//   {
+//     label: 'stack-monitoring',
+//     iconType: 'logoAWSMono',
+//     size: 's',
+//   },
+// ];
+const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
+const exams = useSelector((state) => state.ExamenReducer.exams)
 
   const closePopover = () => setPopover(false);
 
@@ -33,7 +52,7 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExa
 
   const onDelete = () => {
     console.log('data.groupKey ', data.groupKey);
-    if(isModelGroup){
+    if (isModelGroup) {
       onDeleteGroup();
       return;
     }
@@ -41,7 +60,7 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExa
     return;
   };
 
-  const onFixPosition = () => {};
+  const onFixPosition = () => { };
 
   const button = (
     <span onClick={togglePropover} className="icon-ellipsis-v"></span>
@@ -61,23 +80,19 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExa
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
-          <EuiListGroupItem onClick={onFixPosition} label="Fixer la position" />
-          {/* <EuiListGroupItem
-            onClick={() => {}}
-            label="Lier avec un autre examen"
-          > */}
-          {/* <EuiAccordion
-            style={{ marginLeft: 9, marginTop: 8 }}
-            arrowDisplay="right"
-            id={simpleAccordionId}
-            buttonContent={
-              isModelGroup
-                ? "Lier avec un autre groupe"
-                : "Lier avec un autre examen"
-            }
-          >
-            <EuiPanel color="red">
-              {examsGrouped && (isModelGroup || isModelGroup === 0)
+          <EuiListGroupItem onClick={onFixPosition} label="Fixer la position" />   
+            <EuiAccordion
+              style={{ marginLeft: 9, marginTop: 8 }}
+              arrowDisplay="right"
+              id="simpleAccordionId"
+              buttonContent={
+                isModelGroup
+                  ? "Lier avec un autre groupe"
+                  : "Lier avec un autre examen"
+              }
+            >
+              <EuiPanel color="red">
+                 {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
                   examsGrouped.map((group, i) => (
                     <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
@@ -89,9 +104,8 @@ const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onDeleteExa
                       {exam.nom + " " + exam.id_modele}
                     </p>
                   ))}
-            </EuiPanel>
-          </EuiAccordion> */}
-          {/* </EuiListGroupItem> */}
+              </EuiPanel>
+            </EuiAccordion>
         </EuiListGroup>
       </EuiPopover>
     </div>
