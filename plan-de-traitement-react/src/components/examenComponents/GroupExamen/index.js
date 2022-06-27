@@ -275,15 +275,12 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                               color: colors.primary,
                             }}
                           >
-                            {espacement && espacement.minInterval
-                              ? `Délai entre "le groupe ${index}" et "le groupe ${
-                                  index + 1
-                                }" : ${espacement.minInterval} ${
-                                  espacement.minIntervalUnit
-                                } - ${espacement.maxInterval} ${
-                                  espacement.minIntervalUnit
-                                }`
-                              : "Choisir l'intervalle inter groupe"}
+                            {(espacement && espacement['espace ' + index].length > 0 && espacement['espace ' + index][espacement['espace ' + index].length - 1].applyOnAll === false) ?
+                              `Délai entre le groupe ${index} et le groupe ${index + 1} : ${espacement["espace " + index][0].minInterval} ${espacement["espace " + index][0].minIntervalUnit} - ${espacement["espace " + index][0].maxInterval} ${espacement["espace " + index][0].minIntervalUnit}`
+                              : (espacement && espacement['espace ' + index].length > 0 && espacement['espace ' + index][espacement['espace ' + index].length - 1].applyOnAll === true) ?
+                                `Délai entre le groupe ${index} et le groupe ${index + 1} : ${espacement["espace " + index][espacement['espace ' + index].length - 1].minInterval} ${espacement["espace " + index][espacement['espace ' + index].length - 1].minIntervalUnit} - ${espacement["espace " + index][espacement['espace ' + index].length - 1].maxInterval} ${espacement["espace " + index][espacement['espace ' + index].length - 1].minIntervalUnit}`
+                                :
+                                "Choisir l'intervalle inter groupe"}
                           </p>
                         </div>
                       )}

@@ -49,6 +49,13 @@ export const numOfGroupsChange = (number) => ({
   number,
 })
 
+export const CreateEspacement = (nombreOccurence) => {
+  return {
+    type : types.CREATE_ESPACEMENTS,
+    nombreOccurence
+  }
+}
+
 export const createGroups = (nombreOccurence) => ({
   type: types.CREATE_GROUPS,
   nombreOccurence
