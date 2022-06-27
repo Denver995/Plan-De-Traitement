@@ -36,7 +36,8 @@ import {
   addExam,
   addExamGrouped,
   setShowExamForm,
-  addExamOnAllGroups
+  addExamOnAllGroups,
+  CreateEspacementSubExam
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
@@ -163,6 +164,7 @@ const ExamenForm = ({
             dispatch(addExamOnAllGroups({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
+            dispatch(CreateEspacementSubExam())
           },
           onReject: () => {
             console.log("inside not all ");
@@ -171,6 +173,7 @@ const ExamenForm = ({
             dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
+            dispatch(CreateEspacementSubExam())
           },
         })
       );

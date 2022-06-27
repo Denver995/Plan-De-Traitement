@@ -7,7 +7,10 @@ const INITIAL_STATE = {
   examenSelected: {},
   activeGroup: 0,
   show: false,
-  espacement : {},
+  espacement: {},
+  espacementNonGroupe: {},
+  espacementSubExam: {},
+  actualNonGroupeIndex: 0,
   numOfGroups: 1,
   exams: [],
   groupWithData: {},
@@ -70,10 +73,23 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.SHOW_EXAM_EDIT_FORM:
       return state;
     case types.ADD_EXAM:
+      let listespacementsNonGroupe = {};
       state.exams.push(action.payload.exam);
+      let espaceNonGroupeKeys = Object.keys(state.espacementNonGroupe)
+      if (espaceNonGroupeKeys.length > 0) {
+        for (let i = 0; i < state.exams.length - 1; i++) {
+          listespacementsNonGroupe['espaceNonGroupe ' + i] = state.espacementNonGroupe['espaceNonGroupe ' + i] ?
+            [...state.espacementNonGroupe['espaceNonGroupe ' + i]] : [];
+        }
+      } else {
+        for (let i = 0; i < state.exams.length - 1; i++) {
+          listespacementsNonGroupe['espaceNonGroupe ' + i] = [];
+        }
+      }
       return {
         ...state,
         exams: state.exams,
+        espacementNonGroupe: listespacementsNonGroupe
       };
     case types.CREATE_EXAMEN_GROUP:
       const id = state.examsGrouped.length + 1;
@@ -126,26 +142,48 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupWithData: groups
       };
 
-      case types.CREATE_ESPACEMENTS:
-        let listespacements = {};
-        for (let i = 0; i < action.nombreOccurence; i++) { listespacements['espace ' + i] = [] }
-        return {
-          ...state,
-          espacement: listespacements
-        };
+    case types.CREATE_ESPACEMENTS:
+      let listespacements = {};
+      for (let i = 0; i < action.nombreOccurence; i++) { listespacements['espace ' + i] = [] }
+      return {
+        ...state,
+        espacement: listespacements
+      };
+    case types.SET_ACTUAL_NON_GROUPE_INDEX:
+      return {
+        ...state,
+        actualNonGroupeIndex: action.index
+      };
+    case types.CREATE_ESPACEMENTS_NON_GROUPE:
+      console.log(state.espacementNonGroupe)
+      return {
+        ...state
+      };
+
+    case types.CREATE_ESPACEMENTS_SUB_EXAM:
+      let groupes = {}
+      for (let i = 0; i < state.numOfGroups; i++) {
+        groupes['group ' + i] = state.espacementSubExam['group ' + i] ?
+          { ...state.espacementSubExam['group ' + i] } : {};
+      }
+
+      return {
+        ...state,
+        espacementSubExam: groupes
+      };
 
     case types.DELETE_EXAM_GROUP:
       let allGroup = state.groupWithData;
       let selectedGroup = allGroup[action.payload.groupKey];
       // examsGroupTemp.pop();
       selectedGroup.splice(action.payload.examId, 1);
-      allGroup[action.payload.groupKey] = selectedGroup;
+      allGroup[action.payload.groupKey] = selectedGroup
       return {
         ...state,
         groupWithData: allGroup,
       }
 
-    
+
     case types.DELETE_EXAM_SIMPLE:
       let tempExams = [...state.exams];
       // tempExams.pop();
@@ -166,33 +204,82 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         numOfGroups: state.numOfGroups - 1
       }
     case types.SET_ESPACEMENT:
-      console.log("inside setEspacemnt")
-      console.log(state.espacement)
-      let n = state.numOfGroups - 1
       let espaces = state.espacement;
       let espacesKeys = Object.keys(espaces);
-      console.log('espacesKeys ', espacesKeys);
-      if(action.espacement.applyOnAll){
-        console.log("inside setEspacemnt all")
+      if (action.espacement.applyOnAll) {
         espacesKeys.forEach(key => {
           espaces[key].push(action.espacement);
         });
-      }else{
-        console.log("inside setEspacemnt not all ")
+      } else {
         espacesKeys.forEach(key => {
-          console.log('espace '+action.espacement.initialIndex)
-          if(key === 'espace '+action.espacement.initialIndex){
+          if (key === 'espace ' + action.espacement.initialIndex) {
             let allEspace = state.espacement;
-            console.log("-----",espaces)
-            allEspace['espace '+action.espacement.initialIndex] = [action.espacement]
+            allEspace['espace ' + action.espacement.initialIndex] = [action.espacement]
             espaces = allEspace
-            console.log("-----",espaces)
           }
         })
       }
       return {
         ...state,
         espacement: espaces
+      }
+    case types.SET_ESPACEMENT_NON_GROUPE:
+      let espace = state.espacementNonGroupe;
+      let espacesNonGroupeKeys = Object.keys(espace);
+      if (action.espacement.applyOnAll) {
+        espacesNonGroupeKeys.forEach(key => {
+          let initialIndex = state.actualNonGroupeIndex
+          espace[key].push({ ...action.espacement, initialIndex });
+        });
+      } else {
+        espacesNonGroupeKeys.forEach(key => {
+          if (key === 'espaceNonGroupe ' + state.actualNonGroupeIndex) {
+            let allEspace = state.espacementNonGroupe;
+            let initialIndex = state.actualNonGroupeIndex
+            allEspace['espaceNonGroupe ' + state.actualNonGroupeIndex] = [{ ...action.espacement, initialIndex }]
+            espace = allEspace
+          }
+        })
+      }
+      return {
+        ...state,
+        espacesNonGroupe: espace
+      }
+    case types.SET_ESPACEMENT_SUB_EXAM:
+      let allGroupes = state.espacementSubExam
+      let allGrproupesKeys = Object.keys(allGroupes)
+      if (!action.espacement.applyOnAll) {
+        allGrproupesKeys.forEach(key => {
+          if (key === 'group ' + action.espacement.parentSubExamId) {
+            let actualGroupe = allGroupes[key]
+            actualGroupe['subEspace ' + action.espacement.initialIndex] = actualGroupe['subEspace ' + action.espacement.initialIndex] ?
+              [...actualGroupe['subEspace ' + action.espacement.initialIndex], action.espacement] : [action.espacement]
+            allGroupes["group " + action.espacement.parentSubExamId] = actualGroupe
+          }
+        })
+      } else {
+        allGrproupesKeys.forEach(key => {
+          let actualGroupe = allGroupes[key]
+          if (key === 'group ' + action.espacement.parentSubExamId) {
+            let actualGroupeKeys = Object.keys(actualGroupe)
+            if(actualGroupeKeys.length > 0){
+              actualGroupeKeys.forEach(key_ => {
+                actualGroupe[key_].push(action.espacement)
+              })
+            }else{
+              for(var i = 0; i < state.groupWithData[key].length-1; i++ ){
+                actualGroupe['subEspace '+i] = [action.espacement]
+              }
+            }
+            allGroupes[key] = actualGroupe
+          }
+        })
+
+      }
+      console.log(allGroupes)
+      return {
+        ...state,
+        espacementSubExam: allGroupes
       }
     default:
       return state;

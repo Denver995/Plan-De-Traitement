@@ -49,12 +49,34 @@ export const numOfGroupsChange = (number) => ({
   number,
 })
 
+export const setActualExamIndex = (index) => {
+  return {
+    type : types.SET_ACTUAL_NON_GROUPE_INDEX,
+    index
+  }
+}
+
 export const CreateEspacement = (nombreOccurence) => {
   return {
     type : types.CREATE_ESPACEMENTS,
     nombreOccurence
   }
 }
+
+export const CreateEspacementNonGroupe = (nombreOccurence) => {
+  return {
+    type : types.CREATE_ESPACEMENTS_NON_GROUPE,
+    nombreOccurence
+  }
+}
+
+export const CreateEspacementSubExam = (nombreOccurence) => {
+  return {
+    type : types.CREATE_ESPACEMENTS_SUB_EXAM,
+    nombreOccurence
+  }
+}
+
 
 export const createGroups = (nombreOccurence) => ({
   type: types.CREATE_GROUPS,
@@ -88,5 +110,15 @@ export const fixGroupPosition = (groupKey) => ({
 
 export const setEspacement = (espacement) => ({
   type: types.SET_ESPACEMENT,
+  espacement,
+});
+
+export const setEspacementNonGroupe = (espacement) => ({
+  type: types.SET_ESPACEMENT_NON_GROUPE,
+  espacement,
+});
+
+export const setEspacementSubExam = (espacement) => ({
+  type: types.SET_ESPACEMENT_SUB_EXAM,
   espacement,
 });

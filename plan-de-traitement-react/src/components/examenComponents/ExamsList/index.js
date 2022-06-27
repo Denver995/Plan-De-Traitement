@@ -7,7 +7,7 @@ import {
   EuiButton,
   EuiButtonEmpty,
 } from "@elastic/eui";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { fakeData } from "../../../utils/defaultData";
@@ -21,18 +21,20 @@ import { STEP2, STEP3 } from "../../../utils/constants";
 import { getStepByKey, createStep } from "../../../utils/helper";
 import colors from "../../../utils/colors";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
-import ModalWrapper from "../../common/ModalWrapper"; 
+import ModalWrapper from "../../common/ModalWrapper";
+import { CreateEspacementNonGroupe, setActualExamIndex } from "../../../redux/examens/actions";
 
-  
-  const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPrevious, predecessor  }) => {
+
+const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPrevious, predecessor }) => {
   const getItems = (count) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `item-${k}`,
       content: `item ${k}`,
     }));
-    const [showEditForm, setShowEditForm] = useState(
-      formType === "EXAMENFORMEDIT"
-    );
+  const [showEditForm, setShowEditForm] = useState(
+    formType === "EXAMENFORMEDIT"
+  );
+  const espacementNonGroupe = useSelector(state => state.ExamenReducer.espacementNonGroupe)
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
   const [examsList, setExamsList] = useState(exams);
@@ -124,22 +126,24 @@ import ModalWrapper from "../../common/ModalWrapper";
                               <EuiSpacer size="xs" />
                               {index !== exams.length - 1 && (
                                 <span
-                                  onClick={() => setShowInterExam(true)}
+                                  onClick={() => {
+                                    setShowInterExam(true);
+                                    dispatch(CreateEspacementNonGroupe(exams.length - 1));
+                                    dispatch(setActualExamIndex(index));
+                                  }}
                                   className="delai-inter-group"
                                 >
-                                  {espacement && espacement.minInterval
-                                    ? `Délai entre "l'examen ${index}" et "l'examen ${
-                                        index + 1
-                                      }" : ${espacement.minInterval} ${
-                                        espacement.minIntervalUnit
-                                      } - ${espacement.maxInterval} ${
-                                        espacement.minIntervalUnit
-                                      }`
-                                    : "Choisir l'intervalle inter groupe"}
+                                  {(espacementNonGroupe && espacementNonGroupe['espaceNonGroupe ' + index].length > 0
+                                    && espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].applyOnAll === false) ?
+                                    `Délai entre l'examen ${index} et l'examen ${index + 1} : ${espacementNonGroupe["espaceNonGroupe " + index][0].minInterval} ${espacementNonGroupe["espaceNonGroupe " + index][0].minIntervalUnit} - ${espacementNonGroupe["espaceNonGroupe " + index][0].maxInterval} ${espacementNonGroupe["espaceNonGroupe " + index][0].minIntervalUnit}`
+                                    : (espacementNonGroupe && espacementNonGroupe['espaceNonGroupe ' + index].length > 0 && espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].applyOnAll === true) ?
+                                      `Délai entre l'examen ${index} et l'examen ${index + 1} : ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minInterval} ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit} - ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxInterval} ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit}`
+                                      :
+                                      "Choisir l'intervalle inter examen"}
                                 </span>
                               )}
                               <EuiSpacer size="xs" />
-                              
+
                             </div>
                           )}
                         </Draggable>
@@ -164,52 +168,52 @@ import ModalWrapper from "../../common/ModalWrapper";
             <EuiSpacer size="l" />
             <EuiSpacer size="xxl" />
             <EuiSpacer size="xxl" />
-            
+
           </div>
           <div style={styles.terminer}>
-              {/* {exams.length > 2 && (
+            {/* {exams.length > 2 && (
                 <EuiButton onClick={onClickNext} style={styles.btnTerminer}>
                   Terminer
                 </EuiButton>
               )} */}
-               <EuiFlexGroup
-                className="btn_group"
-                style={{
-                  margin: 17,
-                  ...styles.cancelBtn,
-                  display: "flex",
-                  justifyContent: "space-between",
+            <EuiFlexGroup
+              className="btn_group"
+              style={{
+                margin: 17,
+                ...styles.cancelBtn,
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <EuiButtonEmpty
+                fill="true"
+                className="button_cancel_me"
+                onClick={() => {
+                  onCancel();
                 }}
               >
-                <EuiButtonEmpty
-                  fill="true"
-                  className="button_cancel_me"
-                    onClick={() => {
-                    onCancel();
-                  }} 
-                >
-                  Retour
-                </EuiButtonEmpty>
-                {exams.length > 2 ? (
+                Retour
+              </EuiButtonEmpty>
+              {exams.length > 2 ? (
                 <EuiButton
-                  style={ styles.activated}
+                  style={styles.activated}
                   className="button_next_me"
                   onClick={onClickNext}
                 >
-                  
-                  Terminer 
+
+                  Terminer
                 </EuiButton>
-                ): (
-                  <EuiButton
-                  style={ styles.deactivated}
+              ) : (
+                <EuiButton
+                  style={styles.deactivated}
                   className="button_next_me"
                 >
-                  
-                  Terminer 
+
+                  Terminer
                 </EuiButton>
-                )}
-              </EuiFlexGroup>
-            </div>
+              )}
+            </EuiFlexGroup>
+          </div>
         </ModalWrapper>
       )}
     </>
