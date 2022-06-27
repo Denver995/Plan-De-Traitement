@@ -42,7 +42,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
-  const [groupe_rdv, setIsGroup] = useState(false);
+  const [groupe_rdv, setIsGroup] = useState();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : "");
@@ -52,6 +52,8 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const [showGroupOption, setShowGroupOption] = useState(false);
   const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
+
+  console.log("group_Rdv Form: ", groupe_rdv);
 
   const listTypePeriode = [
     { value: "jour", text: "Jour" },
@@ -92,29 +94,29 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
     } else setShowGroupOption(true);
   };
 
-  useEffect(() => {
-    if (isFirstLoad) {
-      const data = {
-        nomModele: nomModele,
-        nombreOccurence: nombreOccurence,
-        groupe_rdv: groupe_rdv,
-        periode: periode,
-      };
-      step.data = data;
-      dispatch(updateStep(step));
-      setIsFirstLoad(false);
-    }
-    dispatch(numOfGroupsChange(nombreOccurence));
-  }, [
-    dispatch,
-    isFirstLoad,
-    groupe_rdv,
-    nombreOccurence,
-    nomModele,
-    periode,
-    step,
-    steps,
-  ]);
+  // useEffect(() => {
+  //   if (isFirstLoad) {
+  //     const data = {
+  //       nomModele: nomModele,
+  //       nombreOccurence: nombreOccurence,
+  //       groupe_rdv: groupe_rdv,
+  //       periode: periode,
+  //     };
+  //     step.data = data;
+  //     dispatch(updateStep(step));
+  //     setIsFirstLoad(false);
+  //   }
+  //   dispatch(numOfGroupsChange(nombreOccurence));
+  // }, [
+  //   dispatch,
+  //   isFirstLoad,
+  //   groupe_rdv,
+  //   nombreOccurence,
+  //   nomModele,
+  //   periode,
+  //   step,
+  //   steps,
+  // ]);
 
   return (
     <ModalWrapper className="modale-modelForm" style={styles.modal}>

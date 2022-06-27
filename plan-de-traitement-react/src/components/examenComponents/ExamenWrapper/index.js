@@ -31,8 +31,6 @@ const ExamenWrapper = ({
     setComponentName(name);
   };
 
-  console.log("wrapper exams ", exams);
-
   useEffect(() => {
     if (componentTodisplay && componentTodisplay.name !== component) {
       setComponentName(componentTodisplay.name);

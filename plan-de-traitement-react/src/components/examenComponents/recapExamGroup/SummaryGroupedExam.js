@@ -24,7 +24,14 @@ import colors from "../../../utils/colors";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import RecapExamItemV2 from "./RecapExamItemV2";
 
-const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
+import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
+import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
+
+const SummaryGroupedExam = ({
+  examsGrouped,
+  componentTodisplay,
+  modelData,
+}) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const previousStep = getStepByKey(steps, STEP3);
@@ -44,11 +51,10 @@ const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
       })
     );
   const onBack = () => {
-    console.log('componentTodisplay ', componentTodisplay);
-    dispatch(setComponent({name: 'GROUPSUMMARY'}));
+    console.log("componentTodisplay ", componentTodisplay);
+    dispatch(setComponent({ name: "GROUPSUMMARY" }));
     // dispatch(deleteStep(previousStep));
-  }
-
+  };
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
@@ -68,14 +74,8 @@ const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
             marginBottom: 17,
           }}
         >
-          <EuiIcon
-            type="calendar"
-            id="iconList "
-            size="l"
-            color="rgb(36%, 60%, 83%)"
-            style={{ marginLeft: 20, marginRight: 5 }}
-          />
-          <strong>Recapitulatif des rendez-vous</strong>
+          <CalendarIcon style={{ marginLeft: 20, marginRight: 5 }} />
+          <strong className="recap-title">Recapitulatif des rendez-vous</strong>
           <br />
         </div>
         <div
@@ -84,20 +84,22 @@ const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
 
         <div style={{ marginLeft: 25, marginTop: 25 }} className="modele">
           <p>
-            <strong>Modèle N° : </strong>
-            <EuiIcon
-              type="pencil"
-              id="icon"
-              size="l"
-              color="rgb(36%, 60%, 83%)"
-            />
+            <strong className="recap-nom-model">Modèle N° : </strong>
           </p>
         </div>
-        <p style={{ marginLeft: 25 }} className="x-text">
-          xxxxxxxxxx Axxxxxxxxxxxx XXXXX
-        </p>
+        <div className="recap-nom-container">
+          <p style={{ marginLeft: 25 }} className="x-text">
+            {modelData.nom}
+          </p>
+          <PencilIcon
+            onClick={() => dispatch(setComponent("EDITMODEL"))}
+            style={{ cursor: "pointer" }}
+            width={"1rem"}
+          />
+        </div>
       </div>
       <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card">
+        <EuiSpacer size="l" />
         <VerticalTimeline
           className="container"
           lineColor={"rgba(19, 83, 117, 0.479)"}
@@ -118,53 +120,54 @@ const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
         </VerticalTimeline>
       </div>
 
-      <EuiFlexGroup style={{
-        backgroundColor: colors.white,
-        height: 110,
-    position: "absolute",
-    bottom: 0,
-    alignItems: "center",
-    width: "100%",
-    zIndex: 3,
-  }}>
-            <EuiButtonEmpty
-              style={{
-                fontSize: "27px",
-                color: colors.darkBlue,
-                border: "3px solid #052A3E",
-                borderRadius: "39px",
-                width: "187px",
-                height: "59px",
-                marginLeft: "30px",
-                textDecoration: "none",
-              }}
-              onClick={() => {
-                onBack();
-              }}
-            >
-              Retour
-            </EuiButtonEmpty>
-            <EuiButton
-              // form={closeModal}
-              style={{
-                position: "absolute",
-                right: 0,
-                fontSize: "27px",
-                color: colors.white,
-                border: "3px solid #052A3E",
-                backgroundColor: colors.darkBlue,
-                borderRadius: "39px",
-                width: "187px",
-                height: "59px",
-                marginRight: "45px",
-                textDecoration: "none",
-              }}
-              fill={true}
-              onClick={onSave}
-            >
-              Enregistrer
-            </EuiButton>
-          </EuiFlexGroup>
+      <EuiFlexGroup
+        style={{
+          backgroundColor: colors.white,
+          height: 110,
+          position: "absolute",
+          bottom: 20,
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          paddingLeft: 20,
+          paddingRight: 40,
+          zIndex: 3,
+        }}
+      >
+        <EuiButtonEmpty
+          style={{
+            fontSize: "27px",
+            color: colors.darkBlue,
+            border: "3px solid #052A3E",
+            borderRadius: "39px",
+            width: "187px",
+            height: "59px",
+            textDecoration: "none",
+          }}
+          onClick={() => {
+            onBack();
+          }}
+        >
+          Retour
+        </EuiButtonEmpty>
+        <EuiButton
+          // form={closeModal}
+          style={{
+            fontSize: "27px",
+            color: colors.white,
+            border: "3px solid #052A3E",
+            backgroundColor: colors.darkBlue,
+            borderRadius: "39px",
+            width: "187px",
+            height: "59px",
+            textDecoration: "none",
+          }}
+          fill={true}
+          onClick={onSave}
+        >
+          Valider
+        </EuiButton>
+      </EuiFlexGroup>
       <style jsx="true">
         {`
           euitext.text_alert {
@@ -182,8 +185,9 @@ const SummaryGroupedExam = ({ examsGrouped, componentTodisplay }) => {
   );
 };
 
-const mapStateToProps = ({ ExamenReducer, CommonReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, CommonReducer, ModelsReducer }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
-  componentTodisplay: CommonReducer.componentTodisplay
+  componentTodisplay: CommonReducer.componentTodisplay,
+  modelData: ModelsReducer.modelData,
 });
 export default connect(mapStateToProps)(SummaryGroupedExam);
