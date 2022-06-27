@@ -21,9 +21,6 @@ const MainScreen = () => {
   const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);
   const isRecorded = useSelector((state) => state.ModelsReducer.isRecorded);
 
-  console.log("examsGrouped: ", examsGrouped);
-  console.log("isRecorded: ", isRecorded);
-
   const closeModal = () => {
     setIsModalVisible(false);
     window.location = "";
@@ -41,6 +38,7 @@ const MainScreen = () => {
   let activeStep = getActiveStep(steps);
   let stepData = getStepByKey(steps, activeStep);
   let isModelGroup = false;
+
   switch (activeStep) {
     case STEP1:
       content = <ModelForm closeModal={closeModal} />;

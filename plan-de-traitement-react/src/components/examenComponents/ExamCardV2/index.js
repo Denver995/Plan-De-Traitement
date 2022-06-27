@@ -10,7 +10,6 @@ import colors from "../../../utils/colors";
 import styles from "./style";
 
 function ExamCardV2({ color, date, position }) {
-  console.log("coleur: ", getHSPBrightness(color));
   return (
     // <div>
     // <div className="exam-title">{props.examen}</div>

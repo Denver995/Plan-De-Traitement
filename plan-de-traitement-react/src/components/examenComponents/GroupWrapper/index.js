@@ -21,6 +21,8 @@ const GroupWrapper = ({
     setComponentName(name);
   };
 
+  console.log("GroupWrapper: ", isModelGroup);
+
   useEffect(() => {
     if (componentTodisplay && componentTodisplay.name !== component) {
       setComponentName(componentTodisplay.name);
