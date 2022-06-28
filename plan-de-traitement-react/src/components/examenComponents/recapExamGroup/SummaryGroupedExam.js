@@ -23,6 +23,7 @@ const SummaryGroupedExam = ({
   examsGrouped,
   componentTodisplay,
   modelData,
+  closeModal
 }) => {
   const dispatch = useDispatch();
   const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData);
@@ -35,6 +36,8 @@ const SummaryGroupedExam = ({
         title: "Enregistrer le modèle",
         message: alertMessage,
         showAlert: true,
+        isConfirmation: true,
+        closeModal: closeModal,
         onAccept: () => {
           dispatch(setAlert(false));
         },

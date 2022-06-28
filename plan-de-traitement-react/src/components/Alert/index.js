@@ -46,8 +46,9 @@ const Alert = ({
     if (onAccept) {
       onAccept();
       dispatch(setAlert({ showAlert: false, message: "" }));
-      if (isConfirmation) {
-        closeModal();
+      if (isConfirmation || alert.isConfirmation) {
+        if (alert.closeModal) alert.closeModal();
+        if (closeModal) closeModal();
         dispatch(saveModel());
       }
       return;
@@ -65,7 +66,7 @@ const Alert = ({
     return;
   };
 
-  console.log("alertAlert: ", alert?.buttonText?.confirmText );
+  console.log("alertAlert: ", alert?.buttonText?.confirmText);
   return (
     <ModalWrapper
       style={styles.modal}
@@ -79,7 +80,7 @@ const Alert = ({
               <EuiFieldText name="nomModele" value={""} fullWidth />
             </EuiFormRow>
           </EuiForm>
-        ) : isConfirmation ? (
+        ) : isConfirmation || alert.isConfirmation ? (
           <div>
             <EuiText style={styles.textContainer}>
               Ce modèle va être enregistré sous le nom :
@@ -88,7 +89,10 @@ const Alert = ({
                 {modelData.nom}
                 <div
                   style={styles.pencil}
-                  onClick={() => dispatch(setComponent("EDITMODEL"))}
+                  onClick={() => {
+                    dispatch(setAlert({ showAlert: false, message: "" }));
+                    dispatch(setComponent("EDITMODEL"));
+                  }}
                 >
                   <Pencil width={"1rem"} />
                 </div>

@@ -67,7 +67,7 @@ const RecapitulatifDesExamens = ({
   return (
     <ModalWrapper style={styles.modal}>
       {isModelGroup ? (
-        <SummaryGroupedExam />
+        <SummaryGroupedExam closeModal={closeModal} />
       ) : showAlert ? (
         <Alert
           showButtonBlock={true}
