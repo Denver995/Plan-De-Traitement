@@ -11,10 +11,13 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import { useDispatch, useSelector, connect } from "react-redux";
+import { STEP3 } from "../../../utils/constants";
+import { getStepByKey } from "../../../utils/helper";
 import colors from "../../../utils/colors";
 import "./RecapExamGrp.css";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import RecapExamItemV2 from "./RecapExamItemV2";
+import { deleteStep } from "../../../redux/steps/actions";
 import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
@@ -24,6 +27,8 @@ const SummaryGroupedExam = ({
   closeModal
 }) => {
   const dispatch = useDispatch();
+  const steps = useSelector((state) => state.StepReducer.steps);
+  const previousStep = getStepByKey(steps, STEP3);
   const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData);
   const groupesWithDataKeys = Object.keys(groupesWithData);
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
@@ -41,11 +46,7 @@ const SummaryGroupedExam = ({
         },
       })
     );
-  const onBack = () => {
-    dispatch(setComponent({ name: "GROUPSUMMARY" }));
-  };
-
-  console.log('groupesWithData summary  ', groupesWithData);
+  const onBack = () => dispatch(deleteStep(previousStep));
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  EuiIcon,
   EuiButton,
   EuiButtonEmpty,
   EuiFlexGroup,
@@ -58,7 +57,6 @@ const RecapitulatifDesExamens = ({
     setShowAlert(true);
   };
   const onBack = () => dispatch(deleteStep(previousStep));
-  console.log("isModelGroup: ", isModelGroup);
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
