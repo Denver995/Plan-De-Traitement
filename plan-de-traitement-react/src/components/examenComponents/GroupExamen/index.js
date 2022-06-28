@@ -207,9 +207,9 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                                 color: colors.primarySombre,
                               }}
                             >
-                              <pan className="period-recherche-label">
+                              <span className="period-recherche-label">
                                 Periode de recherche :
-                              </pan>{" "}
+                              </span>{" "}
                               00h
                             </p>
                             {toggledGroup[index] ? (

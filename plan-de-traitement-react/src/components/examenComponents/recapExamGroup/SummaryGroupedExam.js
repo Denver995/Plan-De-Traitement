@@ -14,7 +14,7 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import colors from "../../../utils/colors";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import RecapExamItemV2 from "./RecapExamItemV2";
-
+import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
 
