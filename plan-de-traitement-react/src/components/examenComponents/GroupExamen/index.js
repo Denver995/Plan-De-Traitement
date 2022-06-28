@@ -24,6 +24,7 @@ import {
   deleteExamGroup,
   deleteGroup,
   setIsClose,
+  CreateEspacementSubExam,
 } from "../../../redux/examens/actions";
 import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
@@ -42,7 +43,8 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
   const [reRenderDel, setRerenderDel] = useState(false);
   // const [groupList] = useState(Object.keys(groupWithData));
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
-
+  const espacementSubExam = useSelector(state => state.ExamenReducer.espacementSubExam)
+  const [IsForSubExam, setIsForSubExam] = useState([false, 0, 0])
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setRerender] = useState(false);
   const [showInterExam, setShowInterExam] = useState(false);
@@ -78,7 +80,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
   }, [reRender, toggledGroup, reRenderDel]);
 
   //is handle when click on "Choisir l'intervalle inter groupe"
-  const onClickChooseIntervalInterExam = (initialIndex) => {
+  const onClickChooseIntervalInterGroupe = (initialIndex) => {
     setShowInterExam(true);
     setIntervalGroupIndex(initialIndex);
   };
@@ -104,8 +106,10 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
       {showInterExam ? (
         <EspacementInterExamenForm
           onClose={(data) => setShowInterExam(!data)}
-          typeEspacement={type_espacement.group}
-          initialIndex={intervalGroupIndex}
+          forSubExam={IsForSubExam[0]}
+          typeEspacement={!IsForSubExam[0] ? type_espacement.group : type_espacement.examen}
+          initialIndex={!IsForSubExam[0] ? intervalGroupIndex : IsForSubExam[1]}
+          parentSubExamId={IsForSubExam[2]}
         />
       ) : (
         <div style={styles.container} className="contain">
@@ -270,6 +274,28 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                                       setReload={setReload}
                                       reload={reload}
                                     />
+                                    {i !== Object.keys(getExamByGroupIndex(groupWithData, groupKey)).length - 1 &&
+                                      <p
+                                        onClick={() => {
+                                          setIsForSubExam([true, i, index])
+                                          setShowInterExam(true);
+                                        }}
+                                        style={{
+                                          marginLeft: "6%",
+                                          cursor: "pointer",
+                                          textDecoration: "underline",
+                                          font: "normal normal normal 17px/23px Open Sans",
+                                          letterSpacing: 0,
+                                          color: colors.primary,
+                                        }}>
+                                        {(espacementSubExam && (espacementSubExam['group ' + index]['subEspace ' + i] ? espacementSubExam['group ' + index]['subEspace ' + i].length > 0 : false) && espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].parentSubExamId === index
+                                          && espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].applyOnAll === false) ?
+                                          `Délai entre l'examen ${i} et l'examen ${i + 1} : ${espacementSubExam["group " + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espacementSubExam['group ' + index]['subEspace ' + i].length - 1].minInterval} ${espacementSubExam["group " + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espacementSubExam['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit} - ${espacementSubExam["group " + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espacementSubExam['group ' + index]['subEspace ' + i].length - 1].maxInterval} ${espacementSubExam["group " + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espacementSubExam['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit}`
+                                          : (espacementSubExam && (espacementSubExam['group ' + index]['subEspace ' + i] ? espacementSubExam['group ' + index]['subEspace ' + i].length > 0 : false) && espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].applyOnAll === true) ?
+                                            `Délai entre l'examen ${i} et l'examen ${i + 1} : ${espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].minInterval} ${espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit} - ${espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].maxInterval} ${espacementSubExam['group ' + index]['subEspace ' + i][espacementSubExam['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit}`
+                                            :
+                                            "Choisir l'intervalle inter examen"}
+                                      </p>}
                                   </div>
                                 );
                               }
@@ -281,7 +307,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                         <div style={{ marginLeft: 50 }}>
                           <p
                             onClick={() =>
-                              onClickChooseIntervalInterExam(index)
+                              onClickChooseIntervalInterGroupe(index)
                             }
                             style={{
                               cursor: "pointer",
@@ -375,7 +401,7 @@ const GroupExamenSummary = ({
     dispatch(setShowExamForm(false));
   };
 
-  useEffect(() => {}, [showForm]);
+  useEffect(() => { }, [showForm]);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;

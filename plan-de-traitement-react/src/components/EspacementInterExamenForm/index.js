@@ -14,13 +14,15 @@ import {
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAlert } from "../../redux/commons/actions";
-import { setEspacement } from "../../redux/examens/actions";
+import { setEspacement, setEspacementNonGroupe, setEspacementSubExam } from "../../redux/examens/actions";
 import ModalWrapper from "../common/ModalWrapper";
 import { type_espacement } from "../../utils/constants";
 import styles from "./styles";
 
 const EspacementInterExamenForm = ({
   closeModal,
+  parentSubExamId,
+  forSubExam,
   onClose,
   typeEspacement,
   initialIndex,
@@ -62,18 +64,47 @@ const EspacementInterExamenForm = ({
 
   const applyInterVale = (onAll = false) => {
     console.log("inside applyInterVale ");
-    dispatch(
-      setEspacement({
-        initialIndex,
-        applyOnAll: onAll,
-        minInterval: minInterval,
-        minIntervalUnit: minIntervalUnit,
-        maxInterval: maxInterval,
-        maxIntervalUnit: maxIntervalUnit,
-      })
-    );
+    if (typeEspacement === type_espacement.group) {
+      dispatch(
+        setEspacement({
+          initialIndex,
+          applyOnAll: onAll,
+          minInterval: minInterval,
+          minIntervalUnit: minIntervalUnit,
+          maxInterval: maxInterval,
+          maxIntervalUnit: maxIntervalUnit,
+        })
+      );
+    } else {
+      if(!forSubExam){
+        dispatch(
+          setEspacementNonGroupe({
+            initialIndex,
+            applyOnAll: onAll,
+            minInterval: minInterval,
+            minIntervalUnit: minIntervalUnit,
+            maxInterval: maxInterval,
+            maxIntervalUnit: maxIntervalUnit,
+          })
+        );
+      }else{
+        dispatch(
+          setEspacementSubExam({
+            parentSubExamId,
+            initialIndex,
+            applyOnAll: onAll,
+            minInterval: minInterval,
+            minIntervalUnit: minIntervalUnit,
+            maxInterval: maxInterval,
+            maxIntervalUnit: maxIntervalUnit,
+          })
+        );
+      }
+      
+    }
     dispatch(dispatch(setAlert(false)));
-  };
+  }
+
 
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
@@ -102,6 +133,8 @@ const EspacementInterExamenForm = ({
     onClose(true);
     return;
   };
+
+  console.log("voici l'index qui est passé : ", initialIndex)
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -189,10 +222,10 @@ const EspacementInterExamenForm = ({
             onClick={submit}
             style={
               !minInterval ||
-              (minInterval && minInterval < 0) ||
-              !maxInterval ||
-              (maxInterval && maxInterval < 0) ||
-              (minInterval && maxInterval && maxInterval < minInterval)
+                (minInterval && minInterval < 0) ||
+                !maxInterval ||
+                (maxInterval && maxInterval < 0) ||
+                (minInterval && maxInterval && maxInterval < minInterval)
                 ? styles.submitDeactivated
                 : styles.submit
             }
