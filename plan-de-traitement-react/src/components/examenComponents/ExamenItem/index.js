@@ -1,7 +1,4 @@
 import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer,
   EuiPopover,
   useGeneratedHtmlId,
   EuiListGroupItem,
@@ -35,41 +32,41 @@ const ExamenItem = ({ data, showEditForm, color }) => {
     <span onClick={togglePropover} className="icon-ellipsis-v"></span>
   );
 
-  console.log('data: ', data)
   const Pop = () => (
     <div style={styles.flex}>
-            <span className="icon_ellipsis">
-              <EuiPopover
-                id={contextMenuPopoverId}
-                button={button}
-                isOpen={isPopoverOpen}
-                closePopover={closePopover}
-                panelPaddingSize="s"
-                anchorPosition="downLeft"
-                container={panelRef}
-              >
-                <EuiListGroup>
-                  <EuiListGroupItem onClick={onEdit} label="Modifier" />
-                  <EuiListGroupItem onClick={() => {}} label="Supprimer" />
-                  <EuiListGroupItem
-                    onClick={() => {}}
-                    label="Fixer la position"
-                  />
-                  <EuiListGroupItem
-                    onClick={() => {}}
-                    label="Lier avec un autre examen"
-                  />
-                </EuiListGroup>
-              </EuiPopover>
-            </span>
-            <span style={styles.mx10} onClick={togglePropover} className="icon-Trac-39"></span>
-            <span>{data.label ?? "Examen 1"}</span>
-          </div>
-  )
+      <span className="icon_ellipsis">
+        <EuiPopover
+          id={contextMenuPopoverId}
+          button={button}
+          isOpen={isPopoverOpen}
+          closePopover={closePopover}
+          panelPaddingSize="s"
+          anchorPosition="downLeft"
+          container={panelRef}
+        >
+          <EuiListGroup>
+            <EuiListGroupItem onClick={onEdit} label="Modifier" />
+            <EuiListGroupItem onClick={() => {}} label="Supprimer" />
+            <EuiListGroupItem onClick={() => {}} label="Fixer la position" />
+            <EuiListGroupItem
+              onClick={() => {}}
+              label="Lier avec un autre examen"
+            />
+          </EuiListGroup>
+        </EuiPopover>
+      </span>
+      <span
+        style={styles.mx10}
+        onClick={togglePropover}
+        className="icon-Trac-39"
+      ></span>
+      <span>{data.label ?? "Examen 1"}</span>
+    </div>
+  );
 
   return (
-    <div style={{ marginLeft: 10, marginRight: 10,  marginBottom: 5}}>
-      <div style={{...styles.lineWrapper, backgroundColor: color}}>
+    <div style={{ marginLeft: 10, marginRight: 10, marginBottom: 5 }}>
+      <div style={{ ...styles.lineWrapper, backgroundColor: color }}>
         <div>
           <Pop />
         </div>

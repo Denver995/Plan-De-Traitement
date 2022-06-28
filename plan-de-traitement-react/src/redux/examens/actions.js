@@ -125,3 +125,13 @@ export const setEspacementSubExam = (espacement) => ({
   type: types.SET_ESPACEMENT_SUB_EXAM,
   espacement,
 });
+
+export const toggleFixExamPosition = (payload) => ({
+  type: types.TOGGLE_FIXE_EXAM_POSITION,
+  payload,
+});
+
+export const toggleFixGroupPosition = (selectedGroup) => ({
+  type: types.TOGGLE_FIXE_GROUP_POSITION,
+  selectedGroup,
+});

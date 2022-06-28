@@ -21,10 +21,9 @@ import {
   getSelectedExamGroup,
   setActiveGroup,
   setShowExamForm,
-  deleteExamGroup,
   deleteGroup,
-  setIsClose,
-  CreateEspacementSubExam,
+  toggleFixGroupPosition,
+  setIsClose
 } from "../../../redux/examens/actions";
 import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
@@ -34,14 +33,15 @@ import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
 
 const getExamByGroupIndex = (group, groupKey) => {
-  const result = Object.keys(group).length > 0 ? group[groupKey] : [];
+  console.log('group ', group);
+  const result = Object.keys(group).length > 0 ? group[groupKey].exams : [];
+  console.log('result ', result);
   return result;
 };
 
 const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
-  // const [groupList] = useState(Object.keys(groupWithData));
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
   const espacementSubExam = useSelector(state => state.ExamenReducer.espacementSubExam)
   const [IsForSubExam, setIsForSubExam] = useState([false, 0, 0])
@@ -177,6 +177,9 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                                       },
                                     })
                                   );
+                                }}
+                                onFixePosition={() => {
+                                  toggleFixGroupPosition({selectedGroup: groupKey});
                                 }}
                               />
                             </div>

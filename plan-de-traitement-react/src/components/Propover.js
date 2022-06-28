@@ -3,16 +3,11 @@ import {
   useGeneratedHtmlId,
   EuiListGroupItem,
   EuiListGroup,
-  EuiAccordion,
-  EuiPanel,
   EuiButtonEmpty,
 } from "@elastic/eui";
 
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { editExam } from "../redux/examens/actions";
-import { setComponent } from "../redux/commons/actions";
+import { useSelector } from "react-redux";
 
 const Propover = ({
   data,
@@ -21,15 +16,14 @@ const Propover = ({
   onDeleteGroup,
   onEditItem,
   onDeleteExam,
+  onFixePosition
 }) => {
-  const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
-
   // const deploymentsList: EuiListGroupProps['listItems'] = [
   //   {
   //     label: 'combining-binaries',
@@ -63,7 +57,6 @@ const Propover = ({
   };
 
   const onDelete = () => {
-    console.log("data.groupKey ", data.groupKey);
     if (isModelGroup) {
       onDeleteGroup();
       return;
@@ -72,7 +65,10 @@ const Propover = ({
     return;
   };
 
-  const onFixPosition = () => {};
+  const onFixPosition = () => {
+    console.log("fixing position...");
+    onFixePosition();
+  };
 
   const button = (
     <div
@@ -105,7 +101,7 @@ const Propover = ({
             anchorPosition="rightUp"
             button={
               <EuiButtonEmpty
-                iconType="arrowRight"
+                iconType={isOpen ? "arrowDown" : "arrowRight"}
                 iconSide="right"
                 color="black"
                 onClick={handleClick}
@@ -120,7 +116,7 @@ const Propover = ({
               {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
                   examsGrouped.map((group, i) => (
-                    <EuiListGroupItem key={i} label={"group " + i} />
+                    <EuiListGroupItem key={i} onClick={() => console.log("")} label={"group " + i} />
                   ))
                 : exams.map((exam, i) => (
                     <EuiListGroupItem
