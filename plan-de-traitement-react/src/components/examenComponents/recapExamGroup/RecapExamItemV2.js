@@ -27,6 +27,33 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
       }}
       position={position}
     >
+      {position === "left" ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginLeft: -10,
+            marginRight: -5,
+          }}
+        >
+          <Propover />
+          <PinIcon width={7} height={11} />
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: "row-reverse",
+            marginLeft: -5,
+            marginRight: -10,
+          }}
+        >
+          <Propover />
+          <PinIcon width={7} height={11} />
+        </div>
+      )}
+
       {data.map((exam, index) => (
         <div key={index}>
           <div
@@ -74,47 +101,30 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
                 color: colors.primarySombre,
               }}
             >
-              {
-                espacementSubExam["group " + index_]["subEspace " + index] &&
-                espacementSubExam["group " + index_]["subEspace " + index].length > 0 &&
+              {espacementSubExam["group " + index_]["subEspace " + index] &&
+                espacementSubExam["group " + index_]["subEspace " + index]
+                  .length > 0 &&
                 espacementSubExam["group " + index_]["subEspace " + index][
                   espacementSubExam["group " + index_]["subEspace " + index]
                     .length - 1
                 ].minInterval +
-                espacementSubExam["group " + index_]["subEspace " + index][
-                  espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].minIntervalUnit +
-                "-" +
-                espacementSubExam["group " + index_]["subEspace " + index][
-                  espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].maxInterval +
-                espacementSubExam["group " + index_]["subEspace " + index][
-                  espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].maxIntervalUnit}
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].minIntervalUnit +
+                  "-" +
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].maxInterval +
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].maxIntervalUnit}
             </p>
           )}
         </div>
       ))}
-      {position === "left" ? (
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Propover />
-          <PinIcon width={7} height={11} />
-        </div>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            flexDirection: "row-reverse",
-          }}
-        >
-          <Propover />
-          <PinIcon width={7} height={11} />
-        </div>
-      )}
     </VerticalTimelineElement>
   );
 };
