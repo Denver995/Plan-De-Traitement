@@ -87,7 +87,7 @@ export const deleteExamGroup = (payload) => ({
   payload,
 });
 
-export const deleteExamSimple = ({ payload }) => ({
+export const deleteExamSimple = (payload) => ({
   type: types.DELETE_EXAM_SIMPLE,
   payload,
 });

@@ -7,7 +7,8 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import colors from "../../../utils/colors";
 import styles from "./style";
 
-function ExamCard({ color, date, position }) {
+function ExamCard({ color, date, position, examen }) {
+  console.log("Examen: ", examen);
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -31,7 +32,7 @@ function ExamCard({ color, date, position }) {
           {/* <span class="icon-ellipsis-v iconList"></span> */}
           <Propover />
           <h4 className="spec" style={styles.speciality}>
-            <strong>*Spécialité* - *Motif*</strong>
+            <strong>*Spécialité* - {examen.id_modif}</strong>
           </h4>
         </div>
       </div>
@@ -46,14 +47,16 @@ function ExamCard({ color, date, position }) {
           >
             <PersonIcon width={"1rem"} />
             {/* <span class="icon-Groupe-367"></span> */}
-            <h4 style={styles.praticien}>*Praticien*</h4>
+            <h4 style={styles.praticien}>{examen.id_praticien}</h4>
             <MapIcon width={"0.7rem"} />
             {/* <span class="icon-Groupe-368"></span> */}
-            <h4 style={styles.adresse}>
-              *00 Rue xxxxxx xxxxx, 00000 Xxxxxxxxxxx*
-            </h4>
+            <h4 style={styles.adresse}>{examen.id_lieu}</h4>
           </div>
-          <PinIcon width={"7px"} height={"11px"} style={styles.pin} />
+          {examen.fixe === 1 ? (
+            <PinIcon width={"7px"} height={"11px"} style={styles.pin} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </VerticalTimelineElement>

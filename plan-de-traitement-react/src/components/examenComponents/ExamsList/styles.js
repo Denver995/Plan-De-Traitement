@@ -10,6 +10,7 @@ const styles = {
   },
 
   btnContainer: {
+    marginBottom: 50
     // width: "100%",
     // display: 'flex',
     // justifyContent: 'center',
@@ -66,6 +67,8 @@ const styles = {
   },
 
   terminer: {
+    position: "absolute",
+    background: colors.white,
     display: "flex",
     width: "100%",
     bottom: 15

@@ -3,7 +3,6 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
-  EuiHorizontalRule,
   EuiButton,
   EuiButtonEmpty,
 } from "@elastic/eui";
@@ -11,7 +10,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { fakeData } from "../../../utils/defaultData";
-import { startLoading, setComponent } from "../../../redux/commons/actions";
+import { startLoading } from "../../../redux/commons/actions";
 import { deleteStep } from "../../../redux/steps/actions";
 import { desactivateStep, addStep } from "../../../redux/steps/actions";
 import ExamenItem from "../ExamItem";
@@ -19,21 +18,12 @@ import { Plus } from "../../../assets/images";
 import styles from "./styles";
 import { STEP2, STEP3 } from "../../../utils/constants";
 import { getStepByKey, createStep } from "../../../utils/helper";
-import colors from "../../../utils/colors";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ModalWrapper from "../../common/ModalWrapper";
 import { CreateEspacementNonGroupe, setActualExamIndex } from "../../../redux/examens/actions";
 
 
 const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPrevious, predecessor }) => {
-  const getItems = (count) =>
-    Array.from({ length: count }, (v, k) => k).map((k) => ({
-      id: `item-${k}`,
-      content: `item ${k}`,
-    }));
-  const [showEditForm, setShowEditForm] = useState(
-    formType === "EXAMENFORMEDIT"
-  );
   const espacementNonGroupe = useSelector(state => state.ExamenReducer.espacementNonGroupe)
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
@@ -47,31 +37,16 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
     dispatch(desactivateStep(STEP2));
     dispatch(addStep(nextStep));
   };
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
     const items = Array.from(examsList);
-    console.log("items: ", items);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
     setExamsList([...items]);
-    console.log("examsList: ", examsList);
   };
   const onCancel = () => {
-    console.log("clicked")
     dispatch(deleteStep(previousStep));
-
-    // if (formType === "EXAMSLIST") {
-    //   return;
-    // }
-    // if (predecessor === "EXAMENFORMEDIT") {
-    //   dispatch(setComponent("EXAMENFORMEDIT"));
-    //   return;
-    // }
-
-    // onPrevious && onPrevious();
   };
 
   useEffect(() => {
@@ -117,14 +92,13 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
                               ref={provided.innerRef}
                             >
                               <ExamenItem
-                                // color={colors[colorsArr[index]]}
                                 exam={item}
                                 data={fakeData}
                                 index={index}
                                 id_modele={item.id_modele}
                               />
                               <EuiSpacer size="xs" />
-                              {index !== exams.length - 1 && (
+                              {index !== examsList.length - 1 && (
                                 <span
                                   onClick={() => {
                                     setShowInterExam(true);

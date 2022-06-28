@@ -12,6 +12,7 @@ import "react-vertical-timeline-component/style.min.css";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import { useDispatch, useSelector, connect } from "react-redux";
 import colors from "../../../utils/colors";
+import "./RecapExamGrp.css";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import RecapExamItemV2 from "./RecapExamItemV2";
 import './RecapExamGrp.css'
@@ -19,9 +20,8 @@ import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
 
 const SummaryGroupedExam = ({
-  examsGrouped,
-  componentTodisplay,
   modelData,
+  closeModal
 }) => {
   const dispatch = useDispatch();
   const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData);
@@ -34,6 +34,8 @@ const SummaryGroupedExam = ({
         title: "Enregistrer le modèle",
         message: alertMessage,
         showAlert: true,
+        isConfirmation: true,
+        closeModal: closeModal,
         onAccept: () => {
           dispatch(setAlert(false));
         },
