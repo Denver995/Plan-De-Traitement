@@ -65,7 +65,7 @@ const Alert = ({
     return;
   };
 
-  console.log("alertAlert: ", alert);
+  console.log("alertAlert: ", alert?.buttonText?.confirmText );
   return (
     <ModalWrapper
       style={styles.modal}

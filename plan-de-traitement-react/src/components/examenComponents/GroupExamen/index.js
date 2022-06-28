@@ -23,6 +23,7 @@ import {
   setShowExamForm,
   deleteExamGroup,
   deleteGroup,
+  setIsClose,
 } from "../../../redux/examens/actions";
 import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
@@ -36,7 +37,7 @@ const getExamByGroupIndex = (group, groupKey) => {
   return result;
 };
 
-const GroupItem = ({ groupName, espacement, groupWithData }) => {
+const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
   // const [groupList] = useState(Object.keys(groupWithData));
@@ -81,6 +82,21 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
     setShowInterExam(true);
     setIntervalGroupIndex(initialIndex);
   };
+
+  useEffect(() => {
+    if (typeof openGroup === "object") {
+      for (let index = 0; index < openGroup.length; index++) {
+        toggle(openGroup[index]);
+      }
+      // dispatch(setIsClose());
+      return;
+    }
+
+    if (typeof openGroup === "number") {
+      toggle(openGroup);
+      dispatch(setIsClose());
+    }
+  }, [openGroup]);
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
@@ -136,7 +152,7 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                               marginLeft: 50,
                             }}
                           >
-                            <div style={{ marginRight: 25 }}>
+                            <div style={{ marginRight: 25}}>
                               <Propover
                                 isModelGroup={true}
                                 onDeleteGroup={() => {
@@ -275,12 +291,49 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                               color: colors.primary,
                             }}
                           >
-                            {(espacement && espacement['espace ' + index].length > 0 && espacement['espace ' + index][espacement['espace ' + index].length - 1].applyOnAll === false) ?
-                              `Délai entre le groupe ${index} et le groupe ${index + 1} : ${espacement["espace " + index][0].minInterval} ${espacement["espace " + index][0].minIntervalUnit} - ${espacement["espace " + index][0].maxInterval} ${espacement["espace " + index][0].minIntervalUnit}`
-                              : (espacement && espacement['espace ' + index].length > 0 && espacement['espace ' + index][espacement['espace ' + index].length - 1].applyOnAll === true) ?
-                                `Délai entre le groupe ${index} et le groupe ${index + 1} : ${espacement["espace " + index][espacement['espace ' + index].length - 1].minInterval} ${espacement["espace " + index][espacement['espace ' + index].length - 1].minIntervalUnit} - ${espacement["espace " + index][espacement['espace ' + index].length - 1].maxInterval} ${espacement["espace " + index][espacement['espace ' + index].length - 1].minIntervalUnit}`
-                                :
-                                "Choisir l'intervalle inter groupe"}
+                            {espacement &&
+                            espacement["espace " + index].length > 0 &&
+                            espacement["espace " + index][
+                              espacement["espace " + index].length - 1
+                            ].applyOnAll === false
+                              ? `Délai entre le groupe ${index} et le groupe ${
+                                  index + 1
+                                } : ${
+                                  espacement["espace " + index][0].minInterval
+                                } ${
+                                  espacement["espace " + index][0]
+                                    .minIntervalUnit
+                                } - ${
+                                  espacement["espace " + index][0].maxInterval
+                                } ${
+                                  espacement["espace " + index][0]
+                                    .minIntervalUnit
+                                }`
+                              : espacement &&
+                                espacement["espace " + index].length > 0 &&
+                                espacement["espace " + index][
+                                  espacement["espace " + index].length - 1
+                                ].applyOnAll === true
+                              ? `Délai entre le groupe ${index} et le groupe ${
+                                  index + 1
+                                } : ${
+                                  espacement["espace " + index][
+                                    espacement["espace " + index].length - 1
+                                  ].minInterval
+                                } ${
+                                  espacement["espace " + index][
+                                    espacement["espace " + index].length - 1
+                                  ].minIntervalUnit
+                                } - ${
+                                  espacement["espace " + index][
+                                    espacement["espace " + index].length - 1
+                                  ].maxInterval
+                                } ${
+                                  espacement["espace " + index][
+                                    espacement["espace " + index].length - 1
+                                  ].minIntervalUnit
+                                }`
+                              : "Choisir l'intervalle inter groupe"}
                           </p>
                         </div>
                       )}
@@ -301,6 +354,7 @@ const GroupExamenSummary = ({
   groupWithData,
   examsGrouped,
   espacement,
+  openGroup,
 }) => {
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(Object.keys(groupWithData));
@@ -354,6 +408,7 @@ const GroupExamenSummary = ({
                     key={index}
                     espacement={espacement}
                     groupWithData={groupWithData}
+                    openGroup={openGroup}
                   />
                 ))}
                 {provided.placeholder}
@@ -399,6 +454,7 @@ const mapStateToProps = ({ ExamenReducer }) => ({
   groupSelected: ExamenReducer.examenSelected,
   espacement: ExamenReducer.espacement,
   groupWithData: ExamenReducer.groupWithData,
+  openGroup: ExamenReducer.openGroup,
 });
 
 export default connect(mapStateToProps)(GroupExamenSummary);

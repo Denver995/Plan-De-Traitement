@@ -90,3 +90,7 @@ export const setEspacement = (espacement) => ({
   type: types.SET_ESPACEMENT,
   espacement,
 });
+
+export const setIsClose = () => ({
+  type: types.SET_IS_CLOSE,
+});
