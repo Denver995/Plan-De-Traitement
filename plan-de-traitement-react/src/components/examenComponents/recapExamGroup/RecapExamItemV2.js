@@ -76,6 +76,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
             >
               {
                 espacementSubExam["group " + index_]["subEspace " + index] &&
+                espacementSubExam["group " + index_]["subEspace " + index].length > 0 &&
                 espacementSubExam["group " + index_]["subEspace " + index][
                   espacementSubExam["group " + index_]["subEspace " + index]
                     .length - 1

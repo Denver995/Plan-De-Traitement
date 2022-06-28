@@ -23,6 +23,7 @@ const TimeLineHelper = ({ index, entityType }) => {
       <div style={styles.date}>{
         entityType &&
         espacement['espace ' + index] &&
+        espacement['espace ' + index].length > 0 &&
         espacement['espace ' + index][espacement['espace ' + index].length - 1].minInterval +
         espacement['espace ' + index][espacement['espace ' + index].length - 1].minIntervalUnit + "-" +
         espacement['espace ' + index][espacement['espace ' + index].length - 1].maxInterval +
@@ -31,6 +32,7 @@ const TimeLineHelper = ({ index, entityType }) => {
       {
         !entityType &&
         espacementNonGroupe['espaceNonGroupe ' + index] &&
+        espacementNonGroupe['espaceNonGroupe ' + index].length > 0 &&
         espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minInterval +
         espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit + "-" +
         espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxInterval +
