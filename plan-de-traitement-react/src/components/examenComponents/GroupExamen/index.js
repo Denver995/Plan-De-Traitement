@@ -21,9 +21,8 @@ import {
   getSelectedExamGroup,
   setActiveGroup,
   setShowExamForm,
-  deleteExamGroup,
   deleteGroup,
-  CreateEspacementSubExam,
+  toggleFixGroupPosition
 } from "../../../redux/examens/actions";
 import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
@@ -33,7 +32,9 @@ import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
 
 const getExamByGroupIndex = (group, groupKey) => {
-  const result = Object.keys(group).length > 0 ? group[groupKey] : [];
+  console.log('group ', group);
+  const result = Object.keys(group).length > 0 ? group[groupKey].exams : [];
+  console.log('result ', result);
   return result;
 };
 
@@ -83,7 +84,7 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
     setShowInterExam(true);
     setIntervalGroupIndex(initialIndex);
   };
-  console.log("----------------------", espacementSubExam['subEspace ' + 0])
+  console.log("----------------------", espacementSubExam['subEspace ' + 0]);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
     <>
@@ -161,6 +162,9 @@ const GroupItem = ({ groupName, espacement, groupWithData }) => {
                                       },
                                     })
                                   );
+                                }}
+                                onFixePosition={() => {
+                                  toggleFixGroupPosition({selectedGroup: groupKey});
                                 }}
                               />
                             </div>

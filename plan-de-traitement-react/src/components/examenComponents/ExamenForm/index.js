@@ -217,18 +217,6 @@ const ExamenForm = ({
     onPrevious && onPrevious();
   };
 
-  // const delaiInterExamen = (intervale) => {
-  //   return (
-  //     <EuiFlexGroup>
-  //       <EuiFlexItem className="delaiInterExamen">
-  //         <EuiLink style={{cursor : "default"}} color={"primary"} href="#" onClick={onChooseDelaiEspacement}>
-  //           Choisir l'intervale inter examen
-  //         </EuiLink>
-  //       </EuiFlexItem>
-  //     </EuiFlexGroup>
-  //   );
-  // };
-
   useEffect(() => {
     if (reload) setReload(false);
     if (examenSelected.id && examenSelected.id !== selectedExamId) {
@@ -275,6 +263,7 @@ const ExamenForm = ({
                       showEditForm={setShowEditForm}
                       exam={item}
                       id_modele={item.id_modele}
+                      index={index}
                     />
                     {/* {delaiInterExamen("1heure - 2heures")} */}
                   </div>

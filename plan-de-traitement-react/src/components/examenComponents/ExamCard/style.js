@@ -14,7 +14,7 @@ const styles = {
     },
 
     sectionPraticien: {
-        marginTop: "10px",
+        // marginTop: "10px",
     },
 
     praticienLeftContainer: {
@@ -26,7 +26,7 @@ const styles = {
     praticienRightContainer: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "start"
+        justifyContent: "start",
     },
 
     speciality: {
@@ -49,6 +49,10 @@ const styles = {
         color: colors.darkBlue,
         letterSpacing: 0,
         marginLeft: "5px",
+    },
+
+    pin: {
+        float: "right",
     }
 }
 

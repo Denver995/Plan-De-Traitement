@@ -4,7 +4,7 @@ import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
-import { deleteExamSimple, deleteExamGroup, editExam } from "../../../redux/examens/actions";
+import { deleteExamSimple, deleteExamGroup, editExam, toggleFixExamPosition } from "../../../redux/examens/actions";
 import { setComponent } from "../../../redux/commons/actions";
 
 import styles from "./styles";
@@ -40,6 +40,11 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGro
                 dispatch(setComponent({ name: "EXAMENFORMEDIT", groupKey: groupKey, examId: index }));
                 // setReload(!reload);
               }else dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
+            }}
+            onFixePosition={() => {
+              if(isExamGroup)
+                dispatch(toggleFixExamPosition({selectedExam: index, groupKey: groupKey, isExamGrouped: true}))
+              else dispatch(toggleFixExamPosition({selectedExam: index, isExamGrouped: false}))
             }}
           />
         </div>
