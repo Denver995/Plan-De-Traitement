@@ -12,6 +12,7 @@ import "react-vertical-timeline-component/style.min.css";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import { useDispatch, useSelector, connect } from "react-redux";
 import colors from "../../../utils/colors";
+import "./RecapExamGrp.css";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import RecapExamItemV2 from "./RecapExamItemV2";
 

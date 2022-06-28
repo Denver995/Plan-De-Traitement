@@ -27,8 +27,14 @@ import Alert from "../../Alert";
 import { setComponent } from "../../../redux/commons/actions";
 
 import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
+import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 
-const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData }) => {
+const RecapitulatifDesExamens = ({
+  closeModal,
+  isModelGroup,
+  exams,
+  modelData,
+}) => {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -76,12 +82,7 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData })
         <div style={styles.container}>
           <EuiSpacer size="l" />
           <EuiFlexGroup style={styles.titleContainer}>
-            <EuiIcon
-              type="calendar"
-              id="iconList "
-              size="l"
-              color="rgb(36%, 60%, 83%)"
-            />
+            <CalendarIcon />
             <p style={styles.title}>Recapitulatif des rendez vous</p>
           </EuiFlexGroup>
           <EuiSpacer size="s" />
@@ -104,14 +105,8 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData })
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
-                  {/* <ExamCard
-                    examen={"Examen1"}
-                    color={colors[colorsArr[Math.round(Math.random() * 3)]]}
-                    date="12 mars"
-                    position={index % 2 === 0 ? "left" : "right"}
-                  /> */}
                   <ExamCard
-                    examen={"Examen1"}
+                    examen={exam}
                     color={colors[colorsArr[Math.round(Math.random() * 3)]]}
                     date="12 mars"
                     position={index % 2 === 0 ? "left" : "right"}
@@ -163,7 +158,7 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData })
 
 const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   exams: ExamenReducer.exams,
-  modelData: ModelsReducer.modelData
+  modelData: ModelsReducer.modelData,
 });
 
 export default connect(mapStateToProps)(RecapitulatifDesExamens);
