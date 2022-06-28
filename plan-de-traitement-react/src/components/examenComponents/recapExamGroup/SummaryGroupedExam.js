@@ -112,7 +112,7 @@ const SummaryGroupedExam = ({
                 color={""}
                 data={groupesWithData['group '+index]}
                 date={new Date().toDateString()}
-                key={index}
+                index_={index}
                 position={index % 2 === 0 ? "left" : "right"}
               />
             </div>

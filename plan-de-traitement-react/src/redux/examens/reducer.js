@@ -162,7 +162,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
     case types.CREATE_ESPACEMENTS_SUB_EXAM:
       let groupes = {}
-      for (let i = 0; i < state.numOfGroups; i++) {
+      let nomberOfGroups = state.groupWithData
+      let n = Object.keys(nomberOfGroups)
+      for (let i = 0; i < n.length ; i++) {
         groupes['group ' + i] = state.espacementSubExam['group ' + i] ?
           { ...state.espacementSubExam['group ' + i] } : {};
       }
@@ -262,7 +264,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           let actualGroupe = allGroupes[key]
           if (key === 'group ' + action.espacement.parentSubExamId) {
             let actualGroupeKeys = Object.keys(actualGroupe)
-            if(actualGroupeKeys.length > 0){
+            if(actualGroupeKeys.length === state.groupWithData[key].length-1){
               actualGroupeKeys.forEach(key_ => {
                 actualGroupe[key_].push(action.espacement)
               })

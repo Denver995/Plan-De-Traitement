@@ -11,11 +11,12 @@ import { useSelector } from "react-redux";
 
 const Icon = () => <image width={20} height={20} />;
 
-const RecapExamItemV2 = ({ color, date, position, index, data, key }) => {
-  const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData)
+const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
+  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam)
   console.log("recap: ", position);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   console.log('voici la valeure de data : ',data )
+  console.log('comment gerer ceci : ',espacementSubExam)
 
   return (
     <VerticalTimelineElement
@@ -77,7 +78,11 @@ const RecapExamItemV2 = ({ color, date, position, index, data, key }) => {
                 color: colors.primarySombre,
               }}
             >
-              1hr-2hr
+               {espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].minInterval +
+                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].minIntervalUnit+'-'+
+                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].maxInterval +
+                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].maxIntervalUnit
+                      }
             </p>
           )}
         </div>
