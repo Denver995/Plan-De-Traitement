@@ -170,11 +170,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
 
     case types.CREATE_ESPACEMENTS_SUB_EXAM:
-      let groupes = {};
-      for (let i = 0; i < state.numOfGroups; i++) {
-        groupes["group " + i] = state.espacementSubExam["group " + i]
-          ? { ...state.espacementSubExam["group " + i] }
-          : {};
+      let groupes = {}
+      let nomberOfGroups = state.groupWithData
+      let n = Object.keys(nomberOfGroups)
+      for (let i = 0; i < n.length ; i++) {
+        groupes['group ' + i] = state.espacementSubExam['group ' + i] ?
+          { ...state.espacementSubExam['group ' + i] } : {};
       }
 
       return {
@@ -277,21 +278,17 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           }
         });
       } else {
-        allGrproupesKeys.forEach((key) => {
-          let actualGroupe = allGroupes[key];
-          if (key === "group " + action.espacement.parentSubExamId) {
-            let actualGroupeKeys = Object.keys(actualGroupe);
-            if (actualGroupeKeys.length > 0) {
-              actualGroupeKeys.forEach((key_) => {
-                actualGroupe[key_].push(action.espacement);
-              });
-            } else {
-              for (
-                var i = 0;
-                i < state.groupWithData[key].exams.length - 1;
-                i++
-              ) {
-                actualGroupe["subEspace " + i] = [action.espacement];
+        allGrproupesKeys.forEach(key => {
+          let actualGroupe = allGroupes[key]
+          if (key === 'group ' + action.espacement.parentSubExamId) {
+            let actualGroupeKeys = Object.keys(actualGroupe)
+            if(actualGroupeKeys.length === state.groupWithData[key].length-1){
+              actualGroupeKeys.forEach(key_ => {
+                actualGroupe[key_].push(action.espacement)
+              })
+            }else{
+              for(var i = 0; i < state.groupWithData[key].length-1; i++ ){
+                actualGroupe['subEspace '+i] = [action.espacement]
               }
             }
             allGroupes[key] = actualGroupe;

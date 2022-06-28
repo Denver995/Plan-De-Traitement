@@ -34,9 +34,10 @@ const SummaryGroupedExam = ({
 }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
+  const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData)
   const previousStep = getStepByKey(steps, STEP3);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-
+  const groupesWithDataKeys = Object.keys(groupesWithData)
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () =>
@@ -89,7 +90,7 @@ const SummaryGroupedExam = ({
         </div>
         <div className="recap-nom-container">
           <p style={{ marginLeft: 25 }} className="x-text">
-            {modelData.nom}
+            {modelData.nom} 
           </p>
           <PencilIcon
             onClick={() => dispatch(setComponent("EDITMODEL"))}
@@ -104,14 +105,14 @@ const SummaryGroupedExam = ({
           className="container"
           lineColor={"rgba(19, 83, 117, 0.479)"}
         >
-          {examsGrouped.map((group, index) => (
+          {groupesWithDataKeys.map((group, index) => (
             <div key={index} style={{ position: "relative" }}>
-              <TimeLineHelper index={index} />
+              <TimeLineHelper index={index} entityType = {"Groupe"} />
               <RecapExamItemV2
                 color={""}
-                data={Object.keys(group)}
+                data={groupesWithData['group '+index]}
                 date={new Date().toDateString()}
-                key={index}
+                index_={index}
                 position={index % 2 === 0 ? "left" : "right"}
               />
             </div>

@@ -7,14 +7,17 @@ import colors from "../../../utils/colors";
 import { Plus } from "../../../assets/images";
 import Propover from "../../Propover";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
+import { useSelector } from "react-redux";
 
 const Icon = () => <image width={20} height={20} />;
 
-const RecapExamItemV2 = ({ color, date, position, index, data }) => {
+const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
+  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam)
   console.log("recap: ", position);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
+  console.log('voici la valeure de data : ',data )
+  console.log('comment gerer ceci : ',espacementSubExam)
 
-  const leftStyle = {};
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -48,17 +51,17 @@ const RecapExamItemV2 = ({ color, date, position, index, data }) => {
             <div style={{ marginBottom: 14 }}>
               <div className="card-content-header">
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
-                  <strong>*Spécialité* - *Motif*</strong>
+                  <strong>{exam.id_specialite ? exam.id_specialite : "Spécialité"} - {exam.id_modif}</strong>
                 </h4>
               </div>
             </div>
             <div>
               <div className="praticien">
                 <EuiIcon type="user" id="icon" />
-                <h4 className="prc">*Praticien*</h4>
+                <h4 className="prc">{exam.id_praticien ? exam.id_praticien :"id_praticien"}</h4>
                 <EuiIcon type="visMapCoordinate" id="icon" />
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
-                  *00 Rue xxxxxx xxxxx, 00000 Xxxxxxxxxxx*
+                  {exam.id_lieu}
                 </h4>
               </div>
             </div>
@@ -75,7 +78,11 @@ const RecapExamItemV2 = ({ color, date, position, index, data }) => {
                 color: colors.primarySombre,
               }}
             >
-              1hr-2hr
+               {espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].minInterval +
+                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].minIntervalUnit+'-'+
+                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].maxInterval +
+                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].maxIntervalUnit
+                      }
             </p>
           )}
         </div>
