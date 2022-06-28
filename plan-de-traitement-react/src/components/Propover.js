@@ -4,8 +4,8 @@ import {
   EuiListGroupItem,
   EuiListGroup,
   EuiAccordion,
-  EuiPanel
- 
+  EuiPanel,
+  EuiButtonEmpty,
 } from "@elastic/eui";
 
 import React, { useState } from "react";
@@ -14,32 +14,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { editExam } from "../redux/examens/actions";
 import { setComponent } from "../redux/commons/actions";
 
-const Propover = ({ data, showEditForm, isModelGroup, onDeleteGroup, onEditItem, onDeleteExam }) => {
+const Propover = ({
+  data,
+  showEditForm,
+  isModelGroup,
+  onDeleteGroup,
+  onEditItem,
+  onDeleteExam,
+}) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
-  
-// const deploymentsList: EuiListGroupProps['listItems'] = [
-//   {
-//     label: 'combining-binaries',
-//     iconType: 'logoAzureMono',
-//     size: 's',
-//   },
-//   {
-//     label: 'stack-monitoring',
-//     iconType: 'logoAWSMono',
-//     size: 's',
-//   },
-// ];
-const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
-const exams = useSelector((state) => state.ExamenReducer.exams)
+
+  // const deploymentsList: EuiListGroupProps['listItems'] = [
+  //   {
+  //     label: 'combining-binaries',
+  //     iconType: 'logoAzureMono',
+  //     size: 's',
+  //   },
+  //   {
+  //     label: 'stack-monitoring',
+  //     iconType: 'logoAWSMono',
+  //     size: 's',
+  //   },
+  // ];
+  const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
+  const exams = useSelector((state) => state.ExamenReducer.exams);
 
   const closePopover = () => setPopover(false);
 
   const togglePropover = () => setPopover(!isPopoverOpen);
+
+  const handleClick = () => setIsOpen(!isOpen);
+  const handleClose = () => setIsOpen(false);
 
   const onEdit = () => {
     // if (isModelGroup) {
@@ -48,11 +59,11 @@ const exams = useSelector((state) => state.ExamenReducer.exams)
     // }
     // dispatch(editExam(data));
     // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
-    onEditItem()
+    onEditItem();
   };
 
   const onDelete = () => {
-    console.log('data.groupKey ', data.groupKey);
+    console.log("data.groupKey ", data.groupKey);
     if (isModelGroup) {
       onDeleteGroup();
       return;
@@ -61,10 +72,15 @@ const exams = useSelector((state) => state.ExamenReducer.exams)
     return;
   };
 
-  const onFixPosition = () => { };
+  const onFixPosition = () => {};
 
   const button = (
-    <span onClick={togglePropover} className="icon-ellipsis-v"></span>
+    <div
+      onClick={togglePropover}
+      style={{ width: 20, textAlign: "center", cursor: "pointer" }}
+    >
+      <span className="icon-ellipsis-v"></span>
+    </div>
   );
 
   return (
@@ -81,32 +97,39 @@ const exams = useSelector((state) => state.ExamenReducer.exams)
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
-          <EuiListGroupItem onClick={onFixPosition} label="Fixer la position" />   
-            <EuiAccordion
-              style={{ marginLeft: 9, marginTop: 8 }}
-              arrowDisplay="right"
-              id="simpleAccordionId"
-              buttonContent={
-                isModelGroup
+          <EuiListGroupItem onClick={onFixPosition} label="Fixer la position" />
+          <EuiPopover
+            id="simpleAccordionId"
+            isOpen={isOpen}
+            closePopover={handleClose}
+            anchorPosition="rightUp"
+            button={
+              <EuiButtonEmpty
+                iconType="arrowRight"
+                iconSide="right"
+                color="black"
+                onClick={handleClick}
+              >
+                {isModelGroup
                   ? "Lier avec un autre groupe"
-                  : "Lier avec un autre examen"
-              }
-            >
-              <EuiPanel color="red">
-                 {examsGrouped && (isModelGroup || isModelGroup === 0)
+                  : "Lier avec un autre examen"}
+              </EuiButtonEmpty>
+            }
+          >
+            <EuiListGroup>
+              {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
                   examsGrouped.map((group, i) => (
-                    <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
-                      {"group " + i}
-                    </p>
+                    <EuiListGroupItem key={i} label={"group " + i} />
                   ))
                 : exams.map((exam, i) => (
-                    <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
-                      {exam.nom + " " + exam.id_modele}
-                    </p>
+                    <EuiListGroupItem
+                      key={i}
+                      label={exam.nom + " " + exam.id_modele}
+                    />
                   ))}
-              </EuiPanel>
-            </EuiAccordion>
+            </EuiListGroup>
+          </EuiPopover>
         </EuiListGroup>
       </EuiPopover>
     </div>
