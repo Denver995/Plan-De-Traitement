@@ -20,8 +20,6 @@ import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
 
 const SummaryGroupedExam = ({
-  examsGrouped,
-  componentTodisplay,
   modelData,
   closeModal
 }) => {
