@@ -79,7 +79,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.ADD_EXAM:
       let listespacementsNonGroupe = {};
       allExamTemp = state.exams;
-      allExamTemp.push({...action.payload.exam, positionFixed: false});
+      allExamTemp.push({ ...action.payload.exam, positionFixed: false });
       let espaceNonGroupeKeys = Object.keys(state.espacementNonGroupe);
       if (espaceNonGroupeKeys.length > 0) {
         for (let i = 0; i < allExamTemp.length - 1; i++) {
@@ -93,6 +93,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           listespacementsNonGroupe["espaceNonGroupe " + i] = [];
         }
       }
+      console.log("listespacementsNonGroupe: ", listespacementsNonGroupe)
       return {
         ...state,
         exams: allExamTemp,
@@ -107,7 +108,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.ADD_EXAM_GROUPED:
       let openGroup = state.activeGroup.slice(5);
       let active_group = state.groupWithData[state.activeGroup];
-      active_group.exams.push({...action.payload.exam, positionFixed: false});
+      active_group.exams.push({ ...action.payload.exam, positionFixed: false });
       let groupWithData = state.groupWithData;
       groupWithData[state.activeGroup] = active_group;
       return {
@@ -177,10 +178,22 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
 
     case types.CREATE_ESPACEMENTS_SUB_EXAM:
+      let groupesWithData = state.groupWithData
+      let espacementSubExam = state.espacementSubExam
+      let groupeWithDataKeys = Object.keys(groupesWithData)
+      groupeWithDataKeys.forEach(key => {
+        let actualGroupe = groupesWithData[key]
+        let nomberExamOfActualGroupe = actualGroupe['exams'].length
+        for (var i = 0; i < nomberExamOfActualGroupe - 1; i++) {
+          espacementSubExam[key]['subEspace ' + i] = espacementSubExam[key]['subEspace ' + i] ?
+            [...state.espacementSubExam[key]['subEspace ' + i]] :
+            [];
+        }
+      })
       let groupes = {}
       let nomberOfGroups = state.groupWithData
       let n = Object.keys(nomberOfGroups)
-      for (let i = 0; i < n.length ; i++) {
+      for (let i = 0; i < n.length; i++) {
         groupes['group ' + i] = state.espacementSubExam['group ' + i] ?
           { ...state.espacementSubExam['group ' + i] } : {};
       }
@@ -281,11 +294,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
             actualGroupe["subEspace " + action.espacement.initialIndex] =
               actualGroupe["subEspace " + action.espacement.initialIndex]
                 ? [
-                    ...actualGroupe[
-                      "subEspace " + action.espacement.initialIndex
-                    ],
-                    action.espacement,
-                  ]
+                  ...actualGroupe[
+                  "subEspace " + action.espacement.initialIndex
+                  ],
+                  action.espacement,
+                ]
                 : [action.espacement];
             allGroupes["group " + action.espacement.parentSubExamId] =
               actualGroupe;
@@ -296,20 +309,14 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           let actualGroupe = allGroupes[key]
           if (key === 'group ' + action.espacement.parentSubExamId) {
             let actualGroupeKeys = Object.keys(actualGroupe)
-            if(actualGroupeKeys.length === state.groupWithData[key].length-1){
-              actualGroupeKeys.forEach(key_ => {
-                actualGroupe[key_].push(action.espacement)
-              })
-            }else{
-              for(var i = 0; i < state.groupWithData[key].length-1; i++ ){
-                actualGroupe['subEspace '+i] = [action.espacement]
-              }
-            }
+            actualGroupeKeys.forEach(key_ => {
+              actualGroupe[key_].push(action.espacement)
+            })
             allGroupes[key] = actualGroupe;
           }
         });
       }
-      console.log(allGroupes);
+      console.log("allGroupes: ", allGroupes);
       return {
         ...state,
         espacementSubExam: allGroupes,
@@ -317,7 +324,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.TOGGLE_FIXE_EXAM_POSITION:
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
-      if(action.payload.isExamGrouped){
+      if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
         console.log('examDetail group before ', examDetail);
@@ -325,7 +332,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         console.log('examDetail group after ', examDetail);
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
-      }else{
+      } else {
         examDetail = allExamTemp[action.selectedExam];
         console.log('examDetail before ', examDetail);
         examDetail.positionFixed = !examDetail.positionFixed;

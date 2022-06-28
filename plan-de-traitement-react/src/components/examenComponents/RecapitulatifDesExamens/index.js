@@ -104,12 +104,6 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData })
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
-                  {/* <ExamCard
-                    examen={"Examen1"}
-                    color={colors[colorsArr[Math.round(Math.random() * 3)]]}
-                    date="12 mars"
-                    position={index % 2 === 0 ? "left" : "right"}
-                  /> */}
                   <ExamCard
                     examen={"Examen1"}
                     color={colors[colorsArr[Math.round(Math.random() * 3)]]}
