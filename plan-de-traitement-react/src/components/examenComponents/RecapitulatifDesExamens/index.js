@@ -14,11 +14,9 @@ import ExamCard from "../ExamCard";
 import { useDispatch, useSelector } from "react-redux";
 import { STEP3 } from "../../../utils/constants";
 import { getStepByKey } from "../../../utils/helper";
-// import RecapExamGroup from "../recapExamGroup/RecapExamGroup";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
 import { deleteStep } from "../../../redux/steps/actions";
 import { setAlert } from "../../../redux/commons/actions";
-// import { getHSPBrightness } from "../../../utils/helper";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -104,12 +102,6 @@ const RecapitulatifDesExamens = ({ closeModal, isModelGroup, exams, modelData })
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
-                  {/* <ExamCard
-                    examen={"Examen1"}
-                    color={colors[colorsArr[Math.round(Math.random() * 3)]]}
-                    date="12 mars"
-                    position={index % 2 === 0 ? "left" : "right"}
-                  /> */}
                   <ExamCard
                     examen={"Examen1"}
                     color={colors[colorsArr[Math.round(Math.random() * 3)]]}

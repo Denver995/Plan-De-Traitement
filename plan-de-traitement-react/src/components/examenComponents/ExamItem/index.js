@@ -32,7 +32,7 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGro
               if(isExamGroup){
                 dispatch(deleteExamGroup({groupKey: groupKey, examId: index}));
                 setReload(!reload);
-              }else dispatch(deleteExamSimple(data));
+              }else dispatch(deleteExamSimple({examId: index}));
             }}
             onEditItem={() => {
               dispatch(editExam(data));

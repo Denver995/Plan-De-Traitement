@@ -202,7 +202,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.DELETE_EXAM_SIMPLE:
       let tempExams = [...state.exams];
-      tempExams.splice(action.payload, 1);
+      tempExams.splice(action.payload.examId, 1);
       return {
         ...state,
         exams: [...tempExams],
