@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   exams: [],
   groupWithData: {},
   groupWithFixedPosition: [],
+  openGroup: "",
   examsGrouped: [
     {
       exam1: { id: 1 },
@@ -104,6 +105,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examsGrouped: [...state.examsGrouped, { id, ...action.payload }],
       };
     case types.ADD_EXAM_GROUPED:
+      let openGroup = state.activeGroup.slice(5);
       let active_group = state.groupWithData[state.activeGroup];
       active_group.exams.push({...action.payload.exam, positionFixed: false});
       let groupWithData = state.groupWithData;
@@ -111,6 +113,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         groupWithData: groupWithData,
+        openGroup: parseInt(openGroup),
       };
     case types.GET_EXAM_GROUP:
       let examGroup = state.groupWithData[action.index].exams;
@@ -120,6 +123,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.ADD_EXAM_ON_ALL_GROUP:
       let groupKeys = Object.keys(state.groupWithData);
+      let groupIndex = Object.keys(state.groupWithData).map(
+        (key, index) => index
+      );
       let groupData = state.groupWithData;
       groupKeys.forEach((key) => {
         groupData[key].exams.push(action.payload.exam);
@@ -127,6 +133,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         groupWithData: groupData,
+        openGroup: groupIndex,
       };
     case types.SET_ACTIVE_GROUP:
       return {
@@ -233,6 +240,13 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         ...state,
         espacement: espaces,
       };
+
+    case types.SET_IS_CLOSE: {
+      return {
+        ...state,
+        openGroup: "",
+      };
+    }
     case types.SET_ESPACEMENT_NON_GROUPE:
       let espace = state.espacementNonGroupe;
       let espacesNonGroupeKeys = Object.keys(espace);

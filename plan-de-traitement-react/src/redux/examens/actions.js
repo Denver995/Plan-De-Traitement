@@ -1,18 +1,18 @@
-import * as types from './types';
+import * as types from "./types";
 
 export const editExam = (examData) => ({
   type: types.EDIT_EXAM,
   examData,
 });
-export const setShowExamForm = show => ({
+export const setShowExamForm = (show) => ({
   type: types.SHOW_EXAM_FORM,
-  show
-})
+  show,
+});
 
 export const createExamen = (payload) => ({
   type: types.CREATE_EXAMEN_REQUEST,
-  payload
-})
+  payload,
+});
 
 export const addExam = (payload) => ({
   type: types.ADD_EXAM,
@@ -22,7 +22,7 @@ export const addExam = (payload) => ({
 export const addExamGrouped = (payload) => ({
   type: types.ADD_EXAM_GROUPED,
   payload,
-})
+});
 
 export const createExamGroup = (payload) => ({
   type: types.CREATE_EXAMEN_GROUP,
@@ -47,48 +47,47 @@ export const setActiveGroup = (payload) => ({
 export const numOfGroupsChange = (number) => ({
   type: types.NUMBER_OF_GROUPS_CHANGE,
   number,
-})
+});
 
 export const setActualExamIndex = (index) => {
   return {
-    type : types.SET_ACTUAL_NON_GROUPE_INDEX,
-    index
-  }
-}
+    type: types.SET_ACTUAL_NON_GROUPE_INDEX,
+    index,
+  };
+};
 
 export const CreateEspacement = (nombreOccurence) => {
   return {
-    type : types.CREATE_ESPACEMENTS,
-    nombreOccurence
-  }
-}
+    type: types.CREATE_ESPACEMENTS,
+    nombreOccurence,
+  };
+};
 
 export const CreateEspacementNonGroupe = (nombreOccurence) => {
   return {
-    type : types.CREATE_ESPACEMENTS_NON_GROUPE,
-    nombreOccurence
-  }
-}
+    type: types.CREATE_ESPACEMENTS_NON_GROUPE,
+    nombreOccurence,
+  };
+};
 
 export const CreateEspacementSubExam = (nombreOccurence) => {
   return {
-    type : types.CREATE_ESPACEMENTS_SUB_EXAM,
-    nombreOccurence
-  }
-}
-
+    type: types.CREATE_ESPACEMENTS_SUB_EXAM,
+    nombreOccurence,
+  };
+};
 
 export const createGroups = (nombreOccurence) => ({
   type: types.CREATE_GROUPS,
-  nombreOccurence
-})
+  nombreOccurence,
+});
 
 export const deleteExamGroup = (payload) => ({
   type: types.DELETE_EXAM_GROUP,
   payload,
 });
 
-export const deleteExamSimple = ({payload}) => ({
+export const deleteExamSimple = ({ payload }) => ({
   type: types.DELETE_EXAM_SIMPLE,
   payload,
 });
@@ -98,7 +97,7 @@ export const deleteGroup = (groupKey) => ({
   groupKey,
 });
 
-export const fixExamPosition = ({payload}) => ({
+export const fixExamPosition = ({ payload }) => ({
   type: types.FIX_EXAMEN_POSITION,
   payload,
 });
@@ -111,6 +110,10 @@ export const fixGroupPosition = (groupKey) => ({
 export const setEspacement = (espacement) => ({
   type: types.SET_ESPACEMENT,
   espacement,
+});
+
+export const setIsClose = () => ({
+  type: types.SET_IS_CLOSE,
 });
 
 export const setEspacementNonGroupe = (espacement) => ({

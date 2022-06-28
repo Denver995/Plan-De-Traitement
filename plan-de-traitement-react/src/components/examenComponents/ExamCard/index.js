@@ -1,18 +1,14 @@
 import React from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
-// import "../../Recapitulatif.css";
 import Propover from "../../Propover";
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
 import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.svg";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
-import { getHSPBrightness } from "../../../utils/helper";
 import colors from "../../../utils/colors";
 import styles from "./style";
 
 function ExamCard({ color, date, position }) {
   return (
-    // <div>
-    // <div className="exam-title">{props.examen}</div>
     <VerticalTimelineElement
       contentStyle={{
         background: color ? color : colors.primary,
@@ -60,16 +56,7 @@ function ExamCard({ color, date, position }) {
           <PinIcon width={"7px"} height={"11px"} style={styles.pin} />
         </div>
       </div>
-      {/* <div className="first-div">
-        <div className="praticien">
-          <EuiIcon type="calendar" id="icon" />
-          <h4 className="prc">00/00/0000</h4>
-          <EuiIcon type="clock" id="icon" />
-          <h4 className="spec">00h00</h4>
-        </div>
-      </div> */}
     </VerticalTimelineElement>
-    // </div>
   );
 }
 

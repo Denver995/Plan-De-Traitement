@@ -1,22 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { EuiIcon } from "@elastic/eui";
-import Circle from "@mui/icons-material/Circle";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import colors from "../../../utils/colors";
-import { Plus } from "../../../assets/images";
 import Propover from "../../Propover";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { useSelector } from "react-redux";
 
-const Icon = () => <image width={20} height={20} />;
-
 const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
-  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam)
+  const espacementSubExam = useSelector(
+    (state) => state.ExamenReducer.espacementSubExam
+  );
   console.log("recap: ", position);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-  console.log('voici la valeure de data : ',data )
-  console.log('comment gerer ceci : ',espacementSubExam)
+  console.log("voici la valeure de data : ", data);
+  console.log("comment gerer ceci : ", espacementSubExam);
 
   return (
     <VerticalTimelineElement
@@ -27,13 +25,6 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
         marginBottom: 10,
         marginTop: -40,
       }}
-      // date={"2011 - present"}
-      // iconStyle={{
-      //   background: "rgb(19, 83, 117)",
-      //   color: "#fff",
-      //   border: "rgb(19, 83, 117)",
-      // }}
-      // icon={<Icon />}
       position={position}
     >
       {data.map((exam, index) => (
@@ -51,14 +42,19 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
             <div style={{ marginBottom: 14 }}>
               <div className="card-content-header">
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
-                  <strong>{exam.id_specialite ? exam.id_specialite : "Spécialité"} - {exam.id_modif}</strong>
+                  <strong>
+                    {exam.id_specialite ? exam.id_specialite : "Spécialité"} -{" "}
+                    {exam.id_modif}
+                  </strong>
                 </h4>
               </div>
             </div>
             <div>
               <div className="praticien">
                 <EuiIcon type="user" id="icon" />
-                <h4 className="prc">{exam.id_praticien ? exam.id_praticien :"id_praticien"}</h4>
+                <h4 className="prc">
+                  {exam.id_praticien ? exam.id_praticien : "id_praticien"}
+                </h4>
                 <EuiIcon type="visMapCoordinate" id="icon" />
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
                   {exam.id_lieu}
@@ -78,11 +74,23 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
                 color: colors.primarySombre,
               }}
             >
-               {espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].minInterval +
-                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].minIntervalUnit+'-'+
-                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].maxInterval +
-                        espacementSubExam['group '+index_]['subEspace '+index][espacementSubExam['group '+index_]['subEspace '+index].length - 1].maxIntervalUnit
-                      }
+              {espacementSubExam["group " + index_]["subEspace " + index][
+                espacementSubExam["group " + index_]["subEspace " + index]
+                  .length - 1
+              ].minInterval +
+                espacementSubExam["group " + index_]["subEspace " + index][
+                  espacementSubExam["group " + index_]["subEspace " + index]
+                    .length - 1
+                ].minIntervalUnit +
+                "-" +
+                espacementSubExam["group " + index_]["subEspace " + index][
+                  espacementSubExam["group " + index_]["subEspace " + index]
+                    .length - 1
+                ].maxInterval +
+                espacementSubExam["group " + index_]["subEspace " + index][
+                  espacementSubExam["group " + index_]["subEspace " + index]
+                    .length - 1
+                ].maxIntervalUnit}
             </p>
           )}
         </div>
@@ -93,7 +101,13 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
           <PinIcon width={7} height={11} />
         </div>
       ) : (
-        <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row-reverse" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: "row-reverse",
+          }}
+        >
           <Propover />
           <PinIcon width={7} height={11} />
         </div>
@@ -101,5 +115,4 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
     </VerticalTimelineElement>
   );
 };
-
 export default RecapExamItemV2;

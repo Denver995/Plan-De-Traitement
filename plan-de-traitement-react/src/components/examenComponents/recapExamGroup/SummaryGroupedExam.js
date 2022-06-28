@@ -1,25 +1,16 @@
 import React from "react";
 import {
-  EuiIcon,
   EuiButton,
   EuiButtonEmpty,
   EuiFlexGroup,
-  EuiText,
   EuiSpacer,
-  EuiAvatar,
 } from "@elastic/eui";
 import {
   VerticalTimeline,
-  VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
-import { deleteStep } from "../../../redux/steps/actions";
 import { useDispatch, useSelector, connect } from "react-redux";
-import { STEP3 } from "../../../utils/constants";
-import { getStepByKey } from "../../../utils/helper";
-import RecapExamItem from "./RecapExamItem";
-import ExamGroupCard from "./ExamGroupCard";
 import colors from "../../../utils/colors";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import RecapExamItemV2 from "./RecapExamItemV2";
@@ -33,11 +24,8 @@ const SummaryGroupedExam = ({
   modelData,
 }) => {
   const dispatch = useDispatch();
-  const steps = useSelector((state) => state.StepReducer.steps);
-  const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData)
-  const previousStep = getStepByKey(steps, STEP3);
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
-  const groupesWithDataKeys = Object.keys(groupesWithData)
+  const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData);
+  const groupesWithDataKeys = Object.keys(groupesWithData);
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () =>
@@ -52,10 +40,10 @@ const SummaryGroupedExam = ({
       })
     );
   const onBack = () => {
-    console.log("componentTodisplay ", componentTodisplay);
     dispatch(setComponent({ name: "GROUPSUMMARY" }));
-    // dispatch(deleteStep(previousStep));
   };
+
+  console.log('groupesWithData summary  ', groupesWithData);
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
@@ -110,14 +98,13 @@ const SummaryGroupedExam = ({
               <TimeLineHelper index={index} entityType = {"Groupe"} />
               <RecapExamItemV2
                 color={""}
-                data={groupesWithData['group '+index]}
+                data={groupesWithData['group '+index].exams}
                 date={new Date().toDateString()}
                 index_={index}
                 position={index % 2 === 0 ? "left" : "right"}
               />
             </div>
           ))}
-          {/* <EuiSpacer /> */}
         </VerticalTimeline>
       </div>
 
