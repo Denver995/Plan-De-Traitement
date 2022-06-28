@@ -3,8 +3,7 @@ import {
   useGeneratedHtmlId,
   EuiListGroupItem,
   EuiListGroup,
-  EuiAccordion,
-  EuiPanel,
+  EuiButtonEmpty,
 } from "@elastic/eui";
 
 import React, { useState } from "react";
@@ -20,6 +19,7 @@ const Propover = ({
   onFixePosition
 }) => {
   const [isPopoverOpen, setPopover] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
@@ -42,6 +42,9 @@ const Propover = ({
   const closePopover = () => setPopover(false);
 
   const togglePropover = () => setPopover(!isPopoverOpen);
+
+  const handleClick = () => setIsOpen(!isOpen);
+  const handleClose = () => setIsOpen(false);
 
   const onEdit = () => {
     // if (isModelGroup) {
@@ -68,7 +71,12 @@ const Propover = ({
   };
 
   const button = (
-    <span onClick={togglePropover} className="icon-ellipsis-v"></span>
+    <div
+      onClick={togglePropover}
+      style={{ width: 20, textAlign: "center", cursor: "pointer" }}
+    >
+      <span className="icon-ellipsis-v"></span>
+    </div>
   );
 
   return (
@@ -86,31 +94,38 @@ const Propover = ({
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
           <EuiListGroupItem onClick={onFixPosition} label="Fixer la position" />
-          <EuiAccordion
-            style={{ marginLeft: 9, marginTop: 8 }}
-            arrowDisplay="right"
+          <EuiPopover
             id="simpleAccordionId"
-            buttonContent={
-              isModelGroup
-                ? "Lier avec un autre groupe"
-                : "Lier avec un autre examen"
+            isOpen={isOpen}
+            closePopover={handleClose}
+            anchorPosition="rightUp"
+            button={
+              <EuiButtonEmpty
+                iconType={isOpen ? "arrowDown" : "arrowRight"}
+                iconSide="right"
+                color="black"
+                onClick={handleClick}
+              >
+                {isModelGroup
+                  ? "Lier avec un autre groupe"
+                  : "Lier avec un autre examen"}
+              </EuiButtonEmpty>
             }
           >
-            <EuiPanel color="red">
+            <EuiListGroup>
               {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
                   examsGrouped.map((group, i) => (
-                    <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
-                      {"group " + i}
-                    </p>
+                    <EuiListGroupItem key={i} onClick={() => console.log("")} label={"group " + i} />
                   ))
                 : exams.map((exam, i) => (
-                    <p style={{ cursor: "pointer", paddingBottom: 5 }} key={i}>
-                      {exam.nom + " " + exam.id_modele}
-                    </p>
+                    <EuiListGroupItem
+                      key={i}
+                      label={exam.nom + " " + exam.id_modele}
+                    />
                   ))}
-            </EuiPanel>
-          </EuiAccordion>
+            </EuiListGroup>
+          </EuiPopover>
         </EuiListGroup>
       </EuiPopover>
     </div>
