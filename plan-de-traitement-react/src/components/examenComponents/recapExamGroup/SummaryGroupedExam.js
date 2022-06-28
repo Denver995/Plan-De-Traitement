@@ -105,6 +105,7 @@ const SummaryGroupedExam = ({
                 date={new Date().toDateString()}
                 index_={index}
                 position={index % 2 === 0 ? "left" : "right"}
+                positionFixed={groupesWithData['group '+index].positionFixed}
               />
             </div>
           ))}

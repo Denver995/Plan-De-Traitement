@@ -131,7 +131,7 @@ export const toggleFixExamPosition = (payload) => ({
   payload,
 });
 
-export const toggleFixGroupPosition = (selectedGroup) => ({
+export const toggleFixGroupPosition = ({selectedGroup}) => ({
   type: types.TOGGLE_FIXE_GROUP_POSITION,
   selectedGroup,
 });

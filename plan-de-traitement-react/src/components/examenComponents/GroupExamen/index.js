@@ -179,7 +179,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                                   );
                                 }}
                                 onFixePosition={() => {
-                                  toggleFixGroupPosition({selectedGroup: groupKey});
+                                  dispatch(toggleFixGroupPosition({selectedGroup: groupKey}));
                                 }}
                               />
                             </div>

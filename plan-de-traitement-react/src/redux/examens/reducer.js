@@ -93,7 +93,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           listespacementsNonGroupe["espaceNonGroupe " + i] = [];
         }
       }
-      console.log("listespacementsNonGroupe: ", listespacementsNonGroupe)
       return {
         ...state,
         exams: allExamTemp,
@@ -322,6 +321,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         espacementSubExam: allGroupes,
       };
     case types.TOGGLE_FIXE_EXAM_POSITION:
+      console.log('action.payload ', action.payload);
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
       if (action.payload.isExamGrouped) {
@@ -333,7 +333,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
       } else {
-        examDetail = allExamTemp[action.selectedExam];
+        examDetail = allExamTemp[action.payload.selectedExam];
         console.log('examDetail before ', examDetail);
         examDetail.positionFixed = !examDetail.positionFixed;
         allExamTemp[action.selectedExam] = examDetail;
@@ -345,6 +345,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupData: allGroupTemp
       };
     case types.TOGGLE_FIXE_GROUP_POSITION:
+      console.log('action.selectedGroup ', action.selectedGroup);
       allGroupTemp = state.groupWithData;
       groupDetail = allGroupTemp[action.selectedGroup];
       console.log('groupDetail before ', groupDetail);
