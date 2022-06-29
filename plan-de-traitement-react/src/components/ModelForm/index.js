@@ -22,7 +22,11 @@ import {
   desactivateStep,
 } from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
-import { createGroups, numOfGroupsChange, CreateEspacement } from "../../redux/examens/actions";
+import {
+  createGroups,
+  numOfGroupsChange,
+  CreateEspacement,
+} from "../../redux/examens/actions";
 import {
   createModel as createModelAction,
   setModelData,
@@ -88,7 +92,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
       };
       step.data = data;
       dispatch(createGroups(nombreOccurence));
-      dispatch(CreateEspacement(nombreOccurence-1));
+      dispatch(CreateEspacement(nombreOccurence - 1));
       dispatch(updateStep(step));
       createModele(step);
       dispatch(setModelData(data));
@@ -143,8 +147,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
                   <EuiToolTip
                     position="right"
                     content="Création de plusieurs groupes de rendez-vous"
+                    className="euiTool"
                   >
-                    <InfoIcon width={"1rem"} />
+                    <InfoIcon title="" width={"1rem"} />
                   </EuiToolTip>
                 </span>
               </div>
@@ -213,8 +218,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
                 <EuiToolTip
                   position="right"
                   content="Elle permet de définir l'intervalle de temps où seront recherchés les examens du groupe"
+                  className="euiTool"
                 >
-                  <InfoIcon width={"1rem"} />
+                  <InfoIcon title="" width={"1rem"} />
                 </EuiToolTip>
               </span>
             </div>
@@ -302,6 +308,13 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
           )}
         </EuiFlexGroup>
       </EuiForm>
+      <style jsx="true">
+            {`
+              .euiTool {
+                background: #052A3E;
+              }
+            `}
+          </style>
       <EuiSpacer size="m" />
     </ModalWrapper>
   );
