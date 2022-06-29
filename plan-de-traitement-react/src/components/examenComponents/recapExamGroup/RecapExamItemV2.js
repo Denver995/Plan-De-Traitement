@@ -7,7 +7,8 @@ import Propover from "../../Propover";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { useSelector } from "react-redux";
 
-const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
+const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed }) => {
+  console.log("positionFixed ", positionFixed);
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
@@ -37,7 +38,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
           }}
         >
           <Propover />
-          <PinIcon width={7} height={11} />
+          {positionFixed && <PinIcon width={7} height={11} />}
         </div>
       ) : (
         <div
@@ -50,7 +51,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, key }) => {
           }}
         >
           <Propover />
-          <PinIcon width={7} height={11} />
+          {positionFixed && <PinIcon width={7} height={11} />}
         </div>
       )}
 
