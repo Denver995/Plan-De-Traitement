@@ -301,6 +301,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       }
       return {
         ...state,
+        openGroup: action.espacement.parentSubExamId,
         espacementSubExam: allGroupes,
       };
     case types.TOGGLE_FIXE_EXAM_POSITION:

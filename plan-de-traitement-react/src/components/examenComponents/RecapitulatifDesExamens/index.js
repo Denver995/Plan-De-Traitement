@@ -77,27 +77,29 @@ const RecapitulatifDesExamens = ({
         />
       ) : (
         <div style={styles.container}>
-          <EuiSpacer size="l" />
-          <EuiFlexGroup style={styles.titleContainer}>
-            <CalendarIcon />
-            <p style={styles.title}>Recapitulatif des rendez vous</p>
-          </EuiFlexGroup>
-          <EuiSpacer size="s" />
-          <EuiHorizontalRule style={styles.horizontalRule} />
-
-          <div style={styles.headContainer}>
-            <p style={styles.headLabel}>Modèle :</p>
+          <div style={styles.topContainer}>
+            <EuiSpacer size="l" />
+            <EuiFlexGroup style={styles.titleContainer}>
+              <CalendarIcon />
+              <p style={styles.title}>Recapitulatif des rendez vous</p>
+            </EuiFlexGroup>
             <EuiSpacer size="s" />
-            <div style={styles.headTitleContainer}>
-              <p style={styles.headTitle}>{modelData.nom}</p>
-              <Pencil
-                onClick={() => dispatch(setComponent("EDITMODEL"))}
-                width={"21px"}
-                style={styles.pencil}
-              />
+            <EuiHorizontalRule style={styles.horizontalRule} />
+
+            <div style={styles.headContainer}>
+              <p style={styles.headLabel}>Modèle :</p>
+              <EuiSpacer size="s" />
+              <div style={styles.headTitleContainer}>
+                <p style={styles.headTitle}>{modelData.nom}</p>
+                <Pencil
+                  onClick={() => dispatch(setComponent("EDITMODEL"))}
+                  width={"21px"}
+                  style={styles.pencil}
+                />
+              </div>
             </div>
           </div>
-          <div>
+          <div style={styles.timeline}>
             <VerticalTimeline lineColor={"rgba(19, 83, 117, 0.479)"}>
               {exams.map((exam, index) => (
                 <div key={index}>

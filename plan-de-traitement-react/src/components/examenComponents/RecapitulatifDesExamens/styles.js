@@ -8,12 +8,25 @@ const styles = {
   container: { 
     marginLeft: 20, 
     marginRight: 20,
+    marginTop: -10
   },
 
   titleContainer: {
     display: "flex",
     alignItems: "center",
     marginLeft: "20px",
+  },
+
+  topContainer: {
+    position: "fixed",
+    width: "100%",
+    backgroundColor: colors.white,
+    zIndex: 3,
+    paddingTop: 10
+  },
+
+  timeline: {
+    paddingTop: 140
   },
 
   title: {
@@ -40,6 +53,7 @@ const styles = {
   headTitleContainer: {
     display: "flex",
     alignItems: "center",
+    marginBottom: 5
   },
 
   headTitle: {
@@ -61,6 +75,7 @@ const styles = {
     paddingBottom: 40,
     width: "100%",
     backgroundColor: colors.white,
+    zIndex: 1000
   },
 
   backBtn: {
