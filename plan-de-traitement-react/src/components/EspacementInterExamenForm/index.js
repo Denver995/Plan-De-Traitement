@@ -56,7 +56,10 @@ const EspacementInterExamenForm = ({
 
   const onChangeMinInterval = (e) => setMinInterval(e.target.value);
 
-  const onChangeMinIntervalUnit = (e) => setMinIntervalUnit(e.target.value);
+  const onChangeMinIntervalUnit = (e) => {
+    setMaxIntervalUnit(e.target.value);
+    setMinIntervalUnit(e.target.value);
+  }
 
   const onChangeMaxInterval = (e) => setMaxInterval(e.target.value);
 
@@ -197,6 +200,8 @@ const EspacementInterExamenForm = ({
                 <span style={styles.hidden}></span>
                 <EuiSelect
                   fullWidth
+                  disabled
+                  value={minIntervalUnit}
                   style={styles.select}
                   onChange={(e) => onChangeMaxIntervalUnit(e)}
                   options={options}
