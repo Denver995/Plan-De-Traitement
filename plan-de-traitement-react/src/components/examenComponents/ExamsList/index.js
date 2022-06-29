@@ -46,7 +46,8 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
     setExamsList([...items]);
   };
   const onCancel = () => {
-    dispatch(deleteStep(previousStep));
+    // dispatch(deleteStep(previousStep));
+    onAdd("EXAMENFORM");
   };
 
   useEffect(() => {

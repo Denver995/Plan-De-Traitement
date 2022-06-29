@@ -8,7 +8,6 @@ import colors from "../../../utils/colors";
 import styles from "./style";
 
 function ExamCard({ color, date, position, examen }) {
-  console.log("Examen: ", examen);
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -28,8 +27,6 @@ function ExamCard({ color, date, position, examen }) {
         <div
           style={position === "right" ? styles.rightHeader : styles.leftHeader}
         >
-          {/* <EuiIcon type="boxesVertical" id="iconList" /> */}
-          {/* <span class="icon-ellipsis-v iconList"></span> */}
           <Propover />
           <h4 className="spec" style={styles.speciality}>
             <strong>*Spécialité* - {examen.id_modif}</strong>
@@ -46,13 +43,11 @@ function ExamCard({ color, date, position, examen }) {
             }
           >
             <PersonIcon width={"1rem"} />
-            {/* <span class="icon-Groupe-367"></span> */}
             <h4 style={styles.praticien}>{examen.id_praticien}</h4>
             <MapIcon width={"0.7rem"} />
-            {/* <span class="icon-Groupe-368"></span> */}
             <h4 style={styles.adresse}>{examen.id_lieu}</h4>
           </div>
-          {examen.fixe === 1 ? (
+          {examen.positionFixed ? (
             <PinIcon width={"7px"} height={"11px"} style={styles.pin} />
           ) : (
             ""

@@ -24,18 +24,6 @@ const Propover = ({
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
-  // const deploymentsList: EuiListGroupProps['listItems'] = [
-  //   {
-  //     label: 'combining-binaries',
-  //     iconType: 'logoAzureMono',
-  //     size: 's',
-  //   },
-  //   {
-  //     label: 'stack-monitoring',
-  //     iconType: 'logoAWSMono',
-  //     size: 's',
-  //   },
-  // ];
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const exams = useSelector((state) => state.ExamenReducer.exams);
 
@@ -54,6 +42,7 @@ const Propover = ({
     // dispatch(editExam(data));
     // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
     onEditItem();
+    togglePropover();
   };
 
   const onDelete = () => {
@@ -62,12 +51,13 @@ const Propover = ({
       return;
     }
     onDeleteExam();
+    togglePropover();
     return;
   };
 
   const onFixPosition = () => {
-    console.log("fixing position...");
     onFixePosition();
+    togglePropover();
   };
 
   const button = (
