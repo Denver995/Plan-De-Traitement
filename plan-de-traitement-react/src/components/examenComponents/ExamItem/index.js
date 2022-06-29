@@ -9,7 +9,7 @@ import { setComponent } from "../../../redux/commons/actions";
 
 import styles from "./styles";
 
-const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGroup=false, groupKey, reload, setReload }) => {
+const ExamItem = ({ showEditForm, color, id_modele, exam, index, isExamGroup=false, groupKey, reload, setReload }) => {
   const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -26,7 +26,7 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGro
       <div style={styles.flex}>
         <div>
           <Propover
-            data={data}
+            data={exam}
             showEditForm={showEditForm}
             onDeleteExam={() => {
               if(isExamGroup){
@@ -35,11 +35,12 @@ const ExamItem = ({ data, showEditForm, color, id_modele, exam, index, isExamGro
               }else dispatch(deleteExamSimple({examId: index}));
             }}
             onEditItem={() => {
-              dispatch(editExam(data));
+              console.log('editing exam group ...');
+              dispatch(editExam({...exam, id: index+1}));
               if(isExamGroup){
-                dispatch(setComponent({ name: "EXAMENFORMEDIT", groupKey: groupKey, examId: index }));
+                dispatch(setComponent({ name: "EXAMENFORMEDIT", groupKey: groupKey, examId: index, data: exam }));
                 // setReload(!reload);
-              }else dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
+              }else dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
             }}
             onFixePosition={() => {
               if(isExamGroup)

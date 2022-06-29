@@ -8,7 +8,6 @@ import {
   EuiCheckbox,
   useGeneratedHtmlId,
   EuiSpacer,
-  EuiLink,
   EuiHorizontalRule,
 } from "@elastic/eui";
 import React, { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ import {
   listPraticien,
   listSpecialite,
 } from "../../../utils/defaultData";
-// import { createExamen } from '../../utils/fetcher';
 import {
   createExamen as createExamenAction,
   createExamen,
@@ -41,13 +39,10 @@ import {
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
-
-import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import "../../../modifierexamen.css";
 import colors from "../../../utils/colors";
 import styles from "./styles";
 import ModalWrapper from "../../common/ModalWrapper";
-// import Alert from "../../Alert";
 import { useDimension } from "../../../hooks/dimensions";
 
 const ExamenForm = ({
@@ -64,13 +59,12 @@ const ExamenForm = ({
   groupWithData
 }) => {
   const dispatch = useDispatch();
-  // const model = useSelector((state) => state.CommonReducer.dataSource);
   const fixedExamenCheckboxId = useGeneratedHtmlId({
     prefix: "indeterminateCheckbox",
   });
   const steps = useSelector((state) => state.StepReducer.steps);
   const examenSelected = useSelector(
-    (state) => state.CommonReducer.examen.examenSelected
+    (state) => state.CommonReducer.examen.examData
   );
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [listExam, setListExam] = useState([]);
@@ -100,26 +94,7 @@ const ExamenForm = ({
 
   const onChangeLieu = (e) => setLieu(e.target.value);
 
-  const onChooseDelaiEspacement = () => {
-    dispatch(
-      setAlert({
-        showAlert: true,
-        showCustomComponent: true,
-        showButtonBlock: false,
-        onAccept: () => {
-          dispatch(setAlert(false));
-        },
-        onReject: () => {
-          dispatch(setAlert(false));
-        },
-        componentType: () => {
-          return <EspacementInterExamenForm />;
-        },
-      })
-    );
-  };
-
-  const onClickNext = (index, isGroup = false) => {
+  const onClickNext = (isGroup = false) => {
     if (!isGroup) {
       let nextStep = createStep(STEP3);
       nextStep.previousStep = previousStep;
@@ -127,10 +102,6 @@ const ExamenForm = ({
       dispatch(desactivateStep(STEP2));
       dispatch(addStep(nextStep));
     }
-    const exam = {
-      name: "some name",
-    };
-    dispatch(addExamGrouped({ exam, index }));
   };
 
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
@@ -145,7 +116,8 @@ const ExamenForm = ({
       id_praticien: praticien,
       id_profession: 1,
       id_lieu: lieu,
-      id_modif: motif,
+      id_motif: motif,
+      id_specialtite: specialite,
       fixe: fixedExamPosition ? 1 : 0,
       position: 1,
     };
@@ -167,7 +139,6 @@ const ExamenForm = ({
             dispatch(CreateEspacementSubExam())
           },
           onReject: () => {
-            console.log("inside not all ");
             payload.allGroup = false;
             dispatch(addExam({ index: activeGroup, exam: payload }));
             dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
@@ -191,11 +162,12 @@ const ExamenForm = ({
     }
   };
 
-  const updateFormData = (resetFormData, exam = null) => {
-    setLieu(resetFormData ? "" : exam?.specialtite);
-    setPraticien(resetFormData ? "" : exam?.praticien);
-    setMotif(resetFormData ? "" : exam?.motif);
-    setSpecialite(resetFormData ? "" : exam?.specialtite);
+  const updateFormData = (resetFormData=false, exam) => {
+    console.log('inside updateFormData ', exam?.id_lieu, exam?.id_specialtite, exam?.id_praticien, exam?.id_motif);
+    setLieu(resetFormData ? "" : exam?.id_lieu);
+    setPraticien(resetFormData ? "" : exam?.id_praticien);
+    setMotif(resetFormData ? "" : exam?.id_motif);
+    setSpecialite(resetFormData ? "" : exam?.id_specialtite);
   };
 
   const onEditExamen = () => {
@@ -219,9 +191,9 @@ const ExamenForm = ({
 
   useEffect(() => {
     if (reload) setReload(false);
-    if (examenSelected.id && examenSelected.id !== selectedExamId) {
+    if (examenSelected && examenSelected.id && examenSelected.id !== selectedExamId) {
       setSelectedExamId(examenSelected.id);
-      updateFormData(examenSelected, false);
+      updateFormData(false, examenSelected);
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
@@ -259,7 +231,6 @@ const ExamenForm = ({
                   <div key={index}>
                     <ExamItem
                       color={item.color}
-                      data={item}
                       showEditForm={setShowEditForm}
                       exam={item}
                       id_modele={item.id_modele}
@@ -275,8 +246,6 @@ const ExamenForm = ({
             <TracIcon width={"1rem"} />
             <EuiFlexItem style={styles.examTitle}>
               Examen{" "}
-              {/* {isModelGroup &&
-                Object.keys(examsGrouped[activeGroup]).length + 1} */}
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer size="xl" />

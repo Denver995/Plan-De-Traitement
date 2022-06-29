@@ -3,6 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import { setComponent } from "../../../redux/commons/actions";
 import RecapitulatifDesExamens from "../RecapitulatifDesExamens";
 import GroupExamenSummary from "../GroupExamen";
+import ExamenForm from "../ExamenForm";
 
 const GroupWrapper = ({
   componentTodisplay,
@@ -45,6 +46,7 @@ const GroupWrapper = ({
           closeModal={closeModal}
           isModelGroup={isModelGroup}
           test={"test"}
+          isEditing={true}
         />
       )}
     </div>

@@ -168,6 +168,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                                   data: groupWithData,
                                 }}
                                 onEditItem={() => {
+                                  console.log('editing group ...');
                                   dispatch(
                                     setComponent({
                                       name: "RECAPITULATIF",
@@ -268,7 +269,6 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup }) => {
                                   >
                                     <ExamItem
                                       color={colors[colorsArr[i]]}
-                                      data={exam}
                                       exam={exam}
                                       id_modele={modelData.id_modele}
                                       index={i}

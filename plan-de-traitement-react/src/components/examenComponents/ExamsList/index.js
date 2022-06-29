@@ -8,12 +8,9 @@ import {
 } from "@elastic/eui";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-import { fakeData } from "../../../utils/defaultData";
 import { startLoading } from "../../../redux/commons/actions";
-import { deleteStep } from "../../../redux/steps/actions";
 import { desactivateStep, addStep } from "../../../redux/steps/actions";
-import ExamenItem from "../ExamItem";
+import ExamItem from "../ExamItem";
 import { Plus } from "../../../assets/images";
 import styles from "./styles";
 import { STEP2, STEP3 } from "../../../utils/constants";
@@ -92,9 +89,8 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
                               {...provided.dragHandleProps}
                               ref={provided.innerRef}
                             >
-                              <ExamenItem
+                              <ExamItem
                                 exam={item}
-                                data={fakeData}
                                 index={index}
                                 id_modele={item.id_modele}
                               />

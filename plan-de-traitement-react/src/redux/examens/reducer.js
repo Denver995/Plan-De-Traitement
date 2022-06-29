@@ -16,23 +16,7 @@ const INITIAL_STATE = {
   groupWithData: {},
   groupWithFixedPosition: [],
   openGroup: "",
-  examsGrouped: [
-    {
-      exam1: { id: 1 },
-      // exam2: {id: 2},
-      // exam3: {id: 3},
-    },
-    {
-      // exam1: {id: 1},
-      // exam2: {id: 2},
-      // exam3: {id: 3},
-    },
-    {
-      // exam1: {id: 1},
-      // exam2: {id: 2},
-      // exam3: {id: 3},
-    },
-  ],
+  examsGrouped: [],
 };
 
 function ExamenReducer(state = INITIAL_STATE, action) {
@@ -315,29 +299,23 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           }
         });
       }
-      console.log("allGroupes: ", allGroupes);
       return {
         ...state,
         espacementSubExam: allGroupes,
       };
     case types.TOGGLE_FIXE_EXAM_POSITION:
-      console.log('action.payload ', action.payload);
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
       if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
-        console.log('examDetail group before ', examDetail);
         examDetail.positionFixed = !examDetail.positionFixed;
-        console.log('examDetail group after ', examDetail);
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
       } else {
         examDetail = allExamTemp[action.payload.selectedExam];
-        console.log('examDetail before ', examDetail);
         examDetail.positionFixed = !examDetail.positionFixed;
         allExamTemp[action.selectedExam] = examDetail;
-        console.log('examDetail after ', examDetail);
       }
       return {
         ...state,
@@ -345,13 +323,10 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupData: allGroupTemp
       };
     case types.TOGGLE_FIXE_GROUP_POSITION:
-      console.log('action.selectedGroup ', action.selectedGroup);
       allGroupTemp = state.groupWithData;
       groupDetail = allGroupTemp[action.selectedGroup];
-      console.log('groupDetail before ', groupDetail);
       groupDetail.positionFixed = !groupDetail.positionFixed;
       allGroupTemp[action.selectedGroup] = groupDetail;
-      console.log('groupDetail after ', groupDetail);
       return {
         ...state,
         groupWithData: allGroupTemp

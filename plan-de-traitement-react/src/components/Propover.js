@@ -10,8 +10,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Propover = ({
-  data,
-  showEditForm,
   isModelGroup,
   onDeleteGroup,
   onEditItem,
@@ -26,7 +24,6 @@ const Propover = ({
   });
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const exams = useSelector((state) => state.ExamenReducer.exams);
-
   const closePopover = () => setPopover(false);
 
   const togglePropover = () => setPopover(!isPopoverOpen);
@@ -111,7 +108,8 @@ const Propover = ({
                 : exams.map((exam, i) => (
                     <EuiListGroupItem
                       key={i}
-                      label={exam.nom + " " + exam.id_modele}
+                      // label={exam.nom + " " + i}
+                      label={"Examen " + i}
                     />
                   ))}
             </EuiListGroup>

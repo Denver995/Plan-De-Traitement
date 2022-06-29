@@ -24,7 +24,8 @@ import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.sv
 
 const SummaryGroupedExam = ({
   modelData,
-  closeModal
+  closeModal,
+  isEditing
 }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -46,7 +47,11 @@ const SummaryGroupedExam = ({
         },
       })
     );
-  const onBack = () => dispatch(deleteStep(previousStep));
+  const onBack = () => {
+    console.log('isEditing ', isEditing);
+    if(isEditing) dispatch(setComponent({name: "GROUPSUMMARY"}));
+    else dispatch(deleteStep(previousStep));
+  }
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
@@ -81,7 +86,7 @@ const SummaryGroupedExam = ({
         </div>
         <div className="recap-nom-container">
           <p style={{ marginLeft: 25 }} className="x-text">
-            {modelData.nom} 
+            {modelData.nom}
           </p>
           <PencilIcon
             onClick={() => dispatch(setComponent("EDITMODEL"))}

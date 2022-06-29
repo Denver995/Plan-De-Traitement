@@ -31,6 +31,7 @@ const RecapitulatifDesExamens = ({
   isModelGroup,
   exams,
   modelData,
+  isEditing=false
 }) => {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
@@ -39,7 +40,7 @@ const RecapitulatifDesExamens = ({
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const alertMessage = `
     <EuiText style="float: left; font-size: 22px; color: #242729">
-      Ce modèle va être enregistré sous le nom : 
+      Ce modèle va être enregistré sous le nom :
       <br/>
       <div style="font-size: 20px; color: #5D9AD4; margin-top: 10px; margin-bottom: 20px; display: flex; alignItems: center;">
         Xxxxxxxxxx xxxxxxxxxxx XXXX
@@ -63,7 +64,7 @@ const RecapitulatifDesExamens = ({
   return (
     <ModalWrapper style={styles.modal}>
       {isModelGroup ? (
-        <SummaryGroupedExam closeModal={closeModal} />
+        <SummaryGroupedExam closeModal={closeModal} isEditing={isEditing}/>
       ) : showAlert ? (
         <Alert
           showButtonBlock={true}
