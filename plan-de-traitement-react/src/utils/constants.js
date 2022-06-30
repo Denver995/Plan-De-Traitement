@@ -7,3 +7,12 @@ export const type_espacement = {
     group: "GROUPE",
     examen: "EXAM"
 };
+export const typeRecap = {
+    model: "MODEL",
+    appointment: "APPOINTMENT"
+}
+
+export const typeScreen = {
+    model: "MODELSCREEN",
+    appointment: "APPOINTMENTSCREEN"
+}

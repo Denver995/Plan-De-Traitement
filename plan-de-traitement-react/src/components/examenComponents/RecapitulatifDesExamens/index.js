@@ -22,6 +22,7 @@ import ModalWrapper from "../../common/ModalWrapper";
 import styles from "./styles";
 import Alert from "../../Alert";
 import { setComponent } from "../../../redux/commons/actions";
+import { typeRecap } from "../../../utils/constants";
 
 import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
@@ -31,7 +32,8 @@ const RecapitulatifDesExamens = ({
   isModelGroup,
   exams,
   modelData,
-  isEditing=false
+  isEditing=false,
+  recapType=typeRecap.model
 }) => {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
