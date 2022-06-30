@@ -373,13 +373,16 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       groupesWithData_['group ' + destination] = destinationGroupe;
 
       let espacement = state.espacement;
-      let sourceGroupe_ = espacement['group ' + source];
-      let destinationGroupe_ = espacement['group ' + destination];
+      let sourceGroupe_ = espacement['espace ' + source];
+      let destinationGroupe_ = espacement['espace ' + destination];
       let temp_ = destinationGroupe_;
       destinationGroupe_ = sourceGroupe_;
       sourceGroupe_ = temp_;
-      espacement['group ' + source] = sourceGroupe_;
-      espacement['group ' + destination] = destinationGroupe_;
+      console.log("sourceGroupe_", sourceGroupe_)
+      console.log("destinationGroupe_", destinationGroupe_)
+      espacement['espace ' + source] = sourceGroupe_;
+      espacement['espace ' + destination] = destinationGroupe_;
+      console.log("espacement", espacement)
 
       return {
         ...state,
