@@ -9,7 +9,7 @@ import { setComponent } from "../../../redux/commons/actions";
 
 import styles from "./styles";
 
-const ExamItem = ({ showEditForm, color, id_modele, exam, index, isExamGroup=false, groupKey, reload, setReload }) => {
+const ExamItem = ({ showEditForm,reRender, color, id_modele, exam, index, isExamGroup=false, groupKey, reload, setReload }) => {
   const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -21,6 +21,10 @@ const ExamItem = ({ showEditForm, color, id_modele, exam, index, isExamGroup=fal
       window.removeEventListener("resize", handleWindowResiwe);
     };
   });
+
+  useEffect(() => {
+
+  }, [reRender])
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>

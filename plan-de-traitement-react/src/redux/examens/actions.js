@@ -135,3 +135,10 @@ export const toggleFixGroupPosition = ({selectedGroup}) => ({
   type: types.TOGGLE_FIXE_GROUP_POSITION,
   selectedGroup,
 });
+
+export const dragAndDrog = (data) => {
+  return {
+    type : types.DRAG_AND_DROP,
+    data
+  }
+}
