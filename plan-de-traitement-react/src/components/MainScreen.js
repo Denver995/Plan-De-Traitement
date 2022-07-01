@@ -25,11 +25,6 @@ const MainScreen = () => {
   const closeModal = () => {
     setIsModalVisible(false);
     window.location = "";
-
-    // const timer = setTimeout(() => {
-    //   window.location = "";
-    // }, 5000);
-    // return () => clearTimeout(timer);
   };
 
   const showModal = () => setIsModalVisible(true);
@@ -77,8 +72,8 @@ const MainScreen = () => {
   }
   return (
     <div className="modal">
-      {/* <EuiButton style={{ textDecoration: 'none'}} onClick={showModal}>Show form modal</EuiButton> */}
-      <ButtonLight text={"Show form modal"} onClick={showModal} />
+      <ButtonLight text={"Créer un model"} onClick={showModal} />
+      <ButtonLight text={"Créer un rendez-vous"} onClick={showModal} />
       {alert.showAlert && (
         <Alert
           message={alert.message}
