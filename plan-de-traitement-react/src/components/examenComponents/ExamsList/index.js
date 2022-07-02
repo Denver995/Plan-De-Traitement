@@ -18,6 +18,7 @@ import { getStepByKey, createStep } from "../../../utils/helper";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ModalWrapper from "../../common/ModalWrapper";
 import { CreateEspacementNonGroupe, setActualExamIndex } from "../../../redux/examens/actions";
+import examenService from '../../../services/examens';
 
 
 const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPrevious, predecessor }) => {
@@ -47,7 +48,32 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
     onAdd("EXAMENFORM");
   };
 
+  const handleGetExams = () => {
+    console.log("MY EXAMS");
+    console.log(exams);
+   /*const payload = { id_examen, 
+      Nom, 
+      id_modele_groupe, 
+      id_modele, 
+      id_praticien, 
+      id_motif, 
+      id_lieu,fixe,
+      position
+ 
+    }*/
+    examenService.getExamen({})
+    .then((response) => {
+      console.log("response data for get exams");
+      console.log(response.data)
+    })
+    .catch((error) => {
+      console.log("error response data");
+      console.log(error)
+    });
+  }
+
   useEffect(() => {
+    handleGetExams();
     setExamsList(exams);
   }, [exams]);
   return (

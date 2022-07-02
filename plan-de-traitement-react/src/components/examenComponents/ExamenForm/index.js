@@ -44,6 +44,7 @@ import colors from "../../../utils/colors";
 import styles from "./styles";
 import ModalWrapper from "../../common/ModalWrapper";
 import { useDimension } from "../../../hooks/dimensions";
+import examenService from '../../../services/examens';
 
 const ExamenForm = ({
   isModelGroup,
@@ -63,6 +64,7 @@ const ExamenForm = ({
     prefix: "indeterminateCheckbox",
   });
   const steps = useSelector((state) => state.StepReducer.steps);
+
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
@@ -154,6 +156,10 @@ const ExamenForm = ({
       /**
        * @todo dispatch creatExamen action
        */
+      examenService.createExamen(payload)
+      .then((response) => {console.log(response.data)})
+      .catch((error) => {console.log(error)});
+      
       dispatch(createExamen(payload));
       setReload(true);
       onAddExam({ name: "EXAMSLIST" });

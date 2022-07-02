@@ -5,9 +5,9 @@ import {
 } from '../../utils/urls';
 
 
-class ExamenService {
+class ExamenLieService {
 
-createExamen = (values) => {
+createExamenLie = (values) => {
     console.log('Create Examen Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
@@ -28,47 +28,37 @@ createExamen = (values) => {
       redirect: 'follow'
     };
 
-  return fetch(BASE_URL_API+"/api_examen/examen", requestOptions);
+  return fetch(BASE_URL_API+"/api_examenlie/examenlie", requestOptions);
 }
 
-createExamen1 = (payload) => {
-  const requestOptions = {
-      method: 'POST',
-      body: payload,
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+"/api_examen/examen", requestOptions);
-  
-}
-
-getExamen = (payload) => {
+getExamenLie = (payload) => {
   const requestOptions = {
       method: 'GET',
       redirect: 'follow'
     };
-  return fetch(BASE_URL_API+`/api_examen/examen${payload}`, requestOptions);
+  return fetch(BASE_URL_API+`/api_examenlie/examenlie/${payload}`, requestOptions);
 }
 
-deleteExamen = (id_examen) => {
+deleteExamenLie = (id_examenlie) => {
   const requestOptions = {
       method: 'DELETE',
       redirect: 'follow'
     };
-  return fetch(BASE_URL_API+`/api_examen/examen/${id_examen}`, requestOptions);
+  return fetch(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, requestOptions);
 }
 
-updateExamen = (id_examen, payload) => {
+updateExamenLie = (id_examenlie, payload) => {
    const requestOptions = {
       method: 'PUT',
       body: payload,
       redirect: 'follow'
     };
-  return fetch(BASE_URL_API+`/api_examen/examen/${id_examen}`, requestOptions);
+  return fetch(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, requestOptions);
 }
 
 
 }
 
 
-export default new ExamenService;
+export default new ExamenLieService;
 

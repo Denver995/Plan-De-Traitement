@@ -41,8 +41,9 @@ import Radio from "../Radio";
 import colors from "../../utils/colors";
 
 import styles from "./styles";
+import modelGroupeService from '../../services/modelGroupe';
 
-const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
+const ModalForm = ({isLoading, closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -81,7 +82,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   };
   const onClickNext = () => {
     if (showGroupOption) {
-      dispatch(startLoading());
+      dispatch(startLoading(true));
       const data = {
         nom: nomModele,
         nb_occurence: nombreOccurence,
@@ -91,6 +92,22 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         id_modele: 1,
       };
       step.data = data;
+
+      modelGroupeService.createModelGroupe(data)
+      .then((response) => {
+        dispatch(startLoading(false));
+        console.log(response.data);
+        dispatch(createGroups(response.data. nb_occurence));
+        dispatch(CreateEspacement(nombreOccurence - 1));
+        dispatch(updateStep(step));
+        createModele(step);
+        dispatch(setModelData(data));
+      })
+      .catch((error) => {
+        dispatch(startLoading(false));
+        console.log(error);
+      })
+
       dispatch(createGroups(nombreOccurence));
       dispatch(CreateEspacement(nombreOccurence - 1));
       dispatch(updateStep(step));
@@ -320,8 +337,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   );
 };
 
-const mapStateToProps = ({ ModelsReducer }) => ({
+const mapStateToProps = ({ ModelsReducer, CommonReducer }) => ({
   modelData: ModelsReducer.modelData,
+  isLoading: CommonReducer.isLoading,
 });
 
 export default connect(mapStateToProps)(ModalForm);

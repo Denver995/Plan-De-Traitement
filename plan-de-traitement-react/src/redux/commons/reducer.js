@@ -8,6 +8,7 @@ const INITIAL_STATE = {
     onAccept: undefined,
     onReject: undefined,
   },
+  isLoading: false,
   examen: { examenSelected: {}, show: false },
   modelType: false,
   dataSource: {},
@@ -20,6 +21,11 @@ function CommonReducer(state = INITIAL_STATE, action) {
         ...state,
         alert: action.alert,
       };
+    case types.START_LOADING:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      }
     case types.EDIT_EXAM:
       return {
         ...state,

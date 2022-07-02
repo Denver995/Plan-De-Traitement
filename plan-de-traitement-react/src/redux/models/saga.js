@@ -1,10 +1,10 @@
 import { put, takeLatest } from "redux-saga/effects";
 import * as types from "./types";
-import { createModel as createModelService } from "../../services/models";
+import ModelService from "../../services/models";
 
 function* createModel({ payload }) {
   try {
-    const data = yield createModelService(payload);
+    const data = yield ModelService.createModel(payload);
     console.log(data);
     if (data.succes) {
       // update state
