@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import ModelForm from "./ModelForm";
-import Alert from "./Alert";
+import Alert from "../../Alert";
 import { useSelector } from "react-redux";
-import { getActiveStep, getStepByKey } from "../utils/helper";
-import { STEP1, STEP2, STEP3 } from "../utils/constants";
-import ButtonLight from "./Buttons/ButtonLight";
+import { getActiveStep, getStepByKey } from "../../../utils/helper";
+import { STEP1, STEP2, STEP3 } from "../../../utils/constants";
+import ButtonLight from "../../Buttons/ButtonLight";
 
-import ExamenWrapper from "./examenComponents/ExamenWrapper";
-import GroupWrapper from "./examenComponents/GroupWrapper";
-import RecapitulatifWrapper from "./examenComponents/recapitulatifWrapper";
+import ExamenWrapper from "../../examenComponents/ExamenWrapper";
+import GroupWrapper from "../../examenComponents/GroupWrapper";
+import RecapitulatifWrapper from "../../examenComponents/recapitulatifWrapper";
+import RendezVousForm from "../RendezVousForm";
+import PopUp from "../../PopUp";
 
-import PopUp from "./PopUp";
-
-const MainScreen = () => {
+const RendezVousScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const steps = useSelector((state) => state.StepReducer.steps);
   const alert = useSelector((state) => state.CommonReducer.alert);
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
@@ -24,8 +22,7 @@ const MainScreen = () => {
   const closeModal = () => {
     setIsModalVisible(false);
     window.location = "";
-  };
-
+  }
   const showModal = () => setIsModalVisible(true);
 
   let modal;
@@ -36,7 +33,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-      content = <ModelForm closeModal={closeModal} />;
+      content = <RendezVousForm closeModal={closeModal} />;
       break;
     case STEP2:
       stepData = getStepByKey(steps, STEP1);
@@ -71,7 +68,7 @@ const MainScreen = () => {
   }
   return (
     <div className="modal">
-      <ButtonLight text={"Créer un model"} onClick={showModal} />
+      <ButtonLight text={"Prendre Rendez-vous"} onClick={showModal} />
       {alert.showAlert && (
         <Alert
           message={alert.message}
@@ -87,4 +84,4 @@ const MainScreen = () => {
   );
 };
 
-export default MainScreen;
+export default RendezVousScreen;

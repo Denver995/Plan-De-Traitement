@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   EuiFlexGroup,
   EuiFlexItem,
@@ -10,11 +10,9 @@ import {
   useGeneratedHtmlId,
   EuiButton,
   EuiButtonEmpty,
-  EuiToolTip,
-  EuiSelect,
+  EuiToolTip
 } from "@elastic/eui";
 import { useDimension } from "../../hooks/dimensions";
-import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { useDispatch, useSelector, connect } from "react-redux";
 import {
   addStep,
@@ -28,7 +26,6 @@ import {
   CreateEspacement,
 } from "../../redux/examens/actions";
 import {
-  createModel as createModelAction,
   setModelData,
   updateModel,
 } from "../../redux/models/actions";
@@ -38,7 +35,6 @@ import { STEP1, STEP2 } from "../../utils/constants";
 import ModalWrapper from "../common/ModalWrapper";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import Radio from "../Radio";
-import colors from "../../utils/colors";
 
 import styles from "./styles";
 
@@ -47,17 +43,13 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const [groupe_rdv, setIsGroup] = useState();
-
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : "");
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
-  const [typePeriode, setTypePeriode] = useState();
+  // const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
   const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
-
-  console.log("group_Rdv Form: ", groupe_rdv);
 
   const listTypePeriode = [
     { value: "jour", text: "Jour" },
@@ -69,9 +61,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
 
   const onChangeNomModeleField = (val) => setNomModele(val.target.value);
 
-  const onChangeTypePeriode = (e) => {
-    setPeriode(e.target.value);
-  };
+  // const onChangeTypePeriode = (e) => {
+  //   setPeriode(e.target.value);
+  // };
 
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
@@ -98,30 +90,6 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
       dispatch(setModelData(data));
     } else setShowGroupOption(true);
   };
-
-  // useEffect(() => {
-  //   if (isFirstLoad) {
-  //     const data = {
-  //       nomModele: nomModele,
-  //       nombreOccurence: nombreOccurence,
-  //       groupe_rdv: groupe_rdv,
-  //       periode: periode,
-  //     };
-  //     step.data = data;
-  //     dispatch(updateStep(step));
-  //     setIsFirstLoad(false);
-  //   }
-  //   dispatch(numOfGroupsChange(nombreOccurence));
-  // }, [
-  //   dispatch,
-  //   isFirstLoad,
-  //   groupe_rdv,
-  //   nombreOccurence,
-  //   nomModele,
-  //   periode,
-  //   step,
-  //   steps,
-  // ]);
 
   return (
     <ModalWrapper className="modale-modelForm" style={styles.modal}>
