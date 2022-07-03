@@ -28,17 +28,7 @@ createExamen = (values) => {
       redirect: 'follow'
     };
 
-  return fetch(BASE_URL_API+"/api_examen/examen", requestOptions);
-}
-
-createExamen1 = (payload) => {
-  const requestOptions = {
-      method: 'POST',
-      body: payload,
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+"/api_examen/examen", requestOptions);
-  
+  return fetch(BASE_URL_API+"/api_examen/examen/", requestOptions);
 }
 
 getExamen = (payload) => {
@@ -46,7 +36,7 @@ getExamen = (payload) => {
       method: 'GET',
       redirect: 'follow'
     };
-  return fetch(BASE_URL_API+`/api_examen/examen${payload}`, requestOptions);
+  return fetch(BASE_URL_API+`/api_examen/examen/${payload}`, requestOptions);
 }
 
 deleteExamen = (id_examen) => {

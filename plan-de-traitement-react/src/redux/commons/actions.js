@@ -14,9 +14,12 @@ export const setShowExamForm = show => ({
   show
 });
 
-export const startLoading = (isLoading) => ({
+export const startLoading = () => ({
   type: types.START_LOADING,
-  isLoading
+})
+
+export const stopLoading = () => ({
+  type: types.STOP_LOADING,
 })
 
 export const setModelType = (modelType) => ({

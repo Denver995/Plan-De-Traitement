@@ -21,7 +21,7 @@ import {
   updateStep,
   desactivateStep,
 } from "../../redux/steps/actions";
-import { startLoading } from "../../redux/commons/actions";
+import { startLoading, stopLoading } from "../../redux/commons/actions";
 import {
   createGroups,
   numOfGroupsChange,
@@ -42,8 +42,9 @@ import colors from "../../utils/colors";
 
 import styles from "./styles";
 import modelGroupeService from '../../services/modelGroupe';
+import modelService from '../../services/models';
 
-const ModalForm = ({isLoading, closeModal, onSaveChange, isEdited, modelData }) => {
+const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -95,16 +96,16 @@ const ModalForm = ({isLoading, closeModal, onSaveChange, isEdited, modelData }) 
 
       modelGroupeService.createModelGroupe(data)
       .then((response) => {
-        dispatch(startLoading(false));
+        dispatch(startLoading());
         console.log(response.data);
-        dispatch(createGroups(response.data. nb_occurence));
+        dispatch(createGroups(response.data.nb_occurence));
         dispatch(CreateEspacement(nombreOccurence - 1));
         dispatch(updateStep(step));
         createModele(step);
         dispatch(setModelData(data));
       })
       .catch((error) => {
-        dispatch(startLoading(false));
+        dispatch(startLoading());
         console.log(error);
       })
 
@@ -113,7 +114,24 @@ const ModalForm = ({isLoading, closeModal, onSaveChange, isEdited, modelData }) 
       dispatch(updateStep(step));
       createModele(step);
       dispatch(setModelData(data));
-    } else setShowGroupOption(true);
+    } else{
+      const payload = {
+        nom: nomModele,
+        nb_occurence: nombreOccurence,
+        groupe_rdv: groupe_rdv ? 1 : 0,
+      };
+        setShowGroupOption(true);
+        
+        modelService.createModele(payload)
+        .then((response) => {
+          console.log("Create model successfully");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+    } 
   };
 
   // useEffect(() => {

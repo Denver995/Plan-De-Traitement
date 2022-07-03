@@ -5,6 +5,7 @@ export const SHOW_EXAM_EDIT_FORM = "SHOW_EXAM_EDIT_FORM";
 export const SHOW_EXAM_FORM = 'SHOW_EXAM_FORM';
 
 export const START_LOADING = 'START_LOADING';
+export const STOP_LOADING = 'STOP_LOADING';
 
 export const SET_MODEL_TYPE = 'SET_MODEL_TYPE';
 export const SET_FIELD_DATA = 'SET_FIELD_DATA';

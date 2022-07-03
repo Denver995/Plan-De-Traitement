@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   EuiIcon,
   EuiButton,
@@ -25,7 +25,7 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
   const previousStep = getStepByKey(steps, STEP3);
 
   const alertMessage =
-    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
+    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom:</EuiText>';
   const onSave = () =>
     dispatch(
       setAlert({
@@ -40,6 +40,10 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
   const onBack = () => dispatch(deleteStep(previousStep));
 
   console.log("examGrouped: ", examsGrouped);
+ useEffect(()=>{
+    console.log("my group exams");
+    console.log(examsGrouped);
+ },[])
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20 }}>

@@ -43,12 +43,7 @@ class ModelService {
     var formdata = new FormData();
     formdata.append("nom", data.nom);
     formdata.append("groupe_rdv", data.groupe_rdv);
-    formdata.append("id_granularite_groupe", data.id_granularite_groupe);
-    formdata.append("id_granularite_examen", data.id_granularite_examen);
-    formdata.append("id_entite", data.id_entite);
     formdata.append("nb_occurence", data.nb_occurence);
-    formdata.append("espacement_groupe", data.espacement_groupe);
-    formdata.append("espacement_examen", data.espacement_examen);
 
     var requestOptions = {
       method: 'POST',

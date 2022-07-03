@@ -123,11 +123,14 @@ const ExamenForm = ({
       fixe: fixedExamPosition ? 1 : 0,
       position: 1,
     };
+    
     if (isModelGroup) {
       payload.id_group = activeGroup;
+      console.log("Model de groupe ------------------>>>>>>>>>>><");
+      console.log(payload);
       dispatch(
         setAlert({
-          title: "Enregistrer le modèle",
+          title: "Enregistrer le modèl",
           message: alertMessage,
           showAlert: true,
           buttonText: button,
@@ -157,8 +160,18 @@ const ExamenForm = ({
        * @todo dispatch creatExamen action
        */
       examenService.createExamen(payload)
-      .then((response) => {console.log(response.data)})
-      .catch((error) => {console.log(error)});
+      .then((response) => {
+        console.log(response.data)
+        dispatch(createExamen(payload));
+        setReload(true);
+        onAddExam({ name: "EXAMSLIST" });
+        dispatch(addExam({ exam: payload }));
+        dispatch(createExamenAction(payload));
+      })
+      .catch((error) => {
+        console.log(error);
+
+      });
       
       dispatch(createExamen(payload));
       setReload(true);
