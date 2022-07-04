@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, connect } from "react-redux";
 import { setComponent } from "../../../redux/commons/actions";
-import ModalForm from "../../ModelForm";
-import RecapitulatifDesExamens from "../RecapitulatifDesExamens";
+import RecapitulatifDesExamens from "../../examenComponents/RecapitulatifDesExamens";
+import RendezVousForm from "../RendezVousForm";
+import { typeRecap } from "../../../utils/constants";
 import { typeScreen } from "../../../utils/constants";
 
 const RecapitulatifWrapper = ({
@@ -14,7 +15,6 @@ const RecapitulatifWrapper = ({
     componentTodisplay ? componentTodisplay : typeScreen.recapitulatif
   );
   const dispatch = useDispatch();
-
   const onChangeComponent = (name, data = null) => {
     dispatch(setComponent(name, data));
     setComponentName(name);
@@ -25,11 +25,10 @@ const RecapitulatifWrapper = ({
       setComponentName(componentTodisplay);
     }
   });
-
   return (
     <div className="wrapper">
-      {component === typeScreen.modelFomEdit ? (
-        <ModalForm
+      {component === typeScreen.redvFormEdit ? (
+        <RendezVousForm
           closeModal={closeModal}
           formType={component}
           onSaveChange={(data) => onChangeComponent(data)}
@@ -39,6 +38,7 @@ const RecapitulatifWrapper = ({
         <RecapitulatifDesExamens
           closeModal={closeModal}
           isModelGroup={isModelGroup}
+          recapType={typeRecap.appointment}
         />
       )}
     </div>
@@ -48,5 +48,4 @@ const RecapitulatifWrapper = ({
 const mapStateToProps = ({ CommonReducer }) => ({
   componentTodisplay: CommonReducer.componentTodisplay,
 });
-
 export default connect(mapStateToProps)(RecapitulatifWrapper);
