@@ -59,7 +59,7 @@ const ExamItem = ({ showEditForm,reRender, color, id_modele, exam, index, isExam
             style={styles.tracIcon}
           ></span>
           <span style={styles.examen}>
-            Examen {windowSize.innerWidth < 971 && windowSize.innerWidth > 729 ? formatExamNumber(index) : index}
+            Examen {windowSize.innerWidth < 971 && windowSize.innerWidth > 729 ? formatExamNumber(index) : index + 1}
           </span>
         </div>
       </div>

@@ -19,6 +19,7 @@ const Propover = ({
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
+  const [positionFixed, setPositionFixed] = useState(false)
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
@@ -55,6 +56,7 @@ const Propover = ({
   const onFixPosition = () => {
     onFixePosition();
     togglePropover();
+    setPositionFixed(v=>!v)
   };
 
   const button = (
@@ -80,7 +82,7 @@ const Propover = ({
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
-          <EuiListGroupItem onClick={onFixPosition} label="Fixer la position" />
+          <EuiListGroupItem onClick={onFixPosition} label={positionFixed ? "Defixer la position" : "Fixer la position"} />
           <EuiPopover
             id="simpleAccordionId"
             isOpen={isOpen}

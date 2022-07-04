@@ -296,15 +296,16 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                                           marginLeft: "6%",
                                           cursor: "pointer",
                                           textDecoration: "underline",
-                                          font: "normal normal normal 17px/23px Open Sans",
+                                          fontSize: "17px",
+                                          font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
                                           letterSpacing: 0,
                                           color: colors.primary,
                                         }}>
                                         {(espace && (espace['group ' + index]['subEspace ' + i] ? espace['group ' + index]['subEspace ' + i].length > 0 : false) && espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].parentSubExamId === index
                                           && espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].applyOnAll === false) ?
-                                          `Délai entre l'examen ${i} et l'examen ${i + 1} : ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].minInterval} ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit} - ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].maxInterval} ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit}`
+                                          `Délai entre l'examen ${i + 1} et l'examen ${i + 2} : ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].minInterval} ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit} - ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].maxInterval} ${espace["group " + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length <= 1 ? 0 : espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit}`
                                           : (espace && (espace['group ' + index]['subEspace ' + i] ? espace['group ' + index]['subEspace ' + i].length > 0 : false) && espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].applyOnAll === true) ?
-                                            `Délai entre l'examen ${i} et l'examen ${i + 1} : ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].minInterval} ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit} - ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].maxInterval} ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit}`
+                                            `Délai entre l'examen ${i + 1} et l'examen ${i + 2} : ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].minInterval} ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit} - ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].maxInterval} ${espace['group ' + index]['subEspace ' + i][espace['group ' + index]['subEspace ' + i].length - 1].minIntervalUnit}`
                                             :
                                             "Choisir l'intervalle inter examen"}
                                       </p>}
@@ -324,7 +325,8 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                             style={{
                               cursor: "pointer",
                               textDecoration: "underline",
-                              font: "normal normal normal 17px/23px Open Sans",
+                              fontSize: "17px",
+                              font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
                               letterSpacing: 0,
                               color: colors.primary,
                             }}
@@ -335,7 +337,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                               espacement["espace " + index][
                                 espacement["espace " + index].length - 1
                               ].applyOnAll === false
-                              ? `Délai entre le groupe ${index} et le groupe ${index + 1
+                              ? `Délai entre le groupe ${index + 1} et le groupe ${index + 2
                               } : ${espacement["espace " + index][0].minInterval
                               } ${espacement["espace " + index][0]
                                 .minIntervalUnit
@@ -349,7 +351,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                                 espacement["espace " + index][
                                   espacement["espace " + index].length - 1
                                 ].applyOnAll === true
-                                ? `Délai entre le groupe ${index} et le groupe ${index + 1
+                                ? `Délai entre le groupe ${index + 1} et le groupe ${index + 2
                                 } : ${espacement["espace " + index][
                                   espacement["espace " + index].length - 1
                                 ].minInterval
@@ -389,10 +391,12 @@ const GroupExamenSummary = ({
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(Object.keys(groupWithData));
   const steps = useSelector((state) => state.StepReducer.steps);
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData)
   const showForm = useSelector((state) => state.CommonReducer.examen.show);
   const previousStep = getStepByKey(steps, STEP2);
   const [reRender, setRerender] = useState(false);
-  const [ignored, forceUpdate] = useReducer(x=>x+1,0)
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
+  const [index, setIndex] = useState(100)
   const onClickNext = () => {
     let nextStep = createStep(STEP3);
     nextStep.previousStep = previousStep;
@@ -423,11 +427,15 @@ const GroupExamenSummary = ({
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setGroupList([...items]);
-    dispatch(dragAndDrog({ source, destination }))
+    if ((groupesWithData['group ' + source].positionFixed === false && groupesWithData['group ' + destination].positionFixed === false)) {
+      dispatch(dragAndDrog({ source, destination }))
+    }
     setRerender(true);
     forceUpdate()
   };
-  
+  const getIndex = (index) => {
+    setIndex(index)
+  }
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -448,8 +456,9 @@ const GroupExamenSummary = ({
               >
                 {[...Array(nbrGroupe).keys()].map((item, index) => (
                   <GroupItem
+                    getIndex={getIndex}
                     reRender_={reRender}
-                    groupName={"Group " + index}
+                    groupName={"Group " + index + 1}
                     key={index}
                     espacement={espacement}
                     groupWithData={groupWithData}

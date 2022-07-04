@@ -112,8 +112,8 @@
   color: var(--unnamed-color-052a3e);
   text-align: left;
   text-decoration: underline;
-  /* font: normal normal normal 15px/20px Open Sans; */
-  font-size: 15px;
+  font: var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);
+  font-size: 17px;
   letter-spacing: 0px;
   color: #052a3e;
   cursor: pointer;
