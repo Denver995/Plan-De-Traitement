@@ -13,14 +13,14 @@ createExamen = (payload) => {
     console.log('Create Examen Service ', payload);
     const formdata = new FormData();
     formdata.append("nom", payload.nom);
-    formdata.append("id_modele", payload.id_modele);
-    formdata.append("id_modele_groupe", payload.id_model_groupe);
-    formdata.append("id_praticien", payload.id_praticien);
-    formdata.append("id_profession", payload.id_profession);
-    formdata.append("id_lieu",payload.id_lieu);
+    formdata.append("id_modele", parseInt(payload.id_modele));
+    formdata.append("id_modele_groupe", parseInt(payload.id_model_groupe));
+    formdata.append("id_praticien", parseInt(payload.id_praticien));
+    formdata.append("id_profession", parseInt(payload.id_profession));
+    formdata.append("id_lieu",parseInt(payload.id_lieu));
     formdata.append("fixe", payload.fixe);
     formdata.append("position", payload.position);
-    formdata.append("id_motif", payload.id_motif);
+    formdata.append("id_motif", parseInt(payload.id_motif));
 
 
     console.log("------------My form data------------------");

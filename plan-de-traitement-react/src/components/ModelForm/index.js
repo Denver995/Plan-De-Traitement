@@ -31,14 +31,12 @@ import {
 } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
+import { createModel, deleteModel, createModelGroupe } from "../../utils/fetcher";
 import { STEP1, STEP2 } from "../../utils/constants";
 import ModalWrapper from "../common/ModalWrapper";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import Radio from "../Radio";
-
 import styles from "./styles";
-import modelGroupeService from '../../services/modelGroupe';
-import modelService from '../../services/models';
 
 const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
@@ -67,6 +65,15 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
     setTypePeriode(e.target.value);
   };
 
+  const getModelById = () => {
+
+  }
+
+  const closeModale = () => {
+       closeModal();
+       deleteModel(1);
+  }
+
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
     nextStep.previousStep = values;
@@ -90,22 +97,12 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
       console.log("my step ");
       console.log(step);
  if(groupe_rdv){
-  modelGroupeService.createModelGroupe(data)
-      .then((response) => {
-        dispatch(startLoading());
-        console.log(response.data);
-        dispatch(createGroups(response.data.nb_occurence));
-        dispatch(CreateEspacement(nombreOccurence - 1));
-        dispatch(updateStep(step));
-        createModele(step);
-        dispatch(setModelData(data));
-      })
-      .catch((error) => {
-        dispatch(startLoading());
-        console.log(error);
-      })
-
-     
+      createModelGroupe(data);
+      dispatch(createGroups(nombreOccurence));
+      dispatch(CreateEspacement(nombreOccurence - 1));
+      dispatch(updateStep(step));
+      createModele(step);
+      dispatch(setModelData(data));
   }else {
       dispatch(createGroups(nombreOccurence));
       dispatch(CreateEspacement(nombreOccurence - 1));
@@ -115,22 +112,13 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   }
       
     } else{
+      setShowGroupOption(true);
       const payload = {
         nom: nomModele,
         nb_occurence: nombreOccurence,
         groupe_rdv: groupe_rdv ? 1 : 0
       };
-        setShowGroupOption(true);
-        
-        modelService.createModel(payload)
-        .then((response) => {
-          console.log("....... Create model successfully ........");
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-
+      createModel(payload,dispatch);
     } 
   };
 
@@ -279,7 +267,7 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
           <EuiButtonEmpty
             className="button_global btn-annuler-modelForm"
             onClick={() =>
-              isEdited ? onSaveChange("RECAPITULATIF") : closeModal()
+              isEdited ? onSaveChange("RECAPITULATIF") : closeModale()
             }
             style={styles.cancelButton}
           >
