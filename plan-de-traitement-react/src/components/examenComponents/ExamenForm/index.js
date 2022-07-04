@@ -45,6 +45,8 @@ import styles from "./styles";
 import ModalWrapper from "../../common/ModalWrapper";
 import { useDimension } from "../../../hooks/dimensions";
 import examenService from '../../../services/examens';
+import { typeScreen } from "../../../utils/constants";
+
 
 const ExamenForm = ({
   isModelGroup,
@@ -71,7 +73,7 @@ const ExamenForm = ({
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [listExam, setListExam] = useState([]);
   const [showEditForm, setShowEditForm] = useState(
-    formType === "EXAMENFORMEDIT"
+    formType === typeScreen.examFormEdit
   );
   const [reload, setReload] = useState(false);
   const [specialite, setSpecialite] = useState("");
@@ -179,14 +181,13 @@ const ExamenForm = ({
       
       dispatch(createExamen(payload));
       setReload(true);
-      onAddExam({ name: "EXAMSLIST" });
+      onAddExam({ name: typeScreen.examList });
       dispatch(addExam({ exam: payload }));
       dispatch(createExamenAction(payload));
     }
   };
 
   const updateFormData = (resetFormData=false, exam) => {
-    console.log('inside updateFormData ', exam?.id_lieu, exam?.id_specialtite, exam?.id_praticien, exam?.id_motif);
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
@@ -194,18 +195,18 @@ const ExamenForm = ({
   };
 
   const onEditExamen = () => {
-    dispatch(setComponent("EXAMSLIST"));
+    dispatch(setComponent(typeScreen.examList));
     return;
   };
 
   const onCancel = () => {
-    if (formType === "EXAMENFORMEDIT") {
-      dispatch(setComponent("EXAMSLIST"));
+    if (formType === typeScreen.examFormEdit) {
+      dispatch(setComponent(typeScreen.examList));
       return;
     }
 
-    if (predecessor === "EXAMSLIST") {
-      dispatch(setComponent("EXAMSLIST"));
+    if (predecessor === typeScreen.examList) {
+      dispatch(setComponent(typeScreen.examList));
       return;
     }
 

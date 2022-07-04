@@ -7,3 +7,25 @@ export const type_espacement = {
     group: "GROUPE",
     examen: "EXAM"
 };
+export const typeRecap = {
+    model: "MODEL",
+    appointment: "APPOINTMENT"
+}
+
+export const typeScreen = {
+    model: "MODELSCREEN",
+    appointment: "APPOINTMENTSCREEN",
+    recapitulatif: "RECAPITULATIF",
+    modelFom: "MODELFORM",
+    modelFomEdit: "EDITMODEL",
+    examForm: "EXAMFORM",
+    examFormEdit: "EXAMENFORMEDIT",
+    examList: "EXAMSLIST",
+    rdvForm: "RDVFORM",
+    redvFormEdit: "RDVFORMEDIT"
+}
+
+export const typeRendezVous = {
+    groupe: "RDVGROUP",
+    simple: "RDVSIMPLE"
+}

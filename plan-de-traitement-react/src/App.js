@@ -3,12 +3,11 @@ import './font.css';
 import './responsive.css';
 import styles from './eui_theme_light.css';
 import "./responsive.css";
-// import '@elastic/eui/dist/eui_theme_light.css';
 import { createStep } from './utils/helper';
 import { STEP1 } from './utils/constants';
 import { useDispatch } from 'react-redux';
 import { addStep } from './redux/steps/actions';
-import MainScreen from './components/MainScreen';
+import MainScreenWrapper from './components/MainScreenWrapper';
 
 function App() {
   const dispatch = useDispatch();
@@ -16,7 +15,7 @@ function App() {
 
   return (
     <div className={styles}>
-      <MainScreen />
+      <MainScreenWrapper />
     </div>
   );
 }
