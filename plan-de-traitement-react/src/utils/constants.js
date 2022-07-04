@@ -14,7 +14,15 @@ export const typeRecap = {
 
 export const typeScreen = {
     model: "MODELSCREEN",
-    appointment: "APPOINTMENTSCREEN"
+    appointment: "APPOINTMENTSCREEN",
+    recapitulatif: "RECAPITULATIF",
+    modelFom: "MODELFORM",
+    modelFomEdit: "EDITMODEL",
+    examForm: "EXAMFORM",
+    examFormEdit: "EXAMENFORMEDIT",
+    examList: "EXAMSLIST",
+    rdvForm: "RDVFORM",
+    redvFormEdit: "RDVFORMEDIT"
 }
 
 export const typeRendezVous = {

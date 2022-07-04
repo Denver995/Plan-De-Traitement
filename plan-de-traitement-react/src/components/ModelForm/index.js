@@ -46,7 +46,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : "");
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
-  // const [typePeriode, setTypePeriode] = useState();
+  const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
   const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
@@ -61,9 +61,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
 
   const onChangeNomModeleField = (val) => setNomModele(val.target.value);
 
-  // const onChangeTypePeriode = (e) => {
-  //   setPeriode(e.target.value);
-  // };
+  const onChangeTypePeriode = (e) => {
+    setTypePeriode(e.target.value);
+  };
 
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
@@ -81,6 +81,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         id_entite: 4,
         periode: periode ? periode : 1,
         id_modele: 1,
+        typePeriode: typePeriode
       };
       step.data = data;
       dispatch(createGroups(nombreOccurence));
@@ -217,7 +218,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
                   />
                 </div>
                 <div style={{ width: "49%" }}>
-                  <select name="cars" id="cars" style={styles.fieldNumber2}>
+                  <select name="cars" id="cars" style={styles.fieldNumber2} onChange={onChangeTypePeriode}>
                     {listTypePeriode.map((item, index) => (
                       <option key={index} value={item.value}>
                         {item.text}

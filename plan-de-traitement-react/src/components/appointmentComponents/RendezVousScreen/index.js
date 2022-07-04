@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { getActiveStep } from "../../../utils/helper";
 import { STEP1, STEP2 } from "../../../utils/constants";
 import ButtonLight from "../../Buttons/ButtonLight";
-
-import RecapitulatifWrapper from "../../examenComponents/recapitulatifWrapper";
+import RecapitulatifWrapper from "../RecapitulatifWrapper";
 import RendezVousForm from "../RendezVousForm";
 import PopUp from "../../PopUp";
 
@@ -33,7 +32,7 @@ const RendezVousScreen = () => {
       content = (
         <RecapitulatifWrapper
           closeModal={closeModal}
-          isModelGroup={steps[0].data.groupe_rdv === 1 ? true : false}
+          isModelGroup={steps[0].data.groupe_rdv}
         />
       );
       break;

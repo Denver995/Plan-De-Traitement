@@ -23,7 +23,7 @@ import styles from "./styles";
 import Alert from "../../Alert";
 import { setComponent } from "../../../redux/commons/actions";
 import { typeRecap } from "../../../utils/constants";
-
+import { typeScreen } from "../../../utils/constants";
 import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 
@@ -32,8 +32,9 @@ const RecapitulatifDesExamens = ({
   isModelGroup,
   exams,
   modelData,
-  isEditing=false,
-  recapType=typeRecap.model
+  appointmentData,
+  isEditing = false,
+  recapType = typeRecap.model,
 }) => {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
@@ -50,7 +51,6 @@ const RecapitulatifDesExamens = ({
       </div>
     </EuiText>
   `;
-
   const onSave = () => {
     setAlert({
       title: "Enregistrer le modèle",
@@ -66,7 +66,7 @@ const RecapitulatifDesExamens = ({
   return (
     <ModalWrapper style={styles.modal}>
       {isModelGroup ? (
-        <SummaryGroupedExam closeModal={closeModal} isEditing={isEditing}/>
+        <SummaryGroupedExam closeModal={closeModal} isEditing={isEditing} />
       ) : showAlert ? (
         <Alert
           showButtonBlock={true}
@@ -92,12 +92,20 @@ const RecapitulatifDesExamens = ({
               <p style={styles.headLabel}>Modèle :</p>
               <EuiSpacer size="s" />
               <div style={styles.headTitleContainer}>
-                <p style={styles.headTitle}>{modelData.nom}</p>
-                <Pencil
-                  onClick={() => dispatch(setComponent("EDITMODEL"))}
-                  width={"21px"}
-                  style={styles.pencil}
-                />
+                <p style={styles.headTitle}>
+                  {recapType === typeRecap.model
+                    ? modelData.nom
+                    : appointmentData.model.nom}
+                </p>
+                {recapType === typeRecap.model && (
+                  <Pencil
+                    onClick={() =>
+                      dispatch(setComponent(typeScreen.modelFomEdit))
+                    }
+                    width={"21px"}
+                    style={styles.pencil}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -120,20 +128,17 @@ const RecapitulatifDesExamens = ({
           <EuiSpacer size="xxl" />
 
           <EuiFlexGroup style={styles.btnContainer}>
-            <EuiButtonEmpty
-              style={styles.backBtn}
-              onClick={() => {
-                onBack();
-              }}
-            >
-              Retour
-            </EuiButtonEmpty>
-            <EuiButton
-              // form={closeModal}
-              style={styles.validateBtn}
-              fill={true}
-              onClick={onSave}
-            >
+            {recapType === typeRecap.model && (
+              <EuiButtonEmpty
+                style={styles.backBtn}
+                onClick={() => {
+                  onBack();
+                }}
+              >
+                Retour
+              </EuiButtonEmpty>
+            )}
+            <EuiButton style={styles.validateBtn} fill={true} onClick={onSave}>
               Valider
             </EuiButton>
           </EuiFlexGroup>
@@ -157,9 +162,10 @@ const RecapitulatifDesExamens = ({
   );
 };
 
-const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, ModelsReducer, AppointReducer }) => ({
   exams: ExamenReducer.exams,
   modelData: ModelsReducer.modelData,
+  appointmentData: AppointReducer.appointmentData,
 });
 
 export default connect(mapStateToProps)(RecapitulatifDesExamens);

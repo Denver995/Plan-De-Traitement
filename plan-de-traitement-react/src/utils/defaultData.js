@@ -34,6 +34,7 @@ export const rdvData = {
     group3: { exams: [exam, exam, exam] },
   },
   exams: [exam, exam, exam, exam, exam],
+  exam: exam
 };
 
 // const examList = [

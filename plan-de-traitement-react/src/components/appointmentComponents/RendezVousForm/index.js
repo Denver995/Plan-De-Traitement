@@ -19,18 +19,29 @@ import colors from "../../../utils/colors";
 import { typeRendezVous, STEP1, STEP2 } from "../../../utils/constants";
 import { createAppointment } from "../../../redux/appointments/action";
 import {
+  addExam,
+  addExamGrouped,
+  addExamOnAllGroups,
+  CreateEspacementSubExam,
+  createGroups,
+  createExamGroup,
+  CreateEspacement,
+} from "../../../redux/examens/actions";
+import { setModelData } from "../../../redux/models/actions";
+import {
   addStep,
   updateStep,
   desactivateStep,
 } from "../../../redux/steps/actions";
 import { getStepByKey, createStep } from "../../../utils/helper";
-import moment from 'moment';
+import moment from "moment";
+import { rdvData } from "../../../utils/defaultData";
 
 const RendezVousForm = ({ closeModal }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const [isValid, setIsValid] = useState(false);
-  const [idModele, setIdModel] = useState("");
+  const [idModele, setIdModel] = useState(1);
   const [typeRdv, setTypeRdv] = useState(typeRendezVous.simple);
   const [dateDebut, setDateDebut] = useState(moment());
   const [dateFin, setDateFin] = useState(moment());
@@ -38,23 +49,46 @@ const RendezVousForm = ({ closeModal }) => {
   const onClickNext = () => {
     let currentSstep = getStepByKey(steps, STEP1);
     const payload = {
-      idModele: idModele,
+      nom: "test",
+      id_modele: idModele,
+      model: {
+        nom: "test",
+      },
+      nb_occurence: 5,
       type: typeRdv,
       dateDebut: dateDebut,
       dateFin: dateFin,
+      groupe_rdv: typeRdv === typeRendezVous.groupe ? true : false
     };
     dispatch(createAppointment(payload));
     currentSstep.data = payload;
     dispatch(updateStep(currentSstep));
+    createExamForRecap();
     let nextStep = createStep(STEP2);
     nextStep.previousStep = currentSstep;
     dispatch(desactivateStep(STEP1));
     dispatch(addStep(nextStep));
+    dispatch(setModelData(payload));
+  };
+
+  const createExamForRecap = () => {
+    if (typeRdv === typeRendezVous.simple) {
+      rdvData.exams.forEach((payload) => {
+        dispatch(addExam({ exam: payload }));
+      });
+    } else {
+      dispatch(createGroups(5));
+      dispatch(CreateEspacement(4));
+      rdvData.exams.forEach((payload, index) => {
+        dispatch(addExam({ exam: payload }));
+        dispatch(addExamOnAllGroups({ exam: payload, index:  index}));
+      });
+    }
   };
 
   const onSelectTypeRdv = (type) => setTypeRdv(type);
 
-  const onChangeDateDebut = (date) =>  setDateDebut(date);
+  const onChangeDateDebut = (date) => setDateDebut(date);
 
   const onChangeDateFin = (date) => setDateFin(date);
 
