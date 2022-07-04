@@ -11,13 +11,14 @@ import {
   EuiFlexGroup,
   useGeneratedHtmlId,
 } from "@elastic/eui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAlert } from "../../redux/commons/actions";
 import { setEspacement, setEspacementNonGroupe, setEspacementSubExam } from "../../redux/examens/actions";
 import ModalWrapper from "../common/ModalWrapper";
 import { type_espacement } from "../../utils/constants";
 import styles from "./styles";
+import { isPossibleGranularly } from "../../utils/helper";
 
 const EspacementInterExamenForm = ({
   closeModal,
@@ -34,6 +35,7 @@ const EspacementInterExamenForm = ({
   const [maxInterval, setMaxInterval] = useState();
   const [maxIntervalUnit, setMaxIntervalUnit] = useState("Jour");
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
+  const [isValid, setIsValid] = useState(false)
   console.log("typeEspacement ", typeEspacement);
   const options = [
     {
@@ -54,10 +56,13 @@ const EspacementInterExamenForm = ({
     },
   ];
 
+  useEffect(() => {
+    setIsValid(isPossibleGranularly({minInterval, minIntervalUnit}, {maxInterval, maxIntervalUnit}))
+  },[minInterval, minIntervalUnit, maxInterval, maxIntervalUnit, isValid])
+
   const onChangeMinInterval = (e) => setMinInterval(e.target.value);
 
   const onChangeMinIntervalUnit = (e) => {
-    setMaxIntervalUnit(e.target.value);
     setMinIntervalUnit(e.target.value);
   }
 
@@ -200,8 +205,7 @@ const EspacementInterExamenForm = ({
                 <span style={styles.hidden}></span>
                 <EuiSelect
                   fullWidth
-                  disabled
-                  value={minIntervalUnit}
+                  value={maxIntervalUnit}
                   style={styles.select}
                   onChange={(e) => onChangeMaxIntervalUnit(e)}
                   options={options}
@@ -226,21 +230,11 @@ const EspacementInterExamenForm = ({
             form={modalFormId}
             onClick={submit}
             style={
-              !minInterval ||
-                (minInterval && minInterval < 0) ||
-                !maxInterval ||
-                (maxInterval && maxInterval < 0) ||
-                (minInterval && maxInterval && maxInterval < minInterval)
+                  !isValid
                 ? styles.submitDeactivated
                 : styles.submit
             }
-            disabled={
-              !minInterval ||
-              (minInterval && minInterval < 0) ||
-              !maxInterval ||
-              (maxInterval && maxInterval < 0) ||
-              (minInterval && maxInterval && maxInterval < minInterval)
-            }
+            disabled={!isValid}
             css={{ backgroundColor: euiTheme.colors.disabled }}
             className="inter-add"
           >

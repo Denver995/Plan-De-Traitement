@@ -4,7 +4,7 @@ import MainScreen from "./MainScreen";
 import RendezVousScreen from "./appointmentComponents/RendezVousScreen"
 
 export default function MainScreenWrapper({
-  screenType = typeScreen.appointment,
+  screenType = typeScreen.model,
 }) {
   return (
     <div className="wrapper">

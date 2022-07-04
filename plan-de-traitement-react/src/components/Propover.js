@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 const Propover = ({
   isModelGroup,
   onDeleteGroup,
+  idGroupe,
   onEditItem,
   onDeleteExam,
   onFixePosition
@@ -19,11 +20,11 @@ const Propover = ({
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
-  const [positionFixed, setPositionFixed] = useState(false)
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData)
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const closePopover = () => setPopover(false);
 
@@ -56,7 +57,7 @@ const Propover = ({
   const onFixPosition = () => {
     onFixePosition();
     togglePropover();
-    setPositionFixed(v=>!v)
+    console.log(idGroupe)
   };
 
   const button = (
@@ -67,7 +68,7 @@ const Propover = ({
       <span className="icon-ellipsis-v"></span>
     </div>
   );
-
+    
   return (
     <div grow={false} className="icon_ellipsis">
       <EuiPopover
@@ -82,7 +83,7 @@ const Propover = ({
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
-          <EuiListGroupItem onClick={onFixPosition} label={positionFixed ? "Defixer la position" : "Fixer la position"} />
+          <EuiListGroupItem onClick={onFixPosition} label={groupesWithData[idGroupe]?.positionFixed ? "Defixer la position" : "Fixer position"} />
           <EuiPopover
             id="simpleAccordionId"
             isOpen={isOpen}
