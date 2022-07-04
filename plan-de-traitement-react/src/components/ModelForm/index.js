@@ -96,8 +96,8 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
 
       console.log("my step ");
       console.log(step);
-
-      modelGroupeService.createModelGroupe(data)
+ if(groupe_rdv){
+  modelGroupeService.createModelGroupe(data)
       .then((response) => {
         dispatch(startLoading());
         console.log(response.data);
@@ -112,11 +112,15 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
         console.log(error);
       })
 
+     
+  }else {
       dispatch(createGroups(nombreOccurence));
       dispatch(CreateEspacement(nombreOccurence - 1));
       dispatch(updateStep(step));
       createModele(step);
       dispatch(setModelData(data));
+  }
+      
     } else{
       const payload = {
         nom: nomModele,

@@ -123,6 +123,8 @@ const ExamenForm = ({
       fixe: fixedExamPosition ? 1 : 0,
       position: 1,
     };
+    console.log("PAYLOAD FOR EXAMS");
+    console.log(payload);
     
     if (isModelGroup) {
       payload.id_group = activeGroup;
@@ -159,7 +161,7 @@ const ExamenForm = ({
       /**
        * @todo dispatch creatExamen action
        */
-       
+
       examenService.createExamen(payload)
       .then((response) => {
         console.log("Successful create exams");
