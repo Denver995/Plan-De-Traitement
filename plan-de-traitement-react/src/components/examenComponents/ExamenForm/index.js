@@ -159,9 +159,11 @@ const ExamenForm = ({
       /**
        * @todo dispatch creatExamen action
        */
+       
       examenService.createExamen(payload)
       .then((response) => {
-        console.log(response.data)
+        console.log("Successful create exams");
+        console.log(response)
         dispatch(createExamen(payload));
         setReload(true);
         onAddExam({ name: "EXAMSLIST" });

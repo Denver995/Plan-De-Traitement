@@ -3,12 +3,13 @@ import {
   BASE_EXAMEN_URL,
   BASE_URL_API,
 } from '../../utils/urls';
+import http from '../http-helper';
 
 
 class ExamenLieService {
 
 createExamenLie = (values) => {
-    console.log('Create Examen Service ', values);
+    console.log('Create Examen Lie Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
     formdata.append("id_modele", values.id_modele);
@@ -20,40 +21,30 @@ createExamenLie = (values) => {
     formdata.append("position", values.position);
     formdata.append("id_motif", values.id_motif);
 
-    console.log(formdata);
+    console.log(values);
 
-    const requestOptions = {
+    /*const requestOptions = {
       method: 'POST',
       body: formdata,
       redirect: 'follow'
-    };
-
-  return fetch(BASE_URL_API+"/api_examenlie/examenlie", requestOptions);
+    };*/
+  return http.post(BASE_URL_API+"/api_examenlie/examenlie", values);
 }
 
+
 getExamenLie = (payload) => {
-  const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_examenlie/examenlie/${payload}`, requestOptions);
+
+  return http.get(BASE_URL_API+`/api_examenlie/examenlie/${payload}`);
 }
 
 deleteExamenLie = (id_examenlie) => {
-  const requestOptions = {
-      method: 'DELETE',
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, requestOptions);
+
+   return http.delete(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`);
 }
 
 updateExamenLie = (id_examenlie, payload) => {
-   const requestOptions = {
-      method: 'PUT',
-      body: payload,
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, requestOptions);
+ 
+   return http.put(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, payload);
 }
 
 

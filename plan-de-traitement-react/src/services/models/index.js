@@ -1,5 +1,5 @@
 import { SERVER_URL, BASE_URL_API } from "../../utils/urls";
-
+import http from '../http-helper';
 // export const createModel = async (data) => {
 //   console.log('dataService: ', data);
 //   const formData = new FormData();
@@ -39,49 +39,33 @@ import { SERVER_URL, BASE_URL_API } from "../../utils/urls";
 
 class ModelService {
 
-  createModelExamen = (data) => {
+  createModel = (data) => {
     var formdata = new FormData();
     formdata.append("nom", data.nom);
     formdata.append("groupe_rdv", data.groupe_rdv);
     formdata.append("nb_occurence", data.nb_occurence);
 
-    var requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };
+    console.log("my value for model");
+    console.log(formdata);
 
-    fetch(BASE_URL_API+`/api_modeleexamen/modeleexamen`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-
+      return http.post(BASE_URL_API+"/api_modeleexamen/modeleexamen", formdata);
     }
 
-getModelExamen = (payload) => {
-  const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_modeleexamen/modeleexamen/${payload}`, requestOptions);
-}
+    getModel = (payload) => {
 
-deleteModelExamen = (id__model_examen) => {
-  const requestOptions = {
-      method: 'DELETE',
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_modeleexamen/modeleexamen/${id__model_examen}`, requestOptions);
-}
+      return http.get(BASE_URL_API+`/api_modeleexamen/modeleexamen/${payload}`);
+    }
 
-updateModelExamen = (id_model_examen, payload) => {
-   const requestOptions = {
-      method: 'PUT',
-      body: payload,
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`api_modeleexamen/modeleexamen/${id_model_examen}`, requestOptions);
-}
+    deleteModel = (id__model_examen) => {
+      
+       return http.delete(BASE_URL_API+`/api_modeleexamen/modeleexamen/${id__model_examen}`);
+    }
+
+    updateModel = (id_model_examen, payload) => {
+       
+      
+      return http.put(BASE_URL_API+`api_modeleexamen/modeleexamen/${id_model_examen}`, payload);
+    }
 
 }
 

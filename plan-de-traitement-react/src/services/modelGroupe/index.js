@@ -3,6 +3,7 @@ import {
   BASE_EXAMEN_URL,
   BASE_URL_API,
 } from '../../utils/urls';
+import http from '../http-helper';
 
 
 class ModelGroupeService {
@@ -17,40 +18,30 @@ createModelGroupe = (values) => {
     formdata.append("periode", values.periode);
     formdata.append("id_modele", values.id_modele);
 
-    console.log(formdata);
+    console.log(values);
 
-    const requestOptions = {
+   /* const requestOptions = {
       method: 'POST',
       body: formdata,
       redirect: 'follow'
-    };
+    };*/
 
-  return fetch(BASE_URL_API+"/api_modelegroupe/modelegroupe", requestOptions);
+  return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", values);
 }
 
 getModelGroupe = (payload) => {
-  const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_modelegroupe/modelegroupe/${payload}`, requestOptions);
+
+  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/${payload}`);
 }
 
 deleteModelGroupe = (id_model_groupe) => {
-  const requestOptions = {
-      method: 'DELETE',
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, requestOptions);
+ 
+  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
 }
 
 updateModelGroupe = (id_model_groupe, payload) => {
-   const requestOptions = {
-      method: 'PUT',
-      body: payload,
-      redirect: 'follow'
-    };
-  return fetch(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, requestOptions);
+   
+  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
 }
 
 
