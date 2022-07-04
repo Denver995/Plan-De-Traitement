@@ -2,23 +2,34 @@ import React, { Fragment, useState } from "react";
 import {
   EuiButton,
   EuiButtonEmpty,
-  EuiButtonIcon,
   EuiDatePicker,
-  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiForm,
   EuiHorizontalRule,
+  EuiSelect,
   EuiSpacer,
   EuiText,
 } from "@elastic/eui";
+
 import ModalWrapper from "../common/ModalWrapper";
 
 import styles from "./style";
-import colors from "../../utils/colors";
+import { fakeModel } from "../../utils/defaultData";
+import { ReactComponent as CalendarIcon } from "../../assets/svgs/Groupe 2.svg";
 
-const RendezVousForm = ({ closeModal }) => {
+const RendezVousForm = ({ closeModal, isEdited }) => {
   const [isValid, setIsValid] = useState(false);
+  const [model, setModel] = useState(fakeModel[0].text);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
+  const handleChange = (e) => setModel(e.target.value);
+
+  const changeStartDate = (date) => setStartDate(date);
+
+  const changeEndDate = (date) => setEndDate(date);
+
   return (
     <ModalWrapper
       closeModal={closeModal}
@@ -39,8 +50,15 @@ const RendezVousForm = ({ closeModal }) => {
         <strong>
           <EuiText style={styles.nomModel}>Nom du modèle: </EuiText>
         </strong>
-        <EuiFieldText name="nomModele" style={styles.inputModal} fullWidth />
-        {isValid && (
+        <EuiSelect
+          options={fakeModel}
+          value={model}
+          onChange={handleChange}
+          name="nomModele"
+          style={styles.inputModal}
+          fullWidth
+        />
+        {isValid && !isEdited && (
           <Fragment>
             <EuiSpacer size="l" />
             <EuiFlexGroup justifyContent="spaceBetween">
@@ -50,10 +68,13 @@ const RendezVousForm = ({ closeModal }) => {
                   style={styles.inputText}
                   placeholder="Date de début"
                   showIcon={false}
+                  selected={startDate}
+                  onChange={changeStartDate}
+                  dateFormat="DD-MM-YYYY"
                   fullWidth
                 />
-                <div style={styles.calendarIcon}>
-                  <EuiButtonIcon color={colors.blackClaire} iconType="calendar" />
+                <div className="rdv-calendarIcon" style={styles.calendarIcon}>
+                  <CalendarIcon width={"1rem"} />
                 </div>
               </EuiFlexItem>
               <EuiFlexItem>
@@ -64,10 +85,13 @@ const RendezVousForm = ({ closeModal }) => {
                   style={styles.inputText}
                   placeholder="Date de fin"
                   showIcon={false}
+                  selected={endDate}
+                  onChange={changeEndDate}
+                  dateFormat="DD-MM-YYYY"
                   fullWidth
                 />
-                <div style={styles.calendarIcon2}>
-                  <EuiButtonIcon color={colors.blackClaire} iconType="calendar" />
+                <div className="rdv-calendarIcon2" style={styles.calendarIcon2}>
+                  <CalendarIcon width={"1rem"} />
                 </div>
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -83,16 +107,18 @@ const RendezVousForm = ({ closeModal }) => {
         <EuiButtonEmpty
           className="button_global btn-annuler-modelForm"
           style={styles.cancelButton}
+          onClick={closeModal}
         >
           Annuler
         </EuiButtonEmpty>
         <EuiButton
-          style={styles.addButton}
+          style={model === "" ? styles.addButton2 : styles.addButton}
+          disabled={model === ""}
           fill={true}
           className="button_global btn-suivant-modelForm"
           onClick={() => setIsValid(true)}
         >
-          Suivant
+          {isEdited ? "Enregistrer" : "Suivant"}
         </EuiButton>
       </EuiFlexGroup>
       <EuiSpacer size="l" />
@@ -102,7 +128,7 @@ const RendezVousForm = ({ closeModal }) => {
           .euiModalBody .euiFieldNumber,
           .euiModalBody .euiSelect {
             background: #ffffff 0% 0% no-repeat padding-box;
-            border: 1px solid #dfdfdf;
+            border: 1px solid #b7b7b7;
             border-radius: 7px;
             opacity: 1;
             height: 40px;

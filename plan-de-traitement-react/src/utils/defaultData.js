@@ -43,3 +43,10 @@ export const listLieu = [
   { value: "lieu_two", text: "Lieu2" },
   { value: "lieu_thr", text: "Lieu3" },
 ];
+
+export const fakeModel = [
+  { value: "", text: "" },
+  { value: "modele_1", text: "Protocole d'IVT" },
+  { value: "modele_2", text: "Modele 2" },
+  { value: "modele_3", text: "Modele 3" },
+];
