@@ -29,7 +29,7 @@ function ExamCard({ color, date, position, examen }) {
         >
           <Propover />
           <h4 className="spec" style={styles.speciality}>
-            <strong>*Spécialité* - {examen.id_modif}</strong>
+            <strong>*Spécialité* - {examen.id_modif?? "id_motif"}</strong>
           </h4>
         </div>
       </div>
@@ -43,9 +43,9 @@ function ExamCard({ color, date, position, examen }) {
             }
           >
             <PersonIcon width={"1rem"} />
-            <h4 style={styles.praticien}>{examen.id_praticien}</h4>
+            <h4 style={styles.praticien}>{examen.id_praticien ?? "id_praticien"}</h4>
             <MapIcon width={"0.7rem"} />
-            <h4 style={styles.adresse}>{examen.id_lieu}</h4>
+            <h4 style={styles.adresse}>{examen.id_lieu ?? "id_lieu"}</h4>
           </div>
           {examen.positionFixed ? (
             <PinIcon width={"7px"} height={"11px"} style={styles.pin} />
