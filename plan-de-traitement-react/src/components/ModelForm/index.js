@@ -72,20 +72,20 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   }
 
   const closeModale = () => {
-    if(groupe_rdv && showGroupOption){
+    if(groupe_rdv){
       closeModal();
     }else{
+      
+    }
       ModelService.deleteModele(modelData.id)
       .then((response) => {
         console.log(response.data)
         dispatch(stopLoading())
-        closeModal();
+         
       })
       .then((error) => {
         dispatch(stopLoading())
       });
-    }
-     
       
   }
 
@@ -112,17 +112,17 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
       console.log("my step ");
       console.log(step);
  if(groupe_rdv){
+      ModelGroupeService.createModelGroupe(data)
+      .then((response) => {
+        console.log("successful created model groupe");
+        console.log(response.data)
+       
         dispatch(createGroups(nombreOccurence));
         dispatch(CreateEspacement(nombreOccurence - 1));
         dispatch(updateStep(step));
         createModele(step);
         dispatch(setModelData(data));
-      ModelGroupeService.createModelGroupe(data)
-      .then((response) => {
-        console.log("successful created model groupe");
-        console.log(response.data)
-        dispatch(setModelData(response.data))
-        dispatch(stopLoading());
+        dispatch(startLoading());
       })
       .catch((error) => {
         console.log("error ", error)
