@@ -51,8 +51,9 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
   const handleGetExams = () => {
     console.log("MY EXAMS");
     console.log(exams);
-   /*const payload = { id_examen, 
-      Nom, 
+  
+  /* const payload = { id_examen: modelData, 
+      Nom: modelData., 
       id_modele_groupe, 
       id_modele, 
       id_praticien, 

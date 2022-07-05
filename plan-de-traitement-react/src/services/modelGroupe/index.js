@@ -18,15 +18,11 @@ createModelGroupe = (values) => {
     formdata.append("periode", values.periode);
     formdata.append("id_modele", values.id_modele);
 
-    console.log(values);
+    console.log("my form data for Groupe model ");
+    console.log(formdata);
+   
 
-   /* const requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };*/
-
-  return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", values);
+  return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
 }
 
 getModelGroupe = (payload) => {
