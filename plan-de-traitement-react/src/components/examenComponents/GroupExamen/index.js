@@ -29,6 +29,7 @@ import {
 import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
+import { getModelGroupe, deleteModelGroupe, updateModelGroupe } from "../../../utils/fetcher";
 import ModalWrapper from "../../common/ModalWrapper";
 import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
@@ -60,6 +61,22 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
     setRerender(true);
   };
 
+  const handleGetExamsGroups = () => {
+      getModelGroupe({
+        id_modele: modelData.id_modele,
+        nom:modelData.nom,
+        id_modele_groupe: modelData.id_modele_groupe
+      }, dispatch);
+  }
+
+  const handleDeleteExamsGroups = (id) => {
+      deleteModelGroupe(id, dispatch);
+  }
+
+  const handleUpdateExamsGroups = (id) => {
+      updateModelGroupe(modelData, id, dispatch);
+  }
+
   const handleAddExam = (groupKey) => {
     dispatch(setShowExamForm(true));
     dispatch(getSelectedExamGroup(groupKey));
@@ -70,6 +87,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
 
 
   useEffect(() => {
+    handleGetExamsGroups();
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
@@ -168,6 +186,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                               <Propover
                                 isModelGroup={true}
                                 onDeleteGroup={() => {
+                                  handleDeleteExamsGroups(groupKey.id);
                                   dispatch(deleteGroup(groupKey));
                                   setRerenderDel(true);
                                 }}
