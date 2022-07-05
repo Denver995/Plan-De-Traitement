@@ -9,7 +9,6 @@ import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import { useDimension } from "../../hooks/dimensions";
-import { stopLoading } from "../../redux/commons/actions";
 import {
   CreateEspacement, createGroups,
   numOfGroupsChange
@@ -60,18 +59,14 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
     setTypePeriode(e.target.value);
   };
 
-  const getModelById = () => {
-
-  }
-
   const closeModale = () => {
     ModelService.deleteModele(modelData.id)
       .then((response) => {
-        dispatch(stopLoading())
+        setLoading(true)
         closeModal();
       })
       .then((error) => {
-        dispatch(stopLoading())
+        setLoading(true)
       });
 
   }
@@ -107,7 +102,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
             dispatch(setModelData(data));
           })
           .catch((error) => {
-            dispatch(stopLoading())
+            setLoading(false)
           });
 
       } else {
@@ -128,7 +123,6 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
       ModelService.createModele(payload)
         .then((response) => {
           setShowGroupOption(true);
-          console.log('helloo success ', response);
           dispatch(setModelData(response.data));
           setLoading(false)
           setErrorMessage(false)
