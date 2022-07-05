@@ -31,7 +31,7 @@ import {
 } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
-import { createModel, deleteModel, createModelGroupe } from "../../utils/fetcher";
+import { createModele, deleteModele, createModelGroupe, getModele } from "../../utils/fetcher";
 import { STEP1, STEP2 } from "../../utils/constants";
 import ModalWrapper from "../common/ModalWrapper";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
@@ -66,12 +66,12 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   };
 
   const getModelById = () => {
-
+     
   }
 
   const closeModale = () => {
        closeModal();
-       deleteModel(1);
+       deleteModele(1);
   }
 
   const createModele = (values) => {
@@ -118,7 +118,7 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
         nb_occurence: nombreOccurence,
         groupe_rdv: groupe_rdv ? 1 : 0
       };
-      createModel(payload,dispatch);
+      createModele(payload,dispatch);
     } 
   };
 
