@@ -8,7 +8,6 @@ import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ExamItem from "../ExamItem";
 import ExamenForm from "../ExamenForm";
-
 import { STEP3, STEP2 } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import { EuiFlexGroup, EuiButton, EuiButtonEmpty } from "@elastic/eui";
@@ -22,14 +21,15 @@ import {
   setActiveGroup,
   setShowExamForm,
   deleteGroup,
+  addExamGrouped,
   toggleFixGroupPosition,
   setIsClose,
   dragAndDrog
 } from "../../../redux/examens/actions";
-import { startLoading, setComponent } from "../../../redux/commons/actions";
+import { startLoading, stopLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
-import { getModelGroupe, deleteModelGroupe, updateModelGroupe } from "../../../utils/fetcher";
+import ModelGroupeService from "../../../services/modelGroupe";
 import ModalWrapper from "../../common/ModalWrapper";
 import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
@@ -61,20 +61,47 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
     setRerender(true);
   };
 
-  const handleGetExamsGroups = () => {
-      getModelGroupe({
+  const handleGetModelGroups = (id) => {
+      dispatch(startLoading());
+      ModelGroupeService.getModelGroupe({
         id_modele: modelData.id_modele,
         nom:modelData.nom,
         id_modele_groupe: modelData.id_modele_groupe
-      }, dispatch);
+      })
+      .then((response) => {
+        console.log("----GET MY MODEL GROUPS----")
+        console.log(response.data)
+        dispatch(addExamGrouped(response.data));
+        dispatch(stopLoading());
+      })
+      .catch((error) => {
+        dispatch(addExamGrouped({}))
+        dispatch(stopLoading());
+      });
   }
 
-  const handleDeleteExamsGroups = (id) => {
-      deleteModelGroupe(id, dispatch);
+  const handleDeleteModelGroups = (id) => {
+      dispatch(stopLoading());
+      ModelGroupeService.deleteModelGroupe(id)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(stopLoading());
+      })
+      .catch((error) => {
+        dispatch(stopLoading())
+      });
   }
 
-  const handleUpdateExamsGroups = (id) => {
-      updateModelGroupe(modelData, id, dispatch);
+  const handleUpdateModelGroups = (id) => {
+      dispatch(startLoading())
+      ModelGroupeService.updateModelGroupe(modelData, id)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(stopLoading())
+      })
+      .catch((error) => {
+         dispatch(stopLoading())
+      });
   }
 
   const handleAddExam = (groupKey) => {
@@ -87,7 +114,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
 
 
   useEffect(() => {
-    handleGetExamsGroups();
+    handleGetModelGroups();
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
@@ -186,7 +213,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                               <Propover
                                 isModelGroup={true}
                                 onDeleteGroup={() => {
-                                  handleDeleteExamsGroups(groupKey.id);
+                                  handleDeleteModelGroups(groupKey.id);
                                   dispatch(deleteGroup(groupKey));
                                   setRerenderDel(true);
                                 }}

@@ -1,5 +1,5 @@
 
-import ky from "ky";
+/*import ky from "ky";
 // import { store } from "../store";
 import {
   BASE_MODEL_URL,
@@ -25,7 +25,7 @@ import { createStep } from './helper';
 
 
 
-// Model
+ Model
 export const createModele = (payload,dispatch) => {
    var formdata = new FormData();
     formdata.append("nom", payload.nom);
@@ -293,4 +293,4 @@ export const updateModelGroupe = (id_model_groupe, values, dispatch) => {
   .catch((error) => {
     dispatch(stopLoading())
   });
-}
+}*/
