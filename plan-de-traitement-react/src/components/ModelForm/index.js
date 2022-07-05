@@ -37,6 +37,8 @@ import ModalWrapper from "../common/ModalWrapper";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import Radio from "../Radio";
 import styles from "./styles";
+import ModelService from "../../services/models";
+import ModelGroupeService from "../../services/modelGroupe";
 
 const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
@@ -70,8 +72,16 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   }
 
   const closeModale = () => {
-       closeModal();
-       deleteModele(1);
+      ModelService.deleteModele(modelData.id)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(stopLoading())
+         closeModal();
+      })
+      .then((error) => {
+        dispatch(stopLoading())
+      });
+      
   }
 
   const createModele = (values) => {
@@ -97,12 +107,21 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
       console.log("my step ");
       console.log(step);
  if(groupe_rdv){
-      createModelGroupe(data);
-      dispatch(createGroups(nombreOccurence));
-      dispatch(CreateEspacement(nombreOccurence - 1));
-      dispatch(updateStep(step));
-      createModele(step);
-      dispatch(setModelData(data));
+      ModelGroupeService.createModelGroupe(data)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(startLoading());
+        dispatch(createGroups(nombreOccurence));
+        dispatch(CreateEspacement(nombreOccurence - 1));
+        dispatch(updateStep(step));
+        createModele(step);
+        dispatch(setModelData(data));
+      })
+      .catch((error) => {
+        console.log("error ", error)
+        dispatch(stopLoading())
+      });
+      
   }else {
       dispatch(createGroups(nombreOccurence));
       dispatch(CreateEspacement(nombreOccurence - 1));
@@ -118,7 +137,19 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
         nb_occurence: nombreOccurence,
         groupe_rdv: groupe_rdv ? 1 : 0
       };
-      createModele(payload,dispatch);
+      console.log("MY STEP -------- CURRENT");
+      console.log(steps);
+      ModelService.createModele(payload)
+      .then((response) => {
+        console.log("Succesfully created")
+        console.log(response.data)
+        dispatch(setModelData(response.data));
+        dispatch(stopLoading(true))
+      })
+      .catch((error) => {
+        console.log("Error ", error)
+        dispatch(stopLoading())
+      });
     } 
   };
 

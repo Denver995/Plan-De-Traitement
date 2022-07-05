@@ -7,7 +7,7 @@ import http from '../http-helper';
 
 
 class ExamenLieService {
-
+//NOT DONE
 createExamenLie = (values) => {
     console.log('Create Examen Lie Service ', values);
     const formdata = new FormData();
@@ -23,25 +23,21 @@ createExamenLie = (values) => {
 
     console.log(values);
 
-    /*const requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };*/
+    
   return http.post(BASE_URL_API+"/api_examenlie/examenlie", values);
 }
 
-
+//NOT DONE
 getExamenLie = (payload) => {
 
   return http.get(BASE_URL_API+`/api_examenlie/examenlie/${payload}`);
 }
-
+//NOT DONE
 deleteExamenLie = (id_examenlie) => {
 
    return http.delete(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`);
 }
-
+//NOT DONE
 updateExamenLie = (id_examenlie, payload) => {
  
    return http.put(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, payload);

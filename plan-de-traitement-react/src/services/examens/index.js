@@ -26,26 +26,17 @@ createExamen = (payload) => {
     console.log("------------My form data------------------");
     console.log(payload);
 
-  /*  const requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };*/
-
   return http.post(BASE_URL_API+`/api_examen/examen`, formdata);
 }
-
 getExamen = (payload) => {
  
     return http.get(BASE_URL_API+`/api_examen/examen${payload}`);
 }
-
 deleteExamen = (id_examen) => {
   
     return http.delete(BASE_URL_API+`/api_examen/examen/${id_examen}`);
 
 }
-
 updateExamen = (id_examen, payload) => {
    
     return http.put(BASE_URL_API+`/api_examen/examen/${id_examen}`, payload);

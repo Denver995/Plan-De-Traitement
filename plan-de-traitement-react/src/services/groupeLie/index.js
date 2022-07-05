@@ -7,7 +7,7 @@ import http from '../http-helper';
 
 
 class GroupeLieService {
-
+//NOT DONE
 createGroupeLie = (values) => {
     console.log('Create Groupe Lie Service ', values);
     const formdata = new FormData();
@@ -31,17 +31,17 @@ createGroupeLie = (values) => {
 
   return http.post(BASE_URL_API+"/groupelie", values);
 }
-
+//NOT DONE
 getGroupeLie = (payload) => {
  
   return http.get(BASE_URL_API+`/groupelie/${payload}`);
 }
-
+//NOT DONE
 deleteGroupeLie = (id_groupelie) => {
 
   return http.delete(BASE_URL_API+`/groupelie/${id_groupelie}`);
 }
-
+//NOT DONE
 updateGroupeLie = (id_groupelie, payload) => {
  
   return http.put(BASE_URL_API+`/groupelie/${id_groupelie}`, payload);
