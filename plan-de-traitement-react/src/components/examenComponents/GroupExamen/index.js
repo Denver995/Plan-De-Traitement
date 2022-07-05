@@ -62,12 +62,10 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
   };
 
   const handleGetModelGroups = (id) => {
+    console.log("my data model group");
+    console.log(modelData);
       dispatch(startLoading());
-      ModelGroupeService.getModelGroupe({
-        id_modele: modelData.id_modele,
-        nom:modelData.nom,
-        id_modele_groupe: modelData.id_modele_groupe
-      })
+      ModelGroupeService.getModelGroupe(parseInt(modelData.id))
       .then((response) => {
         console.log("----GET MY MODEL GROUPS----")
         console.log(response.data)
@@ -80,9 +78,10 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
       });
   }
 
-  const handleDeleteModelGroups = (id) => {
+  const handleDeleteModelGroups = (groupeK) => {
+      console.log(" -------GROUPE ITEMS------- ",groupeK);
       dispatch(stopLoading());
-      ModelGroupeService.deleteModelGroupe(id)
+      ModelGroupeService.deleteModelGroupe(42)
       .then((response) => {
         console.log(response.data)
         dispatch(stopLoading());
@@ -114,6 +113,8 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
 
 
   useEffect(() => {
+    console.log("-----MY GROUP WITH DATA------");
+    console.log(groupWithData);
     handleGetModelGroups();
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
@@ -213,7 +214,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                               <Propover
                                 isModelGroup={true}
                                 onDeleteGroup={() => {
-                                  handleDeleteModelGroups(groupKey.id);
+                                  handleDeleteModelGroups(groupKey);
                                   dispatch(deleteGroup(groupKey));
                                   setRerenderDel(true);
                                 }}
@@ -526,7 +527,7 @@ const GroupExamenSummary = ({
               className="button_next_me"
               onClick={onClickNext}
             >
-              Enregistrer
+              Enregistre
             </EuiButton>
             <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
               Retour

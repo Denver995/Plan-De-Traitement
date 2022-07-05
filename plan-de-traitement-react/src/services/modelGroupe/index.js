@@ -18,10 +18,6 @@ createModelGroupe = (values) => {
     formdata.append("periode", values.periode);
     formdata.append("id_modele", values.id_modele);
 
-    console.log("my form data for Groupe model ");
-    console.log(formdata);
-   
-
   return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
 }
 //IN PROGRESS
