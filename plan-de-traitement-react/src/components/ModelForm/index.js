@@ -1,46 +1,37 @@
-import React, { useState } from "react";
 import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiFormRow,
-  EuiFieldNumber,
-  EuiForm,
-  EuiSpacer,
-  EuiFieldText,
-  useGeneratedHtmlId,
   EuiButton,
-  EuiButtonEmpty,
-  EuiToolTip
+  EuiButtonEmpty, EuiFieldNumber, EuiFieldText, EuiFlexGroup,
+  EuiFlexItem, EuiForm, EuiFormRow, EuiSpacer, EuiToolTip, useGeneratedHtmlId
 } from "@elastic/eui";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import { useDimension } from "../../hooks/dimensions";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { stopLoading } from "../../redux/commons/actions";
 import {
-  addStep,
-  updateStep,
-  desactivateStep,
-} from "../../redux/steps/actions";
-import { startLoading, stopLoading } from "../../redux/commons/actions";
-import {
-  createGroups,
-  numOfGroupsChange,
-  CreateEspacement,
+  CreateEspacement, createGroups,
+  numOfGroupsChange
 } from "../../redux/examens/actions";
 import {
   setModelData,
-  updateModel,
+  updateModel
 } from "../../redux/models/actions";
-
-import { getStepByKey, createStep } from "../../utils/helper";
-import { createModele, deleteModele, createModelGroupe, getModele } from "../../utils/fetcher";
+import {
+  addStep, desactivateStep, updateStep
+} from "../../redux/steps/actions";
+import ModelGroupeService from "../../services/modelGroupe";
+import ModelService from "../../services/models";
 import { STEP1, STEP2 } from "../../utils/constants";
+import { createStep, getStepByKey } from "../../utils/helper";
 import ModalWrapper from "../common/ModalWrapper";
-import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import Radio from "../Radio";
 import styles from "./styles";
-import ModelService from "../../services/models";
-import ModelGroupeService from "../../services/modelGroupe";
 
-const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
+
+
+const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -50,6 +41,8 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
   const [showGroupOption, setShowGroupOption] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [erroMessage, setErrorMessage] = useState('');
   const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
 
@@ -68,20 +61,19 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
   };
 
   const getModelById = () => {
-     
+
   }
 
   const closeModale = () => {
-      ModelService.deleteModele(modelData.id)
+    ModelService.deleteModele(modelData.id)
       .then((response) => {
-        console.log(response.data)
         dispatch(stopLoading())
-         closeModal();
+        closeModal();
       })
       .then((error) => {
         dispatch(stopLoading())
       });
-      
+
   }
 
   const createModele = (values) => {
@@ -90,9 +82,10 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
     dispatch(desactivateStep(STEP1));
     dispatch(addStep(nextStep));
   };
+
   const onClickNext = () => {
     if (showGroupOption) {
-      dispatch(startLoading(true));
+      setLoading(true)
       const data = {
         nom: nomModele,
         nb_occurence: nombreOccurence,
@@ -103,194 +96,203 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
         typePeriode: typePeriode
       };
       step.data = data;
+      if (groupe_rdv) {
+        ModelGroupeService.createModelGroupe(data)
+          .then((response) => {
+            setLoading(false)
+            dispatch(createGroups(nombreOccurence));
+            dispatch(CreateEspacement(nombreOccurence - 1));
+            dispatch(updateStep(step));
+            createModele(step);
+            dispatch(setModelData(data));
+          })
+          .catch((error) => {
+            dispatch(stopLoading())
+          });
 
-      console.log("my step ");
-      console.log(step);
- if(groupe_rdv){
-      ModelGroupeService.createModelGroupe(data)
-      .then((response) => {
-        console.log(response.data)
-        dispatch(startLoading());
+      } else {
         dispatch(createGroups(nombreOccurence));
         dispatch(CreateEspacement(nombreOccurence - 1));
         dispatch(updateStep(step));
         createModele(step);
         dispatch(setModelData(data));
-      })
-      .catch((error) => {
-        console.log("error ", error)
-        dispatch(stopLoading())
-      });
-      
-  }else {
-      dispatch(createGroups(nombreOccurence));
-      dispatch(CreateEspacement(nombreOccurence - 1));
-      dispatch(updateStep(step));
-      createModele(step);
-      dispatch(setModelData(data));
-  }
-      
-    } else{
-      setShowGroupOption(true);
+      }
+
+    } else {
+      setLoading(true)
       const payload = {
         nom: nomModele,
         nb_occurence: nombreOccurence,
         groupe_rdv: groupe_rdv ? 1 : 0
       };
-      console.log("MY STEP -------- CURRENT");
-      console.log(steps);
       ModelService.createModele(payload)
-      .then((response) => {
-        console.log("Succesfully created")
-        console.log(response.data)
-        dispatch(setModelData(response.data));
-        dispatch(stopLoading(true))
-      })
-      .catch((error) => {
-        console.log("Error ", error)
-        dispatch(stopLoading())
-      });
-    } 
+        .then((response) => {
+          setShowGroupOption(true);
+          console.log('helloo success ', response);
+          dispatch(setModelData(response.data));
+          setLoading(false)
+          setErrorMessage(false)
+
+        })
+        .catch((error) => {
+          setLoading(false)
+          setErrorMessage(true)
+        });
+    }
   };
 
   return (
     <ModalWrapper className="modale-modelForm" style={styles.modal}>
+
       <EuiForm id={modalFormId} style={styles.form}>
-        <EuiSpacer size="xl" />
-        <strong>
-          <p style={styles.nomModel}>Nom du modèle: </p>
-        </strong>
-        <EuiFieldText
-          name="nomModele"
-          style={styles.inputModal}
-          value={nomModele}
-          onChange={onChangeNomModeleField}
-          fullWidth
-        />
-        <EuiSpacer size="xl" />
-        <EuiFlexGroup>
-          {showGroupOption && (
-            <EuiFlexItem>
-              <div style={styles.toolTipCon}>
-                <div style={styles.groupeTitle}>Grouper les rendez-vous :</div>
-                <span style={{ marginTop: 2 }}>
-                  <EuiToolTip
-                    position="right"
-                    content="Création de plusieurs groupes de rendez-vous"
-                    className="euiTool"
-                  >
-                    <InfoIcon title="" width={"1rem"} />
-                  </EuiToolTip>
-                </span>
-              </div>
-              <EuiSpacer size="m" />
-              <EuiFlexGroup>
+        {loading ?
+          <Box style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+          : <>
+            <EuiSpacer size="xl" />
+            <strong>
+              <p style={styles.nomModel}>Nom du modèle: </p>
+            </strong>
+            <EuiFieldText
+              name="nomModele"
+              style={styles.inputModal}
+              value={nomModele}
+              onChange={onChangeNomModeleField}
+              fullWidth
+            />
+            <EuiSpacer size="xl" />
+            {erroMessage && (
+              <>
+                <EuiSpacer size="xl" />
+                <p style={{ color: 'red', textAlign: 'center' }}>Erreur survenu</p>
+              </>
+            )}
+            <EuiFlexGroup>
+              {showGroupOption && (
                 <EuiFlexItem>
-                  <EuiFlexGroup
-                    className="radio-first-container"
-                    style={{ maxWidth: "100%", paddingLeft: 5 }}
-                  >
-                    <EuiFlexItem style={{ marginBottom: 13 }}>
-                      <EuiFormRow>
-                        <Radio
-                          onChange={(data) => onChangeGroupModelCheckbox(data)}
-                        />
-                      </EuiFormRow>
+                  <div style={styles.toolTipCon}>
+                    <div style={styles.groupeTitle}>Grouper les rendez-vous :</div>
+                    <span style={{ marginTop: 2 }}>
+                      <EuiToolTip
+                        position="right"
+                        content="Création de plusieurs groupes de rendez-vous"
+                        className="euiTool"
+                      >
+                        <InfoIcon title="" width={"1rem"} />
+                      </EuiToolTip>
+                    </span>
+                  </div>
+                  <EuiSpacer size="m" />
+                  <EuiFlexGroup>
+                    <EuiFlexItem>
+                      <EuiFlexGroup
+                        className="radio-first-container"
+                        style={{ maxWidth: "100%", paddingLeft: 5 }}
+                      >
+                        <EuiFlexItem style={{ marginBottom: 13 }}>
+                          <EuiFormRow>
+                            <Radio
+                              onChange={(data) => onChangeGroupModelCheckbox(data)}
+                            />
+                          </EuiFormRow>
+                        </EuiFlexItem>
+                      </EuiFlexGroup>
                     </EuiFlexItem>
                   </EuiFlexGroup>
+                  <EuiSpacer size="s" />
                 </EuiFlexItem>
-              </EuiFlexGroup>
-              <EuiSpacer size="s" />
-            </EuiFlexItem>
-          )}
-          {groupe_rdv && showGroupOption && (
-            <EuiFlexItem
-              style={{ paddingTop: 5 }}
-              className="nombre-occurence-nomberField"
-            >
-              <div
-                style={{
-                  ...styles.occurence,
-                  marginLeft: innerWidth >= 768 ? "6%" : "0%",
-                }}
-              >
-                Nombre d'occurences* :
-              </div>
-              <EuiFieldNumber
-                style={{
-                  ...styles.fieldNumber,
-                  width: innerWidth >= 768 ? "95%" : "100%",
-                  marginLeft: innerWidth >= 768 ? "5%" : "0%",
-                }}
-                name={nombreOccurence}
-                value={nombreOccurence}
-                onChange={(e) => {
-                  setNombreOccurence(e.target.value);
-                  dispatch(numOfGroupsChange(e.target.value));
-                }}
-                fullWidth
-                min={1}
-              />
-            </EuiFlexItem>
-          )}
-        </EuiFlexGroup>
-        <EuiSpacer size="m" />
-        {groupe_rdv && showGroupOption && (
-          <EuiFlexGroup
-            style={{ marginLeft: -12, marginRight: -12, marginBottom: 33 }}
-            direction="column"
-          >
-            <div style={styles.periodeRecherche}>
-              <div style={styles.groupeTitle2}>
-                Période de recherche d'un groupe :
-              </div>
-              <span style={{ marginTop: 2 }}>
-                <EuiToolTip
-                  position="right"
-                  content="Elle permet de définir l'intervalle de temps où seront recherchés les examens du groupe"
-                  className="euiTool"
+              )}
+              {groupe_rdv && showGroupOption && (
+                <EuiFlexItem
+                  style={{ paddingTop: 5 }}
+                  className="nombre-occurence-nomberField"
                 >
-                  <InfoIcon title="" width={"1rem"} />
-                </EuiToolTip>
-              </span>
-            </div>
-            <EuiFlexItem>
-              <div
-                className="periode_recherche_group_inputs"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  flexWrap: "wrap",
-                  marginTop: -18,
-                }}
-              >
-                {/* <EuiFlexItem> */}
-                <div style={{ width: "49%" }}>
+                  <div
+                    style={{
+                      ...styles.occurence,
+                      marginLeft: innerWidth >= 768 ? "6%" : "0%",
+                    }}
+                  >
+                    Nombre d'occurences* :
+                  </div>
                   <EuiFieldNumber
-                    className="inputNomber-for-periode"
-                    style={styles.fieldNumber}
-                    name="periode"
-                    value={periode}
+                    style={{
+                      ...styles.fieldNumber,
+                      width: innerWidth >= 768 ? "95%" : "100%",
+                      marginLeft: innerWidth >= 768 ? "5%" : "0%",
+                    }}
+                    name={nombreOccurence}
+                    value={nombreOccurence}
                     onChange={(e) => {
-                      setPeriode(e.target.value);
+                      setNombreOccurence(e.target.value);
+                      dispatch(numOfGroupsChange(e.target.value));
                     }}
                     fullWidth
+                    min={1}
                   />
+                </EuiFlexItem>
+              )}
+            </EuiFlexGroup>
+            <EuiSpacer size="m" />
+            {groupe_rdv && showGroupOption && (
+              <EuiFlexGroup
+                style={{ marginLeft: -12, marginRight: -12, marginBottom: 33 }}
+                direction="column"
+              >
+                <div style={styles.periodeRecherche}>
+                  <div style={styles.groupeTitle2}>
+                    Période de recherche d'un groupe :
+                  </div>
+                  <span style={{ marginTop: 2 }}>
+                    <EuiToolTip
+                      position="right"
+                      content="Elle permet de définir l'intervalle de temps où seront recherchés les examens du groupe"
+                      className="euiTool"
+                    >
+                      <InfoIcon title="" width={"1rem"} />
+                    </EuiToolTip>
+                  </span>
                 </div>
-                <div style={{ width: "49%" }}>
-                  <select name="cars" id="cars" style={styles.fieldNumber2} onChange={onChangeTypePeriode}>
-                    {listTypePeriode.map((item, index) => (
-                      <option key={index} value={item.value}>
-                        {item.text}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        )}
+                <EuiFlexItem>
+                  <div
+                    className="periode_recherche_group_inputs"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "100%",
+                      flexWrap: "wrap",
+                      marginTop: -18,
+                    }}
+                  >
+                    {/* <EuiFlexItem> */}
+                    <div style={{ width: "49%" }}>
+                      <EuiFieldNumber
+                        className="inputNomber-for-periode"
+                        style={styles.fieldNumber}
+                        name="periode"
+                        value={periode}
+                        onChange={(e) => {
+                          setPeriode(e.target.value);
+                        }}
+                        fullWidth
+                      />
+                    </div>
+                    <div style={{ width: "49%" }}>
+                      <select name="cars" id="cars" style={styles.fieldNumber2} onChange={onChangeTypePeriode}>
+                        {listTypePeriode.map((item, index) => (
+                          <option key={index} value={item.value}>
+                            {item.text}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            )}
+          </>
+        }
         <EuiFlexGroup
           className="modal__form__button__container groupe-btn-modelForm"
           style={styles.footer}
@@ -337,14 +339,15 @@ const ModalForm = ({closeModal, onSaveChange, isEdited, modelData }) => {
             </EuiButton>
           )}
         </EuiFlexGroup>
+
       </EuiForm>
       <style jsx="true">
-            {`
+        {`
               .euiTool {
                 background: #052A3E;
               }
             `}
-          </style>
+      </style>
       <EuiSpacer size="m" />
     </ModalWrapper>
   );
