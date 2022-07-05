@@ -48,24 +48,24 @@ class ModelService {
     console.log("my value for model");
     console.log(formdata);
 
-      return http.post(BASE_URL_API+"/api_modeleexamen/modeleexamen", formdata);
-    }
+    return http.post(BASE_URL_API + "/api_modeleexamen/modeleexamen", formdata);
+  }
 
-    getModel = (payload) => {
+  getModel = (payload) => {
 
-      return http.get(BASE_URL_API+`/api_modeleexamen/modeleexamen/${payload}`);
-    }
+    return http.get(BASE_URL_API + `/api_modeleexamen/modeleexamen/${payload}`);
+  }
 
-    deleteModel = (id__model_examen) => {
-      
-       return http.delete(BASE_URL_API+`/api_modeleexamen/modeleexamen/${id__model_examen}`);
-    }
+  deleteModel = (id__model_examen) => {
 
-    updateModel = (id_model_examen, payload) => {
-       
-      
-      return http.put(BASE_URL_API+`api_modeleexamen/modeleexamen/${id_model_examen}`, payload);
-    }
+    return http.delete(BASE_URL_API + `/api_modeleexamen/modeleexamen/${id__model_examen}`);
+  }
+
+  updateModel = (id_model_examen, payload) => {
+
+
+    return http.put(BASE_URL_API + `api_modeleexamen/modeleexamen/${id_model_examen}`, payload);
+  }
 
 }
 
