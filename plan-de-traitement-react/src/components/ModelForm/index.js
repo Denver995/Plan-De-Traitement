@@ -165,7 +165,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
             {erroMessage && (
               <>
                 <EuiSpacer size="xl" />
-                <p style={{ color: 'red', textAlign: 'center' }}>Erreur survenu</p>
+                <p style={{ color: 'red', textAlign: 'center' }}>Un modèle avec ce nom existe déjà</p>
               </>
             )}
             <EuiFlexGroup>
