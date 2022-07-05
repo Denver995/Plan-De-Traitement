@@ -7,7 +7,7 @@ import http from '../http-helper';
 
 
 class ModelGroupeService {
-
+//DONE
 createModelGroupe = (values) => {
     console.log('Create Model Groupe Service ', values);
     const formdata = new FormData();
@@ -24,17 +24,17 @@ createModelGroupe = (values) => {
 
   return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
 }
-
+//IN PROGRESS
 getModelGroupe = (payload) => {
 
   return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/${payload}`);
 }
-
+//DONE
 deleteModelGroupe = (id_model_groupe) => {
  
   return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
 }
-
+//IN PROGRESS
 updateModelGroupe = (id_model_groupe, payload) => {
    
   return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
