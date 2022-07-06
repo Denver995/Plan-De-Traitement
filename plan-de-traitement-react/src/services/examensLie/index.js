@@ -1,14 +1,12 @@
 import {
-  SERVER_URL,
-  BASE_EXAMEN_URL,
-  BASE_URL_API,
+  BASE_URL_API
 } from '../../utils/urls';
 import http from '../http-helper';
 
 
 class ExamenLieService {
-//NOT DONE
-createExamenLie = (values) => {
+  //NOT DONE
+  createExamenLie = (values) => {
     console.log('Create Examen Lie Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
@@ -23,29 +21,29 @@ createExamenLie = (values) => {
 
     console.log(values);
 
-    
-  return http.post(BASE_URL_API+"/api_examenlie/examenlie", values);
+
+    return http.post(BASE_URL_API + "api/api_examenlie/examenlie", values);
+  }
+
+  //NOT DONE
+  getExamenLie = (payload) => {
+
+    return http.get(BASE_URL_API + `api/api_examenlie/examenlie/${payload}`);
+  }
+  //NOT DONE
+  deleteExamenLie = (id_examenlie) => {
+
+    return http.delete(BASE_URL_API + `api/api_examenlie/examenlie/${id_examenlie}`);
+  }
+  //NOT DONE
+  updateExamenLie = (id_examenlie, payload) => {
+
+    return http.put(BASE_URL_API + `api/api_examenlie/examenlie/${id_examenlie}`, payload);
+  }
+
+
 }
 
-//NOT DONE
-getExamenLie = (payload) => {
 
-  return http.get(BASE_URL_API+`/api_examenlie/examenlie/${payload}`);
-}
-//NOT DONE
-deleteExamenLie = (id_examenlie) => {
-
-   return http.delete(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`);
-}
-//NOT DONE
-updateExamenLie = (id_examenlie, payload) => {
- 
-   return http.put(BASE_URL_API+`/api_examenlie/examenlie/${id_examenlie}`, payload);
-}
-
-
-}
-
-
-export default new ExamenLieService;
+export default new ExamenLieService();
 

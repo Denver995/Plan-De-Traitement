@@ -1,14 +1,12 @@
 import {
-  SERVER_URL,
-  BASE_EXAMEN_URL,
-  BASE_URL_API,
+  BASE_URL_API
 } from '../../utils/urls';
 import http from '../http-helper';
 
 
 class ModelGroupeService {
-//DONE
-createModelGroupe = (values) => {
+  //DONE
+  createModelGroupe = (values) => {
     console.log('Create Model Groupe Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
@@ -20,29 +18,29 @@ createModelGroupe = (values) => {
 
     console.log("my form data for Groupe model ");
     console.log(formdata);
-   
 
-  return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
+
+    return http.post(BASE_URL_API + "api/api_modelegroupe/modelegroupe", formdata);
+  }
+  //IN PROGRESS
+  getModelGroupe = (payload) => {
+
+    return http.get(BASE_URL_API + `api/api_modelegroupe/modelegroupe/${payload}`);
+  }
+  //DONE
+  deleteModelGroupe = (id_model_groupe) => {
+
+    return http.delete(BASE_URL_API + `api/api_modelegroupe/modelegroupe/${id_model_groupe}`);
+  }
+  //IN PROGRESS
+  updateModelGroupe = (id_model_groupe, payload) => {
+
+    return http.put(BASE_URL_API + `api/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
+  }
+
+
 }
-//IN PROGRESS
-getModelGroupe = (payload) => {
-
-  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/${payload}`);
-}
-//DONE
-deleteModelGroupe = (id_model_groupe) => {
- 
-  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
-}
-//IN PROGRESS
-updateModelGroupe = (id_model_groupe, payload) => {
-   
-  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
-}
 
 
-}
-
-
-export default new ModelGroupeService;
+export default new ModelGroupeService();
 

@@ -1,14 +1,12 @@
 import {
-  SERVER_URL,
-  BASE_EXAMEN_URL,
-  BASE_URL_API,
+  BASE_URL_API
 } from '../../utils/urls';
 import http from '../http-helper';
 
 
 class GroupeLieService {
-//NOT DONE
-createGroupeLie = (values) => {
+  //NOT DONE
+  createGroupeLie = (values) => {
     console.log('Create Groupe Lie Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
@@ -23,33 +21,33 @@ createGroupeLie = (values) => {
 
     console.log(formdata);
 
-   /* const requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };*/
+    /* const requestOptions = {
+       method: 'POST',
+       body: formdata,
+       redirect: 'follow'
+     };*/
 
-  return http.post(BASE_URL_API+"/groupelie", values);
+    return http.post(BASE_URL_API + "api/groupelie", values);
+  }
+  //NOT DONE
+  getGroupeLie = (payload) => {
+
+    return http.get(BASE_URL_API + `api/groupelie/${payload}`);
+  }
+  //NOT DONE
+  deleteGroupeLie = (id_groupelie) => {
+
+    return http.delete(BASE_URL_API + `api/groupelie/${id_groupelie}`);
+  }
+  //NOT DONE
+  updateGroupeLie = (id_groupelie, payload) => {
+
+    return http.put(BASE_URL_API + `api/groupelie/${id_groupelie}`, payload);
+  }
+
+
 }
-//NOT DONE
-getGroupeLie = (payload) => {
- 
-  return http.get(BASE_URL_API+`/groupelie/${payload}`);
-}
-//NOT DONE
-deleteGroupeLie = (id_groupelie) => {
-
-  return http.delete(BASE_URL_API+`/groupelie/${id_groupelie}`);
-}
-//NOT DONE
-updateGroupeLie = (id_groupelie, payload) => {
- 
-  return http.put(BASE_URL_API+`/groupelie/${id_groupelie}`, payload);
-}
 
 
-}
-
-
-export default new GroupeLieService;
+export default new GroupeLieService();
 

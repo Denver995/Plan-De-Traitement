@@ -9,6 +9,7 @@ import {
   EuiFlexItem,
   EuiForm,
   EuiHorizontalRule,
+  EuiSelect,
   EuiSpacer,
   EuiText,
 } from "@elastic/eui";
@@ -37,6 +38,8 @@ import { getStepByKey, createStep } from "../../../utils/helper";
 import moment from "moment";
 import { rdvData } from "../../../utils/defaultData";
 
+import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe 2.svg";
+
 const RendezVousForm = ({ closeModal }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -58,7 +61,7 @@ const RendezVousForm = ({ closeModal }) => {
       type: typeRdv,
       dateDebut: dateDebut,
       dateFin: dateFin,
-      groupe_rdv: typeRdv === typeRendezVous.groupe ? true : false
+      groupe_rdv: typeRdv === typeRendezVous.groupe ? true : false,
     };
     dispatch(createAppointment(payload));
     currentSstep.data = payload;
@@ -81,7 +84,7 @@ const RendezVousForm = ({ closeModal }) => {
       dispatch(CreateEspacement(4));
       rdvData.exams.forEach((payload, index) => {
         dispatch(addExam({ exam: payload }));
-        dispatch(addExamOnAllGroups({ exam: payload, index:  index}));
+        dispatch(addExamOnAllGroups({ exam: payload, index: index }));
       });
     }
   };
@@ -129,7 +132,7 @@ const RendezVousForm = ({ closeModal }) => {
         <strong>
           <EuiText style={styles.nomModel}>Nom du modèle: </EuiText>
         </strong>
-        <EuiFieldText name="nomModele" style={styles.inputModal} fullWidth />
+        <EuiSelect name="nomModele" style={styles.inputModal} fullWidth />
         {isValid && typeRdv.includes(typeRendezVous.groupe) && (
           <Fragment>
             <EuiSpacer size="l" />
@@ -144,11 +147,8 @@ const RendezVousForm = ({ closeModal }) => {
                   selected={dateDebut}
                   onChange={onChangeDateDebut}
                 />
-                <div style={styles.calendarIcon}>
-                  <EuiButtonIcon
-                    color={colors.blackClaire}
-                    iconType="calendar"
-                  />
+                <div className="rdv-calendarIcon" style={styles.calendarIcon}>
+                  <CalendarIcon width={"1rem"} />
                 </div>
               </EuiFlexItem>
               <EuiFlexItem>
@@ -163,11 +163,8 @@ const RendezVousForm = ({ closeModal }) => {
                   selected={dateFin}
                   onChange={onChangeDateFin}
                 />
-                <div style={styles.calendarIcon2}>
-                  <EuiButtonIcon
-                    color={colors.blackClaire}
-                    iconType="calendar"
-                  />
+                <div className="rdv-calendarIcon2" style={styles.calendarIcon2}>
+                  <CalendarIcon width={"1rem"} />
                 </div>
               </EuiFlexItem>
             </EuiFlexGroup>
