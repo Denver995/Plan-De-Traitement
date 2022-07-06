@@ -1,0 +1,190 @@
+.taille_des_espace {
+  height: 10px;
+}
+
+p {
+  color: rgb(41, 117, 168);
+}
+
+hr {
+  width: 100%;
+  color: rgb(50, 59, 65);
+}
+
+.icone_et_text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.info_pat {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.firstdiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.euiModalBody .euiFieldText,
+.euiModalBody .euiFieldNumber,
+.euiModalBody .euiComboBox {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  border-radius: 7px;
+  opacity: 1;
+  height: 35px;
+  /* width: 100%; */
+}
+
+.euiModal .button_cancel,
+.euiModal .button_next {
+  border-radius: 36px;
+  opacity: 1;
+  width: 150px;
+  height: 45px;
+  font: normal normal bold 19px/38px Open Sans;
+}
+
+.euiModal .button_next {
+  /* margin-left: 59%; */
+}
+
+.euiModal .button_cancel {
+  background-color: white;
+  color: rgb(41, 117, 168);
+  border: 3px solid rgb(41, 117, 168);
+}
+.euiModal .button_next {
+  border: 3px solid rgb(41, 117, 168);
+}
+
+.btn_group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text_area {
+  height: 65px;
+  width: 100%;
+  border-radius: 7px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-bottom: 40px;
+}
+
+.first_space {
+  height: 35px;
+}
+
+/* .email,
+  .adress {
+    width: 50%;
+  }
+  
+  .cod_postal,
+  .ville {
+    width: 25%;
+  } */
+
+.info-praticien {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.user {
+  margin-right: 5px;
+}
+
+#nom_modele {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.nom-model {
+  font-size: 16px;
+}
+
+.ligne {
+  margin-bottom: 10px;
+}
+
+.bloc_principal {
+  font-size: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.civilite,
+.nom,
+.prenom {
+  margin-right: 200px;
+}
+
+.append {
+  height: 30px;
+}
+
+.euiFormControlLayout--group {
+  background-color: #fbfcfd;
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  box-shadow: 0 1px 1px -1px rgb(152 162 179 / 20%),
+    0 3px 2px -2px rgb(152 162 179 / 20%), inset 0 0 0 1px rgb(15 39 118 / 10%);
+  transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
+    background-size 150ms ease-in, background-color 150ms ease-in;
+  display: flex;
+  align-items: stretch;
+  border-radius: 8px;
+}
+
+.euiFormControlLayout--group .euiToolTipAnchor > .euiIcon {
+  height: 100%;
+  background-color: #afb0b3;
+  padding: 4px;
+  width: 30px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+#mdct {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right: 0px;
+}
+
+.euiFlexItem.euiFlexItem--flexGrow1 {
+  flex-grow: 1;
+  margin-right: 40px;
+}
+
+.euiFlexItem.euiFlexItem.nom,
+.euiFlexItem.euiFlexItem.prenom {
+  flex-grow: 3;
+  margin-right: 40px;
+}
+
+.euiFlexItem.euiFlexItem--flexGrow5 {
+  flex-grow: 5;
+  margin-right: 25px;
+}
+
+.info_patient {
+  color: rgb(82, 80, 80);
+  font-size: 15px;
+}
+.euiComboBox .euiComboBox__inputWrap:not(.euiComboBox__inputWrap--noWrap) {
+  padding-top: 4px;
+  padding-left: 4px;
+  height: 35px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  border-radius: 7px;
+  border-bottom: 1px solid;
+}

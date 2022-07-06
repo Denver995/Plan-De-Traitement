@@ -19,8 +19,10 @@ const colors = {
   darkGreen: "#29928a",
   lightGreen: "#acd5d1",
   lightBlack: "#434343",
-  shadow: "#cecece",
-  blueDark: "#395e72"
+  shadow: "#b7b7b7",
+  blueDark: "#395e72",
+  transparent: "#e4e4e4",
+  primaryRdv: "#134058",
 };
 
 export default colors;

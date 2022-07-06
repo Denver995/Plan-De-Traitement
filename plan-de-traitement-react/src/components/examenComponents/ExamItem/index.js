@@ -1,15 +1,31 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
-import { deleteExamSimple, deleteExamGroup, editExam, toggleFixExamPosition } from "../../../redux/examens/actions";
+import {
+  deleteExamSimple,
+  deleteExamGroup,
+  editExam,
+  toggleFixExamPosition,
+} from "../../../redux/examens/actions";
 import { setComponent } from "../../../redux/commons/actions";
 
 import styles from "./styles";
 
-const ExamItem = ({ showEditForm,reRender, color, id_modele, exam, index, isExamGroup=false, groupKey, reload, setReload }) => {
+const ExamItem = ({
+  showEditForm,
+  reRender,
+  color,
+  id_modele,
+  exam,
+  index,
+  isExamGroup = false,
+  groupKey,
+  reload,
+  setReload,
+}) => {
   const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -22,9 +38,7 @@ const ExamItem = ({ showEditForm,reRender, color, id_modele, exam, index, isExam
     };
   });
 
-  useEffect(() => {
-
-  }, [reRender])
+  useEffect(() => {}, [reRender]);
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
@@ -33,24 +47,47 @@ const ExamItem = ({ showEditForm,reRender, color, id_modele, exam, index, isExam
             data={exam}
             showEditForm={showEditForm}
             onDeleteExam={() => {
-              if(isExamGroup){
-                dispatch(deleteExamGroup({groupKey: groupKey, examId: index}));
+              if (isExamGroup) {
+                dispatch(
+                  deleteExamGroup({ groupKey: groupKey, examId: index })
+                );
                 setReload(!reload);
-              }else dispatch(deleteExamSimple({examId: index}));
+              } else dispatch(deleteExamSimple({ examId: index }));
             }}
             onEditItem={() => {
-              console.log('editing exam group ...');
-              dispatch(editExam({...exam, id: index+1}));
-              if(isExamGroup){
-                dispatch(setComponent({ name: "EXAMENFORMEDIT", groupKey: groupKey, examId: index, data: exam }));
+              console.log("editing exam group ...");
+              dispatch(editExam({ ...exam, id: index + 1 }));
+              if (isExamGroup) {
+                dispatch(
+                  setComponent({
+                    name: "EXAMENFORMEDIT",
+                    groupKey: groupKey,
+                    examId: index,
+                    data: exam,
+                  })
+                );
                 // setReload(!reload);
-              }else dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
+              } else
+                dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
             }}
             onFixePosition={() => {
-              if(isExamGroup)
-                dispatch(toggleFixExamPosition({selectedExam: index, groupKey: groupKey, isExamGrouped: true}))
-              else dispatch(toggleFixExamPosition({selectedExam: index, isExamGrouped: false}))
+              if (isExamGroup)
+                dispatch(
+                  toggleFixExamPosition({
+                    selectedExam: index,
+                    groupKey: groupKey,
+                    isExamGrouped: true,
+                  })
+                );
+              else
+                dispatch(
+                  toggleFixExamPosition({
+                    selectedExam: index,
+                    isExamGrouped: false,
+                  })
+                );
             }}
+            examId={index}
           />
         </div>
         <div>
@@ -59,7 +96,10 @@ const ExamItem = ({ showEditForm,reRender, color, id_modele, exam, index, isExam
             style={styles.tracIcon}
           ></span>
           <span style={styles.examen}>
-            Examen {windowSize.innerWidth < 971 && windowSize.innerWidth > 729 ? formatExamNumber(index) : index + 1}
+            Examen{" "}
+            {windowSize.innerWidth < 971 && windowSize.innerWidth > 729
+              ? formatExamNumber(index + 1)
+              : index + 1}
           </span>
         </div>
       </div>
