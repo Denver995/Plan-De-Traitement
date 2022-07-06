@@ -82,6 +82,13 @@ export const createGroups = (nombreOccurence) => ({
   nombreOccurence,
 });
 
+export const createGroups1 = (payload) => ({
+  type: types.CREATE_GROUPS1,
+  payload,
+});
+
+
+
 export const deleteExamGroup = (payload) => ({
   type: types.DELETE_EXAM_GROUP,
   payload,

@@ -140,6 +140,18 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupWithData: groups,
       };
 
+    case types.CREATE_GROUPS1:
+    let groups1 = {};
+      for (let i = 0; i < action.payload.length; i++) {
+        groups1["group " + i] = { exams: [], positionFixed: false };
+        action.payload[i].newPayload = {exams: [], positionFixed: false};
+      }
+      return {
+        ...state,
+        examsGrouped: Array(Number(action.payload.length)).fill({}),
+        groupWithData: action.payload,
+      };
+
     case types.CREATE_ESPACEMENTS:
       let listespacements = {};
       for (let i = 0; i < action.nombreOccurence; i++) {

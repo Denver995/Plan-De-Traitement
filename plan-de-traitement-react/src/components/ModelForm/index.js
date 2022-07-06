@@ -11,12 +11,18 @@ import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg
 import { useDimension } from "../../hooks/dimensions";
 import {
   CreateEspacement, createGroups,
-  numOfGroupsChange
+  numOfGroupsChange,createGroups1,GroupeLength
 } from "../../redux/examens/actions";
 import {
   setModelData,
   updateModel
 } from "../../redux/models/actions";
+
+import {
+  startLoading,
+  stopLoading
+} from "../../redux/commons/actions";
+
 import {
   addStep, desactivateStep, updateStep
 } from "../../redux/steps/actions";
@@ -30,7 +36,7 @@ import styles from "./styles";
 
 
 
-const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
+const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, groupeLength }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -96,6 +102,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
     setErrorMessage(false);
     if (showGroupOption) {
       setLoading(true)
+      dispatch(startLoading());
       const data = {
         nom: nomModele,
         nb_occurence: nombreOccurence,
@@ -110,24 +117,33 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         ModelGroupeService.createModelGroupe(data)
           .then((response) => {
             setLoading(false);
+            console.log("MY RESPONSE GROUP MODEL SUCCES")
+            console.log(response);
             dispatch(setModelData(response.data));
+            console.log("model data --", modelData);
           ModelGroupeService.getModelGroupe(1)
             .then((response) => {
-              console.log(response)
+              console.log("length ---",response.data.data.length)
+              console.log("data ---",response.data.data)
+              dispatch(startLoading())
               setLoading(false);
-              dispatch(createGroups(response.data.length));
-              dispatch(CreateEspacement(response.data.length - 1));
+              dispatch(createGroups1(response.data.data));
               dispatch(updateStep(step));
               createModele(step);
               setLoading(false);
             })
             .catch((error) => {
+              dispatch(stopLoading())
+              console.log("Error for get mODEL id group", error)
               setLoading(false);
             });
           })
           .catch((error) => {
             setLoading(false)
           });
+           dispatch(updateStep(step));
+           createModele(step);
+           dispatch(setModelData(data));
 
       } else {
         dispatch(createGroups(nombreOccurence));
@@ -374,9 +390,10 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   );
 };
 
-const mapStateToProps = ({ ModelsReducer, CommonReducer }) => ({
+const mapStateToProps = ({ ModelsReducer, CommonReducer, ExamenReducer }) => ({
   modelData: ModelsReducer.modelData,
-  isLoading: CommonReducer.isLoading,
+  loading: CommonReducer.looading,
+  groupeLength: ExamenReducer.groupeLength,
 });
 
 export default connect(mapStateToProps)(ModalForm);

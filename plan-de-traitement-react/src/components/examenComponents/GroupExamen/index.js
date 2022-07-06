@@ -10,12 +10,16 @@ import ExamItem from "../ExamItem";
 import ExamenForm from "../ExamenForm";
 import { STEP3, STEP2 } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
-import { EuiFlexGroup, EuiButton, EuiButtonEmpty } from "@elastic/eui";
+import { EuiFlexGroup, EuiButton, EuiButtonEmpty,EuiSpacer } from "@elastic/eui";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   deleteStep,
   desactivateStep,
   addStep,
 } from "../../../redux/steps/actions";
+
+
 import {
   getSelectedExamGroup,
   setActiveGroup,
@@ -42,7 +46,7 @@ const getExamByGroupIndex = (group, groupKey) => {
   return result;
 };
 
-const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ }) => {
+const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ ,loading}) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
@@ -54,7 +58,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
   const [showInterExam, setShowInterExam] = useState(false);
   const [intervalGroupIndex, setIntervalGroupIndex] = useState(1);
   const [reload, setReload] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
@@ -63,25 +67,10 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
     setRerender(true);
   };
 
-  const handleGetModeleGroups = () => {
-    ModelGroupeService.getModelGroupe(1)
-            .then((response) => {
-              setLoading(false);
-              console.log("MMMMMMMMYYYYYYYY")
-              dispatch(createGroups(response.data.length));
-              dispatch(CreateEspacement(response.data.length - 1));
-              setLoading(false);
-            })
-            .catch((error) => {
-              console.log("Error ", error);
-              setLoading(false);
-            });
-  }
-
-  useEffect(()=> {
-    handleGetModeleGroups();
-  },[])
-
+  useEffect(() => {
+    console.log("groupWithData MY GROUP");
+    console.log(groupWithData)
+  }, [])
 
   const handleDeleteModelGroups = (groupeK) => {
       console.log(" -------GROUPE ITEMS------- ",groupeK);
@@ -189,7 +178,13 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
               {modelData?.nom} {groupName}
             </p>
           </div>
-          {Object.keys(groupWithData).map((groupKey, index) => {
+
+          {!groupWithData&&
+            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress />
+            </Box>}
+            <EuiSpacer size="xl" />
+           {Object.keys(groupWithData&&groupWithData).map((groupKey, index) => {
             return (
               <Draggable
                 key={index}
@@ -247,7 +242,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                                 fontWeight: "600",
                               }}
                             >
-                              {groupKey}
+                              {groupWithData[groupKey].nom}
                             </div>
                           </div>
 
@@ -280,7 +275,11 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                                 onClick={() => toggle(index)}
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            )
+                            
+                          }
+                            
+
                           </div>
                         </div>
 
@@ -541,7 +540,7 @@ const GroupExamenSummary = ({
   );
 };
 
-const mapStateToProps = ({ ExamenReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, CommonReducer }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
   numOfGroups: ExamenReducer.numOfGroups,
   exams: ExamenReducer.exams,
@@ -549,6 +548,7 @@ const mapStateToProps = ({ ExamenReducer }) => ({
   espacement: ExamenReducer.espacement,
   groupWithData: ExamenReducer.groupWithData,
   openGroup: ExamenReducer.openGroup,
+  loading: CommonReducer.loading,
 });
 
 export default connect(mapStateToProps)(GroupExamenSummary);

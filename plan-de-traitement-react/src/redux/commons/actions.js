@@ -27,6 +27,10 @@ export const setModelType = (modelType) => ({
   modelType,
 });
 
+
+
+
+
 export const addFieldData = (key, value) => ({
   type: types.SET_FIELD_DATA,
   payload: { [key]: value },
