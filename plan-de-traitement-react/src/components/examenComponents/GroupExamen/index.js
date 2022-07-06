@@ -108,6 +108,8 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
     }
   }, [openGroup]);
 
+
+
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
     <>
@@ -144,6 +146,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
           {Object.keys(groupWithData).map((groupKey, index) => {
             return (
               <Draggable
+                disableInteractiveElementBlocking={false}
                 key={index}
                 draggableId={"draggable-" + index}
                 index={index}
@@ -166,7 +169,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                           >
                             <div style={{ marginRight: 25 }}>
                               <Propover
-                                idGroupe = {groupKey}
+                                idGroupe={groupKey}
                                 isModelGroup={true}
                                 onDeleteGroup={() => {
                                   dispatch(deleteGroup(groupKey));
@@ -178,15 +181,15 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                                 }}
                                 onEditItem={() => {
                                   console.log('editing group ...');
-                                  dispatch(
-                                    setComponent({
-                                      name: "RECAPITULATIF",
-                                      data: {
-                                        groupKey: groupKey,
-                                        data: groupWithData,
-                                      },
-                                    })
-                                  );
+                                  // dispatch(
+                                  //   setComponent({
+                                  //     name: "RECAPITULATIF",
+                                  //     data: {
+                                  //       groupKey: groupKey,
+                                  //       data: groupWithData,
+                                  //     },
+                                  //   })
+                                  // );
                                 }}
                                 onFixePosition={() => {
                                   dispatch(toggleFixGroupPosition({ selectedGroup: groupKey }));
@@ -273,9 +276,10 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                                     {getExamByGroupIndex(groupWithData, groupKey).map(
                                       (exam, i) => {
                                         return (
-                                          <Draggable key={i} draggableId={"draggeble-" + i} index={i} disableInteractiveElementBlocking>
+                                          <Draggable key={"item-"+i} draggableId={"draggable-" + i} index={i}>
                                             {(provided) => {
                                               return (<div
+
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
                                                 ref={provided.innerRef}

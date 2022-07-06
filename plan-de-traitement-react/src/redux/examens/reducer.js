@@ -142,9 +142,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
     case types.CREATE_ESPACEMENTS:
       let listespacements = {};
-      for (let i = 0; i < action.nombreOccurence; i++) {
+      let nbrOfGroupe = Object.keys(state.groupWithData)
+      for (let i = 0; i < nbrOfGroupe.length - 1; i++) {
         listespacements["espace " + i] = [];
       }
+      console.log("listespacements", listespacements)
       return {
         ...state,
         espacement: listespacements,
