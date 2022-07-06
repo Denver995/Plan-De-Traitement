@@ -21,19 +21,16 @@ createModelGroupe = (values) => {
   return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
 }
 //IN PROGRESS
-getModelGroupe = (payload) => {
-
-  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/${payload}`);
+getModelGroupe = (id) => {
+  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id}`);
 }
 //DONE
 deleteModelGroupe = (id_model_groupe) => {
- 
-  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
+  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele_groupe=${id_model_groupe}`);
 }
 //IN PROGRESS
 updateModelGroupe = (id_model_groupe, payload) => {
-   
-  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
+  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele_groupe=${id_model_groupe}`, payload);
 }
 
 

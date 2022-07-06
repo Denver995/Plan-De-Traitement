@@ -23,22 +23,14 @@ createGroupeLie = (values) => {
 
     console.log(formdata);
 
-   /* const requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };*/
-
   return http.post(BASE_URL_API+"/groupelie", values);
 }
 //NOT DONE
-getGroupeLie = (payload) => {
- 
-  return http.get(BASE_URL_API+`/groupelie/${payload}`);
+getGroupeLie = (id_groupe_parent,id_groupe_enfant) => {
+  return http.get(BASE_URL_API+`/groupelie/?id_groupe_parent=${id_groupe_parent}&id_groupe_enfant=${id_groupe_enfant}`);
 }
 //NOT DONE
 deleteGroupeLie = (id_groupelie) => {
-
   return http.delete(BASE_URL_API+`/groupelie/${id_groupelie}`);
 }
 //NOT DONE

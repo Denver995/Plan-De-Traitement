@@ -28,18 +28,14 @@ createExamen = (payload) => {
 
   return http.post(BASE_URL_API+`/api_examen/examen`, formdata);
 }
-getExamen = (payload) => {
- 
-    return http.get(BASE_URL_API+`/api_examen/examen${payload}`);
+getExamen = (id_modele) => {
+    return http.get(BASE_URL_API+`/api_examen/examen/?id_modele=${id_modele}`);
 }
 deleteExamen = (id_examen) => {
-  
-    return http.delete(BASE_URL_API+`/api_examen/examen/${id_examen}`);
-
+    return http.delete(BASE_URL_API+`/api_examen/examen/18`);
 }
-updateExamen = (id_examen, payload) => {
-   
-    return http.put(BASE_URL_API+`/api_examen/examen/${id_examen}`, payload);
+updateExamen = (id_examen, payload) => { 
+    return http.put(BASE_URL_API+`/api_examen/examen/48`, payload);
 }
 
 

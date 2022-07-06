@@ -20,6 +20,7 @@ import {
   getSelectedExamGroup,
   setActiveGroup,
   setShowExamForm,
+  CreateEspacement, createGroups,
   deleteGroup,
   addExamGrouped,
   toggleFixGroupPosition,
@@ -53,6 +54,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
   const [showInterExam, setShowInterExam] = useState(false);
   const [intervalGroupIndex, setIntervalGroupIndex] = useState(1);
   const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
@@ -61,22 +63,25 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
     setRerender(true);
   };
 
-  const handleGetModelGroups = (id) => {
-    console.log("my data model group");
-    console.log(modelData);
-      dispatch(startLoading());
-      ModelGroupeService.getModelGroupe(parseInt(modelData.id))
-      .then((response) => {
-        console.log("----GET MY MODEL GROUPS----")
-        console.log(response.data)
-        dispatch(addExamGrouped(response.data));
-        dispatch(stopLoading());
-      })
-      .catch((error) => {
-        dispatch(addExamGrouped({}))
-        dispatch(stopLoading());
-      });
+  const handleGetModeleGroups = () => {
+    ModelGroupeService.getModelGroupe(1)
+            .then((response) => {
+              setLoading(false);
+              console.log("MMMMMMMMYYYYYYYY")
+              dispatch(createGroups(response.data.length));
+              dispatch(CreateEspacement(response.data.length - 1));
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.log("Error ", error);
+              setLoading(false);
+            });
   }
+
+  useEffect(()=> {
+    handleGetModeleGroups();
+  },[])
+
 
   const handleDeleteModelGroups = (groupeK) => {
       console.log(" -------GROUPE ITEMS------- ",groupeK);
@@ -113,9 +118,6 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
 
 
   useEffect(() => {
-    console.log("-----MY GROUP WITH DATA------");
-    console.log(groupWithData);
-    handleGetModelGroups();
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
