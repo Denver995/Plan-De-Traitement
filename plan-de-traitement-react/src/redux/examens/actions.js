@@ -131,14 +131,21 @@ export const toggleFixExamPosition = (payload) => ({
   payload,
 });
 
-export const toggleFixGroupPosition = ({selectedGroup}) => ({
+export const toggleFixGroupPosition = ({ selectedGroup }) => ({
   type: types.TOGGLE_FIXE_GROUP_POSITION,
   selectedGroup,
 });
 
 export const dragAndDrog = (data) => {
   return {
-    type : types.DRAG_AND_DROP,
-    data
-  }
-}
+    type: types.DRAG_AND_DROP,
+    data,
+  };
+};
+
+export const linkToExam = (payload) => {
+  return {
+    type: types.LINK_TO_EXAM,
+    payload,
+  };
+};
