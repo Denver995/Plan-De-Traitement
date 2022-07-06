@@ -18,6 +18,7 @@ const styles = {
     color: colors.primaryRdv,
     borderRadius: 28,
     padding: "4px 15px 4px 15px",
+    cursor: "pointer"
   },
 
   textHeaderSelected: {
@@ -27,6 +28,7 @@ const styles = {
     backgroundColor: colors.primarySombre,
     borderRadius: 28,
     padding: "4px 15px 4px 15px",
+    cursor: "pointer"
   },
 
   horizontalRule: {

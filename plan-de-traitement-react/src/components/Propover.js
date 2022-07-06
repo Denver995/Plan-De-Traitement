@@ -14,7 +14,8 @@ const Propover = ({
   onDeleteGroup,
   onEditItem,
   onDeleteExam,
-  onFixePosition
+  onFixePosition,
+  examId,
 }) => {
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -103,15 +104,25 @@ const Propover = ({
               {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
                   examsGrouped.map((group, i) => (
-                    <EuiListGroupItem key={i} onClick={() => console.log("")} label={"group " + i} />
-                  ))
-                : exams.map((exam, i) => (
                     <EuiListGroupItem
                       key={i}
-                      // label={exam.nom + " " + i}
-                      label={"Examen " + i}
+                      onClick={() => console.log("")}
+                      label={"group " + i}
                     />
-                  ))}
+                  ))
+                : exams.map(
+                    (exam, i) =>
+                      examId !== i && (
+                        <EuiListGroupItem
+                          key={i}
+                          onClick={() => {
+                            console.log("Parent ", examId+1, "Enfant: ", i + 1);
+                            togglePropover();
+                          }}
+                          label={`Examen ${i + 1}`}
+                        />
+                      )
+                  )}
             </EuiListGroup>
           </EuiPopover>
         </EuiListGroup>

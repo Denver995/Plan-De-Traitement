@@ -11,7 +11,6 @@ import GroupWrapper from "./examenComponents/GroupWrapper";
 import RecapitulatifWrapper from "./examenComponents/recapitulatifWrapper";
 
 import PopUp from "./PopUp";
-import PatientForm from "./rendezVousComponents/PatientForm";
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +36,7 @@ const MainScreen = () => {
 
   switch (activeStep) {
     case STEP1:
-      content = <RendezVousForm closeModal={closeModal} />;
+      content = <ModelForm closeModal={closeModal} />;
       break;
     case STEP2:
       stepData = getStepByKey(steps, STEP1);
