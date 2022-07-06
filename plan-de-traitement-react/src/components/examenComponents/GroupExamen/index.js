@@ -41,7 +41,7 @@ import { type_espacement } from "../../../utils/constants";
 
 const getExamByGroupIndex = (group, groupKey) => {
   console.log('group ', group);
-  const result = Object.keys(group).length > 0 ? group[groupKey].exams : [];
+  const result = Object.keys(group).length > 0 ? group[groupKey].newPayload.exams : [];
   console.log('result ', result);
   return result;
 };
@@ -185,6 +185,8 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
             </Box>}
             <EuiSpacer size="xl" />
            {Object.keys(groupWithData&&groupWithData).map((groupKey, index) => {
+              console.log("groupWith data");
+              console.log(groupWithData[groupKey]);
             return (
               <Draggable
                 key={index}
@@ -211,7 +213,7 @@ const GroupItem = ({ groupName, espacement, groupWithData, openGroup, reRender_ 
                               <Propover
                                 isModelGroup={true}
                                 onDeleteGroup={() => {
-                                  handleDeleteModelGroups(groupKey);
+                                  handleDeleteModelGroups(groupWithData[groupKey].id);
                                   dispatch(deleteGroup(groupKey));
                                   setRerenderDel(true);
                                 }}
@@ -442,6 +444,7 @@ const GroupExamenSummary = ({
   const [reRender, setRerender] = useState(false);
   const [ignored, forceUpdate] = useReducer(x=>x+1,0)
   const onClickNext = () => {
+    console.log("create step -----")
     let nextStep = createStep(STEP3);
     nextStep.previousStep = previousStep;
     dispatch(startLoading());

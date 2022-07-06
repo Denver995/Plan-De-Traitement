@@ -25,12 +25,12 @@ getModelGroupe = (id) => {
   return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id}`);
 }
 //DONE
-deleteModelGroupe = (id_model_groupe) => {
-  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele_groupe=${id_model_groupe}`);
+deleteModelGroupe = (id_model) => {
+  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id_model}`);
 }
 //IN PROGRESS
-updateModelGroupe = (id_model_groupe, payload) => {
-  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele_groupe=${id_model_groupe}`, payload);
+updateModelGroupe = (id_model, payload) => {
+  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id_model}`, payload);
 }
 
 
