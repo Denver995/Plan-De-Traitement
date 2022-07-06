@@ -106,11 +106,11 @@ const SummaryGroupedExam = ({
               <TimeLineHelper index={index} entityType = {"Groupe"} />
               <RecapExamItemV2
                 color={""}
-                data={groupesWithData[index].newPayload.exams}
+                data={groupesWithData['group '+index].exams}
                 date={new Date().toDateString()}
                 index_={index}
                 position={index % 2 === 0 ? "left" : "right"}
-                positionFixed={groupesWithData[index].newPayload.positionFixed}
+                positionFixed={groupesWithData['group '+index].positionFixed}
               />
             </div>
           ))}

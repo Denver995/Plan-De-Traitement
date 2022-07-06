@@ -12,9 +12,10 @@ import {
   EuiFieldText,
   EuiText,
 } from "@elastic/eui";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
-
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { setAlert, setComponent } from "../../redux/commons/actions";
 import { connect, useDispatch, useSelector } from "react-redux";
 import EspacementInterExamenForm from "../EspacementInterExamenForm";
@@ -23,6 +24,7 @@ import styles from "./style";
 import colors from "../../utils/colors";
 import { useDimension } from "../../hooks/dimensions";
 import { saveModel } from "../../redux/models/actions";
+import ModelGroupeService from "../../services/modelGroupe";
 
 const Alert = ({
   message,
@@ -38,24 +40,32 @@ const Alert = ({
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.CommonReducer.alert);
   const { innerHeight, innerWidth } = useDimension();
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("nhyg");
   console.log("dimensions: ", { innerHeight, innerWidth });
 
   useEffect(() => {}, [buttonText]);
 
-  const submit = () => {
-    if (onAccept) {
-      onAccept();
-      dispatch(setAlert({ showAlert: false, message: "" }));
-      if (isConfirmation || alert.isConfirmation) {
-        if (alert.closeModal) alert.closeModal();
-        if (closeModal) closeModal();
-        dispatch(saveModel());
-      }
-      return;
+  const handleCreateModeleGroup = () => {
+    console.log("my model Data");
+      console.log(modelData)
+      setLoading(true)
+      ModelGroupeService.createModelGroupe(modelData)
+            .then((response) => {
+              setLoading(false);
+              setErrorMessage("");
+              dispatch(setAlert({ showAlert: false, message: "" }));
+              if (isConfirmation || alert.isConfirmation) {
+                if (alert.closeModal) alert.closeModal();
+                if (closeModal) closeModal();
+                dispatch(saveModel())
+              }
+            })
+            .catch((error) => {
+              setLoading(false)
+              setErrorMessage(error)
+            });
     }
-    dispatch(setAlert({ showAlert: false, message: "" }));
-    return;
-  };
 
   const goBack = () => {
     if (onReject) {
@@ -72,6 +82,11 @@ const Alert = ({
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
     >
+    {loading &&
+          <Box style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>}
+      <EuiSpacer size="xl" />
       <EuiModalBody style={styles.body}>
         {showInputForm ? (
           <EuiForm id="">
@@ -136,14 +151,21 @@ const Alert = ({
             width: innerWidth <= 500 ? "100%" : "210px",
             textDecoration: "none",
           }}
-          onClick={submit}
+          onClick={handleCreateModeleGroup}
           fill={true}
         >
           {alert?.buttonText?.confirmText ?? "Enregistrer"}
         </EuiButton>
       </EuiModalFooter>
       {/* )} */}
+       {errorMessage !="" && (
+              <>
+                <EuiSpacer size="xl" />
+                <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage.message}</p>
+              </>
+            )}
     </ModalWrapper>
+   
   );
 };
 

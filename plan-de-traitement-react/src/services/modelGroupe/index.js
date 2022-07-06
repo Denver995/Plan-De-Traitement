@@ -20,17 +20,24 @@ createModelGroupe = (values) => {
 
   return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
 }
-//IN PROGRESS
-getModelGroupe = (id) => {
-  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id}`);
+//DONE
+getModelGroupe = (id_modele) => {
+  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id_modele}`);
 }
 //DONE
-deleteModelGroupe = (id_model) => {
-  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id_model}`);
+deleteModelGroupe = (id_model_groupe) => {
+  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
 }
 //IN PROGRESS
-updateModelGroupe = (id_model, payload) => {
-  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id_model}`, payload);
+updateModelGroupe = (id_model_groupe, payload) => {
+    const formdata = new FormData();
+    formdata.append("nom", payload.nom);
+    formdata.append("nb_occurence", payload.nb_occurence);
+    formdata.append("groupe_rdv", payload.groupe_rdv);
+    formdata.append("id_entite", payload.id_entite);
+    formdata.append("periode", payload.periode);
+    formdata.append("id_modele", payload.id_modele);
+  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
 }
 
 

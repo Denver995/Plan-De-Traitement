@@ -7,6 +7,7 @@ class ModelService {
     var formdata = new FormData();
     formdata.append("nom", data.nom);
     formdata.append("groupe_rdv", data.groupe_rdv);
+    formdata.append("id_entite", data.id_entite);
 
     console.log("my value for model");
     console.log(formdata);

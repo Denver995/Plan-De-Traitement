@@ -143,7 +143,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.CREATE_GROUPS1:
     let groups1 = {};
       for (let i = 0; i < action.payload.length; i++) {
-        groups1["group " + i] = { exams: [], positionFixed: false };
         action.payload[i].newPayload = {exams: [], positionFixed: false};
       }
       return {

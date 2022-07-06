@@ -90,19 +90,26 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, groupeLength
   }
 
   const createModele = (values) => {
-    console.log("let step---------------------");
-    console.log(values);
     let nextStep = createStep(STEP2);
     nextStep.previousStep = values;
     dispatch(desactivateStep(STEP1));
     dispatch(addStep(nextStep));
   };
 
+  const handleCreateModeleGroup = () => {
+    setLoading(true)
+    ModelGroupeService.createModelGroupe()
+          .then((response) => {
+            setLoading(false);
+            dispatch(setModelData(response.data));
+          })
+          .catch((error) => {
+            setLoading(false)
+          });
+  } 
+
   const onClickNext = () => {
-    setErrorMessage(false);
     if (showGroupOption) {
-      setLoading(true)
-      dispatch(startLoading());
       const data = {
         nom: nomModele,
         nb_occurence: nombreOccurence,
@@ -113,53 +120,18 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, groupeLength
         typePeriode: typePeriode
       };
       step.data = data;
-      if (groupe_rdv) {
-        ModelGroupeService.createModelGroupe(data)
-          .then((response) => {
-            setLoading(false);
-            console.log("MY RESPONSE GROUP MODEL SUCCES")
-            console.log(response);
-            dispatch(setModelData(response.data));
-            console.log("model data --", modelData);
-          ModelGroupeService.getModelGroupe(1)
-            .then((response) => {
-              console.log("length ---",response.data.data.length)
-              console.log("data ---",response.data.data)
-              dispatch(startLoading())
-              setLoading(false);
-              dispatch(createGroups1(response.data.data));
-              dispatch(updateStep(step));
-              createModele(step);
-              setLoading(false);
-            })
-            .catch((error) => {
-              dispatch(stopLoading())
-              console.log("Error for get mODEL id group", error)
-              setLoading(false);
-            });
-          })
-          .catch((error) => {
-            setLoading(false)
-          });
-           dispatch(updateStep(step));
-           createModele(step);
-           dispatch(setModelData(data));
-
-      } else {
         dispatch(createGroups(nombreOccurence));
         dispatch(CreateEspacement(nombreOccurence - 1));
         dispatch(updateStep(step));
         createModele(step);
         dispatch(setModelData(data));
-      }
-
     } else {
       setLoading(true)
       const payload = {
         nom: nomModele,
-        groupe_rdv: groupe_rdv ? 1 : 0
+        groupe_rdv: groupe_rdv ? 1 : 0,
+        id_entite: 5
       };
-
       ModelService.createModele(payload)
         .then((response) => {
           console.log(response.data)
