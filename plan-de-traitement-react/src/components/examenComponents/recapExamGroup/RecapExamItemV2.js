@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { EuiIcon } from "@elastic/eui";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import colors from "../../../utils/colors";
 import Propover from "../../Propover";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteGroup } from "../../../redux/examens/actions";
 
-const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed }) => {
+const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, groupKey }) => {
   console.log("positionFixed ", positionFixed);
+  const dispatch = useDispatch()
+  const [reRenderDel,setRerenderDel] = useState(false)
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
@@ -16,7 +19,9 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   console.log("voici la valeure de data : ", data);
   console.log("comment gerer ceci : ", espacementSubExam);
+    useEffect(() => {
 
+    }, [reRenderDel])
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -37,7 +42,10 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
             marginRight: -5,
           }}
         >
-          <Propover index = {index_} forEXam = {false} />
+          <Propover idGroupe={groupKey} setRerenderDel= {setRerenderDel}  isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
+            dispatch(deleteGroup(groupKey));
+            setRerenderDel(true);
+          }} />
           {positionFixed && <PinIcon width={7} height={11} />}
         </div>
       ) : (
@@ -50,7 +58,10 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
             marginRight: -10,
           }}
         >
-          <Propover index = {index_} forEXam = {false} />
+          <Propover idGroupe={groupKey} setRerenderDel= {setRerenderDel}  isModelGroup={true} onDeleteGroup={() => {
+            dispatch(deleteGroup(groupKey));
+            setRerenderDel(true);
+          }} index={index_} forEXam={false} />
           {positionFixed && <PinIcon width={7} height={11} />}
         </div>
       )}
@@ -109,19 +120,19 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
                   espacementSubExam["group " + index_]["subEspace " + index]
                     .length - 1
                 ].minInterval +
-                  espacementSubExam["group " + index_]["subEspace " + index][
-                    espacementSubExam["group " + index_]["subEspace " + index]
-                      .length - 1
-                  ].minIntervalUnit +
-                  "-" +
-                  espacementSubExam["group " + index_]["subEspace " + index][
-                    espacementSubExam["group " + index_]["subEspace " + index]
-                      .length - 1
-                  ].maxInterval +
-                  espacementSubExam["group " + index_]["subEspace " + index][
-                    espacementSubExam["group " + index_]["subEspace " + index]
-                      .length - 1
-                  ].maxIntervalUnit}
+                espacementSubExam["group " + index_]["subEspace " + index][
+                  espacementSubExam["group " + index_]["subEspace " + index]
+                    .length - 1
+                ].minIntervalUnit +
+                "-" +
+                espacementSubExam["group " + index_]["subEspace " + index][
+                  espacementSubExam["group " + index_]["subEspace " + index]
+                    .length - 1
+                ].maxInterval +
+                espacementSubExam["group " + index_]["subEspace " + index][
+                  espacementSubExam["group " + index_]["subEspace " + index]
+                    .length - 1
+                ].maxIntervalUnit}
             </p>
           )}
         </div>

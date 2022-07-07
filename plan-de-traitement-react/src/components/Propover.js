@@ -24,6 +24,7 @@ const Propover = ({
   idGroupe,
   index,
   forEXam,
+  setRerenderDel,
   onEditItem,
   onDeleteExam,
   onFixePosition,
@@ -56,15 +57,20 @@ const Propover = ({
   const handleClose = () => setIsOpen(false);
 
   const onEdit = () => {
-dispatch(SetShowGroupeContentForUpdate(-1))
+    dispatch(SetShowGroupeContentForUpdate(index))
+    console.log("isExamGroup", isExamGroup)
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
+      console.log("groupeKey, examId, data ", groupKey, index, exam)
       dispatch(
         setComponent({
           name: "EXAMENFORMEDIT",
           groupKey: groupKey,
-          examId: examId,
-          data: exam,
+          examId: index ? index : examId,
+          data: {
+            groupKey: groupKey,
+            data: groupesWithData
+          },
         })
       );
     } else {
@@ -75,9 +81,11 @@ dispatch(SetShowGroupeContentForUpdate(-1))
   };
 
   const onDelete = () => {
+    console.log("on passe ici", isModelGroup, isExamGroup)
     dispatch(SetShowGroupeContentForUpdate(-1))
     if (isModelGroup) {
       onDeleteGroup();
+      setRerenderDel(true)
       return;
     }
 
@@ -176,19 +184,19 @@ dispatch(SetShowGroupeContentForUpdate(-1))
                   />
                 ))
                 : exams.map(
-                    (exam, i) =>
-                      examId !== i && (
-                        <EuiListGroupItem
-                key={i}
-                onClick={() => {
-                  dispatch(linkToExam({ parent: examId, child: i }));
-                  handleClose();
-                  togglePropover();
-                }}
-                label={`Examen ${i + 1}`}
-              />
-              )
-                  )}
+                  (exam, i) =>
+                    examId !== i && (
+                      <EuiListGroupItem
+                        key={i}
+                        onClick={() => {
+                          dispatch(linkToExam({ parent: examId, child: i }));
+                          handleClose();
+                          togglePropover();
+                        }}
+                        label={`Examen ${i + 1}`}
+                      />
+                    )
+                )}
             </EuiListGroup>
           </EuiPopover>
         </EuiListGroup>

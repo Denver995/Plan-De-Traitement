@@ -118,6 +118,7 @@ const SummaryGroupedExam = ({
                   data={groupesWithData['group ' + index]?.exams}
                   date={new Date().toDateString()}
                   index_={index}
+                  groupKey={'group ' + index}
                   position={index % 2 === 0 ? "left" : "right"}
                   positionFixed={groupesWithData['group ' + index]?.positionFixed}
                 />
@@ -125,9 +126,11 @@ const SummaryGroupedExam = ({
             )) :
             groupesWithData['group ' + groupeToShowContentId]?.exams?.map((exam, index) => (
               <div key={index} style={{ position: "relative" }}>
-                <TimeLineHelper index={index} entityType={"Groupe"} />
+                <TimeLineHelper index={index} entityType={"Examen"} />
                 <ExamCard
                   examen={exam}
+                  isExamGroup = {true}
+                  groupKey={'group ' + groupeToShowContentId}
                   index={index}
                   color={colors[colorsArr[Math.round(Math.random() * 3)]]}
                   date="12 mars"

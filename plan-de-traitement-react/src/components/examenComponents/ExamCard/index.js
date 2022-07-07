@@ -11,6 +11,7 @@ function ExamCard({
   date,
   index,
   position,
+  groupKey,
   examen,
   isExamGroup = false,
   examId,
@@ -41,6 +42,8 @@ function ExamCard({
             style={position === "right" ? styles.propRight : styles.propLeft}
           >
             <Propover
+              index = {index}
+              groupKey={groupKey}
               exam={examen}
               isExamGroup={isExamGroup}
               examId={examId}
