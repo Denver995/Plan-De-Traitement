@@ -8,16 +8,27 @@ import {
 
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { linkToExam } from "../redux/examens/actions";
+import { setComponent } from "../redux/commons/actions";
+import {
+  deleteExamGroup,
+  deleteExamSimple,
+  editExam,
+  linkToExam,
+  toggleFixExamPosition,
+} from "../redux/examens/actions";
 
 const Propover = ({
   isModelGroup,
   onDeleteGroup,
   idGroupe,
-  onEditItem,
-  onDeleteExam,
-  onFixePosition,
   examId,
+  exam,
+  groupKey,
+  isExamGroup,
+  setReload,
+  reload,
+  onBack,
+  isRecap,
 }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
@@ -39,13 +50,20 @@ const Propover = ({
   const handleClose = () => setIsOpen(false);
 
   const onEdit = () => {
-    // if (isModelGroup) {
-    //   dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
-    //   return;
-    // }
-    // dispatch(editExam(data));
-    // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
-    onEditItem();
+    dispatch(editExam({ ...exam, id: examId + 1 }));
+    if (isExamGroup) {
+      dispatch(
+        setComponent({
+          name: "EXAMENFORMEDIT",
+          groupKey: groupKey,
+          examId: examId,
+          data: exam,
+        })
+      );
+    } else {
+      dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
+      isRecap && onBack();
+    }
     togglePropover();
   };
 
@@ -54,13 +72,38 @@ const Propover = ({
       onDeleteGroup();
       return;
     }
-    onDeleteExam();
+
+    if (isExamGroup) {
+      dispatch(
+        deleteExamGroup({
+          groupKey: groupKey,
+          examId: examId,
+        })
+      );
+      setReload();
+    } else {
+      dispatch(deleteExamSimple({ examId: examId }));
+    }
     togglePropover();
-    return;
   };
 
   const onFixPosition = () => {
-    onFixePosition();
+    if (isExamGroup) {
+      dispatch(
+        toggleFixExamPosition({
+          selectedExam: examId,
+          groupKey: groupKey,
+          isExamGroup: true,
+        })
+      );
+    } else {
+      dispatch(
+        toggleFixExamPosition({
+          selectedExam: examId,
+          isExamGroup: false,
+        })
+      );
+    }
     togglePropover();
   };
 
@@ -130,6 +173,7 @@ const Propover = ({
                           key={i}
                           onClick={() => {
                             dispatch(linkToExam({ parent: examId, child: i }));
+                            handleClose();
                             togglePropover();
                           }}
                           label={`Examen ${i + 1}`}

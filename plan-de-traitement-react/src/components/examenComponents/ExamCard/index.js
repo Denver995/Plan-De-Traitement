@@ -7,11 +7,19 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import colors from "../../../utils/colors";
 import styles from "./style";
 
-function ExamCard({ color, date, position, examen }) {
+function ExamCard({
+  date,
+  position,
+  examen,
+  isExamGroup = false,
+  examId,
+  onBack,
+}) {
+  console.log("Parent: ", examen);
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: color ? color : colors.primary,
+        background: examen.color ? examen.color : colors.primary,
         height: 82,
         marginTop: -40,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
@@ -31,10 +39,16 @@ function ExamCard({ color, date, position, examen }) {
           <div
             style={position === "right" ? styles.propRight : styles.propLeft}
           >
-            <Propover />
+            <Propover
+              exam={examen}
+              isExamGroup={isExamGroup}
+              examId={examId}
+              onBack={onBack}
+              isRecap={true}
+            />
           </div>
           <h4 className="spec" style={styles.speciality}>
-            <strong>*Spécialité* - {examen.id_modif?? "id_motif"}</strong>
+            <strong>*Spécialité* - {examen.id_modif ?? "id_motif"}</strong>
           </h4>
         </div>
       </div>
@@ -48,7 +62,9 @@ function ExamCard({ color, date, position, examen }) {
             }
           >
             <PersonIcon width={"1rem"} />
-            <h4 style={styles.praticien}>{examen.id_praticien ?? "id_praticien"}</h4>
+            <h4 style={styles.praticien}>
+              {examen.id_praticien ?? "id_praticien"}
+            </h4>
             <MapIcon width={"0.7rem"} />
             <h4 style={styles.adresse}>{examen.id_lieu ?? "id_lieu"}</h4>
           </div>
