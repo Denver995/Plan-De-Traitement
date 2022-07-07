@@ -8,11 +8,12 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { useSelector } from "react-redux";
 
 const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed }) => {
+  //
   console.log("positionFixed ", positionFixed);
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
-  console.log("recap: ", position);
+  //console.log("recap: ", position);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   console.log("voici la valeure de data : ", data);
   console.log("comment gerer ceci : ", espacementSubExam);

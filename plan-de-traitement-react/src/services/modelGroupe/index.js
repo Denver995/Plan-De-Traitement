@@ -18,15 +18,15 @@ class ModelGroupeService {
     //formdata.append("typePeriode", values.typePeriode);
 
     
-  return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
+  return http.post(BASE_URL_API+"api/api_modelegroupe/modelegroupe", formdata);
 }
 //DONE
-  getModelGroupe = (id_modele) => {
+getModelGroupe = (id_modele) => {
     return http.get(BASE_URL_API + `api/api_modelegroupe/modelegroupe/?id_modele=${id_modele}`);
   }
 //DONE
 deleteModelGroupe = (id_model_groupe) => {
-  return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
+  return http.delete(BASE_URL_API+`api/api_modelegroupe/modelegroupe/${id_model_groupe}`);
 }
 //IN PROGRESS
 updateModelGroupe = (id_model_groupe, payload) => {
@@ -37,7 +37,7 @@ updateModelGroupe = (id_model_groupe, payload) => {
     formdata.append("id_entite", payload.id_entite);
     formdata.append("periode", payload.periode);
     formdata.append("id_modele", payload.id_modele);
-  return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
+  return http.put(BASE_URL_API+`api/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
 }
 
 }

@@ -19,6 +19,11 @@ export const addExam = (payload) => ({
   payload,
 });
 
+export const shareGroupPayload = (payload) => ({
+  type: types.SHARE_GROUP_PAYLOAD,
+  payload,
+})
+
 export const addExamGrouped = (payload) => ({
   type: types.ADD_EXAM_GROUPED,
   payload,
@@ -81,13 +86,6 @@ export const createGroups = (nombreOccurence) => ({
   type: types.CREATE_GROUPS,
   nombreOccurence,
 });
-
-export const createGroups1 = (payload) => ({
-  type: types.CREATE_GROUPS1,
-  payload,
-});
-
-
 
 export const deleteExamGroup = (payload) => ({
   type: types.DELETE_EXAM_GROUP,

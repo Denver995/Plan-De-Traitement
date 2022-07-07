@@ -13,11 +13,12 @@ import ReactToolTip from "react-tooltip";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import { useDimension } from "../../hooks/dimensions";
 import {
-  CreateEspacement, createGroups,
+  CreateEspacement, createGroups, shareGroupPayload,
   numOfGroupsChange
 } from "../../redux/examens/actions";
 import {
   setModelData,
+  shareModelGroupData,
   updateModel
 } from "../../redux/models/actions";
 import {
@@ -64,7 +65,8 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   };
 
   const closeModale = () => {
-    ModelService.deleteModele(modelData.id)
+    if(modelData){
+      ModelService.deleteModele(modelData.id)
       .then((response) => {
         setLoading(true)
         closeModal();
@@ -72,7 +74,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
       .then((error) => {
         setLoading(true)
       });
-
+    }else{
+      closeModal();
+    }
   }
 
   const createModele = (values) => {
@@ -91,7 +95,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         groupe_rdv: groupe_rdv ? 1 : 0,
         id_entite: 4,
         periode: periode ? periode : 1,
-        id_modele: 1,
+        id_modele: 2,
         typePeriode: typePeriode,
       };
       step.data = data;
@@ -99,15 +103,34 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         ModelGroupeService.createModelGroupe(data)
           .then((response) => {
             setLoading(false)
-            dispatch(createGroups(nombreOccurence));
-            dispatch(CreateEspacement(nombreOccurence - 1));
             dispatch(updateStep(step));
             createModele(step);
             dispatch(setModelData(data));
+            console.log("Response success for get create group model")
+            console.log(response.data);
+            ModelGroupeService.getModelGroupe(2)
+            .then((response1) => {
+              console.log(response1.data)
+              let tabGroup = []
+              for(var i=0; i<response1.data.data.length; i++){
+                if(response1.data.data[i].id_modele_groupe === parseInt(response.data.id)){
+                  tabGroup.push(response1.data.data[i])
+                }
+              }
+              dispatch(shareGroupPayload(tabGroup));
+              dispatch(createGroups(tabGroup.length));
+              dispatch(CreateEspacement(tabGroup.length - 1));
+            })
+            .catch((error) => {
+              console.log(error)
+            })
           })
           .catch((error) => {
             setLoading(false)
           });
+          dispatch(updateStep(step));
+          createModele(step);
+          dispatch(setModelData(data));
 
       } else {
         dispatch(createGroups(nombreOccurence));

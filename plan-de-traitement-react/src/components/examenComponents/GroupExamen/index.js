@@ -1,4 +1,4 @@
-// import '../App.css';
+
 import { useState, useEffect, useReducer } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -26,15 +26,16 @@ import {
   setIsClose,
   dragAndDrog,
 } from "../../../redux/examens/actions";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { startLoading, setComponent } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
-import ModelGroupeService from "../../../services/modelGroupe";
 import ModalWrapper from "../../common/ModalWrapper";
 import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+
+import ModelGroupeService from "../../../services/modelGroupe";
 
 const getExamByGroupIndex = (group, groupKey) => {
   console.log("group ", group);
@@ -65,52 +66,12 @@ const GroupItem = ({
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
     newToggledGroup[index] = !toggledGroup[index];
     setToggledGroup(newToggledGroup);
     setRerender(true);
   };
-
-   const handleCreateModeleGroup = () => {
-    setLoading(true)
-    ModelGroupeService.createModelGroupe()
-          .then((response) => {
-            setLoading(false);
-          })
-          .catch((error) => {
-            setLoading(false)
-          });
-  } 
-
-  const handleGetModelGroups = (id) => {
-      ModelGroupeService.getModelGroupe({
-        id_modele: modelData.id_modele,
-        nom:modelData.nom,
-        id_modele_groupe: modelData.id_modele_groupe
-      });
-  }
-
-  const handleDeleteModelGroups = (id) => {
-      ModelGroupeService.deleteModelGroupe(id, dispatch)
-      .then((response) => {
-
-      })
-      .catch((error) => {
-
-      });
-  }
-
-  const handleUpdateModelGroups = (id) => {
-      ModelGroupeService.updateModelGroupe(modelData, id)
-      .then((response) => {
-
-      })
-      .catch((error) => {
-
-      });
-  }
 
   const handleAddExam = (groupKey) => {
     dispatch(setShowExamForm(true));
@@ -119,8 +80,22 @@ const GroupItem = ({
     setRerender(true);
   };
 
+  const deletModeleGroup = (id, groupKey) => {
+    setLoading(true);
+    ModelGroupeService.deleteModelGroupe(id)
+    .then((response) => {
+      setLoading(false);
+      if(groupKey){
+        dispatch(deleteGroup(groupKey));
+        setRerenderDel(true);
+      } 
+    })
+    .catch((error) => {
+      setLoading(false);
+    })
+  }
+
   useEffect(() => {
-    setLoading(false);
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
@@ -196,7 +171,7 @@ const GroupItem = ({
               {modelData?.nom} {groupName}
             </p>
           </div>
-          {Object.keys(groupWithData).map((groupKey, index) => {
+          {Object.keys(groupWithData&&groupWithData).map((groupKey, index) => {
             return (
               <Draggable
                 disableInteractiveElementBlocking={false}
@@ -224,9 +199,10 @@ const GroupItem = ({
                               <Propover
                                 idGroupe={groupKey}
                                 isModelGroup={true}
+                                loading = {loading}
                                 onDeleteGroup={() => {
-                                  dispatch(deleteGroup(groupKey));
-                                  setRerenderDel(true);
+                                  deletModeleGroup(groupWithData[groupKey].payload.id_modele_groupe, groupKey)
+                                  
                                 }}
                                 data={{
                                   groupKey: groupKey,
@@ -259,7 +235,7 @@ const GroupItem = ({
                                 fontWeight: "600",
                               }}
                             >
-                              Groupe {index + 1}
+                              {groupWithData[groupKey].payload.nom}
                             </div>
                           </div>
 
@@ -469,13 +445,13 @@ const GroupItem = ({
   );
 };
 
-
 const GroupExamenSummary = ({
   nbrGroupe,
   groupWithData,
   examsGrouped,
   espacement,
   openGroup,
+  groupPayload,
 }) => {
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(Object.keys(groupWithData));
@@ -484,10 +460,8 @@ const GroupExamenSummary = ({
   const showForm = useSelector((state) => state.CommonReducer.examen.show);
   const previousStep = getStepByKey(steps, STEP2);
   const [reRender, setRerender] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const onClickNext = () => {
-    setLoading(true)
     let nextStep = createStep(STEP3);
     nextStep.previousStep = previousStep;
     dispatch(startLoading());
@@ -495,13 +469,31 @@ const GroupExamenSummary = ({
     dispatch(addStep(nextStep));
   };
 
-  const onBack = () => dispatch(deleteStep(previousStep));
+  const deletModeleGroup = (id) => {
+    ModelGroupeService.deleteModelGroupe(id)
+    .then((response) => {
+    })
+    .catch((error) => {
+    })
+  }
 
+  const onBack = () => {
+    console.log("GROUE MODEL P")
+    console.log(groupPayload);
+    let id = "";
+    groupPayload.forEach(item => {
+      id = item.id_modele_groupe
+    })
+    deletModeleGroup(id)
+    dispatch(deleteStep(previousStep))
+  };
   const onPrevious = () => {
     dispatch(setShowExamForm(false));
   };
 
   useEffect(() => {
+    console.log("MY GROUP PAYY----");
+    console.log(groupPayload);
     setRerender(false);
   }, [showForm, ignored]);
 
@@ -526,9 +518,6 @@ const GroupExamenSummary = ({
 
   return (
     <ModalWrapper style={styles.modal}>
-    {loading?<Box style={{ display: 'flex', justifyContent: 'center' }}>
-            <CircularProgress />
-    </Box>:""}
       {showForm ? (
         <ExamenForm
           isModelGroup={true}
@@ -598,6 +587,7 @@ const mapStateToProps = ({ ExamenReducer }) => ({
   espacement: ExamenReducer.espacement,
   groupWithData: ExamenReducer.groupWithData,
   openGroup: ExamenReducer.openGroup,
+  groupPayload: ExamenReducer.groupPayload,
 });
 
 export default connect(mapStateToProps)(GroupExamenSummary);

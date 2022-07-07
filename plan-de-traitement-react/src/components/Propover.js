@@ -8,6 +8,8 @@ import {
 
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Propover = ({
   isModelGroup,
@@ -17,6 +19,7 @@ const Propover = ({
   onDeleteExam,
   onFixePosition,
   examId,
+  loading
 }) => {
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -72,6 +75,13 @@ const Propover = ({
     
   return (
     <div grow={false} className="icon_ellipsis">
+    {loading ?
+                <Box style={{ display: 'flex', alignItems: 'center' }}>
+                  <CircularProgress  style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
+                
+                </Box>
+                : ""
+              }
       <EuiPopover
         id={contextMenuPopoverId}
         button={button}
@@ -83,7 +93,7 @@ const Propover = ({
       >
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
-          <EuiListGroupItem onClick={onDelete} label="Supprimer" />
+          <EuiListGroupItem onClick={onDelete} label="Supprimer" /> 
           <EuiListGroupItem onClick={onFixPosition} label={groupesWithData[idGroupe]?.positionFixed ? "Defixer la position" : "Fixer position"} />
           <EuiPopover
             id="simpleAccordionId"

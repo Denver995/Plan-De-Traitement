@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   numOfGroups: 1,
   exams: [],
   groupWithData: {},
+  groupPayload: {},
   groupWithFixedPosition: [],
   openGroup: "",
   examsGrouped: [],
@@ -133,6 +134,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let groups = {};
       for (let i = 0; i < action.nombreOccurence; i++) {
         groups["group " + i] = { exams: [], positionFixed: false };
+        groups["group " + i].payload = state.groupPayload[i];
       }
       return {
         ...state,
@@ -140,15 +142,10 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupWithData: groups,
       };
 
-    case types.CREATE_GROUPS1:
-    let groups1 = {};
-      for (let i = 0; i < action.payload.length; i++) {
-        action.payload[i].newPayload = {exams: [], positionFixed: false};
-      }
+    case types.SHARE_GROUP_PAYLOAD:
       return {
         ...state,
-        examsGrouped: Array(Number(action.payload.length)).fill({}),
-        groupWithData: action.payload,
+        groupPayload: action.payload,
       };
 
     case types.CREATE_ESPACEMENTS:
