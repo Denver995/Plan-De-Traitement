@@ -37,7 +37,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
             marginRight: -5,
           }}
         >
-          <Propover />
+          <Propover index = {index_} forEXam = {false} />
           {positionFixed && <PinIcon width={7} height={11} />}
         </div>
       ) : (
@@ -50,7 +50,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
             marginRight: -10,
           }}
         >
-          <Propover />
+          <Propover index = {index_} forEXam = {false} />
           {positionFixed && <PinIcon width={7} height={11} />}
         </div>
       )}

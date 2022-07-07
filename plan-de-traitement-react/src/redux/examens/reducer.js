@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   creating: false,
   message: "",
   espaceInterGroupe: {},
+  groupeToShowContentId : -1,
   examenSelected: {},
   activeGroup: 0,
   show: false,
@@ -249,6 +250,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         openGroup: "",
+      };
+    }
+    case types.SHOW_GROUPE_CONTENT: {
+      return {
+        ...state,
+        groupeToShowContentId: action.id,
       };
     }
     case types.SET_ESPACEMENT_NON_GROUPE:

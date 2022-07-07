@@ -7,17 +7,21 @@ import {
 } from "@elastic/eui";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { SetShowGroupeContentForUpdate } from "../redux/examens/actions";
 
 const Propover = ({
   isModelGroup,
   onDeleteGroup,
   idGroupe,
+  index,
+  forEXam,
   onEditItem,
   onDeleteExam,
   onFixePosition,
   examId,
 }) => {
+  const dispatch = useDispatch()
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
@@ -35,17 +39,21 @@ const Propover = ({
   const handleClose = () => setIsOpen(false);
 
   const onEdit = () => {
-    // if (isModelGroup) {
-    //   dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
-    //   return;
-    // }
-    // dispatch(editExam(data));
-    // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
-    onEditItem();
-    togglePropover();
+    dispatch(SetShowGroupeContentForUpdate(-1))
+   
+      // if (isModelGroup) {
+      //   dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
+      //   return;
+      // }
+      // dispatch(editExam(data));
+      // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
+      onEditItem()
+      togglePropover();
+    
   };
 
   const onDelete = () => {
+    dispatch(SetShowGroupeContentForUpdate(-1))
     if (isModelGroup) {
       onDeleteGroup();
       return;
@@ -56,6 +64,7 @@ const Propover = ({
   };
 
   const onFixPosition = () => {
+    dispatch(SetShowGroupeContentForUpdate(-1))
     onFixePosition();
     togglePropover();
     console.log(idGroupe)
@@ -69,7 +78,7 @@ const Propover = ({
       <span className="icon-ellipsis-v"></span>
     </div>
   );
-    
+
   return (
     <div grow={false} className="icon_ellipsis">
       <EuiPopover
@@ -106,26 +115,26 @@ const Propover = ({
             <EuiListGroup>
               {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
-                  examsGrouped.map((group, i) => (
-                    <EuiListGroupItem
-                      key={i}
-                      onClick={() => console.log("")}
-                      label={"group " + i}
-                    />
-                  ))
+                examsGrouped.map((group, i) => (
+                  <EuiListGroupItem
+                    key={i}
+                    onClick={() => console.log("")}
+                    label={"group " + i}
+                  />
+                ))
                 : exams.map(
-                    (exam, i) =>
-                      examId !== i && (
-                        <EuiListGroupItem
-                          key={i}
-                          onClick={() => {
-                            console.log("Parent ", examId+1, "Enfant: ", i + 1);
-                            togglePropover();
-                          }}
-                          label={`Examen ${i + 1}`}
-                        />
-                      )
-                  )}
+                  (exam, i) =>
+                    examId !== i && (
+                      <EuiListGroupItem
+                        key={i}
+                        onClick={() => {
+                          console.log("Parent ", examId + 1, "Enfant: ", i + 1);
+                          togglePropover();
+                        }}
+                        label={`Examen ${i + 1}`}
+                      />
+                    )
+                )}
             </EuiListGroup>
           </EuiPopover>
         </EuiListGroup>

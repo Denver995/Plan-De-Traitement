@@ -7,7 +7,7 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import colors from "../../../utils/colors";
 import styles from "./style";
 
-function ExamCard({ color, date, position, examen }) {
+function ExamCard({ color, date, position, examen, index }) {
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -31,7 +31,7 @@ function ExamCard({ color, date, position, examen }) {
           <div
             style={position === "right" ? styles.propRight : styles.propLeft}
           >
-            <Propover />
+            <Propover index={index} forEXam={false}  />
           </div>
           <h4 className="spec" style={styles.speciality}>
             <strong>*Spécialité* - {examen.id_modif?? "id_motif"}</strong>

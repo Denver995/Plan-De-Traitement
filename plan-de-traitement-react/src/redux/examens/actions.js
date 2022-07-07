@@ -142,3 +142,10 @@ export const dragAndDrog = (data) => {
     data
   }
 }
+
+export const SetShowGroupeContentForUpdate = (id) => {
+  return {
+    type : types.SHOW_GROUPE_CONTENT,
+    id
+  }
+}

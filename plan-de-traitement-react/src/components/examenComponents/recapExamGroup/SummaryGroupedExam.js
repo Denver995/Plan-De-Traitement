@@ -21,6 +21,8 @@ import { deleteStep } from "../../../redux/steps/actions";
 import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
+import ExamCard from "../ExamCard";
+import { SetShowGroupeContentForUpdate } from "../../../redux/examens/actions";
 
 const SummaryGroupedExam = ({
   modelData,
@@ -29,12 +31,13 @@ const SummaryGroupedExam = ({
 }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
+  const groupeToShowContentId = useSelector(state => state.ExamenReducer.groupeToShowContentId)
   const previousStep = getStepByKey(steps, STEP3);
-  const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData);
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
   const groupesWithDataKeys = Object.keys(groupesWithData);
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
-  const onSave = () =>
+  const onSave = () => {
     dispatch(
       setAlert({
         title: "Enregistrer le modèle",
@@ -47,12 +50,17 @@ const SummaryGroupedExam = ({
         },
       })
     );
+    dispatch(SetShowGroupeContentForUpdate(-1))
+  }
+    
   const onBack = () => {
+    dispatch(SetShowGroupeContentForUpdate(-1))
     console.log('isEditing ', isEditing);
-    if(isEditing) dispatch(setComponent({name: "GROUPSUMMARY"}));
+    if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
     else dispatch(deleteStep(previousStep));
   }
-
+  const colorsArr = ["primaryLight", "danger", "success", "warning"];
+  console.log("groupeToShowContentId", groupeToShowContentId)
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
       <div
@@ -101,19 +109,32 @@ const SummaryGroupedExam = ({
           className="container"
           lineColor={"rgba(19, 83, 117, 0.479)"}
         >
-          {groupesWithDataKeys.map((group, index) => (
-            <div key={index} style={{ position: "relative" }}>
-              <TimeLineHelper index={index} entityType = {"Groupe"} />
-              <RecapExamItemV2
-                color={""}
-                data={groupesWithData['group '+index]?.exams}
-                date={new Date().toDateString()}
-                index_={index}
-                position={index % 2 === 0 ? "left" : "right"}
-                positionFixed={groupesWithData['group '+index]?.positionFixed}
-              />
-            </div>
-          ))}
+          {groupeToShowContentId === -1 ?
+            groupesWithDataKeys.map((group, index) => (
+              <div key={index} style={{ position: "relative" }}>
+                <TimeLineHelper index={index} entityType={"Groupe"} />
+                <RecapExamItemV2
+                  color={""}
+                  data={groupesWithData['group ' + index]?.exams}
+                  date={new Date().toDateString()}
+                  index_={index}
+                  position={index % 2 === 0 ? "left" : "right"}
+                  positionFixed={groupesWithData['group ' + index]?.positionFixed}
+                />
+              </div>
+            )) :
+            groupesWithData['group ' + groupeToShowContentId]?.exams?.map((exam, index) => (
+              <div key={index} style={{ position: "relative" }}>
+                <TimeLineHelper index={index} entityType={"Groupe"} />
+                <ExamCard
+                  examen={exam}
+                  index={index}
+                  color={colors[colorsArr[Math.round(Math.random() * 3)]]}
+                  date="12 mars"
+                  position={index % 2 === 0 ? "left" : "right"}
+                />
+              </div>
+            ))}
         </VerticalTimeline>
       </div>
 
