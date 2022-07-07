@@ -149,3 +149,10 @@ export const linkToExam = (payload) => {
     payload,
   };
 };
+
+export const storeExams = (payload) => {
+  return {
+    type: types.STORE_EXAMS,
+    payload,
+  };
+};

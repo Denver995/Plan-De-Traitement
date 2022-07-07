@@ -35,3 +35,4 @@ export const TOGGLE_FIXE_GROUP_POSITION = 'TOGGLE_FIXE_GROUP_POSITION';
 export const SET_IS_CLOSE = "SET_IS_CLOSE";
 export const DRAG_AND_DROP = "DRAG_AND_DROP";
 export const LINK_TO_EXAM = "LINK_TO_EXAM";
+export const STORE_EXAMS = "STORE_EXAMS";

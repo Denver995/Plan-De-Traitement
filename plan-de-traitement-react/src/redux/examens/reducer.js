@@ -325,7 +325,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       }
       return {
         ...state,
-        exams: allExamTemp,
+        exams: [...allExamTemp],
         groupData: allGroupTemp,
       };
     case types.TOGGLE_FIXE_GROUP_POSITION:
@@ -398,8 +398,25 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         espacementSubExam: espacementSubExam_,
       };
     case types.LINK_TO_EXAM:
-      console.log("linked");
-      return;
+      const copyData = state.exams;
+      const parentId = action.payload.parent;
+      const childId = action.payload.child;
+      const childElement = copyData.splice(childId, 1);
+
+      childElement[0].id_parent = parentId;
+      copyData[parentId].id_child = childId;
+
+      copyData.splice(parentId + 1, 0, childElement[0]);
+
+      return {
+        ...state,
+        exams: [...copyData],
+      };
+    case types.STORE_EXAMS:
+      return {
+        ...state,
+        exams: [...action.payload],
+      };
     default:
       return state;
   }

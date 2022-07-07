@@ -7,7 +7,8 @@ import {
 } from "@elastic/eui";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { linkToExam } from "../redux/examens/actions";
 
 const Propover = ({
   isModelGroup,
@@ -18,6 +19,7 @@ const Propover = ({
   onFixePosition,
   examId,
 }) => {
+  const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
@@ -25,7 +27,9 @@ const Propover = ({
     prefix: "contextMenuPopover",
   });
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
-  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData)
+  const groupesWithData = useSelector(
+    (state) => state.ExamenReducer.groupWithData
+  );
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const closePopover = () => setPopover(false);
 
@@ -58,7 +62,6 @@ const Propover = ({
   const onFixPosition = () => {
     onFixePosition();
     togglePropover();
-    console.log(idGroupe)
   };
 
   const button = (
@@ -69,7 +72,7 @@ const Propover = ({
       <span className="icon-ellipsis-v"></span>
     </div>
   );
-    
+
   return (
     <div grow={false} className="icon_ellipsis">
       <EuiPopover
@@ -84,7 +87,14 @@ const Propover = ({
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
-          <EuiListGroupItem onClick={onFixPosition} label={groupesWithData[idGroupe]?.positionFixed ? "Defixer la position" : "Fixer position"} />
+          <EuiListGroupItem
+            onClick={onFixPosition}
+            label={
+              groupesWithData[idGroupe]?.positionFixed
+                ? "Defixer la position"
+                : "Fixer position"
+            }
+          />
           <EuiPopover
             id="simpleAccordionId"
             isOpen={isOpen}
@@ -119,7 +129,7 @@ const Propover = ({
                         <EuiListGroupItem
                           key={i}
                           onClick={() => {
-                            console.log("Parent ", examId+1, "Enfant: ", i + 1);
+                            dispatch(linkToExam({ parent: examId, child: i }));
                             togglePropover();
                           }}
                           label={`Examen ${i + 1}`}
