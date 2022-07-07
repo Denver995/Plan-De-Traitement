@@ -61,9 +61,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.SHOW_EXAM_EDIT_FORM:
       return state;
     case types.ADD_EXAM:
-      let listespacementsNonGroupe = {};
       allExamTemp = state.exams;
       allExamTemp.push({ ...action.payload.exam, positionFixed: false });
+      let listespacementsNonGroupe = {};
       let espaceNonGroupeKeys = Object.keys(state.espacementNonGroupe);
       if (espaceNonGroupeKeys.length > 0) {
         for (let i = 0; i < allExamTemp.length - 1; i++) {
@@ -153,9 +153,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
     case types.CREATE_ESPACEMENTS:
       let listespacements = {};
-      for (let i = 0; i < action.nombreOccurence; i++) {
+      let nbrOfGroupe = Object.keys(state.groupWithData)
+      for (let i = 0; i < nbrOfGroupe.length - 1; i++) {
         listespacements["espace " + i] = [];
       }
+      console.log("listespacements", listespacements)
       return {
         ...state,
         espacement: listespacements,
@@ -166,7 +168,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         actualNonGroupeIndex: action.index,
       };
     case types.CREATE_ESPACEMENTS_NON_GROUPE:
-      console.log(state.espacementNonGroupe);
       return {
         ...state,
       };
@@ -210,9 +211,16 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.DELETE_EXAM_SIMPLE:
       let tempExams = [...state.exams];
       tempExams.splice(action.payload.examId, 1);
+      let listeEspNonGroupe = state.espacementNonGroupe;
+      if(action.payload.examId > 0){ 
+        let id = action.payload.examId - 1
+        listeEspNonGroupe['espaceNonGroupe '+id] = []
+      }
+      
       return {
         ...state,
         exams: [...tempExams],
+        espacementNonGroupe: listeEspNonGroupe
       };
     case types.DELETE_GROUP:
       let tempGroup = state.groupWithData;
@@ -243,7 +251,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           }
         });
       }
-      console.log(espaces)
       return {
         ...state,
         espacement: espaces,
@@ -286,15 +293,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         allGrproupesKeys.forEach((key) => {
           if (key === "group " + action.espacement.parentSubExamId) {
             let actualGroupe = allGroupes[key];
-            actualGroupe["subEspace " + action.espacement.initialIndex] =
-              actualGroupe["subEspace " + action.espacement.initialIndex]
-                ? [
-                  ...actualGroupe[
-                  "subEspace " + action.espacement.initialIndex
-                  ],
-                  action.espacement,
-                ]
-                : [action.espacement];
+            actualGroupe["subEspace " + action.espacement.initialIndex] = [action.espacement];
             allGroupes["group " + action.espacement.parentSubExamId] =
               actualGroupe;
           }
@@ -305,7 +304,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           if (key === 'group ' + action.espacement.parentSubExamId) {
             let actualGroupeKeys = Object.keys(actualGroupe)
             actualGroupeKeys.forEach(key_ => {
-              actualGroupe[key_].push(action.espacement)
+              actualGroupe[key_] = [action.espacement]
             })
             allGroupes[key] = actualGroupe;
           }
@@ -340,6 +339,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       groupDetail = allGroupTemp[action.selectedGroup];
       groupDetail.positionFixed = !groupDetail.positionFixed;
       allGroupTemp[action.selectedGroup] = groupDetail;
+      console.log("allGroupTemp ", allGroupTemp)
       return {
         ...state,
         groupWithData: allGroupTemp
@@ -389,11 +389,8 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let temp_ = destinationGroupe_;
       destinationGroupe_ = sourceGroupe_;
       sourceGroupe_ = temp_;
-      console.log("sourceGroupe_", sourceGroupe_)
-      console.log("destinationGroupe_", destinationGroupe_)
       espacement['espace ' + source] = sourceGroupe_;
       espacement['espace ' + destination] = destinationGroupe_;
-      console.log("espacement", espacement)
 
       return {
         ...state,

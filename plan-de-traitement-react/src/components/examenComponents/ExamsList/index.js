@@ -21,8 +21,20 @@ import { CreateEspacementNonGroupe, setActualExamIndex } from "../../../redux/ex
 import examenService from '../../../services/examens';
 
 
-const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPrevious, predecessor }) => {
-  const espacementNonGroupe = useSelector(state => state.ExamenReducer.espacementNonGroupe)
+const ExamsList = ({
+  exams,
+  onAdd,
+  steps,
+  modelData,
+  espacement,
+  formType,
+  onPrevious,
+  predecessor,
+  actualNonGroupeIndex,
+}) => {
+  const espacementNonGroupe = useSelector(
+    (state) => state.ExamenReducer.espacementNonGroupe
+  );
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
   const [examsList, setExamsList] = useState(exams);
@@ -37,11 +49,17 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
   };
 
   const handleOnDragEnd = (result) => {
+    let destination = examsList[result.destination.index];
+    let source = examsList[result.source.index];
+
     if (!result.destination) return;
-    const items = Array.from(examsList);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setExamsList([...items]);
+
+    if (!destination.positionFixed && !source.positionFixed) {
+      const items = Array.from(examsList);
+      items.splice(result.destination.index, 1, source);
+      items.splice(result.source.index, 1, destination);
+      setExamsList([...items]);
+    }
   };
   const onCancel = () => {
     // dispatch(deleteStep(previousStep));
@@ -51,26 +69,26 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
   const handleGetExams = () => {
     console.log("MY EXAMS");
     console.log(exams);
-  
-  /* const payload = { id_examen: modelData, 
-      Nom: modelData., 
-      id_modele_groupe, 
-      id_modele, 
-      id_praticien, 
-      id_motif, 
-      id_lieu,fixe,
-      position
- 
-    }*/
+
+    /* const payload = { id_examen: modelData, 
+        Nom: modelData., 
+        id_modele_groupe, 
+        id_modele, 
+        id_praticien, 
+        id_motif, 
+        id_lieu,fixe,
+        position
+   
+      }*/
     examenService.getExamen({})
-    .then((response) => {
-      console.log("response data for get exams");
-      console.log(response.data)
-    })
-    .catch((error) => {
-      console.log("error response data");
-      console.log(error)
-    });
+      .then((response) => {
+        console.log("response data for get exams");
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log("error response data");
+        console.log(error)
+      });
   }
 
   useEffect(() => {
@@ -82,6 +100,7 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
       {showInterExam ? (
         <EspacementInterExamenForm
           onClose={(data) => setShowInterExam(!data)}
+          initialIndex={actualNonGroupeIndex}
         />
       ) : (
         <ModalWrapper style={styles.modal}>
@@ -90,9 +109,7 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
               <EuiFlexItem style={styles.titleWrapper}>
                 <p style={styles.title}>Modèle:</p>
                 <EuiSpacer size="s" />
-                <p style={styles.subtitleWrapper}>
-                  {modelData.nom}
-                </p>
+                <p style={styles.subtitleWrapper}>{modelData.nom}</p>
               </EuiFlexItem>
             </EuiFlexGroup>
             <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -109,6 +126,7 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
                           key={index}
                           draggableId={"draggable-" + index}
                           index={index}
+                          isDragDisabled={item.positionFixed}
                         >
                           {(provided) => (
                             <div
@@ -126,22 +144,85 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
                                 <span
                                   onClick={() => {
                                     setShowInterExam(true);
-                                    dispatch(CreateEspacementNonGroupe(exams.length - 1));
+                                    dispatch(
+                                      CreateEspacementNonGroupe(
+                                        exams.length - 1
+                                      )
+                                    );
                                     dispatch(setActualExamIndex(index));
                                   }}
                                   className="delai-inter-group"
                                 >
-                                  {(espacementNonGroupe && espacementNonGroupe['espaceNonGroupe ' + index].length > 0
-                                    && espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].applyOnAll === false) ?
-                                    `Délai entre l'examen ${index} et l'examen ${index + 1} : ${espacementNonGroupe["espaceNonGroupe " + index][0].minInterval} ${espacementNonGroupe["espaceNonGroupe " + index][0].minIntervalUnit} - ${espacementNonGroupe["espaceNonGroupe " + index][0].maxInterval} ${espacementNonGroupe["espaceNonGroupe " + index][0].minIntervalUnit}`
-                                    : (espacementNonGroupe && espacementNonGroupe['espaceNonGroupe ' + index].length > 0 && espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].applyOnAll === true) ?
-                                      `Délai entre l'examen ${index} et l'examen ${index + 1} : ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minInterval} ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit} - ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxInterval} ${espacementNonGroupe["espaceNonGroupe " + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit}`
-                                      :
-                                      "Choisir l'intervalle inter examen"}
+                                  {espacementNonGroupe &&
+                                    espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ].length > 0 &&
+                                    espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][
+                                      espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ].length - 1
+                                    ].applyOnAll === false
+                                    ? `Délai entre l'examen ${index} et l'examen ${index + 1
+                                    } : ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].minInterval
+                                    } ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].minIntervalUnit
+                                    } - ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].maxInterval
+                                    } ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].minIntervalUnit
+                                    }`
+                                    : espacementNonGroupe &&
+                                      espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ].length > 0 &&
+                                      espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ].length - 1
+                                      ].applyOnAll === true
+                                      ? `Délai entre l'examen ${index} et l'examen ${index + 1
+                                      } : ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ].length - 1
+                                      ].minInterval
+                                      } ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ].length - 1
+                                      ].minIntervalUnit
+                                      } - ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ].length - 1
+                                      ].maxInterval
+                                      } ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ].length - 1
+                                      ].minIntervalUnit
+                                      }`
+                                      : "Choisir l'intervalle inter examen"}
                                 </span>
                               )}
                               <EuiSpacer size="xs" />
-
                             </div>
                           )}
                         </Draggable>
@@ -166,7 +247,6 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
             <EuiSpacer size="l" />
             <EuiSpacer size="xxl" />
             <EuiSpacer size="xxl" />
-
           </div>
           <div style={styles.terminer}>
             {/* {exams.length > 2 && (
@@ -198,7 +278,6 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
                   className="button_next_me"
                   onClick={onClickNext}
                 >
-
                   Terminer
                 </EuiButton>
               ) : (
@@ -206,7 +285,6 @@ const ExamsList = ({ exams, onAdd, steps, modelData, espacement, formType, onPre
                   style={styles.deactivated}
                   className="button_next_me"
                 >
-
                   Terminer
                 </EuiButton>
               )}
@@ -222,5 +300,6 @@ const mapStateToProps = ({ StepReducer, ModelsReducer, ExamenReducer }) => ({
   steps: StepReducer.steps,
   modelData: ModelsReducer.modelData,
   espacement: ExamenReducer.espacement,
+  actualNonGroupeIndex: ExamenReducer.actualNonGroupeIndex,
 });
 export default connect(mapStateToProps)(ExamsList);

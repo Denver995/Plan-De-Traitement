@@ -51,8 +51,22 @@ const styles = {
         marginLeft: "5px",
     },
 
-    pin: {
+    pinRight: {
         float: "right",
+        marginTop: 5,
+    },
+
+    pinLeft: {
+        float: "left",
+        marginTop: 5,
+    },
+
+    propRight: {
+        marginRight: -6
+    },
+
+    propLeft: {
+        marginLeft: -6
     }
 }
 

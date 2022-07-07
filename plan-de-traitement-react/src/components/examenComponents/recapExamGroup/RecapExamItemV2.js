@@ -55,7 +55,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed })
         </div>
       )}
 
-      {data.map((exam, index) => (
+      {data?.map((exam, index) => (
         <div key={index}>
           <div
             style={{

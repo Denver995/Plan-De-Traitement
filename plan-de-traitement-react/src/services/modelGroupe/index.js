@@ -1,14 +1,12 @@
 import {
-  SERVER_URL,
-  BASE_EXAMEN_URL,
-  BASE_URL_API,
+  BASE_URL_API
 } from '../../utils/urls';
 import http from '../http-helper';
 
 
 class ModelGroupeService {
-//DONE
-createModelGroupe = (values) => {
+  //DONE
+  createModelGroupe = (values) => {
     console.log('Create Model Groupe Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
@@ -17,13 +15,15 @@ createModelGroupe = (values) => {
     formdata.append("id_entite", values.id_entite);
     formdata.append("periode", values.periode);
     formdata.append("id_modele", values.id_modele);
+    //formdata.append("typePeriode", values.typePeriode);
 
+    
   return http.post(BASE_URL_API+"/api_modelegroupe/modelegroupe", formdata);
 }
 //DONE
-getModelGroupe = (id_modele) => {
-  return http.get(BASE_URL_API+`/api_modelegroupe/modelegroupe/?id_modele=${id_modele}`);
-}
+  getModelGroupe = (id_modele) => {
+    return http.get(BASE_URL_API + `api/api_modelegroupe/modelegroupe/?id_modele=${id_modele}`);
+  }
 //DONE
 deleteModelGroupe = (id_model_groupe) => {
   return http.delete(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`);
@@ -40,9 +40,8 @@ updateModelGroupe = (id_model_groupe, payload) => {
   return http.put(BASE_URL_API+`/api_modelegroupe/modelegroupe/${id_model_groupe}`, payload);
 }
 
-
 }
 
 
-export default new ModelGroupeService;
+export default new ModelGroupeService();
 

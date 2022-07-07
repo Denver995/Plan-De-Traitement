@@ -23,19 +23,13 @@ import { getStepByKey, createStep } from "../../../utils/helper";
 import { STEP2, STEP3 } from "../../../utils/constants";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
 import {
-  listLieu,
-  listMotif,
-  listPraticien,
-  listSpecialite,
-} from "../../../utils/defaultData";
-import {
   createExamen as createExamenAction,
   createExamen,
   addExam,
   addExamGrouped,
   setShowExamForm,
   addExamOnAllGroups,
-  CreateEspacementSubExam
+  CreateEspacementSubExam,
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
@@ -46,6 +40,10 @@ import ModalWrapper from "../../common/ModalWrapper";
 import { useDimension } from "../../../hooks/dimensions";
 import examenService from '../../../services/examens';
 import { typeScreen } from "../../../utils/constants";
+import SpecialiteService from "../../../services/specialites";
+import MotifsService from "../../../services/motifs";
+import LieuxService from "../../../services/lieux";
+import PraticiensService from "../../../services/praticiens";
 
 
 const ExamenForm = ({
@@ -59,7 +57,7 @@ const ExamenForm = ({
   modelData,
   handleGetExamByGroupIndex,
   predecessor,
-  groupWithData
+  groupWithData,
 }) => {
   const dispatch = useDispatch();
   const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -81,6 +79,10 @@ const ExamenForm = ({
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
+  const [listSpecialite, setListSpecialite] = useState([])
+  const [listLieu, setListLieu] = useState([])
+  const [listMotif, setListMotif] = useState([])
+  const [listPraticien, setListPraticien] = useState([])
   const { innerWidth } = useDimension();
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
@@ -127,7 +129,7 @@ const ExamenForm = ({
     };
     console.log("PAYLOAD FOR EXAMS");
     console.log(payload);
-    
+
     if (isModelGroup) {
       payload.id_group = activeGroup;
       console.log("Model de groupe ------------------>>>>>>>>>>><");
@@ -145,7 +147,7 @@ const ExamenForm = ({
             dispatch(addExamOnAllGroups({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
-            dispatch(CreateEspacementSubExam())
+            dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
             payload.allGroup = false;
@@ -153,7 +155,7 @@ const ExamenForm = ({
             dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
-            dispatch(CreateEspacementSubExam())
+            dispatch(CreateEspacementSubExam());
           },
         })
       );
@@ -165,20 +167,19 @@ const ExamenForm = ({
        */
 
       examenService.createExamen(payload)
-      .then((response) => {
-        console.log("Successful create exams");
-        console.log(response)
-        dispatch(createExamen(payload));
-        setReload(true);
-        onAddExam({ name: "EXAMSLIST" });
-        dispatch(addExam({ exam: payload }));
-        dispatch(createExamenAction(payload));
-      })
-      .catch((error) => {
-        console.log(error);
+        .then((response) => {
+          console.log("Successful create exams");
+          console.log(response)
+          dispatch(createExamen(payload));
+          setReload(true);
+          onAddExam({ name: "EXAMSLIST" });
+          dispatch(addExam({ exam: payload }));
+          dispatch(createExamenAction(payload));
+        })
+        .catch((error) => {
 
-      });
-      
+        });
+
       dispatch(createExamen(payload));
       setReload(true);
       onAddExam({ name: typeScreen.examList });
@@ -187,7 +188,7 @@ const ExamenForm = ({
     }
   };
 
-  const updateFormData = (resetFormData=false, exam) => {
+  const updateFormData = (resetFormData = false, exam) => {
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
@@ -214,15 +215,64 @@ const ExamenForm = ({
   };
 
   useEffect(() => {
+    SpecialiteService.getListeSpecialite()
+      .then((res) => {
+        var data = []
+        res.data.forEach(element => {
+          data.push({ value: element.id, text: element.libelle })
+        });
+        setListSpecialite(data);
+      })
+      .catch((error) => {
+      });
+
+    LieuxService.getListeLieux()
+      .then((res) => {
+        var data = []
+        res.data.tabinfo.forEach(element => {
+          data.push({ value: element.id_lieu, text: element.libelle_lieu })
+        });
+        setListLieu(data);
+
+      })
+      .catch((error) => {
+      });
+
+    MotifsService.getListeMotif()
+      .then((res) => {
+        var data = []
+        res.data.tabinfo.forEach(element => {
+          data.push({ value: element.id_motif_rdv, text: element.libelle_motif_rdv })
+        });
+        setListMotif(data);
+      })
+      .catch((error) => {
+      });
+
+    PraticiensService.getListePraticien()
+      .then((res) => {
+        var data = []
+        res.data.tabinfo.forEach(element => {
+          data.push({ value: element.id_praticien, text: element.nom_praticien + " " + element.prenom_praticien })
+        });
+        setListPraticien(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     if (reload) setReload(false);
-    if (examenSelected && examenSelected.id && examenSelected.id !== selectedExamId) {
+    if (
+      examenSelected &&
+      examenSelected.id &&
+      examenSelected.id !== selectedExamId
+    ) {
       setSelectedExamId(examenSelected.id);
       updateFormData(false, examenSelected);
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
-  useEffect(() => {
-  }, [groupSelected, examsGrouped]);
+  useEffect(() => { }, [groupSelected, examsGrouped]);
 
   return (
     <>
@@ -260,7 +310,6 @@ const ExamenForm = ({
                       id_modele={item.id_modele}
                       index={index}
                     />
-                    {/* {delaiInterExamen("1heure - 2heures")} */}
                   </div>
                 )
               )}
@@ -268,9 +317,7 @@ const ExamenForm = ({
           ) : null}
           <EuiFlexGroup style={styles.titleContainer}>
             <TracIcon width={"1rem"} />
-            <EuiFlexItem style={styles.examTitle}>
-              Examen{" "}
-            </EuiFlexItem>
+            <EuiFlexItem style={styles.examTitle}>Examen </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
           <EuiForm>
@@ -428,6 +475,6 @@ const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   groupSelected: ExamenReducer.examenSelected,
   activeGroup: ExamenReducer.activeGroup,
   modelData: ModelsReducer.modelData,
-  groupWithData: ExamenReducer.groupWithData
+  groupWithData: ExamenReducer.groupWithData,
 });
 export default connect(mapStateToProps)(ExamenForm);

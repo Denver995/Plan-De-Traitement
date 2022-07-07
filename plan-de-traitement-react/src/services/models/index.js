@@ -1,6 +1,5 @@
-import { SERVER_URL, BASE_URL_API } from "../../utils/urls";
+import { BASE_URL_API } from "../../utils/urls";
 import http from '../http-helper';
-
 class ModelService {
   //Done
   createModele = (data) => {
@@ -12,22 +11,26 @@ class ModelService {
     console.log("my value for model");
     console.log(formdata);
 
-    return http.post(BASE_URL_API + "/api_modeleexamen/modeleexamen", formdata);
-  }
-  //IN PROGRESS
-  getModele = () => {
-    return http.get(BASE_URL_API + `/api_modeleexamen/modeleexamen`);
+    return http.post(BASE_URL_API + "api/api_modeleexamen/modeleexamen", formdata);
+  } 
+  //DONE
+  getModele = (payload) => {
+
+    return http.get(BASE_URL_API + `api/api_modeleexamen/modeleexamen/${payload}`);
   }
   //DONE
-  deleteModele = (id_model_examen) => {
-    return http.delete(BASE_URL_API + `/api_modeleexamen/modeleexamen/?id_model_examen=${id_model_examen}`);
+  deleteModele = (id__model_examen) => {
+
+    return http.delete(BASE_URL_API + `api/api_modeleexamen/modeleexamen/${id__model_examen}`);
   }
   //NOT DONE
   updateModele = (id_model_examen, payload) => {
-    return http.put(BASE_URL_API + `api_modeleexamen/modeleexamen/?id_model_examen=${id_model_examen}`, payload);
+
+
+    return http.put(BASE_URL_API + `api/api_modeleexamen/modeleexamen/${id_model_examen}`, payload);
   }
 
 }
 
-export default new ModelService;
+export default new ModelService();
 

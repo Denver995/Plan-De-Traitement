@@ -47,7 +47,8 @@
     margin-bottom: 20px;
   }
 
-  .inter-cancel, .inter-add {
+  .inter-cancel,
+  .inter-add {
     width: 100% !important;
   }
 }
@@ -84,7 +85,8 @@
     width: 100% !important;
   }
 
-  .btn-annuler-modelForm, .btn-suivant-modelForm {
+  .btn-annuler-modelForm,
+  .btn-suivant-modelForm {
     width: 100% !important;
   }
 
@@ -121,5 +123,83 @@
         text-align: center;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .rdv-calendarIcon {
+    top: 51.8% !important;
+    right: 3.7% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 67.5% !important;
+    right: 3.7% !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .rdv-calendarIcon {
+    top: 49.2% !important;
+    right: 5.6% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 64.2% !important;
+    right: 5.6% !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .rdv-calendarIcon {
+    top: 48.9% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 64.3% !important;
+  }
+}
+
+@media only screen and (max-width: 431px) {
+  .rdv-calendarIcon {
+    top: 49.6% !important;
+    right: 6% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 63.7% !important;
+    right: 6% !important;
+  }
+}
+
+@media only screen and (max-width: 446px) {
+  .rdv-calendarIcon {
+    top: 47.8% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 62.5% !important;
+  }
+}
+
+@media only screen and (max-width: 431px) {
+  .rdv-calendarIcon {
+    top: 49.5% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 63.6% !important;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .rdv-calendarIcon {
+    top: 56.3% !important;
+    right: 8.8% !important;
+  }
+
+  .rdv-calendarIcon2 {
+    top: 72.3% !important;
+    right: 8.8% !important;
   }
 }

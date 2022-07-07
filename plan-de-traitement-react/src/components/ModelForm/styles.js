@@ -1,4 +1,3 @@
-
 import colors from "../../utils/colors";
 
 const styles = {
@@ -128,7 +127,7 @@ const styles = {
     fontSize: 14,
     fontWeight: "bold",
     marginRight: 7,
-    marginLeft: 5
+    marginLeft: 5,
   },
 
   toolTipCon: {
@@ -164,7 +163,12 @@ const styles = {
     border: "1px solid gray",
     height: 40,
     fontSize: 20,
-    color: colors.blackClaire
+    color: colors.blackClaire,
+  },
+
+  toolText: {
+    fontSize: 11,
+    color: colors.light,
   },
 };
 
