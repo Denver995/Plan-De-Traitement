@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SetShowGroupeContentForUpdate } from "../redux/examens/actions";
-import { setComponent } from "../redux/commons/actions";
+import { setComponent, setShowExamForm } from "../redux/commons/actions";
 import {
   deleteExamGroup,
   deleteExamSimple,
@@ -25,15 +25,11 @@ const Propover = ({
   index,
   forEXam,
   setRerenderDel,
-  onEditItem,
-  onDeleteExam,
-  onFixePosition,
   examId,
   exam,
   groupKey,
   isExamGroup,
   setReload,
-  reload,
   onBack,
   isRecap,
 }) => {
@@ -57,11 +53,11 @@ const Propover = ({
   const handleClose = () => setIsOpen(false);
 
   const onEdit = () => {
-    dispatch(SetShowGroupeContentForUpdate(index))
-    console.log("isExamGroup", isExamGroup)
+    // dispatch(SetShowGroupeContentForUpdate(index))
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
-      console.log("groupeKey, examId, data ", groupKey, index, exam)
+      console.log("groupeKey, examId, data ", groupKey, index, exam);
+      dispatch(setShowExamForm({ show: true }));
       dispatch(
         setComponent({
           name: "EXAMENFORMEDIT",
@@ -69,7 +65,7 @@ const Propover = ({
           examId: index ? index : examId,
           data: {
             groupKey: groupKey,
-            data: groupesWithData
+            data: groupesWithData,
           },
         })
       );
@@ -81,11 +77,11 @@ const Propover = ({
   };
 
   const onDelete = () => {
-    console.log("on passe ici", isModelGroup, isExamGroup)
-    dispatch(SetShowGroupeContentForUpdate(-1))
+    console.log("on passe ici", isModelGroup, isExamGroup);
+    dispatch(SetShowGroupeContentForUpdate(-1));
     if (isModelGroup) {
       onDeleteGroup();
-      setRerenderDel(true)
+      setRerenderDel(true);
       return;
     }
 
@@ -104,7 +100,7 @@ const Propover = ({
   };
 
   const onFixPosition = () => {
-    dispatch(SetShowGroupeContentForUpdate(-1))
+    dispatch(SetShowGroupeContentForUpdate(-1));
     if (isExamGroup) {
       dispatch(
         toggleFixExamPosition({
@@ -176,27 +172,27 @@ const Propover = ({
             <EuiListGroup>
               {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
-                examsGrouped.map((group, i) => (
-                  <EuiListGroupItem
-                    key={i}
-                    onClick={() => console.log("")}
-                    label={"group " + i}
-                  />
-                ))
+                  examsGrouped.map((group, i) => (
+                    <EuiListGroupItem
+                      key={i}
+                      onClick={() => console.log("")}
+                      label={"group " + i}
+                    />
+                  ))
                 : exams.map(
-                  (exam, i) =>
-                    examId !== i && (
-                      <EuiListGroupItem
-                        key={i}
-                        onClick={() => {
-                          dispatch(linkToExam({ parent: examId, child: i }));
-                          handleClose();
-                          togglePropover();
-                        }}
-                        label={`Examen ${i + 1}`}
-                      />
-                    )
-                )}
+                    (exam, i) =>
+                      examId !== i && (
+                        <EuiListGroupItem
+                          key={i}
+                          onClick={() => {
+                            dispatch(linkToExam({ parent: examId, child: i }));
+                            handleClose();
+                            togglePropover();
+                          }}
+                          label={`Examen ${i + 1}`}
+                        />
+                      )
+                  )}
             </EuiListGroup>
           </EuiPopover>
         </EuiListGroup>
