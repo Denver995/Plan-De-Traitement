@@ -8,7 +8,7 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteGroup } from "../../../redux/examens/actions";
 
-const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, groupKey }) => {
+const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, groupKey, onFixePosition }) => {
   console.log("positionFixed ", positionFixed);
   const dispatch = useDispatch()
   const [reRenderDel,setRerenderDel] = useState(false)
@@ -20,7 +20,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
   console.log("voici la valeure de data : ", data);
   console.log("comment gerer ceci : ", espacementSubExam);
     useEffect(() => {
-
+      setRerenderDel(true)
     }, [reRenderDel])
   return (
     <VerticalTimelineElement
@@ -42,7 +42,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
             marginRight: -5,
           }}
         >
-          <Propover idGroupe={groupKey} setRerenderDel= {setRerenderDel}  isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
+          <Propover onFixePosition = {onFixePosition} idGroupe={groupKey} setRerenderDel= {setRerenderDel}  isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} />
@@ -58,7 +58,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
             marginRight: -10,
           }}
         >
-          <Propover idGroupe={groupKey} setRerenderDel= {setRerenderDel}  isModelGroup={true} onDeleteGroup={() => {
+          <Propover onFixePosition = {onFixePosition} idGroupe={groupKey} setRerenderDel= {setRerenderDel}  isModelGroup={true} onDeleteGroup={() => {
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} index={index_} forEXam={false} />

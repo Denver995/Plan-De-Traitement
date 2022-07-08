@@ -22,7 +22,7 @@ import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
 import ExamCard from "../ExamCard";
-import { SetShowGroupeContentForUpdate } from "../../../redux/examens/actions";
+import { SetShowGroupeContentForUpdate, toggleFixGroupPosition } from "../../../redux/examens/actions";
 
 const SummaryGroupedExam = ({
   modelData,
@@ -115,6 +115,13 @@ const SummaryGroupedExam = ({
                 <TimeLineHelper index={index} entityType={"Groupe"} />
                 <RecapExamItemV2
                   color={""}
+                  onFixePosition={() => {
+                    dispatch(
+                      toggleFixGroupPosition({
+                        selectedGroup: 'group ' + index,
+                      })
+                    );
+                  }}
                   data={groupesWithData['group ' + index]?.exams}
                   date={new Date().toDateString()}
                   index_={index}

@@ -319,6 +319,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.TOGGLE_FIXE_EXAM_POSITION:
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
+      console.log("action.payload", action.payload)
       if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
@@ -336,6 +337,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupData: allGroupTemp,
       };
     case types.TOGGLE_FIXE_GROUP_POSITION:
+      console.log(action.selectedGroup)
       allGroupTemp = state.groupWithData;
       groupDetail = allGroupTemp[action.selectedGroup];
       groupDetail.positionFixed = !groupDetail.positionFixed;

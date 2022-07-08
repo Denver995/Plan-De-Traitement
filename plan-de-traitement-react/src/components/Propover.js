@@ -82,10 +82,9 @@ const Propover = ({
 
   const onDelete = () => {
     console.log("on passe ici", isModelGroup, isExamGroup)
-    dispatch(SetShowGroupeContentForUpdate(-1))
     if (isModelGroup) {
       onDeleteGroup();
-      setRerenderDel(true)
+      setRerenderDel()
       return;
     }
 
@@ -96,7 +95,7 @@ const Propover = ({
           examId: examId,
         })
       );
-      setReload();
+      dispatch(SetShowGroupeContentForUpdate(-1))
     } else {
       dispatch(deleteExamSimple({ examId: examId }));
     }
@@ -114,6 +113,10 @@ const Propover = ({
         })
       );
     } else {
+      onFixePosition()
+      togglePropover();
+      dispatch(SetShowGroupeContentForUpdate(-1))
+      setRerenderDel(v=>!v)
       dispatch(
         toggleFixExamPosition({
           selectedExam: examId,
@@ -121,7 +124,6 @@ const Propover = ({
         })
       );
     }
-    togglePropover();
   };
 
   const button = (
