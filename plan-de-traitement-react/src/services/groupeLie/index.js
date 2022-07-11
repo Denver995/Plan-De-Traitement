@@ -5,65 +5,31 @@ import http from '../http-helper';
 
 
 class GroupeLieService {
-  //NOT DONE
+  //DONE
   createGroupeLie = (values) => {
     console.log('Create Groupe Lie Service ', values);
     const formdata = new FormData();
-    formdata.append("nom", values.nom);
-    formdata.append("id_modele", values.id_modele);
-    formdata.append("id_modele_groupe", values.id_model_groupe);
-    formdata.append("id_praticien", values.id_praticien);
-    formdata.append("id_profession", values.id_profession);
-    formdata.append("id_lieu", values.id_lieu);
-    formdata.append("fixe", values.fixe);
-    formdata.append("position", values.position);
-    formdata.append("id_motif", values.id_motif);
+    formdata.append("id_groupe_parent", values.id_groupe_parent);
+    formdata.append("id_groupe_enfant", values.id_groupe_enfant);
+    formdata.append("espacement_min", values.espacement_min);
+    formdata.append("espacement_max", values.espacement_max);
 
     console.log(formdata);
 
-<<<<<<< HEAD
-  return http.post(BASE_URL_API+"/groupelie", values);
+  return http.post(BASE_URL_API+"api/api_groupelie/groupelie", formdata);
 }
-//NOT DONE
-getGroupeLie = (id_groupe_parent,id_groupe_enfant) => {
-  return http.get(BASE_URL_API+`/groupelie/?id_groupe_parent=${id_groupe_parent}&id_groupe_enfant=${id_groupe_enfant}`);
-}
-//NOT DONE
-deleteGroupeLie = (id_groupelie) => {
-  return http.delete(BASE_URL_API+`/groupelie/${id_groupelie}`);
-}
-//NOT DONE
-updateGroupeLie = (id_groupelie, payload) => {
- 
-  return http.put(BASE_URL_API+`/groupelie/${id_groupelie}`, payload);
-}
-=======
-    /* const requestOptions = {
-       method: 'POST',
-       body: formdata,
-       redirect: 'follow'
-     };*/
-
-    return http.post(BASE_URL_API + "api/groupelie", values);
-  }
+   
   //NOT DONE
-  getGroupeLie = (payload) => {
+  getGroupeLie = (idParent, idEnfant) => {
 
-    return http.get(BASE_URL_API + `api/groupelie/${payload}`);
+    return http.get(BASE_URL_API + `api/api_groupelie/groupelie?id_groupe_parent=${idParent}&id_groupe_enfant=${idEnfant}`);
   }
   //NOT DONE
   deleteGroupeLie = (id_groupelie) => {
 
-    return http.delete(BASE_URL_API + `api/groupelie/${id_groupelie}`);
+    return http.delete(BASE_URL_API + `api/api_groupelie/groupelie/${id_groupelie}`);
   }
-  //NOT DONE
-  updateGroupeLie = (id_groupelie, payload) => {
-
-    return http.put(BASE_URL_API + `api/groupelie/${id_groupelie}`, payload);
-  }
->>>>>>> d1566bb46edbfe2dfda29eff7f475c398b9c1dc6
-
-
+  
 }
 
 

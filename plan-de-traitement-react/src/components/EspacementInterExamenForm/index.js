@@ -11,14 +11,17 @@ import {
   EuiFlexGroup,
   useGeneratedHtmlId,
 } from "@elastic/eui";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setAlert } from "../../redux/commons/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { setAlert, setError } from "../../redux/commons/actions";
 import { setEspacement, setEspacementNonGroupe, setEspacementSubExam } from "../../redux/examens/actions";
 import ModalWrapper from "../common/ModalWrapper";
 import { type_espacement } from "../../utils/constants";
 import styles from "./styles";
 import { isPossibleGranularly } from "../../utils/helper";
+import GroupeLieService from "../../services/groupeLie";
 
 const EspacementInterExamenForm = ({
   closeModal,
@@ -27,6 +30,7 @@ const EspacementInterExamenForm = ({
   onClose,
   typeEspacement,
   initialIndex,
+  initialId
 }) => {
   const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
@@ -36,7 +40,10 @@ const EspacementInterExamenForm = ({
   const [maxIntervalUnit, setMaxIntervalUnit] = useState("Jour");
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const [isValid, setIsValid] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   console.log("typeEspacement ", typeEspacement);
+  const error = useSelector((state) => state.CommonReducer.error);
   const options = [
     {
       value: "Jour",
@@ -55,6 +62,32 @@ const EspacementInterExamenForm = ({
       text: "Semaine",
     },
   ];
+
+  const handleCreateGroupeLie = () =>{
+    let data = {
+      id_groupe_parent: parseInt(initialId),
+      id_groupe_enfant: parseInt(initialId+1),
+      espacement_min: minInterval,
+      espacement_max: maxInterval
+    }
+    setErrorMessage(false);
+    setLoading(true);
+    GroupeLieService.createGroupeLie(data)
+    .then(response => {
+      setErrorMessage(false)
+      dispatch(setError(null));
+      setLoading(false);
+    })
+    .catch(error => {
+     setLoading(false)
+          setErrorMessage(true)
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          }
+    })
+  }
 
   useEffect(() => {
     setIsValid(isPossibleGranularly({minInterval, minIntervalUnit}, {maxInterval, maxIntervalUnit}))
@@ -129,6 +162,7 @@ const EspacementInterExamenForm = ({
           applyInterVale(true);
         },
         onReject: () => {
+          handleCreateGroupeLie();
           applyInterVale();
         },
       })
@@ -238,9 +272,23 @@ const EspacementInterExamenForm = ({
             css={{ backgroundColor: euiTheme.colors.disabled }}
             className="inter-add"
           >
-            <p style={styles.ajouter}>Valider</p>
+            <p style={styles.ajouter}>
+                {loading ?
+                <Box style={{ display: 'flex', alignItems: 'center' }}>
+                  <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
+                  Suivant
+                </Box>
+                :<>Valider</>}
+            </p>
           </EuiButton>
         </div>
+        <EuiSpacer size="xl" />
+        {errorMessage && (
+          <>
+            <EuiSpacer size="xl" />
+            <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+          </>
+        )}
       </EuiForm>
     </ModalWrapper>
   );

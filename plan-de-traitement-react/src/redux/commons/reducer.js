@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   modelType: false,
   dataSource: {},
   loading: false,
+  error: null,
 };
 
 function CommonReducer(state = INITIAL_STATE, action) {
@@ -63,6 +64,11 @@ function CommonReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         componentTodisplay: action.componentTodisplay,
+      };
+    case types.ERROR:
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return state;

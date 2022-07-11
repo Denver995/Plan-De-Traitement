@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useReducer } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -12,6 +11,8 @@ import ExamenForm from "../ExamenForm";
 import { STEP3, STEP2 } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import { EuiFlexGroup, EuiButton, EuiButtonEmpty } from "@elastic/eui";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   deleteStep,
   desactivateStep,
@@ -23,18 +24,16 @@ import {
   setShowExamForm,
   deleteGroup,
   toggleFixGroupPosition,
+  CreateEspacement, createGroups, shareGroupPayload,
   setIsClose,
   dragAndDrog,
 } from "../../../redux/examens/actions";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import { startLoading, setComponent } from "../../../redux/commons/actions";
+import { startLoading, setComponent, stopLoading } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
 import Propover from "../../Propover";
 import { type_espacement } from "../../../utils/constants";
-
 import ModelGroupeService from "../../../services/modelGroupe";
 
 const getExamByGroupIndex = (group, groupKey) => {
@@ -44,16 +43,22 @@ const getExamByGroupIndex = (group, groupKey) => {
   return result;
 };
 
+const getGroupId = (id) => {
+  return id;
+}
+
 const GroupItem = ({
   groupName,
   espacement,
   groupWithData,
+  groupPayload,
   openGroup,
   reRender_,
 }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
+  const dataModeleUpdate = useSelector((state) => state.ExamenReducer.dataModeleUpdate);
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
@@ -65,6 +70,7 @@ const GroupItem = ({
   const [intervalGroupIndex, setIntervalGroupIndex] = useState(1);
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initialGroupId, setInitialGroupId] = useState(1);
 
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
@@ -72,28 +78,33 @@ const GroupItem = ({
     setToggledGroup(newToggledGroup);
     setRerender(true);
   };
+  
 
-  const handleAddExam = (groupKey) => {
+  const handleAddExam = (groupKey, idGroup) => {
+    getGroupId(idGroup);
     dispatch(setShowExamForm(true));
     dispatch(getSelectedExamGroup(groupKey));
     dispatch(setActiveGroup(groupKey));
     setRerender(true);
   };
 
-  const deletModeleGroup = (id, groupKey) => {
-    setLoading(true);
+  const handleDeleteGroup = (id, groupKey) => {
+    setLoading(true)
     ModelGroupeService.deleteModelGroupe(id)
-    .then((response) => {
-      setLoading(false);
-      if(groupKey){
-        dispatch(deleteGroup(groupKey));
-        setRerenderDel(true);
-      } 
+    .then(response => {
+      setLoading(false)
+      console.log("DELETE GROUP SUCCESSFULLY")
+      console.log(response.data)
+      dispatch(deleteGroup(groupKey));
+      setRerenderDel(true);
     })
-    .catch((error) => {
-      setLoading(false);
+    .catch(error => {
+      setLoading(false)
+      console.log(error);
     })
   }
+
+  
 
   useEffect(() => {
     let newToggleGrp = [];
@@ -110,9 +121,10 @@ const GroupItem = ({
   }, [reRender, toggledGroup, reRenderDel, reRender_]);
 
   //is handle when click on "Choisir l'intervalle inter groupe"
-  const onClickChooseIntervalInterGroupe = (initialIndex) => {
+  const onClickChooseIntervalInterGroupe = (initialIndex, id) => {
     setShowInterExam(true);
     setIntervalGroupIndex(initialIndex);
+    setInitialGroupId(id);
   };
 
   const setEspacement = () => {
@@ -148,6 +160,8 @@ const GroupItem = ({
           }
           initialIndex={!IsForSubExam[0] ? intervalGroupIndex : IsForSubExam[1]}
           parentSubExamId={IsForSubExam[2]}
+          initialId={initialGroupId}
+
         />
       ) : (
         <div style={styles.container} className="contain">
@@ -171,7 +185,7 @@ const GroupItem = ({
               {modelData?.nom} {groupName}
             </p>
           </div>
-          {Object.keys(groupWithData&&groupWithData).map((groupKey, index) => {
+          {!loading?Object.keys(groupWithData).map((groupKey, index) => {
             return (
               <Draggable
                 disableInteractiveElementBlocking={false}
@@ -199,9 +213,8 @@ const GroupItem = ({
                               <Propover
                                 idGroupe={groupKey}
                                 isModelGroup={true}
-                                loading = {loading}
                                 onDeleteGroup={() => {
-                                  deletModeleGroup(groupWithData[groupKey].payload.id_modele_groupe, groupKey)
+                                  handleDeleteGroup(groupWithData[groupKey].payload.id_modele_groupe, groupKey);
                                   
                                 }}
                                 data={{
@@ -235,7 +248,7 @@ const GroupItem = ({
                                 fontWeight: "600",
                               }}
                             >
-                              {groupWithData[groupKey].payload.nom}
+                            {groupWithData[groupKey].payload && groupWithData[groupKey].payload.nom}
                             </div>
                           </div>
 
@@ -282,7 +295,7 @@ const GroupItem = ({
                               ></hr>
                               <button
                                 className="divisor-btn"
-                                onClick={() => handleAddExam(groupKey)}
+                                onClick={() => handleAddExam(groupKey, groupWithData[groupKey].payload.id_modele_groupe)}
                               >
                                 <span
                                   className="dividor-btn-icon"
@@ -374,7 +387,7 @@ const GroupItem = ({
                         <div style={{ marginLeft: 50 }}>
                           <p
                             onClick={() =>
-                              onClickChooseIntervalInterGroupe(index)
+                              onClickChooseIntervalInterGroupe(index, groupWithData[groupKey].payload.id_modele_groupe)
                             }
                             style={{
                               cursor: "pointer",
@@ -438,7 +451,10 @@ const GroupItem = ({
                 )}
               </Draggable>
             );
-          })}
+          }): <Box style={{ display: 'flex', alignItems: 'center' }}>
+                  <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
+                
+                </Box>}
         </div>
       )}
     </>
@@ -451,7 +467,6 @@ const GroupExamenSummary = ({
   examsGrouped,
   espacement,
   openGroup,
-  groupPayload,
 }) => {
   const dispatch = useDispatch();
   const [groupList, setGroupList] = useState(Object.keys(groupWithData));
@@ -469,31 +484,13 @@ const GroupExamenSummary = ({
     dispatch(addStep(nextStep));
   };
 
-  const deletModeleGroup = (id) => {
-    ModelGroupeService.deleteModelGroupe(id)
-    .then((response) => {
-    })
-    .catch((error) => {
-    })
-  }
+  const onBack = () => dispatch(deleteStep(previousStep));
 
-  const onBack = () => {
-    console.log("GROUE MODEL P")
-    console.log(groupPayload);
-    let id = "";
-    groupPayload.forEach(item => {
-      id = item.id_modele_groupe
-    })
-    deletModeleGroup(id)
-    dispatch(deleteStep(previousStep))
-  };
   const onPrevious = () => {
     dispatch(setShowExamForm(false));
   };
 
   useEffect(() => {
-    console.log("MY GROUP PAYY----");
-    console.log(groupPayload);
     setRerender(false);
   }, [showForm, ignored]);
 
@@ -522,6 +519,7 @@ const GroupExamenSummary = ({
         <ExamenForm
           isModelGroup={true}
           onPrevious={onPrevious}
+          handleGetGroupId={getGroupId}
           handleGetExamByGroupIndex={getExamByGroupIndex}
         />
       ) : (
@@ -579,7 +577,7 @@ const GroupExamenSummary = ({
   );
 };
 
-const mapStateToProps = ({ ExamenReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, CommonReducer }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
   numOfGroups: ExamenReducer.numOfGroups,
   exams: ExamenReducer.exams,
@@ -587,7 +585,7 @@ const mapStateToProps = ({ ExamenReducer }) => ({
   espacement: ExamenReducer.espacement,
   groupWithData: ExamenReducer.groupWithData,
   openGroup: ExamenReducer.openGroup,
-  groupPayload: ExamenReducer.groupPayload,
+  dataModeleUpdate: ExamenReducer.dataModeleUpdate
 });
 
 export default connect(mapStateToProps)(GroupExamenSummary);

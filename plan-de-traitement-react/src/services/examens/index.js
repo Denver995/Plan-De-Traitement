@@ -24,20 +24,20 @@ class ExamenService {
     console.log("------------My form data------------------");
     console.log(payload);
 
-  return http.post(BASE_URL_API+`/api_examen/examen`, formdata);
+  return http.post(BASE_URL_API+`api/api_examen/examen`, formdata);
 }
 
-  getExamen = (payload) => {
-
-    return http.get(BASE_URL_API + `api/api_examen/examen${payload}`);
+  getExamenByIds = (id_modele_groupe,id_modele) => {
+    return http.get(BASE_URL_API + `api/api_examen/examen?id_modele_groupe=${id_modele_groupe}&id_modele=${id_modele}`);
+  }
+  getAllExamen = () => {
+    return http.get(BASE_URL_API + `api/api_examen/examenAll`);
   }
   deleteExamen = (id_examen) => {
-
     return http.delete(BASE_URL_API + `api/api_examen/examen/${id_examen}`);
 
   }
   updateExamen = (id_examen, payload) => {
-
     return http.put(BASE_URL_API + `api/api_examen/examen/${id_examen}`, payload);
   }
 

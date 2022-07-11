@@ -27,6 +27,12 @@ export const setModelType = (modelType) => ({
   modelType,
 });
 
+export const setError = (error) => ({
+  type: types.ERROR,
+  error,
+});
+
+
 
 
 

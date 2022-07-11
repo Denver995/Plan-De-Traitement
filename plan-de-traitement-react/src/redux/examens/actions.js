@@ -82,6 +82,11 @@ export const CreateEspacementSubExam = (nombreOccurence) => {
   };
 };
 
+export const updateModeleData = (payload) => ({
+  type: types.UPDATE_MODELE_DATA,
+  payload,
+});
+
 export const createGroups = (nombreOccurence) => ({
   type: types.CREATE_GROUPS,
   nombreOccurence,

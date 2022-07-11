@@ -32,7 +32,14 @@ import {
   addExamOnAllGroups,
   CreateEspacementSubExam,
 } from "../../../redux/examens/actions";
-import { setAlert, setComponent } from "../../../redux/commons/actions";
+import {
+  setModelData,
+  shareModelGroupData,
+  updateModel
+} from "../../../redux/models/actions";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import { setAlert, setError, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
 import "../../../modifierexamen.css";
 import colors from "../../../utils/colors";
@@ -45,6 +52,7 @@ import SpecialiteService from "../../../services/specialites";
 import MotifsService from "../../../services/motifs";
 import LieuxService from "../../../services/lieux";
 import PraticiensService from "../../../services/praticiens";
+import ModelService from "../../../services/models";
 
 
 const ExamenForm = ({
@@ -57,15 +65,16 @@ const ExamenForm = ({
   formType,
   modelData,
   handleGetExamByGroupIndex,
+  handleGetGroupId,
   predecessor,
-  groupWithData,
+  groupWithData
 }) => {
   const dispatch = useDispatch();
   const fixedExamenCheckboxId = useGeneratedHtmlId({
     prefix: "indeterminateCheckbox",
   });
   const steps = useSelector((state) => state.StepReducer.steps);
-
+  const error = useSelector(state => state.CommonReducer.error);
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
@@ -86,6 +95,8 @@ const ExamenForm = ({
   const [listPraticien, setListPraticien] = useState([])
   const { innerWidth } = useDimension();
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const previousStep = getStepByKey(steps, STEP2);
 
@@ -111,6 +122,30 @@ const ExamenForm = ({
     }
   };
 
+  const handleCreateExamenGroup = (data) => {
+      setLoading(true);
+      setErrorMessage(false)
+      examenService.createExamen(data)
+        .then((response) => {
+          setLoading(false)
+          setErrorMessage(false);
+          dispatch(setError(null))
+          dispatch(createExamen(data));
+          setReload(true);
+          onAddExam({ name: "EXAMSLIST" });
+          dispatch(addExam({ exam: data}));
+          dispatch(createExamenAction(data));
+        })
+        .catch((error) => {
+          setLoading(false)
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue"))
+          }
+        });
+  }
+
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const alertMessage =
     '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer la modification sur l\'ensemble des groupes ?</EuiText>';
@@ -119,6 +154,7 @@ const ExamenForm = ({
     const payload = {
       nom: modelData.nom,
       id_modele: modelData.id_modele,
+      id_modele_groupe: handleGetGroupId,
       color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
       id_praticien: praticien,
       id_profession: 1,
@@ -151,6 +187,7 @@ const ExamenForm = ({
             dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
+            handleCreateExamenGroup(payload)
             payload.allGroup = false;
             dispatch(addExam({ index: activeGroup, exam: payload }));
             dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
@@ -165,12 +202,11 @@ const ExamenForm = ({
       setListExam(listExam);
       /**
        * @todo dispatch creatExamen action
-       */
-
+       */ 
+      setLoading(true)
       examenService.createExamen(payload)
         .then((response) => {
-          console.log("Successful create exams");
-          console.log(response)
+          setLoading(false);
           dispatch(createExamen(payload));
           setReload(true);
           onAddExam({ name: "EXAMSLIST" });
@@ -178,7 +214,12 @@ const ExamenForm = ({
           dispatch(createExamenAction(payload));
         })
         .catch((error) => {
-
+          setLoading(false)
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue"))
+          }
         });
 
       dispatch(createExamen(payload));
@@ -200,8 +241,18 @@ const ExamenForm = ({
     dispatch(setComponent(typeScreen.examList));
     return;
   };
+  const handleDeleteModele = () => {
+    ModelService.deleteModele(modelData.id)
+  .then(response => {
+    dispatch(setModelData({}));
+  })
+  .catch(error => {
+    console.log("Error ", error)
+  })
+  }
 
   const onCancel = () => {
+    handleDeleteModele();
     if (formType === typeScreen.examFormEdit) {
       dispatch(setComponent(typeScreen.examList));
       return;
@@ -436,8 +487,19 @@ const ExamenForm = ({
                   }
                   disabled={motif === "" || lieu === "" || specialite === ""}
                 >
+                {loading?
+                  <Box style={{ display: 'flex', alignItems: 'center' }}>
+                    <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
                   Ajouter
+                </Box>
+                : <>Ajouter</>}
                 </EuiButton>
+                {errorMessage && (
+                    <>
+                      <EuiSpacer size="xl" />
+                      <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+                    </>
+                )}
               </EuiFlexGroup>
             )}
             {!showEditForm && listExam.length > 2 && (
@@ -471,7 +533,7 @@ const ExamenForm = ({
   );
 };
 
-const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
+const mapStateToProps = ({ ExamenReducer, ModelsReducer,  }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
   groupSelected: ExamenReducer.examenSelected,
   activeGroup: ExamenReducer.activeGroup,

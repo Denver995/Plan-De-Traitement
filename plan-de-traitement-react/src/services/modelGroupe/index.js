@@ -10,10 +10,6 @@ class ModelGroupeService {
     console.log('Create Model Groupe Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
-    formdata.append("nb_occurence", values.nb_occurence);
-    formdata.append("groupe_rdv", values.groupe_rdv);
-    formdata.append("id_entite", values.id_entite);
-    formdata.append("periode", values.periode);
     formdata.append("id_modele", values.id_modele);
     //formdata.append("typePeriode", values.typePeriode);
 

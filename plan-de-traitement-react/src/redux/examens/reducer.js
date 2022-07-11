@@ -13,8 +13,9 @@ const INITIAL_STATE = {
   actualNonGroupeIndex: 0,
   numOfGroups: 1,
   exams: [],
+  dataModeleUpdate: {},
   groupWithData: {},
-  groupPayload: {},
+  groupPayload: null,
   groupWithFixedPosition: [],
   openGroup: "",
   examsGrouped: [],
@@ -129,6 +130,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         numOfGroups: action.number,
+      };
+    case types.UPDATE_MODELE_DATA:
+      return {
+        ...state,
+        dataModeleUpdate: action.payload,
       };
     case types.CREATE_GROUPS:
       let groups = {};
