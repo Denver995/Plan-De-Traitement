@@ -1,19 +1,14 @@
-import React, { useState } from "react";
 import { EuiIcon } from "@elastic/eui";
-import Circle from "@mui/icons-material/Circle";
+import React from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import colors from "../../../utils/colors";
-import { Plus } from "../../../assets/images";
 import Propover from "../../Propover";
 
-const Icon = () => <image width={20} height={20} />;
 
 const RecapExamItem = ({ color, date, position, index, data }) => {
-  console.log("recap: ", position);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
-  const leftStyle = {};
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -23,13 +18,7 @@ const RecapExamItem = ({ color, date, position, index, data }) => {
         marginBottom: 10,
         marginTop: -40,
       }}
-      // date={"2011 - present"}
-      // iconStyle={{
-      //   background: "rgb(19, 83, 117)",
-      //   color: "#fff",
-      //   border: "rgb(19, 83, 117)",
-      // }}
-      // icon={<Icon />}
+
       position={position}
     >
       {data.map((exam, index) => (
@@ -41,7 +30,7 @@ const RecapExamItem = ({ color, date, position, index, data }) => {
               marginBottom: data.length - 1 !== index ? 1 : 0,
               boxShadow: "0px 3px 6px #00000029",
               marginLeft: 6,
-              marginRight: position === "right" ? 6: 0,
+              marginRight: position === "right" ? 6 : 0,
             }}
           >
             <div style={{ marginBottom: 14 }}>
@@ -70,7 +59,7 @@ const RecapExamItem = ({ color, date, position, index, data }) => {
                 textAlign: "right",
                 marginTop: 0,
                 marginBottom: 0,
-                marginRight: position === "right" ? 5: 0,
+                marginRight: position === "right" ? 5 : 0,
                 color: colors.primarySombre,
               }}
             >

@@ -1,31 +1,26 @@
-import React, { useState } from "react";
 import {
   EuiButton,
   EuiButtonEmpty,
   EuiFlexGroup,
   EuiHorizontalRule,
-  EuiSpacer,
+  EuiSpacer
 } from "@elastic/eui";
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-import { connect } from "react-redux";
-import ExamCard from "../ExamCard";
-
-import { useDispatch, useSelector } from "react-redux";
-import { STEP3 } from "../../../utils/constants";
-import { getStepByKey } from "../../../utils/helper";
-import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
-import { deleteStep } from "../../../redux/steps/actions";
-import { setAlert } from "../../../redux/commons/actions";
-import TimeLineHelper from "../../common/TimeLineHelper";
-import colors from "../../../utils/colors";
-import ModalWrapper from "../../common/ModalWrapper";
-import styles from "./styles";
-import Alert from "../../Alert";
-import { setComponent } from "../../../redux/commons/actions";
-import { typeRecap } from "../../../utils/constants";
-import { typeScreen } from "../../../utils/constants";
-import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
+import { ReactComponent as Pencil } from "../../../assets/svgs/Groupe-460.svg";
+import { setAlert, setComponent } from "../../../redux/commons/actions";
+import { deleteStep } from "../../../redux/steps/actions";
+import { STEP3, typeRecap, typeScreen } from "../../../utils/constants";
+import { getStepByKey } from "../../../utils/helper";
+import Alert from "../../Alert";
+import ModalWrapper from "../../common/ModalWrapper";
+import TimeLineHelper from "../../common/TimeLineHelper";
+import ExamCard from "../ExamCard";
+import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
+import styles from "./styles";
+
 
 const RecapitulatifDesExamens = ({
   closeModal,
@@ -61,7 +56,6 @@ const RecapitulatifDesExamens = ({
   };
   const onBack = () => dispatch(deleteStep(previousStep));
 
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -115,10 +109,11 @@ const RecapitulatifDesExamens = ({
                 <div key={index}>
                   <TimeLineHelper index={index} />
                   <ExamCard
+                    examId={index}
                     examen={exam}
-                    color={colors[colorsArr[Math.round(Math.random() * 3)]]}
                     date="12 mars"
                     position={index % 2 === 0 ? "left" : "right"}
+                    onBack={onBack}
                   />
                 </div>
               ))}

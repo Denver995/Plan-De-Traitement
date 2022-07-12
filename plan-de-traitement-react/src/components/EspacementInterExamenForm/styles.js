@@ -5,7 +5,6 @@ var win = window,
   docElem = doc.documentElement,
   body = doc.getElementsByTagName("body")[0],
   x = win.innerWidth || docElem.clientWidth || body.clientWidth;
-console.log(x);
 const styles = {
   container: {
     padding: "25px 30px 0px 30px",

@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
 import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer,
   EuiButton,
-  EuiButtonEmpty,
+  EuiButtonEmpty, EuiFlexGroup,
+  EuiFlexItem,
+  EuiSpacer
 } from "@elastic/eui";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { startLoading } from "../../../redux/commons/actions";
-import { desactivateStep, addStep } from "../../../redux/steps/actions";
-import ExamItem from "../ExamItem";
 import { Plus } from "../../../assets/images";
-import styles from "./styles";
-import { STEP2, STEP3 } from "../../../utils/constants";
-import { getStepByKey, createStep } from "../../../utils/helper";
-import EspacementInterExamenForm from "../../EspacementInterExamenForm";
-import ModalWrapper from "../../common/ModalWrapper";
-import { CreateEspacementNonGroupe, setActualExamIndex } from "../../../redux/examens/actions";
+import { startLoading } from "../../../redux/commons/actions";
+import { CreateEspacementNonGroupe, setActualExamIndex, storeExams } from "../../../redux/examens/actions";
+import { addStep, desactivateStep } from "../../../redux/steps/actions";
 import examenService from '../../../services/examens';
+import { STEP2, STEP3 } from "../../../utils/constants";
+import { createStep, getStepByKey } from "../../../utils/helper";
+import ModalWrapper from "../../common/ModalWrapper";
+import EspacementInterExamenForm from "../../EspacementInterExamenForm";
+import ExamItem from "../ExamItem";
+import styles from "./styles";
 
 
 const ExamsList = ({
@@ -49,16 +48,16 @@ const ExamsList = ({
   };
 
   const handleOnDragEnd = (result) => {
-    let destination = examsList[result.destination.index];
-    let source = examsList[result.source.index];
+    const items = Array.from(examsList);
+    let destination = items[result.destination.index];
+    let source = items[result.source.index];
 
     if (!result.destination) return;
 
     if (!destination.positionFixed && !source.positionFixed) {
-      const items = Array.from(examsList);
       items.splice(result.destination.index, 1, source);
       items.splice(result.source.index, 1, destination);
-      setExamsList([...items]);
+      dispatch(storeExams(items));
     }
   };
   const onCancel = () => {
@@ -67,27 +66,10 @@ const ExamsList = ({
   };
 
   const handleGetExams = () => {
-    console.log("MY EXAMS");
-    console.log(exams);
-
-    /* const payload = { id_examen: modelData, 
-        Nom: modelData., 
-        id_modele_groupe, 
-        id_modele, 
-        id_praticien, 
-        id_motif, 
-        id_lieu,fixe,
-        position
-   
-      }*/
     examenService.getExamen({})
       .then((response) => {
-        console.log("response data for get exams");
-        console.log(response.data)
       })
       .catch((error) => {
-        console.log("error response data");
-        console.log(error)
       });
   }
 

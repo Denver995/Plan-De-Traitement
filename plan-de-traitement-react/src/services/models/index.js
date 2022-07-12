@@ -14,7 +14,7 @@ class ModelService {
     formdata.append("espacement_examen", data.espacement_examen);
 
     return http.post(BASE_URL_API + "api/api_modeleexamen/modeleexamen", formdata);
-  } 
+  }
   //DONE
   getModele = () => {
     return http.get(BASE_URL_API + `api/api_modeleexamen/modeleexamen`);

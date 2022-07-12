@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BASE_URL_API } from "../utils/urls";
 const user = JSON.parse(localStorage.getItem('user'));
-const token = user && user.accessToken ? user.accessToken : '';
 
 export default axios.create({
     withCredentials: false,
