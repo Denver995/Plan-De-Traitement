@@ -5,7 +5,6 @@ const styles = {
         fontSize: 30,
         color: colors.light,
         letterSpacing: 0,
-        fontWeight: "bold"
     }
 }
 

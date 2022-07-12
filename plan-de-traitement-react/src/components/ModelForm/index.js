@@ -10,7 +10,8 @@ import {
   useGeneratedHtmlId,
   EuiButton,
   EuiButtonEmpty,
-  EuiToolTip
+  EuiToolTip,
+  EuiText,
 } from "@elastic/eui";
 import { useDimension } from "../../hooks/dimensions";
 import { useDispatch, useSelector, connect } from "react-redux";
@@ -25,10 +26,7 @@ import {
   numOfGroupsChange,
   CreateEspacement,
 } from "../../redux/examens/actions";
-import {
-  setModelData,
-  updateModel,
-} from "../../redux/models/actions";
+import { setModelData, updateModel } from "../../redux/models/actions";
 
 import { getStepByKey, createStep } from "../../utils/helper";
 import { STEP1, STEP2 } from "../../utils/constants";
@@ -37,6 +35,8 @@ import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg
 import Radio from "../Radio";
 
 import styles from "./styles";
+import ReactToolTip from "react-tooltip";
+import colors from "../../utils/colors";
 
 const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
@@ -81,7 +81,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         id_entite: 4,
         periode: periode ? periode : 1,
         id_modele: 1,
-        typePeriode: typePeriode
+        typePeriode: typePeriode,
       };
       step.data = data;
       dispatch(createGroups(nombreOccurence));
@@ -113,13 +113,25 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
               <div style={styles.toolTipCon}>
                 <div style={styles.groupeTitle}>Grouper les rendez-vous :</div>
                 <span style={{ marginTop: 2 }}>
-                  <EuiToolTip
-                    position="right"
-                    content="Création de plusieurs groupes de rendez-vous"
-                    className="euiTool"
+                  <p
+                    data-for="toolTip"
+                    data-tip="<p style='margin-bottom: -10px'>Création de plusieurs</p><p>groupes de rendez-vous</p>"
                   >
                     <InfoIcon title="" width={"1rem"} />
-                  </EuiToolTip>
+                  </p>
+                  <ReactToolTip
+                    id="toolTip"
+                    effect="solid"
+                    place="right"
+                    className="custom-toolTip"
+                    backgroundColor={colors.darkBlue}
+                    getContent={(dataTip) => (
+                      <EuiText
+                        style={styles.toolText}
+                        dangerouslySetInnerHTML={{ __html: dataTip }}
+                      ></EuiText>
+                    )}
+                  />
                 </span>
               </div>
               <EuiSpacer size="m" />
@@ -184,13 +196,25 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
                 Période de recherche d'un groupe :
               </div>
               <span style={{ marginTop: 2 }}>
-                <EuiToolTip
-                  position="right"
-                  content="Elle permet de définir l'intervalle de temps où seront recherchés les examens du groupe"
-                  className="euiTool"
+                <p
+                  data-for="toolTip"
+                  data-tip="<p style='margin-bottom: -10px'>Elle permet de définir l'intervalle</p><p style='margin-bottom: -10px'>de temps où seront recherché</p><p>les examens du groupe</p>"
                 >
                   <InfoIcon title="" width={"1rem"} />
-                </EuiToolTip>
+                </p>
+                <ReactToolTip
+                  id="toolTip"
+                  effect="solid"
+                  place="right"
+                  className="custom-toolTip"
+                  backgroundColor={colors.darkBlue}
+                  getContent={(dataTip) => (
+                    <EuiText
+                      style={styles.toolText}
+                      dangerouslySetInnerHTML={{ __html: dataTip }}
+                    ></EuiText>
+                  )}
+                />
               </span>
             </div>
             <EuiFlexItem>
@@ -218,7 +242,12 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
                   />
                 </div>
                 <div style={{ width: "49%" }}>
-                  <select name="cars" id="cars" style={styles.fieldNumber2} onChange={onChangeTypePeriode}>
+                  <select
+                    name="cars"
+                    id="cars"
+                    style={styles.fieldNumber2}
+                    onChange={onChangeTypePeriode}
+                  >
                     {listTypePeriode.map((item, index) => (
                       <option key={index} value={item.value}>
                         {item.text}
@@ -278,12 +307,18 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
         </EuiFlexGroup>
       </EuiForm>
       <style jsx="true">
-            {`
-              .euiTool {
-                background: #052A3E;
-              }
-            `}
-          </style>
+        {`
+          .euiTool {
+            background: #052a3e;
+          }
+
+          .custom-toolTip {
+            font-size: 11px !important;
+            opacity: 1 !important;
+            padding: 0px 5px 0px 5px !important;
+          }
+        `}
+      </style>
       <EuiSpacer size="m" />
     </ModalWrapper>
   );

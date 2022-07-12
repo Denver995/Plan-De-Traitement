@@ -35,7 +35,7 @@ import {
   addExamGrouped,
   setShowExamForm,
   addExamOnAllGroups,
-  CreateEspacementSubExam
+  CreateEspacementSubExam,
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
@@ -57,7 +57,7 @@ const ExamenForm = ({
   modelData,
   handleGetExamByGroupIndex,
   predecessor,
-  groupWithData
+  groupWithData,
 }) => {
   const dispatch = useDispatch();
   const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -137,7 +137,7 @@ const ExamenForm = ({
             dispatch(addExamOnAllGroups({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
-            dispatch(CreateEspacementSubExam())
+            dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
             payload.allGroup = false;
@@ -145,7 +145,7 @@ const ExamenForm = ({
             dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
-            dispatch(CreateEspacementSubExam())
+            dispatch(CreateEspacementSubExam());
           },
         })
       );
@@ -163,7 +163,7 @@ const ExamenForm = ({
     }
   };
 
-  const updateFormData = (resetFormData=false, exam) => {
+  const updateFormData = (resetFormData = false, exam) => {
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
@@ -191,14 +191,17 @@ const ExamenForm = ({
 
   useEffect(() => {
     if (reload) setReload(false);
-    if (examenSelected && examenSelected.id && examenSelected.id !== selectedExamId) {
+    if (
+      examenSelected &&
+      examenSelected.id &&
+      examenSelected.id !== selectedExamId
+    ) {
       setSelectedExamId(examenSelected.id);
       updateFormData(false, examenSelected);
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
-  useEffect(() => {
-  }, [groupSelected, examsGrouped]);
+  useEffect(() => {}, [groupSelected, examsGrouped]);
 
   return (
     <>
@@ -244,9 +247,7 @@ const ExamenForm = ({
           ) : null}
           <EuiFlexGroup style={styles.titleContainer}>
             <TracIcon width={"1rem"} />
-            <EuiFlexItem style={styles.examTitle}>
-              Examen{" "}
-            </EuiFlexItem>
+            <EuiFlexItem style={styles.examTitle}>Examen </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer size="xl" />
           <EuiForm>
@@ -404,6 +405,6 @@ const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   groupSelected: ExamenReducer.examenSelected,
   activeGroup: ExamenReducer.activeGroup,
   modelData: ModelsReducer.modelData,
-  groupWithData: ExamenReducer.groupWithData
+  groupWithData: ExamenReducer.groupWithData,
 });
 export default connect(mapStateToProps)(ExamenForm);

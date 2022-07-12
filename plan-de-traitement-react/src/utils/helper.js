@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 export const createStep = (
   step,
   hasSubStep = false,
@@ -62,8 +63,8 @@ export function getHSPBrightness(hexColor) {
   const color = hexColorToInt(hexColor);
   return Math.sqrt(
     0.299 * (color.r * color.r) +
-      0.587 * (color.g * color.g) +
-      0.114 * (color.b * color.b)
+    0.587 * (color.g * color.g) +
+    0.114 * (color.b * color.b)
   );
 }
 
@@ -79,4 +80,29 @@ export function formatExamNumber(examNumber) {
   } else {
     return newValue;
   }
+}
+
+export const isPossibleGranularly = (data1, data2) => {
+  let minInterval = data1.minInterval
+  let maxInterval = data2.maxInterval
+  let minIntervalUnit = data1.minIntervalUnit
+  let maxIntervalUnit = data2.maxIntervalUnit
+  console.log(minIntervalUnit, maxIntervalUnit)
+  switch(minIntervalUnit){
+    case "Jour" : 
+    minInterval = 1440*minInterval; break;
+    case "Heure" : 
+    minInterval = 60*minInterval; break;
+    case "Semaine" : 
+    minInterval = 1440*minInterval*7; break;
+  }
+  switch(maxIntervalUnit){
+    case "Jour" : 
+    maxInterval = 1440*maxInterval; break;
+    case "Heure" : 
+    maxInterval = 60*maxInterval; break;
+    case "Semaine" : 
+    maxInterval = 1440*maxInterval*7; break;
+  }
+  return minInterval < maxInterval
 }
