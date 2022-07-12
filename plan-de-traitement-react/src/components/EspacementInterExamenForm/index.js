@@ -105,6 +105,7 @@ const EspacementInterExamenForm = ({
 
   const applyInterVale = (onAll = false) => {
     console.log("inside applyInterVale ");
+        handleCreateGroupeLie();
     if (typeEspacement === type_espacement.group) {
       dispatch(
         setEspacement({
@@ -149,6 +150,12 @@ const EspacementInterExamenForm = ({
 
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
+    const espacementData = {
+        initialId: initialId,
+        minInterval: minInterval,
+        maxInterval: maxInterval,
+        typeAl: "espacement"
+    }
     const alertMessage =
       '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cette intervalle à tous les espacements inter examens ?</EuiText>';
     dispatch(
@@ -158,11 +165,11 @@ const EspacementInterExamenForm = ({
         showAlert: true,
         buttonText: button,
         showButtonBlock: true,
+        espacementData: espacementData,
         onAccept: () => {
           applyInterVale(true);
         },
         onReject: () => {
-          handleCreateGroupeLie();
           applyInterVale();
         },
       })

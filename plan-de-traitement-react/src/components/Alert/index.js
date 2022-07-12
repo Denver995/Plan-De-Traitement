@@ -12,11 +12,24 @@ import {
   EuiFieldText,
   EuiText,
 } from "@elastic/eui";
+import {
+  createExamen as createExamenAction,
+  createExamen,
+  addExam,
+  addExamGrouped,
+  CreateEspacement, 
+  createGroups, 
+  shareGroupPayload,
+  shareListExamGroup,
+  setShowExamForm,
+  addExamOnAllGroups,
+  CreateEspacementSubExam,
+} from "../../redux/examens/actions";
 import React, { useEffect, useState } from "react";
 import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { setAlert, setComponent } from "../../redux/commons/actions";
+import { setAlert, setComponent, setError } from "../../redux/commons/actions";
 import { connect, useDispatch, useSelector } from "react-redux";
 import EspacementInterExamenForm from "../EspacementInterExamenForm";
 import ModalWrapper from "../common/ModalWrapper";
@@ -25,12 +38,17 @@ import colors from "../../utils/colors";
 import { useDimension } from "../../hooks/dimensions";
 import { saveModel } from "../../redux/models/actions";
 import ModelGroupeService from "../../services/modelGroupe";
+import examenService from '../../services/examens';
+import GroupeLieService from "../../services/groupeLie";
+
 
 const Alert = ({
   message,
   onAccept,
   onReject,
   buttonText,
+  userIn,
+  espacementData,
   showInputForm,
   showButtonBlock,
   isConfirmation,
@@ -39,33 +57,106 @@ const Alert = ({
 }) => {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.CommonReducer.alert);
+  const error = useSelector((state) => state.CommonReducer.error);
+  const activeGroup = useSelector(state => state.ExamenReducer.activeGroup);
+  const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload)
   const { innerHeight, innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("nhyg");
+  const [errorMessage, setErrorMessage] = useState(false);
   console.log("dimensions: ", { innerHeight, innerWidth });
+  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
+  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
-  useEffect(() => {}, [buttonText]);
+  useEffect(() => {
+  }, [buttonText]);
 
-  const handleCreateModeleGroup = () => {
-    console.log("my model Data");
-      console.log(modelData)
-      setLoading(true)
-      ModelGroupeService.createModelGroupe(modelData)
-            .then((response) => {
-              setLoading(false);
-              setErrorMessage("");
-              dispatch(setAlert({ showAlert: false, message: "" }));
-              if (isConfirmation || alert.isConfirmation) {
-                if (alert.closeModal) alert.closeModal();
-                if (closeModal) closeModal();
-                dispatch(saveModel())
-              }
-            })
-            .catch((error) => {
-              setLoading(false)
-              setErrorMessage(error)
-            });
+
+  const handleCreateGroupeLie = (data) =>{
+    setErrorMessage(false);
+    setLoading(true);
+    GroupeLieService.createGroupeLie(data)
+    .then(response => {
+      setErrorMessage(false)
+      dispatch(setError(null));
+      setLoading(false);
+      goBack();
+    })
+    .catch(error => {
+     setLoading(false)
+          setErrorMessage(true)
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          }
+    })
+  }
+
+  const handleCreateGroupeLieForAll = () => {
+    for(let i=0; i<groupPayload.length-1; i++){
+      handleCreateGroupeLie({
+      id_groupe_parent: groupPayload[i].id_modele_groupe,
+      id_groupe_enfant: groupPayload[i+1].id_modele_groupe,
+      espacement_min: alert?.espacementData.minInterval,
+      espacement_max: alert?.espacementData?.maxInterval
+    })
     }
+  }
+  const handleCreateExamenGroup = (data) => {
+      setLoading(true);
+      setErrorMessage(false)
+      examenService.createExamen(data)
+        .then((response) => {
+          goBack();
+          console.log("MY RESPONSE DATA EXAMS ", response.data);
+          setLoading(false);
+          setErrorMessage(false);
+          dispatch(setError(null))
+          response.data.data.id_group = activeGroup;
+          response.data.data.allGroup = true;
+          dispatch(addExam({ index: activeGroup, exam: response.data.data }));
+          dispatch(addExamOnAllGroups({ index: activeGroup, exam: response.data.data }));
+          dispatch(setShowExamForm(false));
+          dispatch(setAlert(false));
+          dispatch(CreateEspacementSubExam());
+          
+          
+        })
+        .catch((error) => {
+          setLoading(false);
+          setErrorMessage(true);
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue"))
+          }
+        });  
+  }
+
+   const  handleCreateExamenForAll = () => {
+    for(let i=0; i<groupPayload.length; i++){
+      handleCreateExamenGroup({
+      id_modele: groupPayload[i].id_modele,
+      id_modele_groupe: groupPayload[i].id_modele_groupe,
+      color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
+      id_praticien: alert?.userIn?.id_praticien,
+      id_profession: 1,
+      id_lieu: alert?.userIn?.id_lieu,
+      id_motif: alert?.userIn?.id_motif,
+      id_specialite: alert?.userIn?.id_specialite,
+      fixe: alert?.userIn?.fixedPosition ? 1 : 0,
+      position: 1,
+    })
+    }
+  }
+
+  const handleCreate = () => {
+    if(alert?.espacementData?.typeAl === "espacement"){
+     handleCreateGroupeLieForAll();
+    }else if(alert?.userIn?.typeAl === "examens"){
+      handleCreateExamenForAll();
+    }
+  }
 
   const goBack = () => {
     if (onReject) {
@@ -82,10 +173,7 @@ const Alert = ({
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
     >
-    {loading &&
-          <Box style={{ display: 'flex', justifyContent: 'center' }}>
-            <CircularProgress />
-          </Box>}
+   
       <EuiSpacer size="xl" />
       <EuiModalBody style={styles.body}>
         {showInputForm ? (
@@ -151,17 +239,22 @@ const Alert = ({
             width: innerWidth <= 500 ? "100%" : "210px",
             textDecoration: "none",
           }}
-          onClick={handleCreateModeleGroup}
+          onClick={handleCreate}
           fill={true}
         >
+         {loading &&
+          <Box style={{ display: 'flex', justifyContent: 'center', color: "white" }}>
+            <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
+            <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
+          </Box>}
           {alert?.buttonText?.confirmText ?? "Enregistrer"}
         </EuiButton>
       </EuiModalFooter>
       {/* )} */}
-       {errorMessage !="" && (
+       {errorMessage && (
               <>
                 <EuiSpacer size="xl" />
-                <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage.message}</p>
+                <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
               </>
             )}
     </ModalWrapper>

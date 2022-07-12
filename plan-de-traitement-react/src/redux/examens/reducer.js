@@ -16,6 +16,8 @@ const INITIAL_STATE = {
   dataModeleUpdate: {},
   groupWithData: {},
   groupPayload: null,
+  groupExamPayload: {},
+  examsListGroup: [],
   groupWithFixedPosition: [],
   openGroup: "",
   examsGrouped: [],
@@ -91,7 +93,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examsGrouped: [...state.examsGrouped, { id, ...action.payload }],
       };
     case types.ADD_EXAM_GROUPED:
-      let openGroup = state.activeGroup.slice(5);
+      let openGroup = state.activeGroup.slice(5); 
       let active_group = state.groupWithData[state.activeGroup];
       active_group.exams.push({ ...action.payload.exam, positionFixed: false });
       let groupWithData = state.groupWithData;
@@ -148,10 +150,22 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupWithData: groups,
       };
 
+
     case types.SHARE_GROUP_PAYLOAD:
       return {
         ...state,
         groupPayload: action.payload,
+      };
+
+    case types.SHARE_LIST_EXAMS_GROUP:
+      return {
+        ...state,
+        examsListGroup: action.payload,
+      };
+    case types.SHARE_GROUP_EXAM_PAYLOAD:
+      return {
+        ...state,
+        groupExamPayload: action.payload,
       };
 
     case types.CREATE_ESPACEMENTS:

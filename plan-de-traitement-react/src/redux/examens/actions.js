@@ -34,6 +34,16 @@ export const createExamGroup = (payload) => ({
   payload,
 });
 
+export const shareGroupExamPayload = (payload) => ({
+  type: types.SHARE_GROUP_EXAM_PAYLOAD,
+  payload,
+});
+
+export const shareListExamGroup = (payload) => ({
+  type: types.SHARE_LIST_EXAMS_GROUP,
+  payload,
+});
+
 export const getSelectedExamGroup = (index) => ({
   type: types.GET_EXAM_GROUP,
   index,

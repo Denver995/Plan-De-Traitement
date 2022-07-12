@@ -27,7 +27,10 @@ import {
   createExamen,
   addExam,
   addExamGrouped,
-  
+  CreateEspacement, 
+  createGroups, 
+  shareGroupPayload,
+  shareListExamGroup,
   setShowExamForm,
   addExamOnAllGroups,
   CreateEspacementSubExam,
@@ -53,6 +56,7 @@ import MotifsService from "../../../services/motifs";
 import LieuxService from "../../../services/lieux";
 import PraticiensService from "../../../services/praticiens";
 import ModelService from "../../../services/models";
+import ModelGroupeService from "../../../services/modelGroupe";
 
 
 const ExamenForm = ({
@@ -65,7 +69,6 @@ const ExamenForm = ({
   formType,
   modelData,
   handleGetExamByGroupIndex,
-  handleGetGroupId,
   predecessor,
   groupWithData
 }) => {
@@ -75,6 +78,9 @@ const ExamenForm = ({
   });
   const steps = useSelector((state) => state.StepReducer.steps);
   const error = useSelector(state => state.CommonReducer.error);
+  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
+  const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload)
+  const dataModeleUpdate = useSelector(state => state.ExamenReducer.dataModeleUpdate);
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
@@ -89,10 +95,10 @@ const ExamenForm = ({
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
-  const [listSpecialite, setListSpecialite] = useState([])
-  const [listLieu, setListLieu] = useState([])
+  const [listSpecialite, setListSpecialite] = useState([]);
+  const [listLieu, setListLieu] = useState([]);
   const [listMotif, setListMotif] = useState([])
-  const [listPraticien, setListPraticien] = useState([])
+  const [listPraticien, setListPraticien] = useState([]);
   const { innerWidth } = useDimension();
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   const [loading, setLoading] = useState(false);
@@ -122,19 +128,34 @@ const ExamenForm = ({
     }
   };
 
+  const handleGetExamenGroup = () => {
+    examenService.getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
+    .then(response => {
+        console.log("Response For get exams in group ", JSON.stringify(response.data.data))
+        dispatch(shareListExamGroup(response.data.data));  
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+ 
+
   const handleCreateExamenGroup = (data) => {
       setLoading(true);
       setErrorMessage(false)
       examenService.createExamen(data)
         .then((response) => {
+          console.log("MY RESPONSE DATA EXAMS ", response.data);
           setLoading(false)
           setErrorMessage(false);
           dispatch(setError(null))
-          dispatch(createExamen(data));
+          dispatch(createExamen(response.data));
           setReload(true);
           onAddExam({ name: "EXAMSLIST" });
-          dispatch(addExam({ exam: data}));
+          dispatch(addExam({ exam: response.data.data}));
           dispatch(createExamenAction(data));
+          handleGetExamenGroup();
         })
         .catch((error) => {
           setLoading(false)
@@ -143,27 +164,35 @@ const ExamenForm = ({
           }else{
             dispatch(setError("Une erreur est survenue"))
           }
-        });
+        });  
   }
 
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
+  const userInfo = { 
+      id_praticien: praticien, 
+      id_lieu: lieu,
+      id_motif: motif,
+      id_specialite: specialite,
+      fixedPosition: fixedExamPosition,
+      typeAl: "examens" };
   const alertMessage =
     '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer la modification sur l\'ensemble des groupes ?</EuiText>';
 
   const onAddExamen = () => {
+    console.log("Group p------ ", groupExamPayload);
     const payload = {
-      nom: modelData.nom,
-      id_modele: modelData.id_modele,
-      id_modele_groupe: handleGetGroupId,
+      id_modele: parseInt(modelData.id),
+      id_modele_groupe: groupExamPayload.idGroup,
       color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
       id_praticien: praticien,
       id_profession: 1,
       id_lieu: lieu,
       id_motif: motif,
-      id_specialtite: specialite,
+      id_specialite: specialite,
       fixe: fixedExamPosition ? 1 : 0,
       position: 1,
     };
+    const dataInfo = { }
     console.log("PAYLOAD FOR EXAMS");
     console.log(payload);
 
@@ -173,12 +202,14 @@ const ExamenForm = ({
       console.log(payload);
       dispatch(
         setAlert({
-          title: "Enregistrer le modèl",
+          title: "Enregistrer le modèle",
           message: alertMessage,
           showAlert: true,
           buttonText: button,
           showButtonBlock: true,
-          onAccept: () => {
+          userIn: userInfo,
+          typeAlert: "examens",
+          onAccept: () => { 
             payload.allGroup = true;
             dispatch(addExam({ index: activeGroup, exam: payload }));
             dispatch(addExamOnAllGroups({ index: activeGroup, exam: payload }));
@@ -234,8 +265,25 @@ const ExamenForm = ({
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
-    setSpecialite(resetFormData ? "" : exam?.id_specialtite);
+    setSpecialite(resetFormData ? "" : exam?.id_specialite);
   };
+
+
+const handleGetGroup = () => {
+    setLoading(true);
+    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
+    .then(response => {
+      setLoading(false);
+      dispatch(shareGroupPayload(response.data.data))
+      dispatch(createGroups(response.data.data.length));
+      dispatch(CreateEspacement(response.data.data.length - 1)); 
+    })
+    .catch(error => {
+      setLoading(false);
+      console.log(error)
+    })
+  }
+
 
   const onEditExamen = () => {
     dispatch(setComponent(typeScreen.examList));
@@ -244,7 +292,7 @@ const ExamenForm = ({
   const handleDeleteModele = () => {
     ModelService.deleteModele(modelData.id)
   .then(response => {
-    dispatch(setModelData({}));
+    handleGetGroup();
   })
   .catch(error => {
     console.log("Error ", error)
@@ -265,6 +313,11 @@ const ExamenForm = ({
 
     onPrevious && onPrevious();
   };
+
+  useEffect(() => {
+    console.log("MYGROUPeX ", JSON.stringify(groupExamPayload));
+    console.log("Mygrouppayloadis ",JSON.stringify(groupPayload));
+  },[])
 
   useEffect(() => {
     SpecialiteService.getListeSpecialite()

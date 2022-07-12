@@ -24,7 +24,10 @@ import {
   setShowExamForm,
   deleteGroup,
   toggleFixGroupPosition,
-  CreateEspacement, createGroups, shareGroupPayload,
+  CreateEspacement, 
+  createGroups, 
+  shareGroupPayload,
+  shareGroupExamPayload,
   setIsClose,
   dragAndDrog,
 } from "../../../redux/examens/actions";
@@ -43,9 +46,6 @@ const getExamByGroupIndex = (group, groupKey) => {
   return result;
 };
 
-const getGroupId = (id) => {
-  return id;
-}
 
 const GroupItem = ({
   groupName,
@@ -59,6 +59,7 @@ const GroupItem = ({
   const [reRenderDel, setRerenderDel] = useState(false);
   const modelData = useSelector((state) => state.ModelsReducer.modelData);
   const dataModeleUpdate = useSelector((state) => state.ExamenReducer.dataModeleUpdate);
+  const examsListGroup = useSelector(state => state.ExamenReducer.examsListGroup);
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
@@ -72,6 +73,7 @@ const GroupItem = ({
   const [loading, setLoading] = useState(false);
   const [initialGroupId, setInitialGroupId] = useState(1);
 
+
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
     newToggledGroup[index] = !toggledGroup[index];
@@ -80,8 +82,8 @@ const GroupItem = ({
   };
   
 
-  const handleAddExam = (groupKey, idGroup) => {
-    getGroupId(idGroup);
+  const handleAddExam = (groupKey, id) => {
+    dispatch(shareGroupExamPayload({idGroup:id}))
     dispatch(setShowExamForm(true));
     dispatch(getSelectedExamGroup(groupKey));
     dispatch(setActiveGroup(groupKey));
@@ -93,8 +95,6 @@ const GroupItem = ({
     ModelGroupeService.deleteModelGroupe(id)
     .then(response => {
       setLoading(false)
-      console.log("DELETE GROUP SUCCESSFULLY")
-      console.log(response.data)
       dispatch(deleteGroup(groupKey));
       setRerenderDel(true);
     })
@@ -104,7 +104,6 @@ const GroupItem = ({
     })
   }
 
-  
 
   useEffect(() => {
     let newToggleGrp = [];
@@ -213,6 +212,7 @@ const GroupItem = ({
                               <Propover
                                 idGroupe={groupKey}
                                 isModelGroup={true}
+                                idGroup = {groupWithData[groupKey].payload.id_modele_groupe}
                                 onDeleteGroup={() => {
                                   handleDeleteGroup(groupWithData[groupKey].payload.id_modele_groupe, groupKey);
                                   
@@ -295,7 +295,8 @@ const GroupItem = ({
                               ></hr>
                               <button
                                 className="divisor-btn"
-                                onClick={() => handleAddExam(groupKey, groupWithData[groupKey].payload.id_modele_groupe)}
+                                onClick={() => handleAddExam(groupKey, 
+                                  groupWithData[groupKey].payload.id_modele_groupe)}
                               >
                                 <span
                                   className="dividor-btn-icon"
@@ -519,7 +520,6 @@ const GroupExamenSummary = ({
         <ExamenForm
           isModelGroup={true}
           onPrevious={onPrevious}
-          handleGetGroupId={getGroupId}
           handleGetExamByGroupIndex={getExamByGroupIndex}
         />
       ) : (

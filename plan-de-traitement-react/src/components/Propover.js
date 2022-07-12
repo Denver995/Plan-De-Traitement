@@ -7,9 +7,14 @@
 } from "@elastic/eui";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import GroupeLieService from "../services/groupeLie";
+import { useDispatch, useSelector } from "react-redux";
+import { setAlert, setError } from "../redux/commons/actions";
+import { setEspacement, setEspacementNonGroupe, setEspacementSubExam } from "../redux/examens/actions";
+
+
 
 const Propover = ({
   isModelGroup,
@@ -19,7 +24,8 @@ const Propover = ({
   onDeleteExam,
   onFixePosition,
   examId,
-  loading
+  loading,
+  idGroup
 }) => {
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,11 +37,14 @@ const Propover = ({
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData)
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const closePopover = () => setPopover(false);
-
+  const dispatch = useDispatch();
   const togglePropover = () => setPopover(!isPopoverOpen);
-
+  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
   const handleClick = () => setIsOpen(!isOpen);
   const handleClose = () => setIsOpen(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [loadingg, setLoadingg] =useState(false);
+
 
   const onEdit = () => {
     // if (isModelGroup) {
@@ -63,6 +72,38 @@ const Propover = ({
     togglePropover();
     console.log(idGroupe)
   };
+
+  const handleBindGroup = (data) => {
+    setErrorMessage(false);
+    setLoadingg(true);
+    GroupeLieService.createGroupeLie(data)
+    .then(response => {
+      setErrorMessage(false)
+      dispatch(setError(null));
+      setLoadingg(false);
+    })
+    .catch(error => {
+     setLoadingg(false)
+          setErrorMessage(true)
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          }
+    })
+  }
+  const handleCreateGroupeLie = (index) => {
+    for(let i=0; i<groupPayload.length; i++){
+      if(index === i){
+        handleBindGroup({
+        id_groupe_parent: idGroup,
+        id_groupe_enfant: groupPayload[i].id_modele_groupe
+    })
+        return;
+      }
+     
+    }
+  }
 
   const button = (
     <div
@@ -119,7 +160,7 @@ const Propover = ({
                   examsGrouped.map((group, i) => (
                     <EuiListGroupItem
                       key={i}
-                      onClick={() => console.log("")}
+                      onClick={()=>handleCreateGroupeLie(i)}
                       label={"group " + i}
                     />
                   ))

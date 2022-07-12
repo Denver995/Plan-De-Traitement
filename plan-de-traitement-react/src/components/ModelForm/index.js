@@ -74,7 +74,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
        ModelService.deleteModele(modelData.id)
       .then((response) => {
         console.log("DELETE MODELE SUCCESSFUL")
-        dispatch(setModelData({}))
+        //dispatch(setModelData({}))
         setLoading(false)
         closeModal();
       })
