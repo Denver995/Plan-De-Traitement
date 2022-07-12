@@ -1,28 +1,19 @@
 import {
-  EuiButton,
-  EuiModal,
-  EuiModalBody,
-  EuiModalFooter,
-  EuiModalHeader,
-  EuiModalHeaderTitle,
-  EuiSpacer,
-  EuiButtonEmpty,
-  EuiForm,
-  EuiFormRow,
-  EuiFieldText,
-  EuiText,
+  EuiButton, EuiButtonEmpty, EuiFieldText, EuiForm,
+  EuiFormRow, EuiModalBody,
+  EuiModalFooter, EuiSpacer, EuiText
 } from "@elastic/eui";
 import React, { useEffect } from "react";
-import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
-
-import { setAlert, setComponent } from "../../redux/commons/actions";
 import { connect, useDispatch, useSelector } from "react-redux";
-import EspacementInterExamenForm from "../EspacementInterExamenForm";
-import ModalWrapper from "../common/ModalWrapper";
-import styles from "./style";
-import colors from "../../utils/colors";
+import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import { useDimension } from "../../hooks/dimensions";
+import { setAlert, setComponent } from "../../redux/commons/actions";
 import { saveModel } from "../../redux/models/actions";
+import colors from "../../utils/colors";
+import ModalWrapper from "../common/ModalWrapper";
+import EspacementInterExamenForm from "../EspacementInterExamenForm";
+import styles from "./style";
+
 
 const Alert = ({
   message,

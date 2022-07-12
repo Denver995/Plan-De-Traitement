@@ -62,7 +62,6 @@ const SummaryGroupedExam = ({
       else dispatch(deleteStep(previousStep));
     }
   }
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
   useEffect(() => {
 
   }, [groupesWithData])

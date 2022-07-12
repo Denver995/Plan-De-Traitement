@@ -1,23 +1,18 @@
-import React from "react";
 import {
-  EuiIcon,
   EuiButton,
   EuiButtonEmpty,
-  EuiFlexGroup,
-  EuiText,
-  EuiSpacer,
-  EuiAvatar,
+  EuiFlexGroup, EuiIcon, EuiText
 } from "@elastic/eui";
+import React from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import ExamGroupCard from "./ExamGroupCard";
-import RecapExamItem from "./RecapExamItem";
 /*import './RecapExamGrp.css';*/
 import { setAlert } from "../../../redux/commons/actions";
 import { deleteStep } from "../../../redux/steps/actions";
-import { useDispatch, useSelector, connect } from "react-redux";
 import { STEP3 } from "../../../utils/constants";
 import { getStepByKey } from "../../../utils/helper";
+import ExamGroupCard from "./ExamGroupCard";
 
 const RecapExamGroup = ({ closeModal, examsGrouped }) => {
   const dispatch = useDispatch();

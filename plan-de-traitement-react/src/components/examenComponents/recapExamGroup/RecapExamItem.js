@@ -5,12 +5,10 @@ import "react-vertical-timeline-component/style.min.css";
 import colors from "../../../utils/colors";
 import Propover from "../../Propover";
 
-const Icon = () => <image width={20} height={20} />;
 
 const RecapExamItem = ({ color, date, position, index, data }) => {
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
-  const leftStyle = {};
   return (
     <VerticalTimelineElement
       contentStyle={{

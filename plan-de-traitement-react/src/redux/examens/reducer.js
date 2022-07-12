@@ -185,7 +185,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       groupeWithDataKeys.forEach((key) => {
         let actualGroupe = groupesWithData[key];
         let nomberExamOfActualGroupe = actualGroupe["exams"].length;
-        for (var i = 0; i < nomberExamOfActualGroupe - 1; i++) {
+        for (let i = 0; i < nomberExamOfActualGroupe - 1; i++) {
           espacementSubExam[key]["subEspace " + i] = espacementSubExam[key][
             "subEspace " + i
           ]
@@ -243,7 +243,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let tempGroupKeys = Object.keys(tempGroup)
       let newTempGroup = {}
       let newTempGroupLength = tempGroupKeys.length
-      for (var i = 0; i < newTempGroupLength; i++) {
+      for (let i = 0; i < newTempGroupLength; i++) {
         newTempGroup['group ' + i] = tempGroup[tempGroupKeys[i]]
       }
       return {
@@ -387,9 +387,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
       let espacementSourceKeys = Object.keys(sourceGroupe__);
 
-      for (var i = 0; i < espacementSourceKeys.length; i++) {
+      for (let i = 0; i < espacementSourceKeys.length; i++) {
         let actualSpaceLength = sourceGroupe__["subEspace " + i].length;
-        for (var j = 0; j < actualSpaceLength; j++) {
+        for (let j = 0; j < actualSpaceLength; j++) {
           sourceGroupe__["subEspace " + i][j] = {
             ...sourceGroupe__["subEspace " + i][j],
             parentSubExamId: destination,
@@ -398,9 +398,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       }
 
       let espacementDestKeys = Object.keys(destinationGroupe__);
-      for (var i = 0; i < espacementDestKeys.length; i++) {
+      for (let i = 0; i < espacementDestKeys.length; i++) {
         let actualSpaceLength = destinationGroupe__["subEspace " + i].length;
-        for (var j = 0; j < actualSpaceLength; j++) {
+        for (let j = 0; j < actualSpaceLength; j++) {
           destinationGroupe__["subEspace " + i][j] = {
             ...destinationGroupe__["subEspace " + i][j],
             parentSubExamId: source,

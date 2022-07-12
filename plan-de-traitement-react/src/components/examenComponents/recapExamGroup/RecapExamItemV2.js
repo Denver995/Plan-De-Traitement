@@ -15,7 +15,6 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
   useEffect(() => {
     setRerenderDel(true)
   }, [reRenderDel, groupesWithData])

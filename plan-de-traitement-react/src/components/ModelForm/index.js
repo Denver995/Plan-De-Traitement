@@ -1,42 +1,30 @@
-import React, { useState } from "react";
 import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiFormRow,
-  EuiFieldNumber,
-  EuiForm,
-  EuiSpacer,
-  EuiFieldText,
-  useGeneratedHtmlId,
   EuiButton,
-  EuiButtonEmpty,
-  EuiToolTip,
-  EuiText,
+  EuiButtonEmpty, EuiFieldNumber, EuiFieldText, EuiFlexGroup,
+  EuiFlexItem, EuiForm, EuiFormRow, EuiSpacer, EuiText, useGeneratedHtmlId
 } from "@elastic/eui";
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import ReactToolTip from "react-tooltip";
+import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import { useDimension } from "../../hooks/dimensions";
-import { useDispatch, useSelector, connect } from "react-redux";
-import {
-  addStep,
-  updateStep,
-  desactivateStep,
-} from "../../redux/steps/actions";
 import { startLoading } from "../../redux/commons/actions";
 import {
-  createGroups,
-  numOfGroupsChange,
-  CreateEspacement,
+  CreateEspacement, createGroups,
+  numOfGroupsChange
 } from "../../redux/examens/actions";
 import { setModelData, updateModel } from "../../redux/models/actions";
-
-import { getStepByKey, createStep } from "../../utils/helper";
-import { STEP1, STEP2 } from "../../utils/constants";
-import ModalWrapper from "../common/ModalWrapper";
-import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
-import Radio from "../Radio";
-
-import styles from "./styles";
-import ReactToolTip from "react-tooltip";
+import {
+  addStep, desactivateStep, updateStep
+} from "../../redux/steps/actions";
 import colors from "../../utils/colors";
+import { STEP1, STEP2 } from "../../utils/constants";
+import { createStep, getStepByKey } from "../../utils/helper";
+import ModalWrapper from "../common/ModalWrapper";
+import Radio from "../Radio";
+import styles from "./styles";
+
+
 
 const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });

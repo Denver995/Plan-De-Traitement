@@ -1,7 +1,3 @@
-import {
-  SERVER_URL,
-  BASE_EXAMEN_URL,
-} from '../../utils/urls';
 
 export const createExamen = (values) => {
   const formdata = new FormData();

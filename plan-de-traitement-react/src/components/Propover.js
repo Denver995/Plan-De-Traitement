@@ -36,7 +36,6 @@ const Propover = ({
   isRecap,
 }) => {
   const dispatch = useDispatch();
-  const mustBeEditable = useSelector(state => state.ExamenReducer.mustBeEditable)
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
