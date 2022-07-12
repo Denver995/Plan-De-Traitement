@@ -19,7 +19,6 @@ function ExamCard({
   examId,
   onBack,
 }) {
-  console.log("Parent: ", examen);
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
 
   useEffect(() => {
@@ -49,7 +48,7 @@ function ExamCard({
             style={position === "right" ? styles.propRight : styles.propLeft}
           >
             <Propover
-              index = {index}
+              index={index}
               groupKey={groupKey}
               exam={examen}
               isExamGroup={isExamGroup}

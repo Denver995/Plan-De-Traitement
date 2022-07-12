@@ -1,28 +1,27 @@
-import React, { useEffect } from "react";
 import {
   EuiButton,
   EuiButtonEmpty,
   EuiFlexGroup,
-  EuiSpacer,
+  EuiSpacer
 } from "@elastic/eui";
+import React, { useEffect } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
-  VerticalTimeline,
+  VerticalTimeline
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { setAlert, setComponent } from "../../../redux/commons/actions";
-import { useDispatch, useSelector, connect } from "react-redux";
-import { STEP3 } from "../../../utils/constants";
-import { getStepByKey } from "../../../utils/helper";
-import colors from "../../../utils/colors";
-import "./RecapExamGrp.css";
-import TimeLineHelper from "../../common/TimeLineHelper";
-import RecapExamItemV2 from "./RecapExamItemV2";
-import { deleteStep } from "../../../redux/steps/actions";
-import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
+import { setAlert, setComponent } from "../../../redux/commons/actions";
+import { SetShowGroupeContentForUpdate, toggleFixGroupPosition } from "../../../redux/examens/actions";
+import { deleteStep } from "../../../redux/steps/actions";
+import colors from "../../../utils/colors";
+import { STEP3 } from "../../../utils/constants";
+import { getStepByKey } from "../../../utils/helper";
+import TimeLineHelper from "../../common/TimeLineHelper";
 import ExamCard from "../ExamCard";
-import { setShowExamForm, SetShowGroupeContentForUpdate, toggleFixGroupPosition } from "../../../redux/examens/actions";
+import "./RecapExamGrp.css";
+import RecapExamItemV2 from "./RecapExamItemV2";
 
 const SummaryGroupedExam = ({
   modelData,
@@ -38,7 +37,7 @@ const SummaryGroupedExam = ({
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () => {
-    if(groupeToShowContentId === -1){
+    if (groupeToShowContentId === -1) {
       dispatch(
         setAlert({
           title: "Enregistrer le modèle",
@@ -59,14 +58,11 @@ const SummaryGroupedExam = ({
     if (groupeToShowContentId !== -1) {
       dispatch(SetShowGroupeContentForUpdate(-1))
     } else {
-      console.log('isEditing ', isEditing);
       if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
       else dispatch(deleteStep(previousStep));
     }
   }
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-  console.log("groupeWithDataKeys", groupesWithDataKeys)
-  console.log("groupesWithData", groupesWithData)
   useEffect(() => {
 
   }, [groupesWithData])

@@ -1,20 +1,17 @@
 import {
-  EuiButton,
-  EuiModal,
+  EuiButton, EuiFieldText, EuiForm, EuiFormRow, EuiModal,
   EuiModalBody,
   EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
-  EuiSpacer,
-  EuiButtonEmpty,
-  EuiForm, EuiFormRow, EuiFieldText
+  EuiSpacer
 } from '@elastic/eui';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Alert = ({ actions, message, title = 'Alert Title' }) => {
   return (
     <>
-      <EuiModal onClose={() => { console.log('close modal') }} className='modelFormContainer'>
+      <EuiModal onClose={() => { }} className='modelFormContainer'>
         <EuiModalHeader>
           <EuiModalHeaderTitle>
             <h1>{title}</h1>

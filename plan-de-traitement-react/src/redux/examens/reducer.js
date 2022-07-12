@@ -53,13 +53,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           examData: action.examData,
         },
       };
-      case types.GET_GROUP_TO_EDITE_EXAM:
-        console.log(action.data)
+    case types.GET_GROUP_TO_EDITE_EXAM:
       return {
         ...state,
-        infoGroupeToEditeExamGrouped: {...action.data}
+        infoGroupeToEditeExamGrouped: { ...action.data }
       };
-      case types.EDIT_EXAM_GROUP:
+    case types.EDIT_EXAM_GROUP:
       return {
         ...state
       };
@@ -165,7 +164,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       for (let i = 0; i < nbrOfGroupe.length - 1; i++) {
         listespacements["espace " + i] = [];
       }
-      console.log("listespacements", listespacements);
       return {
         ...state,
         espacement: listespacements,
@@ -347,14 +345,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.TOGGLE_FIXE_EXAM_POSITION:
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
-      console.log("Temporaire: ", state.groupWithData);
       if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
         examDetail.positionFixed = !examDetail.positionFixed;
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
-        console.log("allGroupTemp", allGroupTemp)
       } else {
         examDetail = allExamTemp[action.payload.selectedExam];
         examDetail.positionFixed = !examDetail.positionFixed;
@@ -462,7 +458,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let parentGroupe = allGroupes_[groupKeyParent];
       parentGroupe.fixedChild = groupKeyChild;
       allGroupes_[groupKeyParent] = parentGroupe
-      console.log(allGroupes_)
 
       return {
         ...state,
@@ -473,8 +468,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         ...state,
         exams: [...action.payload],
       };
-      case types.SET_EXAM_FORM_EDITABLE:
-        console.log('most be editable : ', action.response)
+    case types.SET_EXAM_FORM_EDITABLE:
       return {
         ...state,
         mustBeEditable: action.response

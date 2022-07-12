@@ -48,10 +48,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   let step = getStepByKey(steps, STEP1);
   const [groupe_rdv, setIsGroup] = useState(step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false);
   const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : "");
-  console.log(step.data.nb_occurence)
   const [showGroupOption, setShowGroupOption] = useState(!isEdited && step.data.nb_occurence ? true : false);
   const { innerWidth } = useDimension();
-  
+
 
   const listTypePeriode = [
     { value: "jour", text: "Jour" },

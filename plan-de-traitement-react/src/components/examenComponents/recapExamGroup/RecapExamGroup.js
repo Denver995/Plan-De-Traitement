@@ -39,7 +39,6 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
     );
   const onBack = () => dispatch(deleteStep(previousStep));
 
-  console.log("examGrouped: ", examsGrouped);
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20 }}>
@@ -85,7 +84,7 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
                   id="iconList"
                   className="boxverti"
                 />
-                <ExamGroupCard group={group} position={index === 0 ? "right": "left"} />
+                <ExamGroupCard group={group} position={index === 0 ? "right" : "left"} />
                 <EuiText className="heure_gauche"> 1heure</EuiText>
               </div>
               <EuiIcon
@@ -94,9 +93,9 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
                 className="bout_grp1"
                 size="l"
               />
-                </div>
-              ))}
-              {/* <EuiSpacer /> */}
+            </div>
+          ))}
+          {/* <EuiSpacer /> */}
         </VerticalTimeline>
       </div>
 

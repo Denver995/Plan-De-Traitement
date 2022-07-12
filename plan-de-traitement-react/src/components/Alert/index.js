@@ -38,9 +38,8 @@ const Alert = ({
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.CommonReducer.alert);
   const { innerHeight, innerWidth } = useDimension();
-  console.log("dimensions: ", { innerHeight, innerWidth });
 
-  useEffect(() => {}, [buttonText]);
+  useEffect(() => { }, [buttonText]);
 
   const submit = () => {
     if (onAccept) {
@@ -66,7 +65,6 @@ const Alert = ({
     return;
   };
 
-  console.log("alertAlert: ", alert?.buttonText?.confirmText);
   return (
     <ModalWrapper
       style={styles.modal}

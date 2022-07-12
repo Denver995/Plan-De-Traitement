@@ -60,10 +60,9 @@ const Propover = ({
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
       if (examId) {
-        dispatch(setGroupeToEditeExam({groupKey, index}))
+        dispatch(setGroupeToEditeExam({ groupKey, index }))
         dispatch(mostBeEditable(true))
         dispatch(setShowExamForm({ show: true }));
-        console.log("groupeKey, examId, data ", groupKey, examId, exam);
         dispatch(
           setComponent({
             name: "EXAMENFORMEDIT",
@@ -75,7 +74,6 @@ const Propover = ({
       } else {
         dispatch(mostBeEditable(true))
         dispatch(setShowExamForm({ show: true }));
-        console.log("groupeKey, examId, data ", groupKey, index, exam);
         dispatch(
           setComponent({
             name: "EXAMENFORMEDIT",
@@ -94,7 +92,6 @@ const Propover = ({
   };
 
   const onDelete = () => {
-    console.log("on passe ici", isModelGroup, isExamGroup);
     if (isModelGroup) {
       onDeleteGroup();
       togglePropover();
@@ -103,7 +100,6 @@ const Propover = ({
     }
 
     if (isExamGroup) {
-      console.log("isExamGroup", isExamGroup, examId, groupKey)
       dispatch(
         deleteExamGroup({
           groupKey: groupKey,
@@ -117,7 +113,6 @@ const Propover = ({
   };
 
   const onFixPosition = () => {
-    console.log("yeuch voici l'exam : ", examId)
     if (isExamGroup) {
       dispatch(
         toggleFixExamPosition({
@@ -136,9 +131,9 @@ const Propover = ({
             isExamGroup: false,
           })
         );
-      } 
-        onFixePosition()
-      
+      }
+      onFixePosition()
+
     }
   };
 
@@ -167,7 +162,9 @@ const Propover = ({
         container={panelRef}
       >
         <EuiListGroup>
-          <EuiListGroupItem onClick={onEdit} label="Modifier" />
+          {!isModelGroup &&
+            <EuiListGroupItem onClick={onEdit} label="Modifier" />
+          }
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
           <EuiListGroupItem
             onClick={onFixPosition}
@@ -204,7 +201,6 @@ const Propover = ({
                     onClick={() => {
                       if (idGroupe) {
                         let child = "group " + i
-                        console.log("clike sur " + "group " + i)
                         dispatch(linkToGroup({ idGroupe, child }))
                         handleClose();
                         togglePropover();

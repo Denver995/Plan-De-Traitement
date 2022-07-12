@@ -60,7 +60,6 @@ const Radio = ({ onChange }) => {
         color: colors.primary,
       });
     }
-    console.log("active: ", active);
 
     // setActive(!active);
     onChangeModel(isActive);
@@ -105,7 +104,7 @@ const Radio = ({ onChange }) => {
     onChangeModel(isActive);
   };
 
-  React.useEffect(() => {}, [active]);
+  React.useEffect(() => { }, [active]);
 
   const onChangeModel = (value) => {
     onChange(value);

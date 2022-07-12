@@ -36,7 +36,6 @@ const EspacementInterExamenForm = ({
   const [maxIntervalUnit, setMaxIntervalUnit] = useState("Jour");
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const [isValid, setIsValid] = useState(false)
-  console.log("typeEspacement ", typeEspacement);
   const options = [
     {
       value: "Jour",
@@ -57,8 +56,8 @@ const EspacementInterExamenForm = ({
   ];
 
   useEffect(() => {
-    setIsValid(isPossibleGranularly({minInterval, minIntervalUnit}, {maxInterval, maxIntervalUnit}))
-  },[minInterval, minIntervalUnit, maxInterval, maxIntervalUnit, isValid])
+    setIsValid(isPossibleGranularly({ minInterval, minIntervalUnit }, { maxInterval, maxIntervalUnit }))
+  }, [minInterval, minIntervalUnit, maxInterval, maxIntervalUnit, isValid])
 
   const onChangeMinInterval = (e) => setMinInterval(e.target.value);
 
@@ -71,7 +70,6 @@ const EspacementInterExamenForm = ({
   const onChangeMaxIntervalUnit = (e) => setMaxIntervalUnit(e.target.value);
 
   const applyInterVale = (onAll = false) => {
-    console.log("inside applyInterVale ");
     if (typeEspacement === type_espacement.group) {
       dispatch(
         setEspacement({
@@ -84,7 +82,7 @@ const EspacementInterExamenForm = ({
         })
       );
     } else {
-      if(!forSubExam){
+      if (!forSubExam) {
         dispatch(
           setEspacementNonGroupe({
             initialIndex,
@@ -95,7 +93,7 @@ const EspacementInterExamenForm = ({
             maxIntervalUnit: maxIntervalUnit,
           })
         );
-      }else{
+      } else {
         dispatch(
           setEspacementSubExam({
             parentSubExamId,
@@ -108,7 +106,7 @@ const EspacementInterExamenForm = ({
           })
         );
       }
-      
+
     }
     dispatch(dispatch(setAlert(false)));
   }
@@ -142,7 +140,6 @@ const EspacementInterExamenForm = ({
     return;
   };
 
-  console.log("voici l'index qui est passé : ", initialIndex)
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -230,7 +227,7 @@ const EspacementInterExamenForm = ({
             form={modalFormId}
             onClick={submit}
             style={
-                  !isValid
+              !isValid
                 ? styles.submitDeactivated
                 : styles.submit
             }
