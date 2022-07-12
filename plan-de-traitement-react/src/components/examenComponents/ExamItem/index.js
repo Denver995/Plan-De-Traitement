@@ -4,13 +4,6 @@ import "../../../utils/groupe-et-exam.css";
 import Propover from "../../Propover";
 import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
-import {
-  deleteExamSimple,
-  deleteExamGroup,
-  editExam,
-  toggleFixExamPosition,
-} from "../../../redux/examens/actions";
-import { setComponent } from "../../../redux/commons/actions";
 
 import styles from "./styles";
 
@@ -38,56 +31,19 @@ const ExamItem = ({
     };
   });
 
-  useEffect(() => {}, [reRender]);
+  useEffect(() => { }, [reRender]);
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
         <div>
           <Propover
-            data={exam}
+            index={index}
             showEditForm={showEditForm}
-            onDeleteExam={() => {
-              if (isExamGroup) {
-                dispatch(
-                  deleteExamGroup({ groupKey: groupKey, examId: index })
-                );
-                setReload(!reload);
-              } else dispatch(deleteExamSimple({ examId: index }));
-            }}
-            onEditItem={() => {
-              console.log("editing exam group ...");
-              dispatch(editExam({ ...exam, id: index + 1 }));
-              if (isExamGroup) {
-                dispatch(
-                  setComponent({
-                    name: "EXAMENFORMEDIT",
-                    groupKey: groupKey,
-                    examId: index,
-                    data: exam,
-                  })
-                );
-                // setReload(!reload);
-              } else
-                dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
-            }}
-            onFixePosition={() => {
-              if (isExamGroup)
-                dispatch(
-                  toggleFixExamPosition({
-                    selectedExam: index,
-                    groupKey: groupKey,
-                    isExamGrouped: true,
-                  })
-                );
-              else
-                dispatch(
-                  toggleFixExamPosition({
-                    selectedExam: index,
-                    isExamGrouped: false,
-                  })
-                );
-            }}
+            exam={exam}
+            isExamGroup={isExamGroup}
+            groupKey={groupKey}
             examId={index}
+            setReload={() => setReload(!reload)}
           />
         </div>
         <div>

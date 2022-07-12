@@ -115,10 +115,11 @@ const RecapitulatifDesExamens = ({
                 <div key={index}>
                   <TimeLineHelper index={index} />
                   <ExamCard
+                    examId={index}
                     examen={exam}
-                    color={colors[colorsArr[Math.round(Math.random() * 3)]]}
                     date="12 mars"
                     position={index % 2 === 0 ? "left" : "right"}
+                    onBack={onBack}
                   />
                 </div>
               ))}

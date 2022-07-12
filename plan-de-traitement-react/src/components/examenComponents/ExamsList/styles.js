@@ -18,7 +18,7 @@ const styles = {
   },
 
   image: {
-    width: 42,
+    width: 58,
   },
 
   titleWrapper: {

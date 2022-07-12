@@ -20,6 +20,7 @@ import ModalWrapper from "../../common/ModalWrapper";
 import {
   CreateEspacementNonGroupe,
   setActualExamIndex,
+  storeExams,
 } from "../../../redux/examens/actions";
 
 const ExamsList = ({
@@ -50,16 +51,16 @@ const ExamsList = ({
   };
 
   const handleOnDragEnd = (result) => {
-    let destination = examsList[result.destination.index];
-    let source = examsList[result.source.index];
+    const items = Array.from(examsList);
+    let destination = items[result.destination.index];
+    let source = items[result.source.index];
 
     if (!result.destination) return;
 
     if (!destination.positionFixed && !source.positionFixed) {
-      const items = Array.from(examsList);
       items.splice(result.destination.index, 1, source);
       items.splice(result.source.index, 1, destination);
-      setExamsList([...items]);
+      dispatch(storeExams(items));
     }
   };
   const onCancel = () => {

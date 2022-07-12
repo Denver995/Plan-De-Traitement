@@ -6,26 +6,48 @@ import {
   EuiButtonEmpty,
 } from "@elastic/eui";
 
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { linkToGroup, mostBeEditable, setGroupeToEditeExam, SetShowGroupeContentForUpdate } from "../redux/examens/actions";
+import { setComponent, setShowExamForm } from "../redux/commons/actions";
+import {
+  deleteExamGroup,
+  deleteExamSimple,
+  editExam,
+  linkToExam,
+  toggleFixExamPosition,
+} from "../redux/examens/actions";
 
 const Propover = ({
   isModelGroup,
   onDeleteGroup,
   idGroupe,
-  onEditItem,
-  onDeleteExam,
   onFixePosition,
+  index,
+  onEditItem,
+  forEXam,
+  setRerenderDel,
   examId,
+  exam,
+  groupKey,
+  isExamGroup,
+  setReload,
+  onBack,
+  isRecap,
 }) => {
+  const dispatch = useDispatch();
+  const mustBeEditable = useSelector(state => state.ExamenReducer.mustBeEditable)
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: "contextMenuPopover",
   });
-  const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
-  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData)
+  const groupeToShowContentId = useSelector(state => state.ExamenReducer.groupeToShowContentId)
+  const groupesWithData = useSelector(
+    (state) => state.ExamenReducer.groupWithData
+  );
+  const groupesWithDataKeys = Object.keys(groupesWithData)
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const closePopover = () => setPopover(false);
 
@@ -33,33 +55,96 @@ const Propover = ({
 
   const handleClick = () => setIsOpen(!isOpen);
   const handleClose = () => setIsOpen(false);
-
   const onEdit = () => {
-    // if (isModelGroup) {
-    //   dispatch(setComponent({ name: "RECAPITULATIF", data: data }));
-    //   return;
-    // }
-    // dispatch(editExam(data));
-    // dispatch(setComponent({ name: "EXAMENFORMEDIT", data: data }));
-    onEditItem();
+    dispatch(SetShowGroupeContentForUpdate(index))
+    dispatch(editExam({ ...exam, id: examId + 1 }));
+    if (isExamGroup) {
+      if (examId) {
+        dispatch(setGroupeToEditeExam({groupKey, index}))
+        dispatch(mostBeEditable(true))
+        dispatch(setShowExamForm({ show: true }));
+        console.log("groupeKey, examId, data ", groupKey, examId, exam);
+        dispatch(
+          setComponent({
+            name: "EXAMENFORMEDIT",
+            groupKey: groupKey,
+            examId: examId,
+            data: groupesWithData,
+          })
+        );
+      } else {
+        dispatch(mostBeEditable(true))
+        dispatch(setShowExamForm({ show: true }));
+        console.log("groupeKey, examId, data ", groupKey, index, exam);
+        dispatch(
+          setComponent({
+            name: "EXAMENFORMEDIT",
+            groupKey: groupKey,
+            examId: index,
+            data: groupesWithData
+          })
+        );
+      }
+
+    } else {
+      dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
+      isRecap && onBack();
+    }
     togglePropover();
   };
 
   const onDelete = () => {
+    console.log("on passe ici", isModelGroup, isExamGroup);
     if (isModelGroup) {
       onDeleteGroup();
+      togglePropover();
+      setRerenderDel(true);
       return;
     }
-    onDeleteExam();
+
+    if (isExamGroup) {
+      console.log("isExamGroup", isExamGroup, examId, groupKey)
+      dispatch(
+        deleteExamGroup({
+          groupKey: groupKey,
+          examId: examId,
+        })
+      );
+    } else {
+      dispatch(deleteExamSimple({ examId: examId }));
+    }
     togglePropover();
-    return;
   };
 
   const onFixPosition = () => {
-    onFixePosition();
-    togglePropover();
-    console.log(idGroupe)
+    console.log("yeuch voici l'exam : ", examId)
+    if (isExamGroup) {
+      dispatch(
+        toggleFixExamPosition({
+          selectedExam: index,
+          groupKey: groupKey,
+          isExamGrouped: true,
+        })
+      );
+      togglePropover();
+    } else {
+      togglePropover();
+      if (examId) {
+        dispatch(
+          toggleFixExamPosition({
+            selectedExam: examId,
+            isExamGroup: false,
+          })
+        );
+      } 
+        onFixePosition()
+      
+    }
   };
+
+  useEffect(() => {
+
+  }, [groupesWithData])
 
   const button = (
     <div
@@ -69,7 +154,7 @@ const Propover = ({
       <span className="icon-ellipsis-v"></span>
     </div>
   );
-    
+
   return (
     <div grow={false} className="icon_ellipsis">
       <EuiPopover
@@ -84,7 +169,14 @@ const Propover = ({
         <EuiListGroup>
           <EuiListGroupItem onClick={onEdit} label="Modifier" />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
-          <EuiListGroupItem onClick={onFixPosition} label={groupesWithData[idGroupe]?.positionFixed ? "Defixer la position" : "Fixer position"} />
+          <EuiListGroupItem
+            onClick={onFixPosition}
+            label={
+              groupesWithData[idGroupe]?.positionFixed
+                ? "Defixer la position"
+                : "Fixer position"
+            }
+          />
           <EuiPopover
             id="simpleAccordionId"
             isOpen={isOpen}
@@ -104,22 +196,46 @@ const Propover = ({
             }
           >
             <EuiListGroup>
-              {examsGrouped && (isModelGroup || isModelGroup === 0)
-                ? examsGrouped.length > 0 &&
-                  examsGrouped.map((group, i) => (
-                    <EuiListGroupItem
-                      key={i}
-                      onClick={() => console.log("")}
-                      label={"group " + i}
-                    />
-                  ))
-                : exams.map(
+              {groupesWithDataKeys && (isModelGroup || isModelGroup === 0)
+                ? groupesWithDataKeys.length > 0 &&
+                groupesWithDataKeys.map((group, i) => idGroupe !== "group " + i && (
+                  <EuiListGroupItem
+                    key={i}
+                    onClick={() => {
+                      if (idGroupe) {
+                        let child = "group " + i
+                        console.log("clike sur " + "group " + i)
+                        dispatch(linkToGroup({ idGroupe, child }))
+                        handleClose();
+                        togglePropover();
+                      }
+                    }}
+                    label={`groupe ${i + 1}`}
+                  />
+                ))
+                : groupeToShowContentId !== -1 &&
+                  groupesWithData['group ' + groupeToShowContentId]?.exams?.length > 0 ?
+                  groupesWithData['group ' + groupeToShowContentId]?.exams?.map(
+                    (exam, i) => index !== i && (
+                      <EuiListGroupItem
+                        key={i}
+                        onClick={() => {
+                          // dispatch(linkToExam({ parent: examId, child: i }));
+                          handleClose();
+                          togglePropover();
+                        }}
+                        label={`Examen ${i + 1}`}
+                      />
+                    )
+                  )
+                  : exams.map(
                     (exam, i) =>
                       examId !== i && (
                         <EuiListGroupItem
                           key={i}
                           onClick={() => {
-                            console.log("Parent ", examId+1, "Enfant: ", i + 1);
+                            dispatch(linkToExam({ parent: examId, child: i }));
+                            handleClose();
                             togglePropover();
                           }}
                           label={`Examen ${i + 1}`}

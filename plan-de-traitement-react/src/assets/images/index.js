@@ -1,1 +1,1 @@
-export const Plus = require('./plus.png');
+export const Plus = require('./plus1.png');

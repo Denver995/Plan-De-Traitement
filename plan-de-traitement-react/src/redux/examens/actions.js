@@ -4,6 +4,19 @@ export const editExam = (examData) => ({
   type: types.EDIT_EXAM,
   examData,
 });
+
+export const editExamGrouped = (examData) => ({
+  type: types.EDIT_EXAM_GROUP,
+  examData,
+});
+
+export const setGroupeToEditeExam = (data) => {
+  return {
+    type:types.GET_GROUP_TO_EDITE_EXAM,
+    data
+  }
+}
+
 export const setShowExamForm = (show) => ({
   type: types.SHOW_EXAM_FORM,
   show,
@@ -131,14 +144,47 @@ export const toggleFixExamPosition = (payload) => ({
   payload,
 });
 
-export const toggleFixGroupPosition = ({selectedGroup}) => ({
+export const toggleFixGroupPosition = ({ selectedGroup }) => ({
   type: types.TOGGLE_FIXE_GROUP_POSITION,
   selectedGroup,
 });
 
 export const dragAndDrog = (data) => {
   return {
-    type : types.DRAG_AND_DROP,
+    type: types.DRAG_AND_DROP,
+    data,
+  };
+};
+export const SetShowGroupeContentForUpdate = (id) => {
+  return {
+    type : types.SHOW_GROUPE_CONTENT,
+    id
+  }
+}
+export const linkToExam = (payload) => {
+  return {
+    type: types.LINK_TO_EXAM,
+    payload,
+  };
+};
+
+export const linkToGroup = (data) => {
+  return  {
+    type : types.LINK_TO_GROUPE,
     data
   }
 }
+
+export const storeExams = (payload) => {
+  return {
+    type: types.STORE_EXAMS,
+    payload,
+  };
+};
+
+export const mostBeEditable = (response) => {
+  return {
+    type: types.SET_EXAM_FORM_EDITABLE,
+    response,
+  };
+};

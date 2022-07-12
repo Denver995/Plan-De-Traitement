@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import Propover from "../../Propover";
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
@@ -6,12 +6,29 @@ import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.sv
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import colors from "../../../utils/colors";
 import styles from "./style";
+import { useSelector } from "react-redux";
 
-function ExamCard({ color, date, position, examen }) {
+function ExamCard({
+  date,
+  color,
+  index,
+  position,
+  groupKey,
+  examen,
+  isExamGroup = false,
+  examId,
+  onBack,
+}) {
+  console.log("Parent: ", examen);
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
+
+  useEffect(() => {
+
+  }, [groupesWithData])
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: color ? color : colors.primary,
+        background: examen.color ? examen.color : "white",
         height: 82,
         marginTop: -40,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
@@ -31,10 +48,18 @@ function ExamCard({ color, date, position, examen }) {
           <div
             style={position === "right" ? styles.propRight : styles.propLeft}
           >
-            <Propover />
+            <Propover
+              index = {index}
+              groupKey={groupKey}
+              exam={examen}
+              isExamGroup={isExamGroup}
+              examId={examId}
+              onBack={onBack}
+              isRecap={true}
+            />
           </div>
           <h4 className="spec" style={styles.speciality}>
-            <strong>*Spécialité* - {examen.id_modif?? "id_motif"}</strong>
+            <strong>*Spécialité* - {examen.id_modif ?? "id_motif"}</strong>
           </h4>
         </div>
       </div>
@@ -48,18 +73,18 @@ function ExamCard({ color, date, position, examen }) {
             }
           >
             <PersonIcon width={"1rem"} />
-            <h4 style={styles.praticien}>{examen.id_praticien ?? "id_praticien"}</h4>
+            <h4 style={styles.praticien}>
+              {examen.id_praticien ?? "id_praticien"}
+            </h4>
             <MapIcon width={"0.7rem"} />
             <h4 style={styles.adresse}>{examen.id_lieu ?? "id_lieu"}</h4>
           </div>
-          {examen.positionFixed ? (
+          {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
             <PinIcon
               width={"7px"}
               height={"11px"}
               style={position === "right" ? styles.pinRight : styles.pinLeft}
             />
-          ) : (
-            ""
           )}
         </div>
       </div>
