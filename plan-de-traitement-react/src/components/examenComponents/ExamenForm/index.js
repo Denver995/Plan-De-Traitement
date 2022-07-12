@@ -36,6 +36,7 @@ import {
   setShowExamForm,
   addExamOnAllGroups,
   CreateEspacementSubExam,
+  mostBeEditable,
 } from "../../../redux/examens/actions";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
 import ExamItem from "../ExamItem";
@@ -63,6 +64,7 @@ const ExamenForm = ({
   const fixedExamenCheckboxId = useGeneratedHtmlId({
     prefix: "indeterminateCheckbox",
   });
+  const mustBeEditable = useSelector(state => state.ExamenReducer.mustBeEditable)
   const steps = useSelector((state) => state.StepReducer.steps);
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
@@ -70,7 +72,8 @@ const ExamenForm = ({
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [listExam, setListExam] = useState([]);
   const [showEditForm, setShowEditForm] = useState(
-    formType === typeScreen.examFormEdit
+    mustBeEditable ? true :
+      formType === typeScreen.examFormEdit
   );
   const [reload, setReload] = useState(false);
   const [specialite, setSpecialite] = useState("");
@@ -120,6 +123,7 @@ const ExamenForm = ({
       id_motif: motif,
       id_specialtite: specialite,
       fixe: fixedExamPosition ? 1 : 0,
+      positionFixed: fixedExamPosition,
       position: 1,
     };
     if (isModelGroup) {
@@ -168,14 +172,21 @@ const ExamenForm = ({
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
     setSpecialite(resetFormData ? "" : exam?.id_specialtite);
+    setFixedExamPosition(resetFormData ? "" : exam?.positionFixed);
   };
 
   const onEditExamen = () => {
-    dispatch(setComponent(typeScreen.examList));
+    if (mustBeEditable) {
+      dispatch(mostBeEditable(false))
+      onPrevious()
+    } else {
+      dispatch(setComponent(typeScreen.examList));
+    }
     return;
   };
 
   const onCancel = () => {
+    dispatch(mostBeEditable(false))
     if (formType === typeScreen.examFormEdit) {
       dispatch(setComponent(typeScreen.examList));
       return;
@@ -201,7 +212,7 @@ const ExamenForm = ({
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
-  useEffect(() => {}, [groupSelected, examsGrouped]);
+  useEffect(() => { }, [groupSelected, examsGrouped, mustBeEditable]);
 
   return (
     <>
@@ -227,7 +238,7 @@ const ExamenForm = ({
               <EuiHorizontalRule className="horizontalRule" />
             </EuiFlexGroup>
           </div>
-          {isModelGroup ? (
+          {isModelGroup && !mustBeEditable ? (
             <div style={{ marginTop: 28, marginBottom: 28 }}>
               {handleGetExamByGroupIndex(groupWithData, activeGroup).map(
                 (item, index) => (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import Propover from "../../Propover";
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
@@ -6,9 +6,11 @@ import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.sv
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import colors from "../../../utils/colors";
 import styles from "./style";
+import { useSelector } from "react-redux";
 
 function ExamCard({
   date,
+  color,
   index,
   position,
   groupKey,
@@ -18,10 +20,15 @@ function ExamCard({
   onBack,
 }) {
   console.log("Parent: ", examen);
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
+
+  useEffect(() => {
+
+  }, [groupesWithData])
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: examen.color ? examen.color : colors.primary,
+        background: examen.color ? examen.color : "white",
         height: 82,
         marginTop: -40,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
@@ -72,14 +79,12 @@ function ExamCard({
             <MapIcon width={"0.7rem"} />
             <h4 style={styles.adresse}>{examen.id_lieu ?? "id_lieu"}</h4>
           </div>
-          {examen.positionFixed ? (
+          {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
             <PinIcon
               width={"7px"}
               height={"11px"}
               style={position === "right" ? styles.pinRight : styles.pinLeft}
             />
-          ) : (
-            ""
           )}
         </div>
       </div>

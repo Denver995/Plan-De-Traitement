@@ -8,8 +8,8 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteGroup } from "../../../redux/examens/actions";
 
-const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, groupKey, onFixePosition }) => {
-  console.log("positionFixed ", positionFixed);
+const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixePosition }) => {
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
   const dispatch = useDispatch()
   const [reRenderDel,setRerenderDel] = useState(false)
   const espacementSubExam = useSelector(
@@ -21,7 +21,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
   console.log("comment gerer ceci : ", espacementSubExam);
     useEffect(() => {
       setRerenderDel(true)
-    }, [reRenderDel])
+    }, [reRenderDel, groupesWithData])
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -46,7 +46,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} />
-          {positionFixed && <PinIcon width={7} height={11} />}
+          {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
         </div>
       ) : (
         <div
@@ -62,7 +62,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} index={index_} forEXam={false} />
-          {positionFixed && <PinIcon width={7} height={11} />}
+          {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
         </div>
       )}
 
@@ -70,7 +70,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
         <div key={index}>
           <div
             style={{
-              backgroundColor: colors[colorsArr[index]],
+              backgroundColor: exam.color,
               padding: 5,
               marginBottom: data.length - 1 !== index ? 1 : 0,
               boxShadow: "0px 3px 6px #00000029",
@@ -79,13 +79,14 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, positionFixed, g
             }}
           >
             <div style={{ marginBottom: 14 }}>
-              <div className="card-content-header">
+              <div className="card-content-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between"}}>
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
                   <strong>
                     {exam.id_specialite ? exam.id_specialite : "Spécialité"} -{" "}
-                    {exam.id_modif}
+                    {exam.id_modif ? exam.id_modif : "exam.id_modif"}
                   </strong>
                 </h4>
+                {exam.positionFixed && <PinIcon width={7} height={11} />}
               </div>
             </div>
             <div>

@@ -4,6 +4,19 @@ export const editExam = (examData) => ({
   type: types.EDIT_EXAM,
   examData,
 });
+
+export const editExamGrouped = (examData) => ({
+  type: types.EDIT_EXAM_GROUP,
+  examData,
+});
+
+export const setGroupeToEditeExam = (data) => {
+  return {
+    type:types.GET_GROUP_TO_EDITE_EXAM,
+    data
+  }
+}
+
 export const setShowExamForm = (show) => ({
   type: types.SHOW_EXAM_FORM,
   show,
@@ -155,9 +168,23 @@ export const linkToExam = (payload) => {
   };
 };
 
+export const linkToGroup = (data) => {
+  return  {
+    type : types.LINK_TO_GROUPE,
+    data
+  }
+}
+
 export const storeExams = (payload) => {
   return {
     type: types.STORE_EXAMS,
     payload,
+  };
+};
+
+export const mostBeEditable = (response) => {
+  return {
+    type: types.SET_EXAM_FORM_EDITABLE,
+    response,
   };
 };

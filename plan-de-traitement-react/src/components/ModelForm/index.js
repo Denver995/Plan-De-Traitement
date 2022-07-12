@@ -42,14 +42,16 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
-  const [groupe_rdv, setIsGroup] = useState();
-  const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : "");
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
-  const [showGroupOption, setShowGroupOption] = useState(false);
-  const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
+  const [groupe_rdv, setIsGroup] = useState(step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false);
+  const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : "");
+  console.log(step.data.nb_occurence)
+  const [showGroupOption, setShowGroupOption] = useState(!isEdited && step.data.nb_occurence ? true : false);
+  const { innerWidth } = useDimension();
+  
 
   const listTypePeriode = [
     { value: "jour", text: "Jour" },
@@ -291,7 +293,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
           ) : (
             <EuiButton
               style={
-                nomModele.length < 3 ? styles.addButton2 : styles.addButton
+                nomModele?.length < 3 ? styles.addButton2 : styles.addButton
               }
               form={modalFormId}
               onClick={() => {

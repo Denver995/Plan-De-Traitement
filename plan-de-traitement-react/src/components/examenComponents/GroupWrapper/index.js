@@ -30,7 +30,7 @@ const GroupWrapper = ({
 
   return (
     <div className="wrapper">
-      {component === "GROUPSUMMARY" ? (
+      {component === "GROUPSUMMARY" || component === "EXAMENFORMEDIT" ? (
         <GroupExamenSummary
           onAddExam={(data) => {
             onChangeComponent(data.name);

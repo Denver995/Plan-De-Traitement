@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   EuiButton,
   EuiButtonEmpty,
@@ -22,7 +22,7 @@ import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
 import ExamCard from "../ExamCard";
-import { SetShowGroupeContentForUpdate, toggleFixGroupPosition } from "../../../redux/examens/actions";
+import { setShowExamForm, SetShowGroupeContentForUpdate, toggleFixGroupPosition } from "../../../redux/examens/actions";
 
 const SummaryGroupedExam = ({
   modelData,
@@ -38,29 +38,39 @@ const SummaryGroupedExam = ({
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () => {
-    dispatch(
-      setAlert({
-        title: "Enregistrer le modèle",
-        message: alertMessage,
-        showAlert: true,
-        isConfirmation: true,
-        closeModal: closeModal,
-        onAccept: () => {
-          dispatch(setAlert(false));
-        },
-      })
-    );
+    if(groupeToShowContentId === -1){
+      dispatch(
+        setAlert({
+          title: "Enregistrer le modèle",
+          message: alertMessage,
+          showAlert: true,
+          isConfirmation: true,
+          closeModal: closeModal,
+          onAccept: () => {
+            dispatch(setAlert(false));
+          },
+        })
+      );
+    }
     dispatch(SetShowGroupeContentForUpdate(-1))
   }
-    
+
   const onBack = () => {
-    dispatch(SetShowGroupeContentForUpdate(-1))
-    console.log('isEditing ', isEditing);
-    if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
-    else dispatch(deleteStep(previousStep));
+    if (groupeToShowContentId !== -1) {
+      dispatch(SetShowGroupeContentForUpdate(-1))
+    } else {
+      console.log('isEditing ', isEditing);
+      if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
+      else dispatch(deleteStep(previousStep));
+    }
   }
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
-  console.log("groupeToShowContentId", groupeToShowContentId)
+  console.log("groupeWithDataKeys", groupesWithDataKeys)
+  console.log("groupesWithData", groupesWithData)
+  useEffect(() => {
+
+  }, [groupesWithData])
+
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
       <div
@@ -136,10 +146,10 @@ const SummaryGroupedExam = ({
                 <TimeLineHelper index={index} entityType={"Examen"} />
                 <ExamCard
                   examen={exam}
-                  isExamGroup = {true}
+                  isExamGroup={true}
                   groupKey={'group ' + groupeToShowContentId}
                   index={index}
-                  color={colors[colorsArr[Math.round(Math.random() * 3)]]}
+                  color={exam.color}
                   date="12 mars"
                   position={index % 2 === 0 ? "left" : "right"}
                 />
@@ -193,7 +203,7 @@ const SummaryGroupedExam = ({
           fill={true}
           onClick={onSave}
         >
-          Valider
+          {groupeToShowContentId === -1 ? "Valider" : "Enregistrer"}
         </EuiButton>
       </EuiFlexGroup>
       <style jsx="true">

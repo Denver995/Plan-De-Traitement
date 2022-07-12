@@ -31,12 +31,13 @@ const ExamItem = ({
     };
   });
 
-  useEffect(() => {}, [reRender]);
+  useEffect(() => { }, [reRender]);
   return (
     <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
       <div style={styles.flex}>
         <div>
           <Propover
+            index={index}
             showEditForm={showEditForm}
             exam={exam}
             isExamGroup={isExamGroup}

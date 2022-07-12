@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   creating: false,
   message: "",
   espaceInterGroupe: {},
-  groupeToShowContentId : -1,
+  groupeToShowContentId: -1,
   examenSelected: {},
   activeGroup: 0,
   show: false,
@@ -18,6 +18,8 @@ const INITIAL_STATE = {
   groupWithFixedPosition: [],
   openGroup: "",
   examsGrouped: [],
+  mustBeEditable: false,
+  infoGroupeToEditeExamGrouped: {}
 };
 
 function ExamenReducer(state = INITIAL_STATE, action) {
@@ -50,6 +52,16 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           ...state.examen,
           examData: action.examData,
         },
+      };
+      case types.GET_GROUP_TO_EDITE_EXAM:
+        console.log(action.data)
+      return {
+        ...state,
+        infoGroupeToEditeExamGrouped: {...action.data}
+      };
+      case types.EDIT_EXAM_GROUP:
+      return {
+        ...state
       };
     case types.SHOW_EXAM_FORM:
       return {
@@ -90,10 +102,16 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examsGrouped: [...state.examsGrouped, { id, ...action.payload }],
       };
     case types.ADD_EXAM_GROUPED:
+      let groupWithData = state.groupWithData;
       let openGroup = state.activeGroup.slice(5);
       let active_group = state.groupWithData[state.activeGroup];
+      if (active_group.fixedChild) {
+        let active_group_key = active_group.fixedChild
+        let active_group_child = groupWithData[active_group_key]
+        active_group_child.exams.push({ ...action.payload.exam, positionFixed: false })
+        groupWithData[active_group_key] = active_group_child
+      }
       active_group.exams.push({ ...action.payload.exam, positionFixed: false });
-      let groupWithData = state.groupWithData;
       groupWithData[state.activeGroup] = active_group;
       return {
         ...state,
@@ -199,7 +217,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       allGroup[action.payload.groupKey] = selectedGroup;
       return {
         ...state,
-        groupWithData: allGroup,
+        groupWithData: { ...allGroup },
       };
     case types.DELETE_EXAM_SIMPLE:
       let tempExams = [...state.exams];
@@ -217,12 +235,22 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.DELETE_GROUP:
       let tempGroup = state.groupWithData;
+      if (tempGroup[action.groupKey].fixedChild) {
+        let tempGroupChildKey = tempGroup[action.groupKey].fixedChild
+        delete tempGroup[tempGroupChildKey]
+      }
       delete tempGroup[action.groupKey];
       let examGroupTemp = state.examsGrouped;
       examGroupTemp.pop();
+      let tempGroupKeys = Object.keys(tempGroup)
+      let newTempGroup = {}
+      let newTempGroupLength = tempGroupKeys.length
+      for (var i = 0; i < newTempGroupLength; i++) {
+        newTempGroup['group ' + i] = tempGroup[tempGroupKeys[i]]
+      }
       return {
         ...state,
-        groupWithData: tempGroup,
+        groupWithData: newTempGroup,
         examsGrouped: examGroupTemp,
         numOfGroups: state.numOfGroups - 1,
       };
@@ -319,13 +347,14 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.TOGGLE_FIXE_EXAM_POSITION:
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
-      console.log("action.payload", action.payload)
+      console.log("Temporaire: ", state.groupWithData);
       if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
         examDetail.positionFixed = !examDetail.positionFixed;
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
+        console.log("allGroupTemp", allGroupTemp)
       } else {
         examDetail = allExamTemp[action.payload.selectedExam];
         examDetail.positionFixed = !examDetail.positionFixed;
@@ -334,18 +363,22 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         exams: [...allExamTemp],
-        groupData: allGroupTemp,
+        groupWithData: { ...allGroupTemp },
       };
     case types.TOGGLE_FIXE_GROUP_POSITION:
-      console.log(action.selectedGroup)
       allGroupTemp = state.groupWithData;
       groupDetail = allGroupTemp[action.selectedGroup];
+      if (allGroupTemp[groupDetail.fixedChild]) {
+        let groupChildDetail = allGroupTemp[groupDetail.fixedChild];
+        groupChildDetail.positionFixed = !groupChildDetail.positionFixed;
+        allGroupTemp[groupDetail.fixedChild] = groupChildDetail;
+      }
+
       groupDetail.positionFixed = !groupDetail.positionFixed;
       allGroupTemp[action.selectedGroup] = groupDetail;
-      console.log("allGroupTemp ", allGroupTemp);
       return {
         ...state,
-        groupWithData: allGroupTemp,
+        groupWithData: { ...allGroupTemp },
       };
 
     case types.DRAG_AND_DROP:
@@ -402,7 +435,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
       return {
         ...state,
-        groupesWithData: groupesWithData_,
+        groupWithData: groupesWithData_,
         espacement: espacement,
         espacementSubExam: espacementSubExam_,
       };
@@ -421,10 +454,30 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         ...state,
         exams: [...copyData],
       };
+
+    case types.LINK_TO_GROUPE:
+      let groupKeyParent = action.data.idGroupe;
+      let groupKeyChild = action.data.child;
+      let allGroupes_ = state.groupWithData;
+      let parentGroupe = allGroupes_[groupKeyParent];
+      parentGroupe.fixedChild = groupKeyChild;
+      allGroupes_[groupKeyParent] = parentGroupe
+      console.log(allGroupes_)
+
+      return {
+        ...state,
+        groupWithData: allGroupes_
+      };
     case types.STORE_EXAMS:
       return {
         ...state,
         exams: [...action.payload],
+      };
+      case types.SET_EXAM_FORM_EDITABLE:
+        console.log('most be editable : ', action.response)
+      return {
+        ...state,
+        mustBeEditable: action.response
       };
     default:
       return state;

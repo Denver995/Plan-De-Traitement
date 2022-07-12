@@ -25,8 +25,10 @@ import {
   toggleFixGroupPosition,
   setIsClose,
   dragAndDrog,
+  toggleFixExamPosition,
+  SetShowGroupeContentForUpdate,
 } from "../../../redux/examens/actions";
-import { startLoading, setComponent } from "../../../redux/commons/actions";
+import { startLoading, setComponent, setAlert } from "../../../redux/commons/actions";
 import styles from "./styles";
 import colors from "../../../utils/colors";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -627,12 +629,14 @@ const GroupExamenSummary = ({
   const previousStep = getStepByKey(steps, STEP2);
   const [reRender, setRerender] = useState(false);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [disable, setDisable] = useState(false)
   const onClickNext = () => {
     let nextStep = createStep(STEP3);
     nextStep.previousStep = previousStep;
     dispatch(startLoading());
     dispatch(desactivateStep(STEP2));
     dispatch(addStep(nextStep));
+    dispatch(SetShowGroupeContentForUpdate(-1))
   };
 
   const onBack = () => dispatch(deleteStep(previousStep));
@@ -641,13 +645,29 @@ const GroupExamenSummary = ({
     dispatch(setShowExamForm(false));
   };
 
+  const canContinue = () => {
+    let can = false
+    let number = 0
+    let groupesWithDataKeys = Object.keys(groupesWithData)
+    for(var i = 0; i < groupesWithDataKeys.length; i++){
+      if(groupesWithData['group '+i].exams.length > 0){
+        number = number + 1
+      }
+    }
+    if(number === groupesWithDataKeys.length){
+      can = true
+    }
+    return can
+  }
+
   useEffect(() => {
     setRerender(false);
   }, [showForm, ignored]);
 
   useEffect(() => {
     setRerender(true);
-  }, [reRender]);
+    setDisable(canContinue())
+  }, [reRender,disable, setDisable]);
 
   const handleOnDragEnd = (result) => {
     let source = result.source.index;
@@ -666,6 +686,7 @@ const GroupExamenSummary = ({
     setRerender(true);
     forceUpdate();
   };
+
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -708,18 +729,18 @@ const GroupExamenSummary = ({
               margin: 17,
               ...styles.cancelBtn,
               display: "flex",
-              flexDirection: "row-reverse",
-              justifyContent: "space-between",
+              flexDirection: disable ? "row-reverse" : "row",
+              justifyContent: disable ? "space-between" : "",
             }}
           >
-            <EuiButton
+            {disable&&<EuiButton
               fill={true}
               style={{ ...styles.addBtn }}
               className="button_next_me"
               onClick={onClickNext}
             >
               Enregistrer
-            </EuiButton>
+            </EuiButton>}
             <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
               Retour
             </EuiButtonEmpty>
