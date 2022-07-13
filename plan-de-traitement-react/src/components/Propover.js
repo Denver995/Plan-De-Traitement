@@ -1,22 +1,30 @@
 import {
-  EuiButtonEmpty, EuiListGroup, EuiListGroupItem, EuiPopover,
-  useGeneratedHtmlId
+  EuiButtonEmpty,
+  EuiListGroup,
+  EuiListGroupItem,
+  EuiPopover,
+  useGeneratedHtmlId,
 } from "@elastic/eui";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import { default as React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setComponent, setError, setShowExamForm } from "../redux/commons/actions";
+import {
+  setComponent,
+  setError,
+  setShowExamForm,
+} from "../redux/commons/actions";
 import {
   deleteExamGroup,
   deleteExamSimple,
   editExam,
-  linkToExam, mostBeEditable, setGroupeToEditeExam, SetShowGroupeContentForUpdate, toggleFixExamPosition
+  linkToExam,
+  mostBeEditable,
+  setGroupeToEditeExam,
+  SetShowGroupeContentForUpdate,
+  toggleFixExamPosition,
 } from "../redux/examens/actions";
 import GroupeLieService from "../services/groupeLie";
-
-
-
 
 const Propover = ({
   isModelGroup,
@@ -50,20 +58,19 @@ const Propover = ({
   );
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const togglePropover = () => setPopover(!isPopoverOpen);
-  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
+  const groupPayload = useSelector((state) => state.ExamenReducer.groupPayload);
   const handleClick = () => setIsOpen(!isOpen);
   const handleClose = () => setIsOpen(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
 
-
   const onEdit = () => {
-    dispatch(SetShowGroupeContentForUpdate(index))
+    dispatch(SetShowGroupeContentForUpdate(index));
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
       if (examId) {
-        dispatch(setGroupeToEditeExam({ groupKey, index }))
-        dispatch(mostBeEditable(true))
+        dispatch(setGroupeToEditeExam({ groupKey, index }));
+        dispatch(mostBeEditable(true));
         dispatch(setShowExamForm({ show: true }));
         dispatch(
           setComponent({
@@ -74,18 +81,17 @@ const Propover = ({
           })
         );
       } else {
-        dispatch(mostBeEditable(true))
+        dispatch(mostBeEditable(true));
         dispatch(setShowExamForm({ show: true }));
         dispatch(
           setComponent({
             name: "EXAMENFORMEDIT",
             groupKey: groupKey,
             examId: index,
-            data: groupesWithData
+            data: groupesWithData,
           })
         );
       }
-
     } else {
       dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
       isRecap && onBack();
@@ -126,16 +132,12 @@ const Propover = ({
       togglePropover();
     } else {
       togglePropover();
-      if (examId) {
-        dispatch(
-          toggleFixExamPosition({
-            selectedExam: examId,
-            isExamGroup: false,
-          })
-        );
-      }
-      onFixePosition()
-
+      dispatch(
+        toggleFixExamPosition({
+          selectedExam: examId,
+          isExamGroup: false,
+        })
+      );
     }
   };
 
@@ -143,36 +145,35 @@ const Propover = ({
     setErrorMessage(false);
     setLoadingg(true);
     GroupeLieService.createGroupeLie(data)
-      .then(response => {
-        setErrorMessage(false)
+      .then((response) => {
+        setErrorMessage(false);
         dispatch(setError(null));
         setLoadingg(false);
       })
-      .catch(error => {
-        setLoadingg(false)
-        setErrorMessage(true)
+      .catch((error) => {
+        setLoadingg(false);
+        setErrorMessage(true);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          dispatch(setError("Une erreur est survenue, veuillez réessayer"));
         }
-      })
-  }
+      });
+  };
   const handleCreateGroupeLie = (index) => {
     for (let i = 0; i < groupPayload.length; i++) {
       if (index === i) {
         handleBindGroup({
           id_groupe_parent: idGroup,
-          id_groupe_enfant: groupPayload[i].id_modele_groupe
-        })
+          id_groupe_enfant: groupPayload[i].id_modele_groupe,
+        });
         return;
       }
-
     }
-  }
-  useEffect(() => {
-
-  }, [groupesWithData])
+  };
+  useEffect(() => {}, [groupesWithData]);
 
   const button = (
     <div
@@ -185,13 +186,20 @@ const Propover = ({
 
   return (
     <div grow={false} className="icon_ellipsis">
-      {loading ?
-        <Box style={{ display: 'flex', alignItems: 'center' }}>
-          <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
-
+      {loading ? (
+        <Box style={{ display: "flex", alignItems: "center" }}>
+          <CircularProgress
+            style={{
+              marginRight: "5px",
+              color: "blue",
+              width: "25px",
+              height: "25px",
+            }}
+          />
         </Box>
-        : ""
-      }
+      ) : (
+        ""
+      )}
       <EuiPopover
         id={contextMenuPopoverId}
         button={button}
@@ -202,9 +210,9 @@ const Propover = ({
         container={panelRef}
       >
         <EuiListGroup>
-          {!isModelGroup &&
+          {!isModelGroup && (
             <EuiListGroupItem onClick={onEdit} label="Modifier" />
-          }
+          )}
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
           <EuiListGroupItem
             onClick={onFixPosition}
@@ -235,27 +243,27 @@ const Propover = ({
             <EuiListGroup>
               {examsGrouped && (isModelGroup || isModelGroup === 0)
                 ? examsGrouped.length > 0 &&
-                examsGrouped.map((group, i) => (
-                  <EuiListGroupItem
-                    key={i}
-                    onClick={() => handleCreateGroupeLie(i)}
-                    label={"group " + i}
-                  />
-                ))
+                  examsGrouped.map((group, i) => (
+                    <EuiListGroupItem
+                      key={i}
+                      onClick={() => handleCreateGroupeLie(i)}
+                      label={"group " + i}
+                    />
+                  ))
                 : exams.map(
-                  (exam, i) =>
-                    examId !== i && (
-                      <EuiListGroupItem
-                        key={i}
-                        onClick={() => {
-                          dispatch(linkToExam({ parent: examId, child: i }));
-                          handleClose();
-                          togglePropover();
-                        }}
-                        label={`Examen ${i + 1}`}
-                      />
-                    )
-                )}
+                    (exam, i) =>
+                      examId !== i && (
+                        <EuiListGroupItem
+                          key={i}
+                          onClick={() => {
+                            dispatch(linkToExam({ parent: examId, child: i }));
+                            handleClose();
+                            togglePropover();
+                          }}
+                          label={`Examen ${i + 1}`}
+                        />
+                      )
+                  )}
             </EuiListGroup>
           </EuiPopover>
         </EuiListGroup>

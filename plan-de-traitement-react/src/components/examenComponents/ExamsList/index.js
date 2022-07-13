@@ -145,7 +145,7 @@ const ExamsList = ({
                                         "espaceNonGroupe " + index
                                       ].length - 1
                                     ].applyOnAll === false
-                                    ? `Délai entre l'examen ${index} et l'examen ${index + 1
+                                    ? `Délai entre l'examen ${index+1} et l'examen ${index + 2
                                     } : ${espacementNonGroupe[
                                       "espaceNonGroupe " + index
                                     ][0].minInterval
@@ -170,7 +170,7 @@ const ExamsList = ({
                                           "espaceNonGroupe " + index
                                         ].length - 1
                                       ].applyOnAll === true
-                                      ? `Délai entre l'examen ${index} et l'examen ${index + 1
+                                      ? `Délai entre l'examen ${index + 1} et l'examen ${index + 2
                                       } : ${espacementNonGroupe[
                                         "espaceNonGroupe " + index
                                       ][

@@ -157,12 +157,12 @@ const GroupItem = ({
             </p>
             <p
               style={{
-                font: "normal normal normal 20px/27px Open Sans",
+                fontSize: "20px",
                 letterSpacing: 0,
                 color: colors.primary,
               }}
             >
-              {modelData?.nom} {groupName}
+              {modelData?.nom}
             </p>
           </div>
           {!loading ? Object.keys(groupWithData).map((groupKey, index) => {
