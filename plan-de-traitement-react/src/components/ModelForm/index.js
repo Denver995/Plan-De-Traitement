@@ -7,7 +7,7 @@ import {
 } from "@elastic/eui";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import ReactToolTip from "react-tooltip";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
@@ -33,6 +33,7 @@ import { createStep, getStepByKey } from "../../utils/helper";
 import ModalWrapper from "../common/ModalWrapper";
 import Radio from "../Radio";
 import styles from "./styles";
+import GranulariteService from '../../services/granularites';
 
 
 
@@ -50,13 +51,20 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
   const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : "");
   const [showGroupOption, setShowGroupOption] = useState(!isEdited && step.data.nb_occurence ? true : false);
   const { innerWidth } = useDimension();
+  const [listTypePeriode, setListTypePeriode] = useState([])
 
-
-  const listTypePeriode = [
-    { value: "jour", text: "Jour" },
-    { value: "mois", text: "Mois" },
-    { value: "année", text: "Année" },
-  ];
+  useEffect(() => {
+    GranulariteService.getListeGranularite()
+      .then((res) => {
+        var data = []
+        res.data.data.forEach(element => {
+          data.push({ value: element.id_granularite, text: element.nom })
+        });
+        setListTypePeriode(data);
+      })
+      .catch((error) => {
+      });
+  }, [])
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
 
@@ -107,7 +115,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
 
   const handleCreateGroup = () => {
     for (let i = 1; i <= nombreOccurence; i++) {
-      ModelGroupeService.createModelGroupe({ id_modele: parseInt(modelData.id), nom: nomModele + i })
+      ModelGroupeService.createModelGroupe({ id_modele: parseInt(modelData.id), nom: "Groupe " + i })
         .then(response => {
         })
         .catch(error => {
