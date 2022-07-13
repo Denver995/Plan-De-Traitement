@@ -60,7 +60,7 @@ const Propover = ({
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
       if (examId) {
-        dispatch(setGroupeToEditeExam({groupKey, index}))
+        dispatch(setGroupeToEditeExam({ groupKey, index }))
         dispatch(mostBeEditable(true))
         dispatch(setShowExamForm({ show: true }));
         console.log("groupeKey, examId, data ", groupKey, examId, exam);
@@ -136,9 +136,14 @@ const Propover = ({
             isExamGroup: false,
           })
         );
-      } 
+      }
+      try {
         onFixePosition()
-      
+      }
+      catch (err) {
+        console.log(err)
+      }
+
     }
   };
 

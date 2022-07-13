@@ -1,3 +1,4 @@
+import { getGroupeKeyPosition } from "../../utils/helper";
 import * as types from "./types";
 
 const INITIAL_STATE = {
@@ -53,13 +54,13 @@ function ExamenReducer(state = INITIAL_STATE, action) {
           examData: action.examData,
         },
       };
-      case types.GET_GROUP_TO_EDITE_EXAM:
-        console.log(action.data)
+    case types.GET_GROUP_TO_EDITE_EXAM:
+      console.log(action.data)
       return {
         ...state,
-        infoGroupeToEditeExamGrouped: {...action.data}
+        infoGroupeToEditeExamGrouped: { ...action.data }
       };
-      case types.EDIT_EXAM_GROUP:
+    case types.EDIT_EXAM_GROUP:
       return {
         ...state
       };
@@ -108,7 +109,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       if (active_group.fixedChild) {
         let active_group_key = active_group.fixedChild
         let active_group_child = groupWithData[active_group_key]
-        active_group_child.exams.push({ ...action.payload.exam, positionFixed: false })
+        active_group_child?.exams.push({ ...action.payload.exam, positionFixed: false })
         groupWithData[active_group_key] = active_group_child
       }
       active_group.exams.push({ ...action.payload.exam, positionFixed: false });
@@ -460,9 +461,43 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let groupKeyChild = action.data.child;
       let allGroupes_ = state.groupWithData;
       let parentGroupe = allGroupes_[groupKeyParent];
-      parentGroupe.fixedChild = groupKeyChild;
+      // let childGroupe = allGroupes_[groupKeyChild]
+      if (allGroupes_[groupKeyChild].positionFixed !== true) {
+        parentGroupe.fixedChild = groupKeyChild;
+      }
       allGroupes_[groupKeyParent] = parentGroupe
       console.log(allGroupes_)
+      let parentPosition = getGroupeKeyPosition(allGroupes_, groupKeyParent)
+      let childPosition = getGroupeKeyPosition(allGroupes_, groupKeyChild);
+
+      if (parentPosition < childPosition) {
+        let index = parentPosition + 1
+        if (((allGroupes_[groupKeyChild].positionFixed === false &&
+          allGroupes_['group ' + index].positionFixed === false)) ||
+          (allGroupes_['group ' + index].positionFixed === true &&
+            allGroupes_[groupKeyChild] === allGroupes_['group ' + index])) {
+          let temp = allGroupes_['group ' + index]
+          allGroupes_['group ' + index] = { ...allGroupes_['group ' + childPosition] }
+          allGroupes_['group ' + childPosition] = { ...temp }
+          parentGroupe.fixedChild = 'group ' + index;
+          allGroupes_['group ' + index].positionFixed = true
+          allGroupes_['group ' + parentPosition].positionFixed = true
+        }
+      } else {
+        let index = parentPosition - 1
+        if (((allGroupes_[groupKeyChild].positionFixed === false &&
+          allGroupes_['group ' + index].positionFixed === false)) ||
+          (allGroupes_['group ' + index].positionFixed === true &&
+            allGroupes_[groupKeyChild] === allGroupes_['group ' + index])) {
+          let temp = allGroupes_['group ' + index]
+          allGroupes_['group ' + index] = { ...allGroupes_['group ' + childPosition] }
+          allGroupes_['group ' + childPosition] = { ...temp }
+          parentGroupe.fixedChild = 'group ' + index;
+          allGroupes_['group ' + index].positionFixed = true
+          allGroupes_['group ' + index].fixedParent = 'group ' + parentPosition
+          allGroupes_['group ' + parentPosition].positionFixed = true
+        }
+      }
 
       return {
         ...state,
@@ -473,8 +508,8 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         ...state,
         exams: [...action.payload],
       };
-      case types.SET_EXAM_FORM_EDITABLE:
-        console.log('most be editable : ', action.response)
+    case types.SET_EXAM_FORM_EDITABLE:
+      console.log('most be editable : ', action.response)
       return {
         ...state,
         mustBeEditable: action.response

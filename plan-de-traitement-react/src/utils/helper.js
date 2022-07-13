@@ -106,3 +106,15 @@ export const isPossibleGranularly = (data1, data2) => {
   }
   return minInterval < maxInterval
 }
+
+export const getGroupeKeyPosition = (allGroupes, groupeKey) => {
+  let allGroupesKeys = Object.keys(allGroupes);
+  let position = null;
+  for(var i = 0 ; i < allGroupesKeys.length ; i++){
+    if(allGroupesKeys[i] === groupeKey){
+      position = i;
+      break;
+    }
+  }
+  return position;
+}
