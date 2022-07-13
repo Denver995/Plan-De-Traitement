@@ -128,45 +128,6 @@ const ExamenForm = ({
     }
   };
 
-  const handleGetExamenGroup = () => {
-    examenService.getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
-    .then(response => {
-        console.log("Response For get exams in group ", JSON.stringify(response.data.data))
-        dispatch(shareListExamGroup(response.data.data));  
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
-
- 
-
-  const handleCreateExamenGroup = (data) => {
-      setLoading(true);
-      setErrorMessage(false)
-      examenService.createExamen(data)
-        .then((response) => {
-          console.log("MY RESPONSE DATA EXAMS ", response.data);
-          setLoading(false)
-          setErrorMessage(false);
-          dispatch(setError(null))
-          dispatch(createExamen(response.data));
-          setReload(true);
-          onAddExam({ name: "EXAMSLIST" });
-          dispatch(addExam({ exam: response.data.data}));
-          dispatch(createExamenAction(data));
-          handleGetExamenGroup();
-        })
-        .catch((error) => {
-          setLoading(false)
-          if(error.message == "Network Error"){
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-          }else{
-            dispatch(setError("Une erreur est survenue"))
-          }
-        });  
-  }
-
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const userInfo = { 
       id_praticien: praticien, 
@@ -179,7 +140,6 @@ const ExamenForm = ({
     '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer la modification sur l\'ensemble des groupes ?</EuiText>';
 
   const onAddExamen = () => {
-    console.log("Group p------ ", groupExamPayload);
     const payload = {
       id_modele: parseInt(modelData.id),
       id_modele_groupe: groupExamPayload.idGroup,
@@ -192,10 +152,6 @@ const ExamenForm = ({
       fixe: fixedExamPosition ? 1 : 0,
       position: 1,
     };
-    const dataInfo = { }
-    console.log("PAYLOAD FOR EXAMS");
-    console.log(payload);
-
     if (isModelGroup) {
       payload.id_group = activeGroup;
       console.log("Model de groupe ------------------>>>>>>>>>>><");
@@ -218,7 +174,6 @@ const ExamenForm = ({
             dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
-            handleCreateExamenGroup(payload)
             payload.allGroup = false;
             dispatch(addExam({ index: activeGroup, exam: payload }));
             dispatch(addExamGrouped({ index: activeGroup, exam: payload }));
@@ -231,9 +186,6 @@ const ExamenForm = ({
     } else {
       listExam.push(listExam.length++);
       setListExam(listExam);
-      /**
-       * @todo dispatch creatExamen action
-       */ 
       setLoading(true)
       examenService.createExamen(payload)
         .then((response) => {

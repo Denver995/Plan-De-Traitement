@@ -80,7 +80,7 @@ const ExamsList = ({
         position
    
       }*/
-    examenService.getExamen({})
+    examenService.getAllExamen()
       .then((response) => {
         console.log("response data for get exams");
         console.log(response.data)

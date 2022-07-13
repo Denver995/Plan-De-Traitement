@@ -23,6 +23,7 @@ import {
   shareListExamGroup,
   setShowExamForm,
   addExamOnAllGroups,
+  newExam,
   CreateEspacementSubExam,
 } from "../../redux/examens/actions";
 import React, { useEffect, useState } from "react";
@@ -59,27 +60,43 @@ const Alert = ({
   const alert = useSelector((state) => state.CommonReducer.alert);
   const error = useSelector((state) => state.CommonReducer.error);
   const activeGroup = useSelector(state => state.ExamenReducer.activeGroup);
-  const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload)
+  const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload);
+  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
   const { innerHeight, innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   console.log("dimensions: ", { innerHeight, innerWidth });
-  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   useEffect(() => {
   }, [buttonText]);
+  
+  const handleGetExamenGroup = () => {
+    examenService.getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
+    .then(response => {
+        console.log("Response For get exams in group ", JSON.stringify(response.data.data))
+        dispatch(shareListExamGroup(response.data.data));  
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
 
 
-  const handleCreateGroupeLie = (data) =>{
+  const handleCreateGroupeLie = () =>{
     setErrorMessage(false);
     setLoading(true);
-    GroupeLieService.createGroupeLie(data)
+    GroupeLieService.createGroupeLie({
+      id_groupe_parent: parseInt(alert?.espacementData?.initialId),
+      id_groupe_enfant: parseInt(alert?.espacementData?.initialId+1),
+      espacement_min: alert?.espacementData.minInterval,
+      espacement_max: alert?.espacementData?.maxInterval
+    })
     .then(response => {
+      onReject();
       setErrorMessage(false)
       dispatch(setError(null));
       setLoading(false);
-      goBack();
     })
     .catch(error => {
      setLoading(false)
@@ -94,24 +111,53 @@ const Alert = ({
 
   const handleCreateGroupeLieForAll = () => {
     for(let i=0; i<groupPayload.length-1; i++){
-      handleCreateGroupeLie({
+    setErrorMessage(false);
+    setLoading(true);
+    GroupeLieService.createGroupeLie({
       id_groupe_parent: groupPayload[i].id_modele_groupe,
       id_groupe_enfant: groupPayload[i+1].id_modele_groupe,
-      espacement_min: alert?.espacementData.minInterval,
+      espacement_min: alert?.espacementData?.minInterval,
       espacement_max: alert?.espacementData?.maxInterval
     })
+    .then(response => {
+      setErrorMessage(false)
+      dispatch(setError(null));
+      setLoading(false);
+    })
+    .catch(error => {
+     setLoading(false)
+          setErrorMessage(true)
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          }
+    })
     }
+    onAccept();
   }
-  const handleCreateExamenGroup = (data) => {
+  const handleCreateExamenGroup = () => {
       setLoading(true);
       setErrorMessage(false)
-      examenService.createExamen(data)
+      examenService.createExamen({
+          id_modele: parseInt(modelData.id),
+          id_modele_groupe: groupExamPayload.idGroup,
+          id_praticien: alert?.userIn?.id_praticien,
+          id_profession: 1,
+          id_lieu: alert?.userIn?.id_lieu,
+          id_motif: alert?.userIn?.id_motif,
+          id_specialite: alert?.userIn?.id_specialite,
+          fixe: alert?.userIn?.fixedPosition ? 1 : 0,
+          position: 1,
+        })
         .then((response) => {
-          goBack();
-          console.log("MY RESPONSE DATA EXAMS ", response.data);
+          console.log("RESPONSE FOR POST EXAMS", JSON.stringify(response.data));
+          onReject();
+          handleGetExamenGroup();
           setLoading(false);
           setErrorMessage(false);
           dispatch(setError(null))
+          dispatch(newExam(response.data));
           response.data.data.id_group = activeGroup;
           response.data.data.allGroup = true;
           dispatch(addExam({ index: activeGroup, exam: response.data.data }));
@@ -119,8 +165,6 @@ const Alert = ({
           dispatch(setShowExamForm(false));
           dispatch(setAlert(false));
           dispatch(CreateEspacementSubExam());
-          
-          
         })
         .catch((error) => {
           setLoading(false);
@@ -134,21 +178,44 @@ const Alert = ({
   }
 
    const  handleCreateExamenForAll = () => {
+      setLoading(true);
+      setErrorMessage(false)
     for(let i=0; i<groupPayload.length; i++){
-      handleCreateExamenGroup({
-      id_modele: groupPayload[i].id_modele,
-      id_modele_groupe: groupPayload[i].id_modele_groupe,
-      color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
-      id_praticien: alert?.userIn?.id_praticien,
-      id_profession: 1,
-      id_lieu: alert?.userIn?.id_lieu,
-      id_motif: alert?.userIn?.id_motif,
-      id_specialite: alert?.userIn?.id_specialite,
-      fixe: alert?.userIn?.fixedPosition ? 1 : 0,
-      position: 1,
-    })
-    }
-  }
+          examenService.createExamen({
+          id_modele: groupPayload[i].id_modele,
+          id_modele_groupe: groupPayload[i].id_modele_groupe,
+          id_praticien: alert?.userIn?.id_praticien,
+          id_profession: 1,
+          id_lieu: alert?.userIn?.id_lieu,
+          id_motif: alert?.userIn?.id_motif,
+          id_specialite: alert?.userIn?.id_specialite,
+          fixe: alert?.userIn?.fixedPosition ? 1 : 0,
+          position: 1,
+        })
+        .then((response) => {
+          setLoading(false);
+          setErrorMessage(false);
+          dispatch(setError(null))
+          response.data.data.id_group = activeGroup;
+          response.data.data.allGroup = true;
+          dispatch(addExam({ index: activeGroup, exam: response.data.data }));
+          dispatch(addExamOnAllGroups({ index: activeGroup, exam: response.data.data }));
+          dispatch(setShowExamForm(false));
+          dispatch(setAlert(false));
+          dispatch(CreateEspacementSubExam());
+        })
+        .catch((error) => {
+          setLoading(false);
+          setErrorMessage(true);
+          if(error.message == "Network Error"){
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          }else{
+            dispatch(setError("Une erreur est survenue"))
+          }
+        });
+      }
+      onAccept();
+}
 
   const handleCreate = () => {
     if(alert?.espacementData?.typeAl === "espacement"){
@@ -159,8 +226,12 @@ const Alert = ({
   }
 
   const goBack = () => {
-    if (onReject) {
-      onReject();
+    if (onReject){
+      if(alert?.espacementData?.typeAl === "espacement"){
+         handleCreateGroupeLie();
+      }else if(alert?.userIn?.typeAl === "examens"){
+         handleCreateExamenGroup();
+      }
       return;
     }
     dispatch(setAlert({ showAlert: false, message: "" }));
@@ -211,6 +282,10 @@ const Alert = ({
         {alert?.showCustomComponent && <EspacementInterExamenForm />}
       </EuiModalBody>
       {/* {showButtonBlock && ( */}
+        {loading &&
+          <Box style={{ display: 'flex', justifyContent: 'center', color: "white" }}>
+            <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
+          </Box>}
       <EuiModalFooter
         className="btn_group alert"
         style={{
@@ -242,11 +317,7 @@ const Alert = ({
           onClick={handleCreate}
           fill={true}
         >
-         {loading &&
-          <Box style={{ display: 'flex', justifyContent: 'center', color: "white" }}>
-            <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
-            <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
-          </Box>}
+         
           {alert?.buttonText?.confirmText ?? "Enregistrer"}
         </EuiButton>
       </EuiModalFooter>

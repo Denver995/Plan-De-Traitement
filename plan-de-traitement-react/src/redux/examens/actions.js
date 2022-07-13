@@ -19,6 +19,11 @@ export const addExam = (payload) => ({
   payload,
 });
 
+export const  newExam = (payload) => ({
+  type: types.NEW_EXAM,
+  payload,
+})
+
 export const shareGroupPayload = (payload) => ({
   type: types.SHARE_GROUP_PAYLOAD,
   payload,

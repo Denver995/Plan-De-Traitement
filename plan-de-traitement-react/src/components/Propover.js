@@ -13,7 +13,7 @@ import GroupeLieService from "../services/groupeLie";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert, setError } from "../redux/commons/actions";
 import { setEspacement, setEspacementNonGroupe, setEspacementSubExam } from "../redux/examens/actions";
-
+import examenService from '../services/examens';
 
 
 const Propover = ({
@@ -36,6 +36,8 @@ const Propover = ({
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData)
   const exams = useSelector((state) => state.ExamenReducer.exams);
+  const examsListGroup = useSelector(state => state.ExamenReducer.examsListGroup);
+  const listOfNewExam = useSelector(state => state.ExamenReducer.listOfNewExam);
   const closePopover = () => setPopover(false);
   const dispatch = useDispatch();
   const togglePropover = () => setPopover(!isPopoverOpen);
@@ -57,11 +59,12 @@ const Propover = ({
     togglePropover();
   };
 
-  const onDelete = () => {
+  const onDelete = (index) => {
     if (isModelGroup) {
       onDeleteGroup();
       return;
     }
+    handleDeleteExamen(index);
     onDeleteExam();
     togglePropover();
     return;
@@ -103,6 +106,26 @@ const Propover = ({
       }
      
     }
+  }
+
+  const handleBindExamen = (index) => {
+
+  }
+
+  const handleDeleteExamen = (index) => {
+    for(let i=0; i<listOfNewExam.length; i++){
+      if(index === i){
+        examenService.deleteExamen(listOfNewExam[i].id)
+        .then(response => {
+
+        })
+        .catch(error => {
+
+        })
+      }
+    }
+    
+    togglePropover();
   }
 
   const button = (
@@ -169,10 +192,7 @@ const Propover = ({
                       examId !== i && (
                         <EuiListGroupItem
                           key={i}
-                          onClick={() => {
-                            console.log("Parent ", examId+1, "Enfant: ", i + 1);
-                            togglePropover();
-                          }}
+                          onClick={() => handleBindExamen(i)}
                           label={`Examen ${i + 1}`}
                         />
                       )

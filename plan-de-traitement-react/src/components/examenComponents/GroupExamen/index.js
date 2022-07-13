@@ -248,7 +248,7 @@ const GroupItem = ({
                                 fontWeight: "600",
                               }}
                             >
-                            {groupWithData[groupKey].payload && groupWithData[groupKey].payload.nom}
+                            Groupe {index + 1}
                             </div>
                           </div>
 

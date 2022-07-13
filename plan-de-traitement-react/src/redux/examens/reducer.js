@@ -19,6 +19,7 @@ const INITIAL_STATE = {
   groupExamPayload: {},
   examsListGroup: [],
   groupWithFixedPosition: [],
+  listOfNewExam: null,
   openGroup: "",
   examsGrouped: [],
 };
@@ -149,6 +150,14 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examsGrouped: Array(Number(action.nombreOccurence)).fill({}),
         groupWithData: groups,
       };
+
+    case types.NEW_EXAM:
+      let newExamPayload = [];
+      newExamPayload.push(action.payload);
+      return {
+        ...state,
+        listOfNewExam: newExamPayload,
+      }
 
 
     case types.SHARE_GROUP_PAYLOAD:
