@@ -61,12 +61,11 @@ const ExamsList = ({
     }
   };
   const onCancel = () => {
-    // dispatch(deleteStep(previousStep));
     onAdd("EXAMENFORM");
   };
 
   const handleGetExams = () => {
-    examenService.getExamen({})
+    examenService.getAllExamen({})
       .then((response) => {
       })
       .catch((error) => {

@@ -115,7 +115,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
 
   const handleCreateGroup = () => {
     for (let i = 1; i <= nombreOccurence; i++) {
-      ModelGroupeService.createModelGroupe({ id_modele: parseInt(modelData.id), nom: "Groupe " + i })
+      ModelGroupeService.createModelGroupe({ id_modele: parseInt(modelData.id), nom: modelData.nom /* "Groupe " */ + i })
         .then(response => {
         })
         .catch(error => {

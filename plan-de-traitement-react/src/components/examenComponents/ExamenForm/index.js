@@ -290,7 +290,6 @@ const ExamenForm = ({
     onPrevious && onPrevious();
   };
 
-
   useEffect(() => {
     SpecialiteService.getListeSpecialite()
       .then((res) => {
@@ -336,7 +335,8 @@ const ExamenForm = ({
       })
       .catch((error) => {
       });
-
+  }, []);
+  useEffect(() => {
     if (reload) setReload(false);
     if (
       examenSelected &&
