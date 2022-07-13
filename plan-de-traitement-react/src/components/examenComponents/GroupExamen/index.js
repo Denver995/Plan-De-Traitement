@@ -3,7 +3,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { startLoading } from "../../../redux/commons/actions";
@@ -157,12 +157,12 @@ const GroupItem = ({
             </p>
             <p
               style={{
-                font: "normal normal normal 20px/27px Open Sans",
+                fontSize: "20px",
                 letterSpacing: 0,
                 color: colors.primary,
               }}
             >
-              {modelData?.nom} {groupName}
+              {modelData?.nom}
             </p>
           </div>
           {!loading ? Object.keys(groupWithData).map((groupKey, index) => {
@@ -640,7 +640,7 @@ const GroupExamenSummary = ({
     dispatch(setShowExamForm(false));
   };
 
-  const canContinue = () => {
+  const canContinue = useCallback(() => {
     let can = false
     let number = 0
     let groupesWithDataKeys = Object.keys(groupesWithData)
@@ -653,16 +653,17 @@ const GroupExamenSummary = ({
       can = true
     }
     return can
-  }
+  })
 
   useEffect(() => {
     setReRender(false);
-  }, [showForm, ignored]);
+    setDisable(canContinue())
+  }, [showForm, ignored, canContinue]);
 
   useEffect(() => {
     setReRender(true);
     setDisable(canContinue())
-  }, [reRender, disable, setDisable]);
+  }, [reRender, disable, setDisable, canContinue]);
 
   const handleOnDragEnd = (result) => {
     let source = result.source.index;
