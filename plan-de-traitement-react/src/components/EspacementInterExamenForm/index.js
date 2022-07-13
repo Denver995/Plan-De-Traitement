@@ -178,13 +178,13 @@ const EspacementInterExamenForm = ({
       <EuiForm style={styles.container} id={modalFormId} component="form">
         {typeEspacement === type_espacement.group ? (
           <p className="label_exams" style={styles.title}>
-            Espacement entre le groupe {initialIndex} et le groupe{" "}
-            {initialIndex + 1}
+            Espacement entre le groupe {initialIndex + 1} et le groupe{" "}
+            {initialIndex + 2}
           </p>
         ) : (
           <p className="label_exams" style={styles.title}>
-            Espacement entre l'examen {initialIndex} et l'examen{" "}
-            {initialIndex + 1}
+            Espacement entre l'examen {initialIndex + 1} et l'examen{" "}
+            {initialIndex + 2}
           </p>
         )}
 
