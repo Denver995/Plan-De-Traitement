@@ -12,7 +12,7 @@ export const editExamGrouped = (examData) => ({
 
 export const setGroupeToEditeExam = (data) => {
   return {
-    type:types.GET_GROUP_TO_EDITE_EXAM,
+    type: types.GET_GROUP_TO_EDITE_EXAM,
     data
   }
 }
@@ -32,6 +32,11 @@ export const addExam = (payload) => ({
   payload,
 });
 
+export const shareGroupPayload = (payload) => ({
+  type: types.SHARE_GROUP_PAYLOAD,
+  payload,
+})
+
 export const addExamGrouped = (payload) => ({
   type: types.ADD_EXAM_GROUPED,
   payload,
@@ -39,6 +44,16 @@ export const addExamGrouped = (payload) => ({
 
 export const createExamGroup = (payload) => ({
   type: types.CREATE_EXAMEN_GROUP,
+  payload,
+});
+
+export const shareGroupExamPayload = (payload) => ({
+  type: types.SHARE_GROUP_EXAM_PAYLOAD,
+  payload,
+});
+
+export const shareListExamGroup = (payload) => ({
+  type: types.SHARE_LIST_EXAMS_GROUP,
   payload,
 });
 
@@ -89,6 +104,11 @@ export const CreateEspacementSubExam = (nombreOccurence) => {
     nombreOccurence,
   };
 };
+
+export const updateModeleData = (payload) => ({
+  type: types.UPDATE_MODELE_DATA,
+  payload,
+});
 
 export const createGroups = (nombreOccurence) => ({
   type: types.CREATE_GROUPS,
@@ -157,7 +177,7 @@ export const dragAndDrog = (data) => {
 };
 export const SetShowGroupeContentForUpdate = (id) => {
   return {
-    type : types.SHOW_GROUPE_CONTENT,
+    type: types.SHOW_GROUPE_CONTENT,
     id
   }
 }
@@ -169,8 +189,8 @@ export const linkToExam = (payload) => {
 };
 
 export const linkToGroup = (data) => {
-  return  {
-    type : types.LINK_TO_GROUPE,
+  return {
+    type: types.LINK_TO_GROUPE,
     data
   }
 }

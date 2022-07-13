@@ -1,63 +1,70 @@
-import React, { useState } from "react";
+
+
 import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiFormRow,
-  EuiFieldNumber,
-  EuiForm,
-  EuiSpacer,
-  EuiFieldText,
-  useGeneratedHtmlId,
   EuiButton,
-  EuiButtonEmpty,
-  EuiToolTip,
-  EuiText,
+  EuiButtonEmpty, EuiFieldNumber, EuiFieldText, EuiFlexGroup,
+  EuiFlexItem, EuiForm, EuiFormRow, EuiSpacer, EuiText, useGeneratedHtmlId
 } from "@elastic/eui";
-import { useDimension } from "../../hooks/dimensions";
-import { useDispatch, useSelector, connect } from "react-redux";
-import {
-  addStep,
-  updateStep,
-  desactivateStep,
-} from "../../redux/steps/actions";
-import { startLoading } from "../../redux/commons/actions";
-import {
-  createGroups,
-  numOfGroupsChange,
-  CreateEspacement,
-} from "../../redux/examens/actions";
-import { setModelData, updateModel } from "../../redux/models/actions";
-
-import { getStepByKey, createStep } from "../../utils/helper";
-import { STEP1, STEP2 } from "../../utils/constants";
-import ModalWrapper from "../common/ModalWrapper";
-import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
-import Radio from "../Radio";
-
-import styles from "./styles";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import ReactToolTip from "react-tooltip";
+import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
+import { useDimension } from "../../hooks/dimensions";
+import {
+  setError
+} from "../../redux/commons/actions";
+import {
+  CreateEspacement, createGroups,
+  numOfGroupsChange, shareGroupPayload, updateModeleData
+} from "../../redux/examens/actions";
+import {
+  setModelData, updateModel
+} from "../../redux/models/actions";
+import {
+  addStep, desactivateStep, updateStep
+} from "../../redux/steps/actions";
+import ModelGroupeService from "../../services/modelGroupe";
+import ModelService from "../../services/models";
 import colors from "../../utils/colors";
+import { STEP1, STEP2 } from "../../utils/constants";
+import { createStep, getStepByKey } from "../../utils/helper";
+import ModalWrapper from "../common/ModalWrapper";
+import Radio from "../Radio";
+import styles from "./styles";
+import GranulariteService from '../../services/granularites';
 
-const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
+
+
+const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => {
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   let step = getStepByKey(steps, STEP1);
   const [groupe_rdv, setIsGroup] = useState(step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false);
   const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : "");
-  console.log(step.data.nb_occurence)
   const [showGroupOption, setShowGroupOption] = useState(!isEdited && step.data.nb_occurence ? true : false);
   const { innerWidth } = useDimension();
-  
+  const [listTypePeriode, setListTypePeriode] = useState([])
 
-  const listTypePeriode = [
-    { value: "jour", text: "Jour" },
-    { value: "mois", text: "Mois" },
-    { value: "année", text: "Année" },
-  ];
+  useEffect(() => {
+    GranulariteService.getListeGranularite()
+      .then((res) => {
+        var data = []
+        res.data.data.forEach(element => {
+          data.push({ value: element.id_granularite, text: element.nom })
+        });
+        setListTypePeriode(data);
+      })
+      .catch((error) => {
+      });
+  }, [])
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
 
@@ -67,36 +74,129 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
     setTypePeriode(e.target.value);
   };
 
+  const closeModale = () => {
+    dispatch(setError(null));
+    setLoading(true)
+    if (modelData && modelData.id) {
+      ModelService.deleteModele(modelData.id)
+        .then((response) => {
+          setLoading(false)
+          closeModal();
+        })
+        .then((error) => {
+          setLoading(false)
+        });
+    } else {
+      closeModal();
+    }
+
+  }
+
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
     nextStep.previousStep = values;
     dispatch(desactivateStep(STEP1));
     dispatch(addStep(nextStep));
   };
+
+  const handleGetGroup = () => {
+    setLoading(true);
+    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
+      .then(response => {
+        setLoading(false);
+        dispatch(shareGroupPayload(response.data.data))
+        dispatch(createGroups(response.data.data.length));
+        dispatch(CreateEspacement(response.data.data.length - 1));
+      })
+      .catch(error => {
+        setLoading(false);
+      })
+  }
+
+  const handleCreateGroup = () => {
+    for (let i = 1; i <= nombreOccurence; i++) {
+      ModelGroupeService.createModelGroupe({ id_modele: parseInt(modelData.id), nom: "Groupe " + i })
+        .then(response => {
+        })
+        .catch(error => {
+        })
+    }
+    handleGetGroup();
+  }
+
   const onClickNext = () => {
     if (showGroupOption) {
-      dispatch(startLoading());
+      setLoading(true)
       const data = {
         nom: nomModele,
-        nb_occurence: nombreOccurence,
         groupe_rdv: groupe_rdv ? 1 : 0,
+        id_granularite_groupe: 2,
+        id_granularite_examen: 2,
+        nb_occurence: parseInt(nombreOccurence),
         id_entite: 4,
         periode: periode ? periode : 1,
-        id_modele: 1,
         typePeriode: typePeriode,
       };
       step.data = data;
-      dispatch(createGroups(nombreOccurence));
-      dispatch(CreateEspacement(nombreOccurence - 1));
-      dispatch(updateStep(step));
-      createModele(step);
-      dispatch(setModelData(data));
-    } else setShowGroupOption(true);
+      dispatch(updateModeleData(data))
+      if (groupe_rdv) {
+        ModelService.updateModele(modelData.id, data)
+          .then((response) => {
+            handleCreateGroup();
+            setLoading(false)
+            dispatch(setError(null));
+          })
+          .catch((error) => {
+            setLoading(false)
+            if (error.message === "Network Error") {
+              dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            } else {
+              dispatch(setError("Une erreur est survenue"))
+            }
+          });
+        dispatch(updateStep(step));
+        createModele(step);
+      } else {
+        dispatch(updateStep(step));
+        createModele(step);
+      }
+    } else {
+      setLoading(true)
+      const payload = {
+        nom: nomModele,
+        groupe_rdv: groupe_rdv ? 1 : 0,
+        id_granularite_groupe: 1,
+        id_granularite_examen: 2,
+        id_entite: 2,
+        nb_occurence: nombreOccurence,
+        espacement_groupe: 2,
+        espacement_examen: 4
+      };
+      setErrorMessage(false)
+      ModelService.createModele(payload)
+        .then((response) => {
+          dispatch(setError(null));
+          setShowGroupOption(true);
+          dispatch(setModelData(response.data));
+          setLoading(false)
+        })
+        .catch((error) => {
+          setLoading(false)
+          setErrorMessage(true)
+          if (error.message === "Network Error") {
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          } else {
+            dispatch(setError("Un modèle avec ce nom existe déjà"))
+          }
+        });
+    }
   };
 
   return (
     <ModalWrapper className="modale-modelForm" style={styles.modal}>
+
       <EuiForm id={modalFormId} style={styles.form}>
+
         <EuiSpacer size="xl" />
         <strong>
           <p style={styles.nomModel}>Nom du modèle: </p>
@@ -109,6 +209,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
           fullWidth
         />
         <EuiSpacer size="xl" />
+
         <EuiFlexGroup>
           {showGroupOption && (
             <EuiFlexItem>
@@ -230,7 +331,6 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
                   marginTop: -18,
                 }}
               >
-                {/* <EuiFlexItem> */}
                 <div style={{ width: "49%" }}>
                   <EuiFieldNumber
                     className="inputNomber-for-periode"
@@ -268,7 +368,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
           <EuiButtonEmpty
             className="button_global btn-annuler-modelForm"
             onClick={() =>
-              isEdited ? onSaveChange("RECAPITULATIF") : closeModal()
+              isEdited ? onSaveChange("RECAPITULATIF") : closeModale()
             }
             style={styles.cancelButton}
           >
@@ -303,17 +403,30 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
               fill={true}
               className="button_global btn-suivant-modelForm"
             >
-              Suivant
+              {loading ?
+                <Box style={{ display: 'flex', alignItems: 'center' }}>
+                  <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
+                  Suivant
+                </Box>
+                : <>Suivant</>
+              }
             </EuiButton>
           )}
         </EuiFlexGroup>
+        <EuiSpacer size="xl" />
+        {errorMessage && (
+          <>
+            <EuiSpacer size="xl" />
+            <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+          </>
+        )}
+
       </EuiForm>
       <style jsx="true">
         {`
           .euiTool {
             background: #052a3e;
           }
-
           .custom-toolTip {
             font-size: 11px !important;
             opacity: 1 !important;
@@ -326,8 +439,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData }) => {
   );
 };
 
-const mapStateToProps = ({ ModelsReducer }) => ({
+const mapStateToProps = ({ ModelsReducer, CommonReducer }) => ({
   modelData: ModelsReducer.modelData,
+  error: CommonReducer.error,
 });
 
 export default connect(mapStateToProps)(ModalForm);

@@ -15,13 +15,27 @@ export const setShowExamForm = show => ({
 });
 
 export const startLoading = () => ({
-  type: types.START_LOADING
+  type: types.START_LOADING,
+})
+
+export const stopLoading = () => ({
+  type: types.STOP_LOADING,
 })
 
 export const setModelType = (modelType) => ({
   type: types.SET_MODEL_TYPE,
   modelType,
 });
+
+export const setError = (error) => ({
+  type: types.ERROR,
+  error,
+});
+
+
+
+
+
 
 export const addFieldData = (key, value) => ({
   type: types.SET_FIELD_DATA,

@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { VerticalTimelineElement } from "react-vertical-timeline-component";
-import Propover from "../../Propover";
-import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
-import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.svg";
-import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
-import colors from "../../../utils/colors";
-import styles from "./style";
 import { useSelector } from "react-redux";
+import { VerticalTimelineElement } from "react-vertical-timeline-component";
+import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
+import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.svg";
+import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
+import Propover from "../../Propover";
+import styles from "./style";
 
 function ExamCard({
   date,
@@ -19,7 +18,6 @@ function ExamCard({
   examId,
   onBack,
 }) {
-  console.log("Parent: ", examen);
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
 
   useEffect(() => {
@@ -49,7 +47,7 @@ function ExamCard({
             style={position === "right" ? styles.propRight : styles.propLeft}
           >
             <Propover
-              index = {index}
+              index={index}
               groupKey={groupKey}
               exam={examen}
               isExamGroup={isExamGroup}

@@ -11,6 +11,8 @@ const INITIAL_STATE = {
   examen: { examenSelected: {}, show: false },
   modelType: false,
   dataSource: {},
+  loading: false,
+  error: null,
 };
 
 function CommonReducer(state = INITIAL_STATE, action) {
@@ -27,6 +29,16 @@ function CommonReducer(state = INITIAL_STATE, action) {
           ...state.examen,
           examData: action.examData,
         },
+      };
+    case types.START_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case types.STOP_LOADING:
+      return {
+        ...state,
+        loading: false
       };
     case types.SHOW_EXAM_FORM:
       return {
@@ -52,6 +64,11 @@ function CommonReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         componentTodisplay: action.componentTodisplay,
+      };
+    case types.ERROR:
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return state;

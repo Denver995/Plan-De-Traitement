@@ -1,29 +1,46 @@
+
 import {
-  SERVER_URL,
-  BASE_EXAMEN_URL,
+  BASE_URL_API
 } from '../../utils/urls';
+import http from '../http-helper';
 
-export const createExamen = (values) => {
-    console.log('Create Examen Service ', values);
+
+class ExamenService {
+
+  createExamen = (payload) => {
     const formdata = new FormData();
-    formdata.append("nom", values.nom);
-    formdata.append("id_modele", values.id_modele);
-    formdata.append("id_modele_groupe", values.id_model_groupe);
-    formdata.append("id_praticien", values.id_praticien);
-    formdata.append("id_profession", values.id_profession);
-    formdata.append("id_lieu", values.id_lieu);
-    formdata.append("fixe", values.fixe);
-    formdata.append("position", values.position);
-    formdata.append("id_motif", values.id_motif);
+    //formdata.append("nom", payload.nom);
+    formdata.append("id_modele", payload.id_modele);
+    formdata.append("id_modele_groupe", payload.id_modele_groupe);
+    formdata.append("color", payload.color);
+    formdata.append("id_praticien", payload.id_praticien);
+    formdata.append("id_profession", payload.id_profession);
+    formdata.append("id_lieu", payload.id_lieu);
+    formdata.append("fixe", payload.fixe);
+    formdata.append("position", payload.position);
+    formdata.append("id_motif", payload.id_motif);
+    formdata.append("id_specialite", payload.id_specialite);
 
-    const requestOptions = {
-      method: 'POST',
-      body: formdata,
-      redirect: 'follow'
-    };
+    return http.post(BASE_URL_API + `api/api_examen/examen`, formdata);
+  }
 
-fetch("https://melanie.alaxione.fr/api/api_examen/examen", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+  getExamenByIds = (id_modele, id_modele_groupe,) => {
+    return http.get(BASE_URL_API + `api/api_examen/examen?id_modele=${id_modele}&id_modele_groupe=${id_modele_groupe}`);
+  }
+  getAllExamen = () => {
+    return http.get(BASE_URL_API + `api/api_examen/examenAll`);
+  }
+  deleteExamen = (id_examen) => {
+    return http.delete(BASE_URL_API + `api/api_examen/examen/${id_examen}`);
+
+  }
+  updateExamen = (id_examen, payload) => {
+    return http.put(BASE_URL_API + `api/api_examen/examen/${id_examen}`, payload);
+  }
+
+
 }
+
+
+export default new ExamenService();
+

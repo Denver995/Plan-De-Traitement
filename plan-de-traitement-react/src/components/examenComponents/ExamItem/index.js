@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import "../../../utils/groupe-et-exam.css";
-import Propover from "../../Propover";
-import { formatExamNumber } from "../../../utils/helper";
 import { getWindowSize } from "../../../hooks/dimensions";
-
+import "../../../utils/groupe-et-exam.css";
+import { formatExamNumber } from "../../../utils/helper";
+import Propover from "../../Propover";
 import styles from "./styles";
+
 
 const ExamItem = ({
   showEditForm,
@@ -19,7 +18,6 @@ const ExamItem = ({
   reload,
   setReload,
 }) => {
-  const dispatch = useDispatch();
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
     function handleWindowResiwe() {

@@ -15,7 +15,11 @@ const INITIAL_STATE = {
   actualNonGroupeIndex: 0,
   numOfGroups: 1,
   exams: [],
+  dataModeleUpdate: {},
   groupWithData: {},
+  groupPayload: null,
+  groupExamPayload: {},
+  examsListGroup: [],
   groupWithFixedPosition: [],
   openGroup: "",
   examsGrouped: [],
@@ -103,7 +107,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         examsGrouped: [...state.examsGrouped, { id, ...action.payload }],
       };
     case types.ADD_EXAM_GROUPED:
-      let groupWithData = state.groupWithData;
       let openGroup = state.activeGroup.slice(5);
       let active_group = state.groupWithData[state.activeGroup];
       if (active_group.fixedChild) {
@@ -113,6 +116,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupWithData[active_group_key] = active_group_child
       }
       active_group.exams.push({ ...action.payload.exam, positionFixed: false });
+      let groupWithData = state.groupWithData;
       groupWithData[state.activeGroup] = active_group;
       return {
         ...state,
@@ -149,15 +153,39 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         ...state,
         numOfGroups: action.number,
       };
+    case types.UPDATE_MODELE_DATA:
+      return {
+        ...state,
+        dataModeleUpdate: action.payload,
+      };
     case types.CREATE_GROUPS:
       let groups = {};
       for (let i = 0; i < action.nombreOccurence; i++) {
         groups["group " + i] = { exams: [], positionFixed: false };
+        groups["group " + i].payload = state.groupPayload[i];
       }
       return {
         ...state,
         examsGrouped: Array(Number(action.nombreOccurence)).fill({}),
         groupWithData: groups,
+      };
+
+
+    case types.SHARE_GROUP_PAYLOAD:
+      return {
+        ...state,
+        groupPayload: action.payload,
+      };
+
+    case types.SHARE_LIST_EXAMS_GROUP:
+      return {
+        ...state,
+        examsListGroup: action.payload,
+      };
+    case types.SHARE_GROUP_EXAM_PAYLOAD:
+      return {
+        ...state,
+        groupExamPayload: action.payload,
       };
 
     case types.CREATE_ESPACEMENTS:
@@ -166,7 +194,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       for (let i = 0; i < nbrOfGroupe.length - 1; i++) {
         listespacements["espace " + i] = [];
       }
-      console.log("listespacements", listespacements);
       return {
         ...state,
         espacement: listespacements,
@@ -188,7 +215,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       groupeWithDataKeys.forEach((key) => {
         let actualGroupe = groupesWithData[key];
         let nomberExamOfActualGroupe = actualGroupe["exams"].length;
-        for (var i = 0; i < nomberExamOfActualGroupe - 1; i++) {
+        for (let i = 0; i < nomberExamOfActualGroupe - 1; i++) {
           espacementSubExam[key]["subEspace " + i] = espacementSubExam[key][
             "subEspace " + i
           ]
@@ -246,7 +273,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let tempGroupKeys = Object.keys(tempGroup)
       let newTempGroup = {}
       let newTempGroupLength = tempGroupKeys.length
-      for (var i = 0; i < newTempGroupLength; i++) {
+      for (let i = 0; i < newTempGroupLength; i++) {
         newTempGroup['group ' + i] = tempGroup[tempGroupKeys[i]]
       }
       return {
@@ -348,14 +375,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.TOGGLE_FIXE_EXAM_POSITION:
       allExamTemp = state.exams;
       allGroupTemp = state.groupWithData;
-      console.log("Temporaire: ", state.groupWithData);
       if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
         examDetail.positionFixed = !examDetail.positionFixed;
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
-        console.log("allGroupTemp", allGroupTemp)
       } else {
         examDetail = allExamTemp[action.payload.selectedExam];
         examDetail.positionFixed = !examDetail.positionFixed;
@@ -392,9 +417,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
       let espacementSourceKeys = Object.keys(sourceGroupe__);
 
-      for (var i = 0; i < espacementSourceKeys.length; i++) {
+      for (let i = 0; i < espacementSourceKeys.length; i++) {
         let actualSpaceLength = sourceGroupe__["subEspace " + i].length;
-        for (var j = 0; j < actualSpaceLength; j++) {
+        for (let j = 0; j < actualSpaceLength; j++) {
           sourceGroupe__["subEspace " + i][j] = {
             ...sourceGroupe__["subEspace " + i][j],
             parentSubExamId: destination,
@@ -403,9 +428,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       }
 
       let espacementDestKeys = Object.keys(destinationGroupe__);
-      for (var i = 0; i < espacementDestKeys.length; i++) {
+      for (let i = 0; i < espacementDestKeys.length; i++) {
         let actualSpaceLength = destinationGroupe__["subEspace " + i].length;
-        for (var j = 0; j < actualSpaceLength; j++) {
+        for (let j = 0; j < actualSpaceLength; j++) {
           destinationGroupe__["subEspace " + i][j] = {
             ...destinationGroupe__["subEspace " + i][j],
             parentSubExamId: source,

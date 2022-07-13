@@ -1,23 +1,18 @@
-import React from "react";
 import {
-  EuiIcon,
   EuiButton,
   EuiButtonEmpty,
-  EuiFlexGroup,
-  EuiText,
-  EuiSpacer,
-  EuiAvatar,
+  EuiFlexGroup, EuiIcon, EuiText
 } from "@elastic/eui";
+import { default as React } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import ExamGroupCard from "./ExamGroupCard";
-import RecapExamItem from "./RecapExamItem";
 /*import './RecapExamGrp.css';*/
 import { setAlert } from "../../../redux/commons/actions";
 import { deleteStep } from "../../../redux/steps/actions";
-import { useDispatch, useSelector, connect } from "react-redux";
 import { STEP3 } from "../../../utils/constants";
 import { getStepByKey } from "../../../utils/helper";
+import ExamGroupCard from "./ExamGroupCard";
 
 const RecapExamGroup = ({ closeModal, examsGrouped }) => {
   const dispatch = useDispatch();
@@ -25,7 +20,7 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
   const previousStep = getStepByKey(steps, STEP3);
 
   const alertMessage =
-    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom :</EuiText>';
+    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Ce modèle va être enregistré sous le nom:</EuiText>';
   const onSave = () =>
     dispatch(
       setAlert({
@@ -39,7 +34,6 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
     );
   const onBack = () => dispatch(deleteStep(previousStep));
 
-  console.log("examGrouped: ", examsGrouped);
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20 }}>
@@ -85,7 +79,7 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
                   id="iconList"
                   className="boxverti"
                 />
-                <ExamGroupCard group={group} position={index === 0 ? "right": "left"} />
+                <ExamGroupCard group={group} position={index === 0 ? "right" : "left"} />
                 <EuiText className="heure_gauche"> 1heure</EuiText>
               </div>
               <EuiIcon
@@ -94,9 +88,9 @@ const RecapExamGroup = ({ closeModal, examsGrouped }) => {
                 className="bout_grp1"
                 size="l"
               />
-                </div>
-              ))}
-              {/* <EuiSpacer /> */}
+            </div>
+          ))}
+          {/* <EuiSpacer /> */}
         </VerticalTimeline>
       </div>
 
