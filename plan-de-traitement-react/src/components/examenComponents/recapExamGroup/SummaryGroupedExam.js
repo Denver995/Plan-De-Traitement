@@ -1,26 +1,27 @@
-import React from "react";
 import {
   EuiButton,
   EuiButtonEmpty,
   EuiFlexGroup,
-  EuiSpacer,
+  EuiSpacer
 } from "@elastic/eui";
+import React, { useEffect } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
-  VerticalTimeline,
+  VerticalTimeline
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { setAlert, setComponent } from "../../../redux/commons/actions";
-import { useDispatch, useSelector, connect } from "react-redux";
-import { STEP3 } from "../../../utils/constants";
-import { getStepByKey } from "../../../utils/helper";
-import colors from "../../../utils/colors";
-import "./RecapExamGrp.css";
-import TimeLineHelper from "../../common/TimeLineHelper";
-import RecapExamItemV2 from "./RecapExamItemV2";
-import { deleteStep } from "../../../redux/steps/actions";
-import './RecapExamGrp.css'
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
+import { setAlert, setComponent } from "../../../redux/commons/actions";
+import { SetShowGroupeContentForUpdate, toggleFixGroupPosition } from "../../../redux/examens/actions";
+import { deleteStep } from "../../../redux/steps/actions";
+import colors from "../../../utils/colors";
+import { STEP3 } from "../../../utils/constants";
+import { getStepByKey } from "../../../utils/helper";
+import TimeLineHelper from "../../common/TimeLineHelper";
+import ExamCard from "../ExamCard";
+import "./RecapExamGrp.css";
+import RecapExamItemV2 from "./RecapExamItemV2";
 
 const SummaryGroupedExam = ({
   modelData,
@@ -29,29 +30,41 @@ const SummaryGroupedExam = ({
 }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
+  const groupeToShowContentId = useSelector(state => state.ExamenReducer.groupeToShowContentId)
   const previousStep = getStepByKey(steps, STEP3);
-  const groupesWithData = useSelector(state=>state.ExamenReducer.groupWithData);
+  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
   const groupesWithDataKeys = Object.keys(groupesWithData);
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
-  const onSave = () =>
-    dispatch(
-      setAlert({
-        title: "Enregistrer le modèle",
-        message: alertMessage,
-        showAlert: true,
-        isConfirmation: true,
-        closeModal: closeModal,
-        onAccept: () => {
-          dispatch(setAlert(false));
-        },
-      })
-    );
-  const onBack = () => {
-    console.log('isEditing ', isEditing);
-    if(isEditing) dispatch(setComponent({name: "GROUPSUMMARY"}));
-    else dispatch(deleteStep(previousStep));
+  const onSave = () => {
+    if (groupeToShowContentId === -1) {
+      dispatch(
+        setAlert({
+          title: "Enregistrer le modèle",
+          message: alertMessage,
+          showAlert: true,
+          isConfirmation: true,
+          closeModal: closeModal,
+          onAccept: () => {
+            dispatch(setAlert(false));
+          },
+        })
+      );
+    }
+    dispatch(SetShowGroupeContentForUpdate(-1))
   }
+
+  const onBack = () => {
+    if (groupeToShowContentId !== -1) {
+      dispatch(SetShowGroupeContentForUpdate(-1))
+    } else {
+      if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
+      else dispatch(deleteStep(previousStep));
+    }
+  }
+  useEffect(() => {
+
+  }, [groupesWithData])
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
@@ -101,19 +114,42 @@ const SummaryGroupedExam = ({
           className="container"
           lineColor={"rgba(19, 83, 117, 0.479)"}
         >
-          {groupesWithDataKeys.map((group, index) => (
-            <div key={index} style={{ position: "relative" }}>
-              <TimeLineHelper index={index} entityType = {"Groupe"} />
-              <RecapExamItemV2
-                color={""}
-                data={groupesWithData['group '+index]?.exams}
-                date={new Date().toDateString()}
-                index_={index}
-                position={index % 2 === 0 ? "left" : "right"}
-                positionFixed={groupesWithData['group '+index]?.positionFixed}
-              />
-            </div>
-          ))}
+          {groupeToShowContentId === -1 ?
+            groupesWithDataKeys.map((group, index) => (
+              <div key={index} style={{ position: "relative" }}>
+                <TimeLineHelper index={index} entityType={"Groupe"} />
+                <RecapExamItemV2
+                  color={""}
+                  onFixePosition={() => {
+                    dispatch(
+                      toggleFixGroupPosition({
+                        selectedGroup: 'group ' + index,
+                      })
+                    );
+                  }}
+                  data={groupesWithData['group ' + index]?.exams}
+                  date={new Date().toDateString()}
+                  index_={index}
+                  groupKey={'group ' + index}
+                  position={index % 2 === 0 ? "left" : "right"}
+                  positionFixed={groupesWithData['group ' + index]?.positionFixed}
+                />
+              </div>
+            )) :
+            groupesWithData['group ' + groupeToShowContentId]?.exams?.map((exam, index) => (
+              <div key={index} style={{ position: "relative" }}>
+                <TimeLineHelper index={index} entityType={"Examen"} />
+                <ExamCard
+                  examen={exam}
+                  isExamGroup={true}
+                  groupKey={'group ' + groupeToShowContentId}
+                  index={index}
+                  color={exam.color}
+                  date="12 mars"
+                  position={index % 2 === 0 ? "left" : "right"}
+                />
+              </div>
+            ))}
         </VerticalTimeline>
       </div>
 
@@ -162,7 +198,7 @@ const SummaryGroupedExam = ({
           fill={true}
           onClick={onSave}
         >
-          Valider
+          {groupeToShowContentId === -1 ? "Valider" : "Enregistrer"}
         </EuiButton>
       </EuiFlexGroup>
       <style jsx="true">

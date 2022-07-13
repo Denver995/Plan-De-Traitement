@@ -7,7 +7,6 @@ import http from '../http-helper';
 class ExamenLieService {
   //NOT DONE
   createExamenLie = (values) => {
-    console.log('Create Examen Lie Service ', values);
     const formdata = new FormData();
     formdata.append("nom", values.nom);
     formdata.append("id_modele", values.id_modele);
@@ -18,9 +17,6 @@ class ExamenLieService {
     formdata.append("fixe", values.fixe);
     formdata.append("position", values.position);
     formdata.append("id_motif", values.id_motif);
-
-    console.log(values);
-
 
     return http.post(BASE_URL_API + "api/api_examenlie/examenlie", values);
   }

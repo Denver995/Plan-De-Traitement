@@ -1,16 +1,7 @@
 import {
-  EuiButton,
-  EuiModal,
-  EuiModalBody,
-  EuiModalFooter,
-  EuiModalHeader,
-  EuiModalHeaderTitle,
-  EuiSpacer,
-  EuiButtonEmpty,
-  EuiForm,
-  EuiFormRow,
-  EuiFieldText,
-  EuiText,
+  EuiButton, EuiButtonEmpty, EuiFieldText, EuiForm,
+  EuiFormRow, EuiModalBody,
+  EuiModalFooter, EuiSpacer, EuiText
 } from "@elastic/eui";
 import {
   createExamen as createExamenAction,
@@ -30,17 +21,15 @@ import React, { useEffect, useState } from "react";
 import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { setAlert, setComponent, setError } from "../../redux/commons/actions";
 import { connect, useDispatch, useSelector } from "react-redux";
-import EspacementInterExamenForm from "../EspacementInterExamenForm";
-import ModalWrapper from "../common/ModalWrapper";
-import styles from "./style";
-import colors from "../../utils/colors";
 import { useDimension } from "../../hooks/dimensions";
-import { saveModel } from "../../redux/models/actions";
-import ModelGroupeService from "../../services/modelGroupe";
+import { setAlert, setComponent, setError } from "../../redux/commons/actions";
 import examenService from '../../services/examens';
 import GroupeLieService from "../../services/groupeLie";
+import colors from "../../utils/colors";
+import ModalWrapper from "../common/ModalWrapper";
+import EspacementInterExamenForm from "../EspacementInterExamenForm";
+import styles from "./style";
 
 
 const Alert = ({
@@ -133,9 +122,12 @@ const Alert = ({
             dispatch(setError("Une erreur est survenue, veuillez réessayer"))
           }
     })
-    }
-    onAccept();
   }
+    onAccept();
+}
+
+
+
   const handleCreateExamenGroup = () => {
       setLoading(true);
       setErrorMessage(false)
@@ -217,10 +209,12 @@ const Alert = ({
       onAccept();
 }
 
+
+
   const handleCreate = () => {
-    if(alert?.espacementData?.typeAl === "espacement"){
-     handleCreateGroupeLieForAll();
-    }else if(alert?.userIn?.typeAl === "examens"){
+    if (alert?.espacementData?.typeAl === "espacement") {
+      handleCreateGroupeLieForAll();
+    } else if (alert?.userIn?.typeAl === "examens") {
       handleCreateExamenForAll();
     }
   }
@@ -238,13 +232,12 @@ const Alert = ({
     return;
   };
 
-  console.log("alertAlert: ", alert?.buttonText?.confirmText);
   return (
     <ModalWrapper
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
     >
-   
+
       <EuiSpacer size="xl" />
       <EuiModalBody style={styles.body}>
         {showInputForm ? (
@@ -317,19 +310,18 @@ const Alert = ({
           onClick={handleCreate}
           fill={true}
         >
-         
           {alert?.buttonText?.confirmText ?? "Enregistrer"}
         </EuiButton>
       </EuiModalFooter>
       {/* )} */}
-       {errorMessage && (
-              <>
-                <EuiSpacer size="xl" />
-                <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-              </>
-            )}
+      {errorMessage && (
+        <>
+          <EuiSpacer size="xl" />
+          <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+        </>
+      )}
     </ModalWrapper>
-   
+
   );
 };
 

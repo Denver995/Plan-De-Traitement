@@ -8,7 +8,6 @@ import http from '../http-helper';
 class ExamenService {
   //DONE
   createExamen = (payload) => {
-    console.log('Create Examen Service ', payload);
     const formdata = new FormData();
     //formdata.append("nom", payload.nom);
     formdata.append("id_modele", payload.id_modele);
@@ -16,7 +15,7 @@ class ExamenService {
     formdata.append("color", payload.color);
     formdata.append("id_praticien", payload.id_praticien);
     formdata.append("id_profession", payload.id_profession);
-    formdata.append("id_lieu",payload.id_lieu);
+    formdata.append("id_lieu", payload.id_lieu);
     formdata.append("fixe", payload.fixe);
     formdata.append("position", payload.position);
     formdata.append("id_motif", payload.id_motif);
@@ -30,6 +29,7 @@ class ExamenService {
 }
   //DONE
   getExamenByIds = (id_modele, id_modele_groupe) => {
+
     return http.get(BASE_URL_API + `api/api_examen/examen?id_modele=${id_modele}&id_modele_groupe=${id_modele_groupe}`);
   }
   //DONE

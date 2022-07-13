@@ -3,38 +3,37 @@
 import {
   EuiButton,
   EuiButtonEmpty, EuiFieldNumber, EuiFieldText, EuiFlexGroup,
-  EuiFlexItem, EuiForm, EuiFormRow, EuiSpacer, useGeneratedHtmlId, EuiText
+  EuiFlexItem, EuiForm, EuiFormRow, EuiSpacer, EuiText, useGeneratedHtmlId
 } from "@elastic/eui";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import ReactToolTip from "react-tooltip";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
 import { useDimension } from "../../hooks/dimensions";
 import {
-  CreateEspacement, createGroups, shareGroupPayload,
-  numOfGroupsChange, updateModeleData
+  setError
+} from "../../redux/commons/actions";
+import {
+  CreateEspacement, createGroups,
+  numOfGroupsChange, shareGroupPayload, updateModeleData
 } from "../../redux/examens/actions";
 import {
-  setModelData,
-  shareModelGroupData,
-  updateModel
+  setModelData, updateModel
 } from "../../redux/models/actions";
-import {
-  setError, startLoading, stopLoading
-} from "../../redux/commons/actions";
 import {
   addStep, desactivateStep, updateStep
 } from "../../redux/steps/actions";
+import ModelGroupeService from "../../services/modelGroupe";
+import ModelService from "../../services/models";
 import colors from "../../utils/colors";
 import { STEP1, STEP2 } from "../../utils/constants";
 import { createStep, getStepByKey } from "../../utils/helper";
 import ModalWrapper from "../common/ModalWrapper";
 import Radio from "../Radio";
 import styles from "./styles";
-import ModelGroupeService from "../../services/modelGroupe";
-import ModelService from "../../services/models";
+import GranulariteService from '../../services/granularites';
 
 
 
@@ -42,22 +41,30 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
-  const [groupe_rdv, setIsGroup] = useState();
-  const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : "");
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
-  const [showGroupOption, setShowGroupOption] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { innerWidth } = useDimension();
   let step = getStepByKey(steps, STEP1);
+  const [groupe_rdv, setIsGroup] = useState(step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false);
+  const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : "");
+  const [showGroupOption, setShowGroupOption] = useState(!isEdited && step.data.nb_occurence ? true : false);
+  const { innerWidth } = useDimension();
+  const [listTypePeriode, setListTypePeriode] = useState([])
 
-  const listTypePeriode = [
-    { value: "jour", text: "Jour" },
-    { value: "mois", text: "Mois" },
-    { value: "année", text: "Année" },
-  ];
+  useEffect(() => {
+    GranulariteService.getListeGranularite()
+      .then((res) => {
+        var data = []
+        res.data.data.forEach(element => {
+          data.push({ value: element.id_granularite, text: element.nom })
+        });
+        setListTypePeriode(data);
+      })
+      .catch((error) => {
+      });
+  }, [])
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
 
@@ -70,21 +77,19 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
   const closeModale = () => {
     dispatch(setError(null));
     setLoading(true)
-    if(modelData&&modelData.id){
-       ModelService.deleteModele(modelData.id)
-      .then((response) => {
-        console.log("DELETE MODELE SUCCESSFUL")
-        //dispatch(setModelData({}))
-        setLoading(false)
-        closeModal();
-      })
-      .then((error) => {
-        setLoading(false)
-      });
-    }else{
+    if (modelData && modelData.id) {
+      ModelService.deleteModele(modelData.id)
+        .then((response) => {
+          setLoading(false)
+          closeModal();
+        })
+        .then((error) => {
+          setLoading(false)
+        });
+    } else {
       closeModal();
     }
-     
+
   }
 
   const createModele = (values) => {
@@ -97,27 +102,24 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
   const handleGetGroup = () => {
     setLoading(true);
     ModelGroupeService.getModelGroupe(parseInt(modelData.id))
-    .then(response => {
-      setLoading(false);
-      dispatch(shareGroupPayload(response.data.data))
-      dispatch(createGroups(response.data.data.length));
-      dispatch(CreateEspacement(response.data.data.length - 1)); 
-    })
-    .catch(error => {
-      setLoading(false);
-      console.log(error)
-    })
+      .then(response => {
+        setLoading(false);
+        dispatch(shareGroupPayload(response.data.data))
+        dispatch(createGroups(response.data.data.length));
+        dispatch(CreateEspacement(response.data.data.length - 1));
+      })
+      .catch(error => {
+        setLoading(false);
+      })
   }
 
   const handleCreateGroup = () => {
-    for(let i=1; i<=nombreOccurence; i++){
-      ModelGroupeService.createModelGroupe({id_modele: parseInt(modelData.id), nom: nomModele+i})
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    for (let i = 1; i <= nombreOccurence; i++) {
+      ModelGroupeService.createModelGroupe({ id_modele: parseInt(modelData.id), nom: "Groupe " + i })
+        .then(response => {
+        })
+        .catch(error => {
+        })
     }
     handleGetGroup();
   }
@@ -137,31 +139,31 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
       };
       step.data = data;
       dispatch(updateModeleData(data))
-      if(groupe_rdv){
+      if (groupe_rdv) {
         ModelService.updateModele(modelData.id, data)
-        .then((response) => {
-          handleCreateGroup();
-          setLoading(false) 
-          dispatch(setError(null));    
-        })
-        .catch((error) => {
-          setLoading(false)
-          if(error.message == "Network Error"){
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-          }else{
-            dispatch(setError("Une erreur est survenue"))
-          }
-        });  
+          .then((response) => {
+            handleCreateGroup();
+            setLoading(false)
+            dispatch(setError(null));
+          })
+          .catch((error) => {
+            setLoading(false)
+            if (error.message === "Network Error") {
+              dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            } else {
+              dispatch(setError("Une erreur est survenue"))
+            }
+          });
         dispatch(updateStep(step));
         createModele(step);
-      }else{
+      } else {
         dispatch(updateStep(step));
         createModele(step);
       }
     } else {
       setLoading(true)
       const payload = {
-        nom: nomModele, 
+        nom: nomModele,
         groupe_rdv: groupe_rdv ? 1 : 0,
         id_granularite_groupe: 1,
         id_granularite_examen: 2,
@@ -181,9 +183,9 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
         .catch((error) => {
           setLoading(false)
           setErrorMessage(true)
-          if(error.message == "Network Error"){
+          if (error.message === "Network Error") {
             dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-          }else{
+          } else {
             dispatch(setError("Un modèle avec ce nom existe déjà"))
           }
         });
@@ -207,7 +209,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
           fullWidth
         />
         <EuiSpacer size="xl" />
-        
+
         <EuiFlexGroup>
           {showGroupOption && (
             <EuiFlexItem>
@@ -329,7 +331,6 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
                   marginTop: -18,
                 }}
               >
-                {/* <EuiFlexItem> */}
                 <div style={{ width: "49%" }}>
                   <EuiFieldNumber
                     className="inputNomber-for-periode"
@@ -392,7 +393,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
           ) : (
             <EuiButton
               style={
-                nomModele.length < 3 ? styles.addButton2 : styles.addButton
+                nomModele?.length < 3 ? styles.addButton2 : styles.addButton
               }
               form={modalFormId}
               onClick={() => {

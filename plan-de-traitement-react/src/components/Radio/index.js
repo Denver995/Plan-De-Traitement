@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import styles from "./styles";
 import colors from "../../utils/colors";
+import styles from "./styles";
 
 /**
  * @todo Refactor Component
@@ -60,7 +60,6 @@ const Radio = ({ onChange }) => {
         color: colors.primary,
       });
     }
-    console.log("active: ", active);
 
     // setActive(!active);
     onChangeModel(isActive);

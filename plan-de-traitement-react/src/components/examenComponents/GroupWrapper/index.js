@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { setComponent } from "../../../redux/commons/actions";
-import RecapitulatifDesExamens from "../RecapitulatifDesExamens";
 import GroupExamenSummary from "../GroupExamen";
-import ExamenForm from "../ExamenForm";
+import RecapitulatifDesExamens from "../RecapitulatifDesExamens";
 
 const GroupWrapper = ({
   componentTodisplay,
@@ -30,7 +29,7 @@ const GroupWrapper = ({
 
   return (
     <div className="wrapper">
-      {component === "GROUPSUMMARY" ? (
+      {component === "GROUPSUMMARY" || component === "EXAMENFORMEDIT" ? (
         <GroupExamenSummary
           onAddExam={(data) => {
             onChangeComponent(data.name);

@@ -6,8 +6,6 @@ const TimeLineHelper = ({ index, entityType }) => {
 
   const espacement = useSelector(state => state.ExamenReducer.espacement)
   const espacementNonGroupe = useSelector(state => state.ExamenReducer.espacementNonGroupe)
-  console.log("-----------------------voila nonGroupeEspacement------------", espacementNonGroupe, "et l'index", index)
-  console.log(espacement)
   return (
     <div>
       <div style={styles.titleWrapper}>
