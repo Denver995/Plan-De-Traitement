@@ -65,10 +65,6 @@ const RecapitulatifDesExamens = ({
     setLoading(show);
   }
 
-  useEffect(() => {
-    console.log("my exams in recap", JSON.stringify(exams));
-  },[])
-
   return (
     <ModalWrapper style={styles.modal}>
       {isModelGroup ? (

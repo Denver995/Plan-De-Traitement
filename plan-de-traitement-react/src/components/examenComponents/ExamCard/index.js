@@ -5,7 +5,7 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.svg";
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
 import Propover from "../../Propover";
-import {setError} from "../../../redux/commons/actions";
+import { setError } from "../../../redux/commons/actions";
 import styles from "./style";
 import examenService from '../../../services/examens';
 
@@ -51,22 +51,29 @@ function ExamCard({
     setLoading(true);
     setErrorMessage(false);
     examenService.updateExamen(examenSelected[index].id_examen, {
-            position: index+1
+      position: index + 1,
+      id_modele: examenSelected[index]?.id_modele,
+      id_modele_groupe: examenSelected[index]?.id_modele_groupe,
+      id_praticien: examenSelected[index]?.id_praticien,
+      id_profession: examenSelected[index]?.id_profession,
+      id_lieu: examenSelected[index]?.id_lieu,
+      fixe: examenSelected[index]?.fixe,
+      id_motif: examenSelected[index]?.id_motif,
     })
-    .then(response => {
-      setLoading(false)
-      setErrorMessage(false);
-      dispatch(setError(null));
-    })
-    .catch(error => {
-     setLoading(false)
-          setErrorMessage(true);
-          if (error.message === "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-          } else {
-            dispatch(setError("Une erreur est survenue"))
-          }
-    })
+      .then(response => {
+        setLoading(false)
+        setErrorMessage(false);
+        dispatch(setError(null));
+      })
+      .catch(error => {
+        setLoading(false)
+        setErrorMessage(true);
+        if (error.message === "Network Error") {
+          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+        } else {
+          dispatch(setError("Une erreur est survenue"))
+        }
+      })
   }
 
   const handleLoading = (l) => {
@@ -77,45 +84,45 @@ function ExamCard({
     setLoading(true);
     handleLoading(true);
     examenService.deleteExamen(examen[index]?.id_examen)
-    .then(response => {
-      setLoading(false);
-      handleLoading(false);
-    })
-    .catch(error => {
-      handleLoading(false);
-    })
+      .then(response => {
+        setLoading(false);
+        handleLoading(false);
+      })
+      .catch(error => {
+        handleLoading(false);
+      })
   }
   const handleFixePosition = () => {
     handleUpdateExams();
   }
 
   const handleGetSpecialitie = () => {
-    for(var i=0; i<specialitieData.length; i++){
-      if(specialitieData[i]?.id == examInfo[index]?.id_specialite){
+    for (var i = 0; i < specialitieData.length; i++) {
+      if (specialitieData[i]?.id === examInfo[index]?.id_profession) {
         setSpecialite(specialitieData[i].libelle);
         return;
       }
     }
   }
-   const handleGetPraticien = () => {
-    for(var i=0; i<praticienData.length; i++){
-      if(praticienData[i]?.id_praticien == examen[index]?.id_praticien){
-        setPraticien(praticienData[i].nom_praticien+" "+praticienData[i].prenom_praticien);
+  const handleGetPraticien = () => {
+    for (var i = 0; i < praticienData.length; i++) {
+      if (praticienData[i]?.id_praticien === examen[index]?.id_praticien) {
+        setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
         return;
       }
     }
   }
   const handleGetLieu = () => {
-    for(var i=0; i<lieuData.length; i++){
-      if(lieuData[i].id_lieu == examen[index]?.id_lieu){
+    for (var i = 0; i < lieuData.length; i++) {
+      if (lieuData[i].id_lieu == examen[index]?.id_lieu) {
         setLieu(lieuData[i].libelle_lieu);
         return;
       }
     }
   }
-   const handleGetMotif = () => {
-    for(var i=0; i<motifData.length; i++){
-      if(motifData[i]?.id_motif_rdv == examen[index]?.id_motif){
+  const handleGetMotif = () => {
+    for (var i = 0; i < motifData.length; i++) {
+      if (motifData[i]?.id_motif_rdv == examen[index]?.id_motif) {
         setMotif(motifData[i].libelle_motif_rdv);
         return;
       }

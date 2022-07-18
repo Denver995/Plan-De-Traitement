@@ -6,16 +6,13 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { default as React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEspacement, setEspacementNonGroupe, setEspacementSubExam,examToUpdate } from "../redux/examens/actions";
-import examenService from '../services/examens';
-import examenLieService from '../services/examensLie';
 import { setComponent, setError, setShowExamForm } from "../redux/commons/actions";
 import {
   deleteExamGroup,
   deleteExamSimple,
-  editExam,
-  linkToExam, mostBeEditable, setGroupeToEditeExam, SetShowGroupeContentForUpdate, toggleFixExamPosition
+  editExam, mostBeEditable, setGroupeToEditeExam, SetShowGroupeContentForUpdate, toggleFixExamPosition
 } from "../redux/examens/actions";
+import examenLieService from '../services/examensLie';
 import GroupeLieService from "../services/groupeLie";
 
 
@@ -57,10 +54,6 @@ const Propover = ({
   );
   const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
   const exams = useSelector((state) => state.ExamenReducer.exams);
-  const examsListGroup = useSelector(state => state.ExamenReducer.examsListGroup);
-  const listOfNewExam = useSelector(state => state.ExamenReducer.listOfNewExam);
-  const closePopover = () => setPopover(false);
-  const togglePropover = () => setPopover(!isPopoverOpen);
   const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
   const handleClick = () => setIsOpen(!isOpen);
   const handleClose = () => setIsOpen(false);
@@ -102,19 +95,19 @@ const Propover = ({
       dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
       isRecap && onBack();
     }
-    togglePropover();
+    // togglePropover();
   };
 
   const onDelete = (index) => {
     if (isModelGroup) {
       onDeleteGroup();
-      togglePropover();
+      // togglePropover();
       setRerenderDel(true);
       return;
     }
 
     if (isExamGroup) {
-     onDeleteExam();
+      onDeleteExam();
       dispatch(
         deleteExamGroup({
           groupKey: groupKey,
@@ -126,7 +119,7 @@ const Propover = ({
       dispatch(deleteExamSimple({ examId: index }));
     }
 
-    togglePropover();
+    // togglePropover();
   };
 
   const onFixPosition = () => {
@@ -139,9 +132,9 @@ const Propover = ({
           isExamGrouped: true,
         })
       );
-      togglePropover();
+      // togglePropover();
     } else {
-      togglePropover();
+      // togglePropover();
       if (examId) {
         dispatch(
           toggleFixExamPosition({
@@ -232,27 +225,10 @@ const Propover = ({
   useEffect(() => {
   }, [groupesWithData])
 
-  
-
-  const handleDeleteExamen = (index) => {
-    for(let i=0; i<listOfNewExam.length; i++){
-      if(index === i){
-        examenService.deleteExamen(listOfNewExam[i].id)
-        .then(response => {
-
-        })
-        .catch(error => {
-
-        })
-      }
-    }
-    
-    togglePropover();
-  }
 
   const button = (
     <div
-      onClick={togglePropover}
+      // onClick={togglePropover}
       style={{ width: 20, textAlign: "center", cursor: "pointer" }}
     >
       <span className="icon-ellipsis-v"></span>
@@ -319,15 +295,15 @@ const Propover = ({
                   />
                 ))
                 : exams.map(
-                    (exam, i) =>
-                      examId !== i && (
-                        <EuiListGroupItem
-                          key={i}
-                          onClick={() => handleCreateExamenLie(i)}
-                          label={`Examen ${i + 1}`}
-                        />
-                      )
-                 
+                  (exam, i) =>
+                    examId !== i && (
+                      <EuiListGroupItem
+                        key={i}
+                        onClick={() => handleCreateExamenLie(i)}
+                        label={`Examen ${i + 1}`}
+                      />
+                    )
+
                 )}
             </EuiListGroup>
           </EuiPopover>

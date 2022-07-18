@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getWindowSize } from "../../../hooks/dimensions";
+import { setError } from "../../../redux/commons/actions";
+import {
+  shareAllExams
+} from "../../../redux/examens/actions";
+import examenService from '../../../services/examens';
 import "../../../utils/groupe-et-exam.css";
 import { formatExamNumber } from "../../../utils/helper";
 import Propover from "../../Propover";
 import styles from "./styles";
-import colors from "../../../utils/colors";
-import {setError} from "../../../redux/commons/actions";
-import examenService from '../../../services/examens';
-import {
-  shareAllExams
-} from "../../../redux/examens/actions";
 
 
 const ExamItem = ({
@@ -32,7 +31,6 @@ const ExamItem = ({
   const praticienData = useSelector(state => state.ExamenReducer.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
   const examInfo = useSelector(state => state.ExamenReducer.examInfo);
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
   const [specialite, setSpecialite] = useState("");
   const [praticien, setPraticien] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
@@ -49,13 +47,13 @@ const ExamItem = ({
       window.removeEventListener("resize", handleWindowResiwe);
     };
   });
-   const handleGetExams = () => {
+  const handleGetExams = () => {
     examenService.getExamenByModelId(modelData.id)
       .then((response) => {
         dispatch(shareAllExams(response.data));
       })
       .catch((error) => {
-        
+
       });
   }
 
@@ -63,36 +61,43 @@ const ExamItem = ({
     setLoading(true);
     setErrorMessage(false);
     examenService.updateExamen(exam[index]?.id_examen, {
-            fixe: 1
+      id_modele: exam[index]?.id_modele,
+      id_modele_groupe: exam[index]?.id_modele_groupe,
+      id_praticien: exam[index]?.id_praticien,
+      id_profession: exam[index]?.id_profession,
+      id_lieu: exam[index]?.id_lieu,
+      fixe: 1,
+      position: exam[index]?.position,
+      id_motif: exam[index]?.id_motif,
     })
-    .then(response => {
-      setLoading(false)
-      setErrorMessage(false);
-      dispatch(setError(null));
-    })
-    .catch(error => {
-     setLoading(false)
-          setErrorMessage(true);
-          if (error.message === "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-          } else {
-            dispatch(setError("Une erreur est survenue"))
-          }
-    })
+      .then(response => {
+        setLoading(false)
+        setErrorMessage(false);
+        dispatch(setError(null));
+      })
+      .catch(error => {
+        setLoading(false)
+        setErrorMessage(true);
+        if (error.message === "Network Error") {
+          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+        } else {
+          dispatch(setError("Une erreur est survenue"))
+        }
+      })
   }
 
   const handleGetSpecialitie = () => {
-    for(var i=0; i<specialitieData.length; i++){
-      if(specialitieData[i]?.id == examInfo[index]?.id_specialite){
+    for (var i = 0; i < specialitieData.length; i++) {
+      if (specialitieData[i]?.id === examInfo[index]?.id_profession) {
         setSpecialite(specialitieData[i].libelle);
         return;
       }
     }
   }
-   const handleGetPraticien = () => {
-    for(var i=0; i<praticienData.length; i++){
-      if(praticienData[i]?.id_praticien == exam[index]?.id_praticien){
-        setPraticien(praticienData[i].nom_praticien+" "+praticienData[i].prenom_praticien);
+  const handleGetPraticien = () => {
+    for (var i = 0; i < praticienData.length; i++) {
+      if (praticienData[i]?.id_praticien == exam[index]?.id_praticien) {
+        setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
         return;
       }
     }
@@ -102,20 +107,20 @@ const ExamItem = ({
   }
 
   const handleDeleteExam = () => {
-   
+
     setLoading(true);
     handleLoading(true);
     examenService.deleteExamen(exam[index]?.id_examen || examenSelected[index]?.id_examen)
-    .then(response => {
-      handleGetExams();
-      setLoading(false);
-      handleLoading(false);
-    })
-    .catch(error => {
-      handleLoading(false);
-     setLoading(false);
-  
-    })
+      .then(response => {
+        handleGetExams();
+        setLoading(false);
+        handleLoading(false);
+      })
+      .catch(error => {
+        handleLoading(false);
+        setLoading(false);
+
+      })
   }
   const handleFixePosition = () => {
     handleUpdateExams();
