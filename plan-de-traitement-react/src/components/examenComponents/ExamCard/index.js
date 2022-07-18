@@ -57,7 +57,7 @@ function ExamCard({
       id_praticien: examenSelected[index]?.id_praticien,
       id_profession: examenSelected[index]?.id_profession,
       id_lieu: examenSelected[index]?.id_lieu,
-      fixe: examenSelected[index]?.fixe,
+      fixe: examenSelected[index]?.fixe ? 1 : 0,
       id_motif: examenSelected[index]?.id_motif,
     })
       .then(response => {

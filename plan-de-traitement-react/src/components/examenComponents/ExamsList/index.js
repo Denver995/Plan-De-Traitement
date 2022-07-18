@@ -67,7 +67,7 @@ const ExamsList = ({
         id_praticien: examsList[i][i]?.id_praticien,
         id_profession: examsList[i][i]?.id_profession,
         id_lieu: examsList[i][i]?.id_lieu,
-        fixe: examsList[i][i]?.fixe,
+        fixe: examsList[i][i]?.fixe ? 1 : 0,
         id_motif: examsList[i][i]?.id_motif,
       })
         .then(response => {
@@ -98,7 +98,7 @@ const ExamsList = ({
       id_praticien: item?.id_praticien,
       id_profession: item?.id_profession,
       id_lieu: item?.id_lieu,
-      fixe: item?.fixe,
+      fixe: item?.fixe ? 1 : 0,
       id_motif: item?.id_motif,
     })
       .then(response => {
