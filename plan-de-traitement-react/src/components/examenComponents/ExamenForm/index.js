@@ -258,6 +258,7 @@ const ExamenForm = ({
   };
 
   const updateFormData = (resetFormData = false, exam) => {
+    console.log(exam);
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
@@ -286,7 +287,7 @@ const ExamenForm = ({
     if(groupExamPayload&&groupExamPayload.idGroup){
       idGroup = groupExamPayload.idGroup;
     }
-    examenService.updateExamen(examenSelected[examenSelected.id-1].id_examen, {
+    examenService.updateExamen(examenSelected[examenSelected.indexExam].id_examen, {
             id_modele: parseInt(modelData.id),
             id_praticien: examenSelected.id_praticien?examenSelected.id_praticien:praticien,
             id_profession: 1,
@@ -422,7 +423,7 @@ const ExamenForm = ({
       examenSelected.id !== selectedExamId
     ) {
       setSelectedExamId(examenSelected.id);
-      updateFormData(false, examenSelected[examenSelected?.indexExam]);
+      updateFormData(false, examenSelected[examenSelected.indexExam]);
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
