@@ -15,6 +15,7 @@ import ModalWrapper from "../common/ModalWrapper";
 import styles from "./styles";
 
 const EspacementInterExamenForm = ({
+  isModelGroup,
   closeModal,
   parentSubExamId,
   forSubExam,
@@ -53,31 +54,7 @@ const EspacementInterExamenForm = ({
     },
   ];
 
-  const handleCreateGroupeLie = () => {
-    let data = {
-      id_groupe_parent: parseInt(initialId),
-      id_groupe_enfant: parseInt(initialId + 1),
-      espacement_min: minInterval,
-      espacement_max: maxInterval
-    }
-    setErrorMessage(false);
-    setLoading(true);
-    GroupeLieService.createGroupeLie(data)
-      .then(response => {
-        setErrorMessage(false)
-        dispatch(setError(null));
-        setLoading(false);
-      })
-      .catch(error => {
-        setLoading(false)
-        setErrorMessage(true)
-        if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-        } else {
-          dispatch(setError("Une erreur est survenue, veuillez réessayer"))
-        }
-      })
-  }
+
 
   useEffect(() => {
     setIsValid(isPossibleGranularly({ minInterval, minIntervalUnit }, { maxInterval, maxIntervalUnit }))
@@ -94,7 +71,6 @@ const EspacementInterExamenForm = ({
   const onChangeMaxIntervalUnit = (e) => setMaxIntervalUnit(e.target.value);
 
   const applyInterVale = (onAll = false) => {
-    handleCreateGroupeLie();
     if (typeEspacement === type_espacement.group) {
       dispatch(
         setEspacement({
@@ -140,9 +116,11 @@ const EspacementInterExamenForm = ({
   const submit = () => {
     const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
     const espacementData = {
+      initialIndex: initialIndex,
       initialId: initialId,
       minInterval: minInterval,
       maxInterval: maxInterval,
+      isModelGroup: isModelGroup,
       typeAl: "espacement"
     }
     const alertMessage =

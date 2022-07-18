@@ -8,17 +8,12 @@ class ExamenLieService {
   //NOT DONE
   createExamenLie = (values) => {
     const formdata = new FormData();
-    formdata.append("nom", values.nom);
-    formdata.append("id_modele", values.id_modele);
-    formdata.append("id_modele_groupe", values.id_model_groupe);
-    formdata.append("id_praticien", values.id_praticien);
-    formdata.append("id_profession", values.id_profession);
-    formdata.append("id_lieu", values.id_lieu);
-    formdata.append("fixe", values.fixe);
-    formdata.append("position", values.position);
-    formdata.append("id_motif", values.id_motif);
+    formdata.append("id_examen_parent", values.id_examen_parent);
+    formdata.append("id_examen_enfant", values.id_examen_enfant);
+    formdata.append("espacement_min", values.espacement_min);
+    formdata.append("espacement_max", values.espacement_max);
 
-    return http.post(BASE_URL_API + "api/api_examenlie/examenlie", values);
+    return http.post(BASE_URL_API + "api/api_examenlie/examenlie", formdata);
   }
 
   //NOT DONE
@@ -32,9 +27,14 @@ class ExamenLieService {
     return http.delete(BASE_URL_API + `api/api_examenlie/examenlie/${id_examenlie}`);
   }
   //NOT DONE
-  updateExamenLie = (id_examenlie, payload) => {
+  updateExamenLie = (id_examenlie, values) => {
+    const formdata = new FormData();
+    formdata.append("id_examen_parent", values.id_examen_parent);
+    formdata.append("id_examen_enfant", values.id_examen_enfant);
+    formdata.append("espacement_min", values.espacement_min);
+    formdata.append("espacement_max", values.espacement_max);
 
-    return http.put(BASE_URL_API + `api/api_examenlie/examenlie/${id_examenlie}`, payload);
+    return http.put(BASE_URL_API + `api/api_examenlie/examenlie/${id_examenlie}`, formdata);
   }
 
 

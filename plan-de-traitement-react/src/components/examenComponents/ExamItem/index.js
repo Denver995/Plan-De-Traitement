@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { getWindowSize } from "../../../hooks/dimensions";
 import "../../../utils/groupe-et-exam.css";
 import { formatExamNumber } from "../../../utils/helper";
 import Propover from "../../Propover";
 import styles from "./styles";
+import colors from "../../../utils/colors";
+import {setError} from "../../../redux/commons/actions";
+import examenService from '../../../services/examens';
+import {
+  shareAllExams
+} from "../../../redux/examens/actions";
 
 
 const ExamItem = ({
@@ -17,9 +24,24 @@ const ExamItem = ({
   groupKey,
   reload,
   setReload,
+  loadingScreen,
 }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
+  const [loading, setLoading] = useState(false);
+  const modelData = useSelector(state => state.ModelsReducer.modelData);
+  const praticienData = useSelector(state => state.ExamenReducer.praticienData);
+  const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
+  const examInfo = useSelector(state => state.ExamenReducer.examInfo);
+  const colorsArr = ["primaryLight", "danger", "success", "warning"];
+  const [specialite, setSpecialite] = useState("");
+  const [praticien, setPraticien] = useState("");
+  const [errorMessage, setErrorMessage] = useState(false);
+  const examenSelected = useSelector(
+    (state) => state.CommonReducer.examen.examData
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
+    console.log("examselected ",exam[index])
     function handleWindowResiwe() {
       setWindowSize(getWindowSize());
     }
@@ -28,19 +50,98 @@ const ExamItem = ({
       window.removeEventListener("resize", handleWindowResiwe);
     };
   });
+   const handleGetExams = () => {
+    examenService.getExamenByModelId(modelData.id)
+      .then((response) => {
+        dispatch(shareAllExams(response.data));
+      })
+      .catch((error) => {
+        console.log("error", error.message);
+      });
+  }
 
-  useEffect(() => { }, [reRender]);
+  const handleUpdateExams = () => {
+    setLoading(true);
+    setErrorMessage(false);
+    examenService.updateExamen(exam[index]?.id_examen, {
+            fixe: 1
+    })
+    .then(response => {
+      setLoading(false)
+      setErrorMessage(false);
+      dispatch(setError(null));
+    })
+    .catch(error => {
+     setLoading(false)
+          setErrorMessage(true);
+          if (error.message === "Network Error") {
+            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          } else {
+            dispatch(setError("Une erreur est survenue"))
+          }
+    })
+  }
+
+  const handleGetSpecialitie = () => {
+    for(var i=0; i<specialitieData.length; i++){
+      if(specialitieData[i]?.id == examInfo[index]?.id_specialite){
+        setSpecialite(specialitieData[i].libelle);
+        return;
+      }
+    }
+  }
+   const handleGetPraticien = () => {
+    for(var i=0; i<praticienData.length; i++){
+      if(praticienData[i]?.id_praticien == exam[index]?.id_praticien){
+        setPraticien(praticienData[i].nom_praticien+" "+praticienData[i].prenom_praticien);
+        return;
+      }
+    }
+  }
+  const handleLoading = (l) => {
+    loadingScreen(l)
+  }
+
+  const handleDeleteExam = () => {
+    console.log("delete exams")
+    setLoading(true);
+    handleLoading(true);
+    examenService.deleteExamen(exam[index]?.id_examen || examenSelected[index]?.id_examen)
+    .then(response => {
+      handleGetExams();
+      setLoading(false);
+      handleLoading(false);
+    })
+    .catch(error => {
+      handleLoading(false);
+     setLoading(false);
+  
+    })
+  }
+  const handleFixePosition = () => {
+    handleUpdateExams();
+  }
+
+
+  useEffect(() => {
+    handleGetSpecialitie();
+    handleGetPraticien();
+  }, [reRender]);
   return (
-    <div style={{ ...styles.lineWrapper, backgroundColor: exam.color }}>
+    <div style={{ ...styles.lineWrapper, backgroundColor: exam[index]?.color_type_rdv }}>
       <div style={styles.flex}>
         <div>
           <Propover
             index={index}
+            onFixePosition={handleFixePosition}
             showEditForm={showEditForm}
+            onDeleteExam={handleDeleteExam}
             exam={exam}
             isExamGroup={isExamGroup}
             groupKey={groupKey}
-            examId={index}
+            examId={exam[index]?.id_examen}
+            loading={loading}
+            loadingScreen={handleLoading}
             setReload={() => setReload(!reload)}
           />
         </div>
@@ -58,9 +159,9 @@ const ExamItem = ({
         </div>
       </div>
       <div className="exam-item-infos">
-        <span style={styles.special}>Ophtalmologie - IVT antiVGEF</span>
+        <span style={styles.special}>{specialite}</span>
         <span style={styles.separator}>|</span>
-        <span className="praticien-info">Dr.Dupont - Centre Perpignan</span>
+        <span className="praticien-info">{praticien}</span>
       </div>
     </div>
   );

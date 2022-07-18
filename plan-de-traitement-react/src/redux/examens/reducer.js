@@ -21,6 +21,14 @@ const INITIAL_STATE = {
   examsListGroup: [],
   groupWithFixedPosition: [],
   listOfNewExam: null,
+  getAllExams: [],
+  examIsEdit: null,
+  praticienData: null,
+  specialitieData: null,
+  lieuData: null,
+  MotifData: null,
+  examInfo: [],
+  examp: {},
   openGroup: "",
   examsGrouped: [],
   mustBeEditable: false,
@@ -77,6 +85,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.SHOW_EXAM_EDIT_FORM:
       return state;
+
     case types.ADD_EXAM:
       allExamTemp = state.exams;
       allExamTemp.push({ ...action.payload.exam, positionFixed: false });
@@ -163,6 +172,42 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         groupWithData: groups,
       };
 
+    case types.SHARE_ALL_EXAMS:
+      return {
+        ...state,
+        getAllExams: action.payload,
+      }
+
+    case types.SHARE_PRATICIEN_DATA:
+      return {
+        ...state,
+        praticienData: action.payload,
+      }
+
+    case types.SHARE_EXAM_PAYLOAD:
+      return {
+        ...state,
+        examInfo: state.examInfo.concat(action.payload),
+      }
+
+    case types.SHARE_SPECIALITIE_DATA:
+      return {
+        ...state,
+        specialitieData: action.payload,
+      }
+
+    case types.SHARE_LIEU:
+      return {
+        ...state,
+        lieuData: action.payload,
+      }
+
+    case types.SHARE_MOTIF:
+      return {
+        ...state,
+        motifData: action.payload,
+      }
+
     case types.NEW_EXAM:
       let newExamPayload = [];
       newExamPayload.push(action.payload);
@@ -170,6 +215,18 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         ...state,
         listOfNewExam: newExamPayload,
       }
+
+    case types.EXAM_TO_EDIT:
+      return {
+        ...state,
+        examIsEdit: action.payload,
+      }
+
+    case types.SHARE_EXAM_DATA:
+    return{
+      ...state,
+      examp: action.payload,
+    }
 
 
     case types.SHARE_GROUP_PAYLOAD:

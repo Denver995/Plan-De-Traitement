@@ -48,7 +48,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
   const [errorMessage, setErrorMessage] = useState('');
   let step = getStepByKey(steps, STEP1);
   const [groupe_rdv, setIsGroup] = useState(step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false);
-  const [nomModele, setNomModele] = useState(isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : "");
+  const [nomModele, setNomModele] = useState(isEdited ? modelData?.nom||modelData?.modelName : !isEdited && step.data.nom ? step.data.nom : "");
   const [showGroupOption, setShowGroupOption] = useState(!isEdited && step.data.nb_occurence ? true : false);
   const { innerWidth } = useDimension();
   const [listTypePeriode, setListTypePeriode] = useState([])
@@ -90,6 +90,32 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
       closeModal();
     }
 
+  }
+  const handleUpdateModele = () => {
+    ModelService.updateModele(modelData.id, {
+        nom: nomModele,
+        groupe_rdv: groupe_rdv ? 1 : 0,
+        id_granularite_groupe: 2,
+        id_granularite_examen: 2,
+        nb_occurence: parseInt(nombreOccurence),
+        id_entite: 4,
+        periode: periode ? periode : 1,
+        typePeriode: typePeriode,
+      })
+          .then((response) => {
+            dispatch(updateModel(nomModele));
+            onSaveChange("RECAPITULATIF");
+            setLoading(false)
+            dispatch(setError(null));
+          })
+          .catch((error) => {
+            setLoading(false)
+            if (error.message === "Network Error") {
+              dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            } else {
+              dispatch(setError("Une erreur est survenue"))
+            }
+          });
   }
 
   const createModele = (values) => {
@@ -177,6 +203,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
         .then((response) => {
           dispatch(setError(null));
           setShowGroupOption(true);
+          response.data.modelName = payload.nom;
           dispatch(setModelData(response.data));
           setLoading(false)
         })
@@ -380,10 +407,7 @@ const ModalForm = ({ closeModal, onSaveChange, isEdited, modelData, error }) => 
                 nomModele.length < 3 ? styles.addButton2 : styles.addButton
               }
               form={modalFormId}
-              onClick={() => {
-                dispatch(updateModel(nomModele));
-                onSaveChange("RECAPITULATIF");
-              }}
+              onClick={handleUpdateModele}
               disabled={nomModele.length < 3}
               fill={true}
               className="button_global btn-suivant-modelForm"

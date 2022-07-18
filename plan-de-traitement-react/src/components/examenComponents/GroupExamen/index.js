@@ -49,6 +49,7 @@ const GroupItem = ({
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
+  const examsListGroup = useSelector(state => state.ExamenReducer.examsListGroup);
   const [IsForSubExam, setIsForSubExam] = useState([false, 0, 0]);
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setReRender] = useState(false);
@@ -89,8 +90,14 @@ const GroupItem = ({
       })
   }
 
+  const handleLoading = (l) => {
+    setLoading(l);
+  }
+
 
   useEffect(() => {
+    console.log("Exams List group");
+    console.log(examsListGroup);
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
@@ -342,6 +349,7 @@ const GroupItem = ({
                                                     isExamGroup={true}
                                                     groupKey={groupKey}
                                                     setReload={setReload}
+                                                    loadingScreen={handleLoading}
                                                     reload={reload}
                                                   />
                                                   {i !==

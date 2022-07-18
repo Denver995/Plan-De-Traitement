@@ -6,8 +6,9 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { default as React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEspacement, setEspacementNonGroupe, setEspacementSubExam } from "../redux/examens/actions";
+import { setEspacement, setEspacementNonGroupe, setEspacementSubExam,examToUpdate } from "../redux/examens/actions";
 import examenService from '../services/examens';
+import examenLieService from '../services/examensLie';
 import { setComponent, setError, setShowExamForm } from "../redux/commons/actions";
 import {
   deleteExamGroup,
@@ -24,6 +25,8 @@ const Propover = ({
   isModelGroup,
   onDeleteGroup,
   onDeleteExam,
+  onUpdateExam,
+  onDeleteExamInGroup,
   idGroupe,
   onFixePosition,
   index,
@@ -40,6 +43,7 @@ const Propover = ({
   examsGrouped,
   onBack,
   isRecap,
+  loadingScreen
 }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
@@ -51,6 +55,7 @@ const Propover = ({
   const groupesWithData = useSelector(
     (state) => state.ExamenReducer.groupWithData
   );
+  const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const examsListGroup = useSelector(state => state.ExamenReducer.examsListGroup);
   const listOfNewExam = useSelector(state => state.ExamenReducer.listOfNewExam);
@@ -64,6 +69,7 @@ const Propover = ({
 
 
   const onEdit = () => {
+    console.log("isExamgroup ", JSON.stringify(exam) );
     dispatch(SetShowGroupeContentForUpdate(index))
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
@@ -93,6 +99,7 @@ const Propover = ({
       }
 
     } else {
+      exam.indexExam = index;
       dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
       isRecap && onBack();
     }
@@ -107,19 +114,17 @@ const Propover = ({
       return;
     }
 
-    handleDeleteExamen(index);
-    onDeleteExam();
-
-
     if (isExamGroup) {
+     onDeleteExam();
       dispatch(
         deleteExamGroup({
           groupKey: groupKey,
-          examId: examId,
+          examId: index,
         })
       );
     } else {
-      dispatch(deleteExamSimple({ examId: examId }));
+      onDeleteExam();
+      dispatch(deleteExamSimple({ examId: index }));
     }
 
     togglePropover();
@@ -127,6 +132,7 @@ const Propover = ({
 
   const onFixPosition = () => {
     if (isExamGroup) {
+      onFixePosition(index);
       dispatch(
         toggleFixExamPosition({
           selectedExam: index,
@@ -138,6 +144,7 @@ const Propover = ({
     } else {
       togglePropover();
       if (examId) {
+        console.log("I want to fixed position");
         dispatch(
           toggleFixExamPosition({
             selectedExam: examId,
@@ -145,23 +152,66 @@ const Propover = ({
           })
         );
       }
-      onFixePosition()
+      onFixePosition(index);
 
     }
   };
 
+  const load = (l) => {
+    loadingScreen(l);
+  }
+
+  const handleBindExamen = (data) => {
+    setErrorMessage(false);
+    setLoadingg(true);
+    load(true);
+    examenLieService.createExamenLie(data)
+      .then(response => {
+        setErrorMessage(false)
+        dispatch(setError(null));
+        setLoadingg(false);
+        load(false);
+      })
+      .catch(error => {
+        setLoadingg(false)
+        setErrorMessage(true)
+        load(false);
+        if (error.message === "Network Error") {
+          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+        } else {
+          dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+        }
+      })
+  }
+
+  const handleCreateExamenLie = (index) => {
+    for (let i = 0; i < getAllExams.length; i++) {
+      if (index === i) {
+        handleBindExamen({
+          id_examen_parent: examId,
+          id_examen_enfant: getAllExams[i].id_examen
+        })
+        return;
+      }
+
+    }
+  }
+
   const handleBindGroup = (data) => {
     setErrorMessage(false);
     setLoadingg(true);
+    load(true);
     GroupeLieService.createGroupeLie(data)
       .then(response => {
         setErrorMessage(false)
         dispatch(setError(null));
         setLoadingg(false);
+        load(false);
       })
       .catch(error => {
         setLoadingg(false)
         setErrorMessage(true)
+        load(false);
         if (error.message === "Network Error") {
           dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
         } else {
@@ -182,12 +232,10 @@ const Propover = ({
     }
   }
   useEffect(() => {
-
+    console.log("PROP EXAM", JSON.stringify(exam))
   }, [groupesWithData])
 
-  const handleBindExamen = (index) => {
-
-  }
+  
 
   const handleDeleteExamen = (index) => {
     for(let i=0; i<listOfNewExam.length; i++){
@@ -278,12 +326,11 @@ const Propover = ({
                       examId !== i && (
                         <EuiListGroupItem
                           key={i}
-                          onClick={() => handleBindExamen(i)}
+                          onClick={() => handleCreateExamenLie(i)}
                           label={`Examen ${i + 1}`}
                         />
                       )
-                  )}
-                  
+                 
                 )}
             </EuiListGroup>
           </EuiPopover>

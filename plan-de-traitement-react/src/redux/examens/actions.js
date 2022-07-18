@@ -17,6 +17,41 @@ export const setGroupeToEditeExam = (data) => {
   }
 }
 
+export const examToUpdate = (payload) => ({
+  type: types.EXAM_TO_EDIT,
+  payload,
+})
+
+export const shareExamData = (payload) => ({
+  type: types.SHARE_EXAM_DATA,
+  payload,
+})
+
+export const sharePraticienData = (payload) => ({
+  type: types.SHARE_PRATICIEN_DATA,
+  payload,
+});
+
+export const shareSpecialitieData = (payload) => ({
+  type: types.SHARE_SPECIALITIE_DATA,
+  payload,
+});
+
+export const shareLieu = (payload) => ({
+  type: types.SHARE_LIEU,
+  payload,
+});
+
+export const shareMotif= (payload) => ({
+  type: types.SHARE_MOTIF,
+  payload,
+}); 
+
+export const examPayload = (payload) => ({
+  type: types.SHARE_EXAM_PAYLOAD,
+  payload,
+});
+
 export const setShowExamForm = (show) => ({
   type: types.SHOW_EXAM_FORM,
   show,
@@ -26,6 +61,11 @@ export const createExamen = (payload) => ({
   type: types.CREATE_EXAMEN_REQUEST,
   payload,
 });
+
+export const shareAllExams = (payload) => ({
+  type: types.SHARE_ALL_EXAMS,
+  payload,
+})
 
 export const addExam = (payload) => ({
   type: types.ADD_EXAM,
