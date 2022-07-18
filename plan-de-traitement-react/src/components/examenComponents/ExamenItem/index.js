@@ -4,7 +4,7 @@ import {
   EuiListGroupItem,
   EuiListGroup,
 } from "@elastic/eui";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { editExam } from "../../../redux/commons/actions";
@@ -46,10 +46,10 @@ const ExamenItem = ({ data, showEditForm, color }) => {
         >
           <EuiListGroup>
             <EuiListGroupItem onClick={onEdit} label="Modifier" />
-            <EuiListGroupItem onClick={() => {}} label="Supprimer" />
-            <EuiListGroupItem onClick={() => {}} label="Fixer la position" />
+            <EuiListGroupItem onClick={() => { }} label="Supprimer" />
+            <EuiListGroupItem onClick={() => { }} label="Fixer la position" />
             <EuiListGroupItem
-              onClick={() => {}}
+              onClick={() => { }}
               label="Lier avec un autre examen"
             />
           </EuiListGroup>

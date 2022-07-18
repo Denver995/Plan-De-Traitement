@@ -4,19 +4,17 @@ import {
   EuiFlexItem,
   EuiSpacer
 } from "@elastic/eui";
-import React, { useEffect, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Plus } from "../../../assets/images";
-import { startLoading, setComponent, setError } from "../../../redux/commons/actions";
-import { CreateEspacementNonGroupe, 
-  setActualExamIndex,
-  shareAllExams, 
-  createExamen, createExamen as createExamenAction,
-  addExam,
-  storeExams } from "../../../redux/examens/actions";
+import { setComponent, setError, startLoading } from "../../../redux/commons/actions";
+import {
+  CreateEspacementNonGroupe,
+  setActualExamIndex, storeExams
+} from "../../../redux/examens/actions";
 import { addStep, desactivateStep } from "../../../redux/steps/actions";
 import examenService from '../../../services/examens';
 import { STEP2, STEP3, typeScreen } from "../../../utils/constants";
@@ -58,67 +56,81 @@ const ExamsList = ({
     dispatch(addStep(nextStep));
   };
 
- const handleUpdateExams = () => {
+  const handleUpdateExams = () => {
     setLoading(true);
     setErrorMessage(false);
-    for(var i=0; i<examsList.length; i++){
+    for (var i = 0; i < examsList.length; i++) {
       examenService.updateExamen(examsList[i][i].id_examen, {
-            position: i
-    })
-    .then(response => {
-      setLoading(false)
-      setErrorMessage(false);
-      dispatch(setError(null));
-    })
-    .catch(error => {
-     setLoading(false)
+        position: i,
+        id_modele: examsList[i][i]?.id_modele,
+        id_modele_groupe: examsList[i][i]?.id_modele_groupe,
+        id_praticien: examsList[i][i]?.id_praticien,
+        id_profession: examsList[i][i]?.id_profession,
+        id_lieu: examsList[i][i]?.id_lieu,
+        fixe: examsList[i][i]?.fixe ? 1 : 0,
+        id_motif: examsList[i][i]?.id_motif,
+      })
+        .then(response => {
+          setLoading(false)
+          setErrorMessage(false);
+          dispatch(setError(null));
+        })
+        .catch(error => {
+          setLoading(false)
           setErrorMessage(true);
           if (error.message === "Network Error") {
             dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
           } else {
             dispatch(setError("Une erreur est survenue"))
           }
-    })
+        })
     }
     onClickNext();
   }
 
-  const handleUpdateIndex = (id, index) => {
+  const handleUpdateIndex = (item, index) => {
     setLoading(true);
     setErrorMessage(false);
-    examenService.updateExamen(id, {
-              position: index,
-          })
-          .then(response => {
-                setLoading(false)
-                setErrorMessage(false);
-                dispatch(setError(null));
-                dispatch(setComponent(typeScreen.examList));
-          })
-          .catch(error => {
-                setLoading(false)
-                setErrorMessage(true);
-                if (error.message === "Network Error") {
-                  dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-                } else {
-                  dispatch(setError("Une erreur est survenue"))
-                }
-          })
+    examenService.updateExamen(item.id_examen, {
+      position: index,
+      id_modele: item?.id_modele,
+      id_modele_groupe: item?.id_modele_groupe,
+      id_praticien: item?.id_praticien,
+      id_profession: item?.id_profession,
+      id_lieu: item?.id_lieu,
+      fixe: item?.fixe ? 1 : 0,
+      id_motif: item?.id_motif,
+    })
+      .then(response => {
+        setLoading(false)
+        setErrorMessage(false);
+        dispatch(setError(null));
+        dispatch(setComponent(typeScreen.examList));
+      })
+      .catch(error => {
+        setLoading(false)
+        setErrorMessage(true);
+        if (error.message === "Network Error") {
+          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+        } else {
+          dispatch(setError("Une erreur est survenue"))
+        }
+      })
   }
 
   const handleUpdatePosition = (items, destinationIndex, sourceIndex) => {
     let tabItem = [];
     let itemForDestination;
     let itemForSource;
-    for(var i=0; i<items.length; i++){
-         itemForDestination = items[i][destinationIndex];
-         itemForSource = items[i][sourceIndex];
+    for (var i = 0; i < items.length; i++) {
+      itemForDestination = items[i][destinationIndex];
+      itemForSource = items[i][sourceIndex];
     }
     tabItem.push(itemForSource);
     tabItem.push(itemForDestination);
-    handleUpdateIndex(tabItem[0].id_examen, destinationIndex);
-    handleUpdateIndex(tabItem[1].id_examen, sourceIndex);
-}
+    handleUpdateIndex(tabItem[0], destinationIndex);
+    handleUpdateIndex(tabItem[1], sourceIndex);
+  }
 
   const handleOnDragEnd = (result) => {
     const items = Array.from(examsList);
@@ -130,7 +142,7 @@ const ExamsList = ({
       items.splice(result.destination.index, 1, source);
       items.splice(result.source.index, 1, destination);
       dispatch(storeExams(items));
-      handleUpdatePosition(items,result.destination.index,result.source.index);
+      handleUpdatePosition(items, result.destination.index, result.source.index);
     }
   };
   const onCancel = () => {
@@ -141,18 +153,9 @@ const ExamsList = ({
   const loadingScreen = (show) => {
     setLoading(show);
   }
-
-  const handleGetExams = () => {
-    setLoading(true);
-    examenService.getExamenByModelId(modelData.id)
-      .then((response) => {
-        setLoading(false);
-        dispatch(shareAllExams(response.data));
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  }
+  useEffect(() => {
+    console.log('ccccccccccccc ', modelData);
+  })
   useEffect(() => {
     setExamsList(exams);
   }, [exams]);
@@ -182,7 +185,7 @@ const ExamsList = ({
                     ref={provided.innerRef}
                     style={{ marginTop: 20, marginBottom: 10 }}
                   >
-                    {!loading? examsList.length > 0 &&
+                    {!loading ? examsList.length > 0 &&
                       examsList.map((item, index) => (
                         <Draggable
                           key={index}
@@ -289,10 +292,9 @@ const ExamsList = ({
                             </div>
                           )}
                         </Draggable>
-                      )): <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
-
-          </Box>}
+                      )) : <Box style={{ display: 'flex', alignItems: 'center' }}>
+                      <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
+                    </Box>}
                     {provided.placeholder}
                   </div>
                 )}
@@ -315,11 +317,7 @@ const ExamsList = ({
             <EuiSpacer size="xxl" />
           </div>
           <div style={styles.terminer}>
-            {/* {exams.length > 2 && (
-                <EuiButton onClick={onClickNext} style={styles.btnTerminer}>
-                  Terminer
-                </EuiButton>
-              )} */}
+
             <EuiFlexGroup
               className="btn_group"
               style={{
@@ -332,7 +330,7 @@ const ExamsList = ({
               <EuiButtonEmpty
                 fill="true"
                 className="button_cancel_me"
-                onClick={()=>onCancel()}
+                onClick={() => onCancel()}
               >
                 Retour
               </EuiButtonEmpty>

@@ -49,7 +49,6 @@ const GroupItem = ({
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
-  const examsListGroup = useSelector(state => state.ExamenReducer.examsListGroup);
   const [IsForSubExam, setIsForSubExam] = useState([false, 0, 0]);
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setReRender] = useState(false);
@@ -641,26 +640,26 @@ const GroupExamenSummary = ({
   const [errorMessage, setErrorMessage] = useState(false);
 
   const handleUpdateModele = () => {
-     setLoading(true);
-     ModelService.updateModele(modelData.id, {complet: true})
-          .then((response) => {
-            setLoading(false)
-            dispatch(setError(null));
-            
-          })
-          .catch((error) => {
-            setLoading(false)
-            if (error.message === "Network Error") {
-              dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-            } else {
-              dispatch(setError("Une erreur est survenue"))
-            }
-          });
-          let nextStep = createStep(STEP3);
-          nextStep.previousStep = previousStep;
-          dispatch(desactivateStep(STEP2));
-          dispatch(addStep(nextStep));
-          dispatch(SetShowGroupeContentForUpdate(-1))
+    setLoading(true);
+    ModelService.updateModele(modelData.id, { complet: true })
+      .then((response) => {
+        setLoading(false)
+        dispatch(setError(null));
+
+      })
+      .catch((error) => {
+        setLoading(false)
+        if (error.message === "Network Error") {
+          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+        } else {
+          dispatch(setError("Une erreur est survenue"))
+        }
+      });
+    let nextStep = createStep(STEP3);
+    nextStep.previousStep = previousStep;
+    dispatch(desactivateStep(STEP2));
+    dispatch(addStep(nextStep));
+    dispatch(SetShowGroupeContentForUpdate(-1))
   }
 
   const onClickNext = () => {
@@ -767,11 +766,11 @@ const GroupExamenSummary = ({
               className="button_next_me"
               onClick={onClickNext}
             >{loading ?
-                <Box style={{ display: 'flex', alignItems: 'center' }}>
-                  <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
-                  Enregistrer
-                </Box>
-                : <>Enregistrer</>
+              <Box style={{ display: 'flex', alignItems: 'center' }}>
+                <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
+                Enregistrer
+              </Box>
+              : <>Enregistrer</>
               }
             </EuiButton>}
             <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
@@ -781,12 +780,12 @@ const GroupExamenSummary = ({
         </>
       )}
       <EuiSpacer size="xl" />
-        {errorMessage && (
-          <>
-            <EuiSpacer size="xl" />
-            <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-          </>
-        )}
+      {errorMessage && (
+        <>
+          <EuiSpacer size="xl" />
+          <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+        </>
+      )}
     </ModalWrapper>
   );
 };

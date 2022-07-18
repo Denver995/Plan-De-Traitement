@@ -78,7 +78,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
               <div className="card-content-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
                   <strong>
-                    {exam.id_specialite ? exam.id_specialite : "Spécialité"} -{" "}
+                    {exam.id_profession ? exam.id_profession : "Spécialité"} -{" "}
                     {exam.id_modif ? exam.id_modif : "exam.id_modif"}
                   </strong>
                 </h4>

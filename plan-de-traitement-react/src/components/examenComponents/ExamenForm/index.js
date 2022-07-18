@@ -15,17 +15,9 @@ import "../../../modifierexamen.css";
 import { setAlert, setComponent, setError, startLoading } from "../../../redux/commons/actions";
 import {
   addExam,
-  addExamGrouped, addExamOnAllGroups, 
-  CreateEspacement, CreateEspacementSubExam, 
-  createExamen, createExamen as createExamenAction, 
-  createGroups, mostBeEditable, setShowExamForm, shareGroupPayload,
-  shareListExamGroup,shareAllExams, 
-  examPayload,
-  shareExamData, 
-  sharePraticienData, 
-  shareSpecialitieData,
-  shareLieu,
-  shareMotif
+  addExamGrouped, addExamOnAllGroups, CreateEspacementSubExam,
+  createExamen, createExamen as createExamenAction, examPayload, mostBeEditable, setShowExamForm, shareAllExams, shareExamData, shareLieu, shareMotif, sharePraticienData,
+  shareSpecialitieData
 } from "../../../redux/examens/actions";
 import {
   addStep,
@@ -34,12 +26,9 @@ import {
 } from "../../../redux/steps/actions";
 import examenService from '../../../services/examens';
 import LieuxService from "../../../services/lieux";
-import ModelGroupeService from "../../../services/modelGroupe";
-import ModelService from "../../../services/models";
 import MotifsService from "../../../services/motifs";
 import PraticiensService from "../../../services/praticiens";
 import SpecialiteService from "../../../services/specialites";
-import colors from "../../../utils/colors";
 import { STEP2, STEP3, typeScreen } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -90,7 +79,6 @@ const ExamenForm = ({
   const [listMotif, setListMotif] = useState([])
   const [listPraticien, setListPraticien] = useState([]);
   const { innerWidth } = useDimension();
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -118,43 +106,10 @@ const ExamenForm = ({
     }
   };
 
- useEffect(() => {
- }, [])
-
-  const handleGetExamenGroup = () => {
-    examenService.getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
-      .then(response => {
-        dispatch(shareListExamGroup(response.data.data));
-      })
-      .catch(error => {
-      })
-  }
+  useEffect(() => {
+  }, [])
 
 
-
-  const handleCreateExamenGroup = (data) => {
-    setLoading(true);
-    setErrorMessage(false)
-    examenService.createExamen(data)
-      .then((response) => {
-        setLoading(false)
-        setErrorMessage(false);
-        dispatch(setError(null))
-        dispatch(createExamen(response.data.data));
-        onAddExam({ name: "EXAMSLIST" });
-        dispatch(addExam({ exam: response.data.data }));
-        dispatch(createExamenAction(data));
-        handleGetExamenGroup();
-      })
-      .catch((error) => {
-        setLoading(false)
-        if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
-        } else {
-          dispatch(setError("Une erreur est survenue"))
-        }
-      });
-  }
   const handleGetExams = () => {
     setLoading(true);
     examenService.getExamenByModelId(modelData.id)
@@ -176,7 +131,7 @@ const ExamenForm = ({
     id_praticien: praticien,
     id_lieu: lieu,
     id_motif: motif,
-    id_specialite: specialite,
+    id_profession: specialite,
     fixedPosition: fixedExamPosition,
     typeAl: "examens"
   };
@@ -188,10 +143,9 @@ const ExamenForm = ({
       id_modele: parseInt(modelData.id),
       id_modele_groupe: groupExamPayload.idGroup,
       id_praticien: praticien,
-      id_profession: 1,
       id_lieu: lieu,
       id_motif: motif,
-      id_specialite: specialite,
+      id_profession: specialite,
       fixe: fixedExamPosition ? 1 : 0,
       positionFixed: fixedExamPosition,
       position: 1,
@@ -232,16 +186,15 @@ const ExamenForm = ({
       setLoading(true)
       setErrorMessage(false);
       examenService.createExamen({
-            id_modele: parseInt(modelData.id),
-            id_praticien: praticien,
-            id_profession: 1,
-            id_lieu: lieu,
-            id_motif: motif,
-            id_specialite: specialite,
-            fixe: fixedExamPosition ? 1 : 0,
-            positionFixed: fixedExamPosition,
-            position: 1,
-        })
+        id_modele: parseInt(modelData.id),
+        id_praticien: praticien,
+        id_lieu: lieu,
+        id_motif: motif,
+        id_profession: specialite,
+        fixe: fixedExamPosition ? 1 : 0,
+        positionFixed: fixedExamPosition,
+        position: 1,
+      })
         .then((response) => {
           handleGetExams();
         })
@@ -262,29 +215,14 @@ const ExamenForm = ({
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
-    setSpecialite(resetFormData ? "" : exam?.id_specialite);
+    setSpecialite(resetFormData ? "" : exam?.id_profession);
   };
-
-
-  const handleGetGroup = () => {
-    setLoading(true);
-    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
-      .then(response => {
-        setLoading(false);
-        dispatch(shareGroupPayload(response.data.data))
-        dispatch(createGroups(response.data.data.length));
-        dispatch(CreateEspacement(response.data.data.length - 1));
-      })
-      .catch(error => {
-        setLoading(false);
-      })
-  }
 
   const handleUpdateExams = () => {
     setLoading(true);
     setErrorMessage(false);
     let idGroup = 0;
-    if(groupExamPayload&&groupExamPayload.idGroup){
+    if (groupExamPayload && groupExamPayload.idGroup) {
       idGroup = groupExamPayload.idGroup;
     }
     examenService.updateExamen(examenSelected[examenSelected.indexExam].id_examen, {
@@ -313,13 +251,12 @@ const ExamenForm = ({
           } else {
             dispatch(setError("Une erreur est survenue"))
           }
-    })
-  }
+  })
+}
 
 
   const onEditExamen = () => {
     if (mustBeEditable) {
-      //handleUpdateExams();
       dispatch(mostBeEditable(false))
       onPrevious()
     } else {
@@ -327,41 +264,29 @@ const ExamenForm = ({
     }
     return;
   };
-
-
-  const handleDeleteModele = () => {
-    ModelService.deleteModele(modelData.id)
-      .then(response => {
-        handleGetGroup();
-      })
-      .catch(error => {
-      })
-  }
-
   const onCancel = () => {
-    if(isModelGroup){
+    if (isModelGroup) {
       if (formType === typeScreen.examFormEdit) {
-      dispatch(setComponent(typeScreen.examList));
-      return;
-    }
-    if (predecessor === typeScreen.examList) {
-      dispatch(setComponent(typeScreen.examList));
-      return;
-    }
-    onPrevious && onPrevious();
+        dispatch(setComponent(typeScreen.examList));
+        return;
+      }
+      if (predecessor === typeScreen.examList) {
+        dispatch(setComponent(typeScreen.examList));
+        return;
+      }
+      onPrevious && onPrevious();
 
-    }else{
-   // handleDeleteModele();
-    if (formType === typeScreen.examFormEdit) {
-      dispatch(setComponent(typeScreen.examList));
-      return;
-    }
-    if (predecessor === typeScreen.examList) {
-      dispatch(setComponent(typeScreen.examList));
-      return;
-    }
-    onPrevious && onPrevious();
-    
+    } else {
+      if (formType === typeScreen.examFormEdit) {
+        dispatch(setComponent(typeScreen.examList));
+        return;
+      }
+      if (predecessor === typeScreen.examList) {
+        dispatch(setComponent(typeScreen.examList));
+        return;
+      }
+      onPrevious && onPrevious();
+
     }
   };
 
@@ -415,6 +340,7 @@ const ExamenForm = ({
       .catch((error) => {
       });
   }, []);
+
   useEffect(() => {
     if (reload) setReload(false);
     if (
@@ -536,41 +462,41 @@ const ExamenForm = ({
             </div>
             {showEditForm ? (
               <div>
-              <EuiFlexGroup
-                className="btn_group"
-                style={{
-                  flexDirection: innerWidth < 768 ? "column-reverse" : "",
-                }}
-              >
-                <EuiButtonEmpty
-                  fill="true"
-                  className="button_cancel_me"
-                  onClick={() => {
-                    onCancel();
+                <EuiFlexGroup
+                  className="btn_group"
+                  style={{
+                    flexDirection: innerWidth < 768 ? "column-reverse" : "",
                   }}
                 >
-                  Retour
-                </EuiButtonEmpty>
-                <EuiButton
-                  disabled={motif === "" || lieu === "" || specialite === ""}
-                  style={
-                    motif === "" || lieu === "" || specialite === ""
-                      ? styles.deactivated
-                      : styles.activated
-                  }
-                  onClick={onEditExamen}
-                  className="button_next_me"
-                >
-                {loading ?
-                    <Box style={{ display: 'flex', alignItems: 'center' }}>
-                      <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
-                      Enregistrer
-                    </Box>
-                    : <>Enregistrer</>}
-                  
-                </EuiButton>
-              </EuiFlexGroup>
-              
+                  <EuiButtonEmpty
+                    fill="true"
+                    className="button_cancel_me"
+                    onClick={() => {
+                      onCancel();
+                    }}
+                  >
+                    Retour
+                  </EuiButtonEmpty>
+                  <EuiButton
+                    disabled={motif === "" || lieu === "" || specialite === ""}
+                    style={
+                      motif === "" || lieu === "" || specialite === ""
+                        ? styles.deactivated
+                        : styles.activated
+                    }
+                    onClick={onEditExamen}
+                    className="button_next_me"
+                  >
+                    {loading ?
+                      <Box style={{ display: 'flex', alignItems: 'center' }}>
+                        <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
+                        Enregistrer
+                      </Box>
+                      : <>Enregistrer</>}
+
+                  </EuiButton>
+                </EuiFlexGroup>
+
               </div>
 
             ) : (
@@ -610,11 +536,11 @@ const ExamenForm = ({
               </EuiFlexGroup>
             )}
             {errorMessage && (
-                  <>
-                    <EuiSpacer size="xl" />
-                    <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-                  </>
-                )}
+              <>
+                <EuiSpacer size="xl" />
+                <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+              </>
+            )}
             {!showEditForm && listExam.length > 2 && (
               <>
                 <EuiFlexGroup>
