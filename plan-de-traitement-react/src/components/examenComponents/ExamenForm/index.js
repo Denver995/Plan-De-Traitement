@@ -225,7 +225,7 @@ const ExamenForm = ({
     if (groupExamPayload && groupExamPayload.idGroup) {
       idGroup = groupExamPayload.idGroup;
     }
-    examenService.updateExamen(examenSelected[examenSelected.id - 1].id_examen, {
+    examenService.updateExamen(examenSelected.id, {
       id_modele: parseInt(modelData.id),
       id_praticien: examenSelected.id_praticien ? examenSelected.id_praticien : praticien,
       id_lieu: examenSelected.id_lieu ? examenSelected.id_lieu : lieu,
@@ -251,13 +251,18 @@ const ExamenForm = ({
   const onEditExamen = () => {
     if (mustBeEditable) {
       dispatch(mostBeEditable(false))
+      handleUpdateExams();
       onPrevious()
     } else {
       handleUpdateExams();
     }
     return;
   };
+
+  
   const onCancel = () => {
+    console.log("cancel--");
+    dispatch(mostBeEditable(false));
     if (isModelGroup) {
       if (formType === typeScreen.examFormEdit) {
         dispatch(setComponent(typeScreen.examList));
