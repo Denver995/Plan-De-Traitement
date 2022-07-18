@@ -100,7 +100,7 @@ const RecapitulatifDesExamens = ({
               <div style={styles.headTitleContainer}>
                 <p style={styles.headTitle}>
                   {recapType === typeRecap.model
-                    ? modelData.nom
+                    ? modelData.nom || modelData.modelName
                     : appointmentData.model.nom}
                 </p>
                 {recapType === typeRecap.model && (

@@ -59,7 +59,6 @@ const Alert = ({
   const { innerHeight, innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  console.log("dimensions: ", { innerHeight, innerWidth });
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   useEffect(() => {
@@ -68,11 +67,9 @@ const Alert = ({
   const handleGetExamenGroup = () => {
     examenService.getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
     .then(response => {
-        console.log("Response For get exams in group ", JSON.stringify(response.data.data))
         dispatch(shareListExamGroup(response.data.data));  
     })
     .catch(error => {
-      console.log(error);
     })
   }
 
@@ -128,7 +125,6 @@ const Alert = ({
   }
 
   const handleCreateExamenLie = () =>{
-    console.log("exam lie", alert?.espacementData?.initialIndex)
     setErrorMessage(false);
     setLoading(true);
     let initialIds = 0;
@@ -137,7 +133,6 @@ const Alert = ({
         initialIds = getAllExams[i].id_examen;
       }
     }
-    console.log("exam lie", initialIds)
     examenLieService.createExamenLie({
       id_examen_parent: parseInt(initialIds),
       id_examen_enfant: parseInt(initialIds+1),
@@ -237,7 +232,6 @@ const Alert = ({
         })
         .then((response) => {
           handleGetExamenGroup();
-          console.log("RESPONSE FOR POST EXAMS", JSON.stringify(response.data));
           onReject();
           setLoading(false);
           setErrorMessage(false);
@@ -302,7 +296,6 @@ const Alert = ({
           } else if (alert?.userIn?.typeAl === "examens") {
             handleCreateExamenForAll();
           }else if(!isComplete){
-            console.log("create modele", "hello complete");
             handleUpdateModele();
           }
     }
@@ -312,7 +305,6 @@ const Alert = ({
   const goBack = () => {
     if (onReject){
       if(alert?.espacementData?.typeAl === "espacement"){
-        console.log(alert?.espacementData?.isModelGroup);
          if(!alert?.espacementData?.isModelGroup){
           handleCreateExamenLie();
         }else{
@@ -349,7 +341,7 @@ const Alert = ({
               Ce modèle va être enregistré sous le nom :
               <br />
               <div style={styles.textTitle}>
-                {modelData.nom}
+                {modelData.nom || modelData.modelName}
                 <div
                   style={styles.pencil}
                   onClick={() => {

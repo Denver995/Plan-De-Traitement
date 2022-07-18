@@ -45,8 +45,6 @@ function ExamCard({
     handleGetPraticien();
     handleGetLieu();
     handleGetMotif();
-    console.log("mygroupdata",JSON.stringify(groupesWithData[groupKey])) 
-    console.log("myexamen", JSON.stringify(examen))
   }, [groupesWithData])
 
   const handleUpdateExams = () => {
@@ -56,7 +54,6 @@ function ExamCard({
             position: index+1
     })
     .then(response => {
-      console.log(response.data)
       setLoading(false)
       setErrorMessage(false);
       dispatch(setError(null));
@@ -89,7 +86,6 @@ function ExamCard({
     })
   }
   const handleFixePosition = () => {
-    console.log("fixe pos---- ", index);
     handleUpdateExams();
   }
 

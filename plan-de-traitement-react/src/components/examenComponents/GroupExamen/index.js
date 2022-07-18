@@ -96,8 +96,6 @@ const GroupItem = ({
 
 
   useEffect(() => {
-    console.log("Exams List group");
-    console.log(examsListGroup);
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;

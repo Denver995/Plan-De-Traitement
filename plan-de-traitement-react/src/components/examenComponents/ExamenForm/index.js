@@ -169,7 +169,6 @@ const ExamenForm = ({
       })
       .catch((error) => {
         setLoading(false);
-        console.log("error", error.message);
       });
   }
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
@@ -188,7 +187,6 @@ const ExamenForm = ({
     const payload = {
       id_modele: parseInt(modelData.id),
       id_modele_groupe: groupExamPayload.idGroup,
-      color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
       id_praticien: praticien,
       id_profession: 1,
       id_lieu: lieu,
@@ -235,7 +233,6 @@ const ExamenForm = ({
       setErrorMessage(false);
       examenService.createExamen({
             id_modele: parseInt(modelData.id),
-            color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
             id_praticien: praticien,
             id_profession: 1,
             id_lieu: lieu,
@@ -291,7 +288,6 @@ const ExamenForm = ({
     }
     examenService.updateExamen(examenSelected[examenSelected.id-1].id_examen, {
             id_modele: parseInt(modelData.id),
-            color: colors[colorsArr[Math.round(Math.random() * colorsArr.length)]],
             id_praticien: examenSelected.id_praticien?examenSelected.id_praticien:praticien,
             id_profession: 1,
             id_lieu: examenSelected.id_lieu?examenSelected.id_lieu:lieu,
@@ -303,7 +299,6 @@ const ExamenForm = ({
             position: examenSelected.position?examenSelected.position:1,
         })
     .then(response => {
-      console.log(response.data)
       setLoading(false)
       setErrorMessage(false);
       dispatch(setError(null));

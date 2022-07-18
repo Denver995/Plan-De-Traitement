@@ -41,7 +41,6 @@ const ExamItem = ({
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("examselected ",exam[index])
     function handleWindowResiwe() {
       setWindowSize(getWindowSize());
     }
@@ -56,7 +55,7 @@ const ExamItem = ({
         dispatch(shareAllExams(response.data));
       })
       .catch((error) => {
-        console.log("error", error.message);
+        
       });
   }
 
@@ -103,7 +102,7 @@ const ExamItem = ({
   }
 
   const handleDeleteExam = () => {
-    console.log("delete exams")
+   
     setLoading(true);
     handleLoading(true);
     examenService.deleteExamen(exam[index]?.id_examen || examenSelected[index]?.id_examen)

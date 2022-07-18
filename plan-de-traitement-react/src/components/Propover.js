@@ -69,7 +69,6 @@ const Propover = ({
 
 
   const onEdit = () => {
-    console.log("isExamgroup ", JSON.stringify(exam) );
     dispatch(SetShowGroupeContentForUpdate(index))
     dispatch(editExam({ ...exam, id: examId + 1 }));
     if (isExamGroup) {
@@ -144,7 +143,6 @@ const Propover = ({
     } else {
       togglePropover();
       if (examId) {
-        console.log("I want to fixed position");
         dispatch(
           toggleFixExamPosition({
             selectedExam: examId,
@@ -232,7 +230,6 @@ const Propover = ({
     }
   }
   useEffect(() => {
-    console.log("PROP EXAM", JSON.stringify(exam))
   }, [groupesWithData])
 
   

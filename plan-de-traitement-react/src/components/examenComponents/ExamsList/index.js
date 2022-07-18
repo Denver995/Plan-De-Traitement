@@ -90,7 +90,6 @@ const ExamsList = ({
               position: index,
           })
           .then(response => {
-            console.log("Successfully update position")
                 setLoading(false)
                 setErrorMessage(false);
                 dispatch(setError(null));
@@ -152,7 +151,6 @@ const ExamsList = ({
       })
       .catch((error) => {
         setLoading(false);
-        console.log("error", error.message);
       });
   }
   useEffect(() => {
