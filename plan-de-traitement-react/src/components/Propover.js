@@ -44,6 +44,7 @@ const Propover = ({
 }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
+  const togglePropover = () => setPopover(!isPopoverOpen);
   const [isOpen, setIsOpen] = useState(false);
   const [panelRef] = useState(null);
   const contextMenuPopoverId = useGeneratedHtmlId({
@@ -97,13 +98,13 @@ const Propover = ({
       dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
       isRecap && onBack();
     }
-    // togglePropover();
+    togglePropover();
   };
 
   const onDelete = (index) => {
     if (isModelGroup) {
       onDeleteGroup();
-      // togglePropover();
+      togglePropover();
       setRerenderDel(true);
       return;
     }
@@ -121,7 +122,7 @@ const Propover = ({
       dispatch(deleteExamSimple({ examId: index }));
     }
 
-    // togglePropover();
+    togglePropover();
   };
 
   const onFixPosition = () => {
@@ -134,9 +135,9 @@ const Propover = ({
           isExamGrouped: true,
         })
       );
-      // togglePropover();
+      togglePropover();
     } else {
-      // togglePropover();
+      togglePropover();
       if (examId) {
         dispatch(
           toggleFixExamPosition({
@@ -230,7 +231,7 @@ const Propover = ({
 
   const button = (
     <div
-      // onClick={togglePropover}
+      onClick={togglePropover}
       style={{ width: 20, textAlign: "center", cursor: "pointer" }}
     >
       <span className="icon-ellipsis-v"></span>
