@@ -61,7 +61,7 @@ const Propover = ({
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const togglePropover = () => setPopover(!isPopoverOpen);
   const groupPayload = useSelector((state) => state.ExamenReducer.groupPayload);
-  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam)
+  const espacementSubExam = useSelector(state => state.ExamenReducer.espacementSubExam)
   const handleClick = () => setIsOpen(!isOpen);
   const handleClose = () => setIsOpen(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -225,9 +225,9 @@ const Propover = ({
         container={panelRef}
       >
         <EuiListGroup>
-
-          <EuiListGroupItem onClick={onEdit} label="Modifier" />
-
+          {!isModelGroup &&
+            <EuiListGroupItem onClick={onEdit} label="Modifier" />
+          }
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
           <EuiListGroupItem
             onClick={onFixPosition}
@@ -264,9 +264,9 @@ const Propover = ({
                     onClick={() => {
                       let child = "group " + i
                       dispatch(linkToGroup({ idGroupe, child }))
-                      try{
+                      try {
                         handleCreateGroupeLie(i)
-                      }catch(err){
+                      } catch (err) {
                       }
                       handleClose();
                       togglePropover();
