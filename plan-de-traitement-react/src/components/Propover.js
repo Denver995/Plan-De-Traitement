@@ -36,6 +36,7 @@ const Propover = ({
   index,
   onEditItem,
   forEXam,
+  isOnGroupe,
   setRerenderDel,
   examId,
   loading,
@@ -228,7 +229,7 @@ const Propover = ({
         container={panelRef}
       >
         <EuiListGroup>
-          { isRecap &&
+          { !isOnGroupe &&
             <EuiListGroupItem onClick={onEdit} label="Modifier" />
           }
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />

@@ -191,6 +191,7 @@ const GroupItem = ({
                           >
                             <div style={{ marginRight: 25 }}>
                               <Propover
+                                isOnGroupe = {true}
                                 idGroupe={groupKey}
                                 isModelGroup={true}
                                 idGroup={groupWithData[groupKey]?.payload?.id_modele_groupe}
