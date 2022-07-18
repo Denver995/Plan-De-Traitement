@@ -76,6 +76,7 @@ const ExamenForm = ({
   const mustBeEditable = useSelector(
     (state) => state.ExamenReducer.mustBeEditable
   );
+  const examGroupedToEdite = useSelector(state=>state.ExamenReducer.ExamenReducer)
   const steps = useSelector((state) => state.StepReducer.steps);
   const error = useSelector((state) => state.CommonReducer.error);
   const groupExamPayload = useSelector(
@@ -366,9 +367,9 @@ const ExamenForm = ({
       examenSelected.id !== selectedExamId
     ) {
       setSelectedExamId(examenSelected.id);
-      updateFormData(false, examenSelected);
+      updateFormData(false, examenSelected ? examenSelected : examGroupedToEdite ? examGroupedToEdite : null);
     }
-  }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
+  }, [reload, examenSelected, showEditForm, steps, selectedExamId, examGroupedToEdite]);
 
   useEffect(() => {}, [groupSelected, examsGrouped]);
 

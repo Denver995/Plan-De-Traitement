@@ -18,6 +18,7 @@ import {
   deleteExamGroup,
   deleteExamSimple,
   editExam,
+  editExamGrouped,
   linkToExam,
   linkToGroup,
   mostBeEditable,
@@ -75,6 +76,7 @@ const Propover = ({
         dispatch(setGroupeToEditeExam({ groupKey, index }));
         dispatch(mostBeEditable(true));
         dispatch(setShowExamForm({ show: true }));
+        dispatch(editExamGrouped(groupesWithData[groupKey].exams[examId]))
         dispatch(
           setComponent({
             name: "EXAMENFORMEDIT",
@@ -86,6 +88,7 @@ const Propover = ({
       } else {
         dispatch(mostBeEditable(true));
         dispatch(setShowExamForm({ show: true }));
+        dispatch(editExamGrouped(groupesWithData[groupKey].exams[index]))
         dispatch(
           setComponent({
             name: "EXAMENFORMEDIT",
@@ -225,7 +228,7 @@ const Propover = ({
         container={panelRef}
       >
         <EuiListGroup>
-          {!isModelGroup &&
+          { isRecap &&
             <EuiListGroupItem onClick={onEdit} label="Modifier" />
           }
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />

@@ -65,7 +65,8 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
     case types.EDIT_EXAM_GROUP:
       return {
-        ...state
+        ...state,
+        examGroupedToEdite : action.examData
       };
     case types.SHOW_EXAM_FORM:
       return {
