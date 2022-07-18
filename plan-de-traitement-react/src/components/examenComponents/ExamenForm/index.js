@@ -231,7 +231,7 @@ const ExamenForm = ({
       id_motif: examenSelected.id_motif ? examenSelected.id_motif : motif,
       id_profession: specialite,
       id_modele_groupe: idGroup,
-      fixe: fixedExamPosition ? 1 : 0,
+      fixe: fixedExamPosition ? 1 : 0 ? 1 : 0,
       positionFixed: fixedExamPosition,
       position: examenSelected.position ? examenSelected.position : 1,
     })

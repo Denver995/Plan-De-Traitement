@@ -223,7 +223,7 @@ const Alert = ({
       id_modele: parseInt(modelData.id),
       id_modele_groupe: groupExamPayload.idGroup,
       id_praticien: alert?.userIn?.id_praticien,
-      id_profession: 1,
+      id_profession: alert?.userIn?.id_profession,
       id_lieu: alert?.userIn?.id_lieu,
       id_motif: alert?.userIn?.id_motif,
       fixe: alert?.userIn?.fixedPosition ? 1 : 0,
