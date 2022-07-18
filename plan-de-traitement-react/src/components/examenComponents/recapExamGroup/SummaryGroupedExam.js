@@ -55,7 +55,7 @@ const SummaryGroupedExam = ({
   }
 
   const onBack = () => {
-    if (groupeToShowContentId !== -1) {
+    if (false) {
       dispatch(SetShowGroupeContentForUpdate(-1))
     } else {
       if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
@@ -140,6 +140,7 @@ const SummaryGroupedExam = ({
               <div key={index} style={{ position: "relative" }}>
                 <TimeLineHelper index={index} entityType={"Examen"} />
                 <ExamCard
+                  onBack={onBack}
                   examen={exam}
                   isExamGroup={true}
                   groupKey={'group ' + groupeToShowContentId}

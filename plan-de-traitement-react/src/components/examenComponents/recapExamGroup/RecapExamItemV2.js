@@ -17,7 +17,9 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
   );
   useEffect(() => {
     setRerenderDel(true)
-  }, [reRenderDel, groupesWithData])
+  }, [reRenderDel])
+  useEffect(() => { }, [groupesWithData])
+
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -62,7 +64,7 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
         </div>
       )}
 
-      {data?.map((exam, index) => (
+      {groupesWithData[groupKey]?.exams?.map((exam, index) => (
         <div key={index}>
           <div
             style={{

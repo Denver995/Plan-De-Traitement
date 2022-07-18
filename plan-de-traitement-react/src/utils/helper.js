@@ -117,3 +117,7 @@ export const getGroupeKeyPosition = (allGroupes, groupeKey) => {
   }
   return position;
 }
+
+export const getFisrtLetter = (word) => {
+  return word.charAt(0).toLowerCase()
+}
