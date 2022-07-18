@@ -91,6 +91,8 @@ const Propover = ({
       }
 
     } else {
+      dispatch(mostBeEditable(true));
+      dispatch(setShowExamForm({ show: true }));
       exam.indexExam = index;
       dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
       isRecap && onBack();

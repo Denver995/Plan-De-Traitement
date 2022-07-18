@@ -211,6 +211,7 @@ const ExamenForm = ({
   };
 
   const updateFormData = (resetFormData = false, exam) => {
+    console.log(exam);
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
@@ -235,12 +236,6 @@ const ExamenForm = ({
       positionFixed: fixedExamPosition,
       position: examenSelected.position ? examenSelected.position : 1,
     })
-      .then(response => {
-        setLoading(false)
-        setErrorMessage(false);
-        dispatch(setError(null));
-        dispatch(setComponent(typeScreen.examList));
-      })
       .catch(error => {
         setLoading(false)
         setErrorMessage(true);
@@ -347,7 +342,7 @@ const ExamenForm = ({
       examenSelected.id !== selectedExamId
     ) {
       setSelectedExamId(examenSelected.id);
-      updateFormData(false, examenSelected[examenSelected?.indexExam]);
+      updateFormData(false, examenSelected[examenSelected.indexExam]);
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
 
