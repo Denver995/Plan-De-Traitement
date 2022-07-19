@@ -154,9 +154,6 @@ const ExamsList = ({
     setLoading(show);
   }
   useEffect(() => {
-    console.log('ccccccccccccc ', modelData);
-  })
-  useEffect(() => {
     setExamsList(exams);
   }, [exams]);
   return (
