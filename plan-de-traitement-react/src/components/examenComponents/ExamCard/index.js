@@ -106,7 +106,7 @@ function ExamCard({
   }
   const handleGetPraticien = () => {
     for (var i = 0; i < praticienData.length; i++) {
-      if (praticienData[i]?.id_praticien === examen[index]?.id_praticien) {
+      if (praticienData[i]?.id_praticien == examen[index]?.id_praticien) {
         setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
         return;
       }

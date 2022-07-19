@@ -93,7 +93,7 @@ const Propover = ({
 
     } else {
       dispatch(mostBeEditable(true));
-      dispatch(setShowExamForm({ show: true }));
+      dispatch(setShowExamForm({ show: false }));
       exam.indexExam = index;
       dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
       isRecap && onBack();
@@ -126,8 +126,9 @@ const Propover = ({
   };
 
   const onFixPosition = () => {
+    onFixePosition(index);
+
     if (isExamGroup) {
-      onFixePosition(index);
       dispatch(
         toggleFixExamPosition({
           selectedExam: index,
@@ -135,20 +136,19 @@ const Propover = ({
           isExamGrouped: true,
         })
       );
-      togglePropover();
     } else {
-      togglePropover();
       if (examId) {
+        onFixePosition(index);
         dispatch(
           toggleFixExamPosition({
             selectedExam: examId,
             isExamGroup: false,
           })
         );
+        togglePropover();
       }
-      onFixePosition(index);
-
     }
+
   };
 
   const load = (l) => {
