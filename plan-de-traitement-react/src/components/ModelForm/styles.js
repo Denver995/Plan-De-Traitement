@@ -69,7 +69,7 @@ const styles = {
 
   cancelButton: {
     border: "3px solid #5D9AD4",
-    height: "59px",
+    height: "48px",
     borderRadius: "41px",
     fontSize: "27px",
     color: colors.primary,

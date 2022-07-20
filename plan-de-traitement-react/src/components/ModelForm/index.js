@@ -390,7 +390,7 @@ const ModalForm = ({
             onClick={() =>
               isEdited ? onSaveChange("RECAPITULATIF") : closeModale()
             }
-            style={styles.cancelButton}
+            style={{...styles.cancelButton, height: "59px"}}
           >
             Annuler
           </EuiButtonEmpty>

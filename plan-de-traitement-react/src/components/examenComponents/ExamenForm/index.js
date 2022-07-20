@@ -55,6 +55,7 @@ import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
+import AsyncSelect from 'react-select/async';
 
 const ExamenForm = ({
   isModelGroup,
@@ -76,7 +77,7 @@ const ExamenForm = ({
   const mustBeEditable = useSelector(
     (state) => state.ExamenReducer.mustBeEditable
   );
-  const examGroupedToEdite = useSelector(state=>state.ExamenReducer.ExamenReducer)
+  const examGroupedToEdite = useSelector(state => state.ExamenReducer.ExamenReducer)
   const steps = useSelector((state) => state.StepReducer.steps);
   const error = useSelector((state) => state.CommonReducer.error);
   const groupExamPayload = useSelector(
@@ -91,12 +92,12 @@ const ExamenForm = ({
     mustBeEditable ? true : formType === typeScreen.examFormEdit
   );
   const [reload, setReload] = useState(false);
-  const [specialite, setSpecialite] = useState("");
   const [motif, setMotif] = useState("");
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
   const [listSpecialite, setListSpecialite] = useState([]);
+  const [specialite, setSpecialite] = useState("");
   const [listLieu, setListLieu] = useState([]);
   const [listMotif, setListMotif] = useState([]);
   const [listPraticien, setListPraticien] = useState([]);
@@ -111,13 +112,13 @@ const ExamenForm = ({
     setFixedExamPosition(!fixedExamPosition);
   };
 
-  const onChangeSpecialite = (e) => setSpecialite(e.target.value);
+  const onChangeSpecialite = (e) => setSpecialite(e.label)
 
-  const onChangeMotif = (e) => setMotif(e.target.value);
+  const onChangeMotif = (e) => setMotif(e.label);
 
-  const onChangePraticien = (e) => setPraticien(e.target.value);
+  const onChangePraticien = (e) => setPraticien(e.label);
 
-  const onChangeLieu = (e) => setLieu(e.target.value);
+  const onChangeLieu = (e) => setLieu(e.label);
 
   const onClickNext = (isGroup = false) => {
     if (!isGroup) {
@@ -135,7 +136,7 @@ const ExamenForm = ({
       .then((response) => {
         dispatch(shareListExamGroup(response.data.data));
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const handleCreateExamenGroup = (data) => {
@@ -294,7 +295,7 @@ const ExamenForm = ({
       .then((response) => {
         handleGetGroup();
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const onCancel = () => {
@@ -315,49 +316,49 @@ const ExamenForm = ({
   useEffect(() => {
     SpecialiteService.getListeSpecialite()
       .then((res) => {
-        var data = [{ value: "", text: "Veuillez sélectionner" }];
+        var data = [];
         res.data.forEach((element) => {
-          data.push({ value: element.id, text: element.libelle });
+          data.push({ value: element.id, label: element.libelle });
         });
         setListSpecialite(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     LieuxService.getListeLieux()
       .then((res) => {
-        var data = [{ value: "", text: "Veuillez sélectionner" }];
+        var data = [];
         res.data.tabinfo.forEach((element) => {
-          data.push({ value: element.id_lieu, text: element.libelle_lieu });
+          data.push({ value: element.id_lieu, label: element.libelle_lieu });
         });
         setListLieu(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     MotifsService.getListeMotif()
       .then((res) => {
-        var data = [{ value: "", text: "Veuillez sélectionner" }];
+        var data = [];
         res.data.tabinfo.forEach((element) => {
           data.push({
             value: element.id_motif_rdv,
-            text: element.libelle_motif_rdv,
+            label: element.libelle_motif_rdv,
           });
         });
         setListMotif(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     PraticiensService.getListePraticien()
       .then((res) => {
-        var data = [{ value: "", text: "Veuillez sélectionner" }];
+        var data = [];
         res.data.tabinfo.forEach((element) => {
           data.push({
             value: element.id_praticien,
-            text: element.nom_praticien + " " + element.prenom_praticien,
+            label: element.nom_praticien + " " + element.prenom_praticien,
           });
         });
         setListPraticien(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, []);
   useEffect(() => {
     if (reload) setReload(false);
@@ -371,7 +372,18 @@ const ExamenForm = ({
     }
   }, [reload, examenSelected, showEditForm, steps, selectedExamId, examGroupedToEdite]);
 
-  useEffect(() => {}, [groupSelected, examsGrouped]);
+  useEffect(() => { }, [groupSelected, examsGrouped]);
+  const filterData = (inputValue, dataToMap) => {
+    return dataToMap.filter((i) =>
+      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+  // const promiseOptions = (inputValue) =>
+  //   new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve(filterData(inputValue));
+  //     }, 1000);
+  //   });
 
   return (
     <>
@@ -424,24 +436,36 @@ const ExamenForm = ({
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Spécialité* :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
+                {/* <EuiSelect
                   style={styles.input}
                   fullWidth
                   options={listSpecialite}
                   value={specialite}
                   onChange={onChangeSpecialite}
-                />
+                /> */}
+                <AsyncSelect className="input-search-examform" defaultOptions={listSpecialite} onChange={onChangeSpecialite} loadOptions={(inputValue) =>
+                    new Promise((resolve) => {
+                      setTimeout(() => {
+                        resolve(filterData(inputValue, listSpecialite));
+                      }, 1000);
+                    })} />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Motif* :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
+                {/* <EuiSelect
                   fullWidth
                   style={styles.input}
                   options={listMotif}
                   value={motif}
                   onChange={onChangeMotif}
-                />
+                /> */}
+                <AsyncSelect defaultOptions={listMotif} onChange={onChangeMotif} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listMotif));
+                    }, 1000);
+                  })} />
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="xl" />
@@ -449,24 +473,36 @@ const ExamenForm = ({
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
+                {/* <EuiSelect
                   fullWidth
                   style={styles.input}
                   options={listPraticien}
                   value={praticien}
                   onChange={onChangePraticien}
-                />
+                /> */}
+                <AsyncSelect defaultOptions={listPraticien} onChange={onChangePraticien} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listPraticien));
+                    }, 1000);
+                  })} />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Lieu* :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
+                {/* <EuiSelect
                   fullWidth
                   style={styles.input}
                   options={listLieu}
                   value={lieu}
                   onChange={onChangeLieu}
-                />
+                /> */}
+                <AsyncSelect defaultOptions={listLieu} onChange={onChangeLieu} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listLieu));
+                    }, 1000);
+                  })} />
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />

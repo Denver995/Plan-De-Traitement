@@ -175,7 +175,7 @@ const SummaryGroupedExam = ({
             border: "3px solid #052A3E",
             borderRadius: "39px",
             width: "187px",
-            height: "59px",
+            height: "48px",
             textDecoration: "none",
           }}
           onClick={() => {
@@ -193,7 +193,7 @@ const SummaryGroupedExam = ({
             backgroundColor: colors.darkBlue,
             borderRadius: "39px",
             width: "187px",
-            height: "59px",
+            height: "48px",
             textDecoration: "none",
           }}
           fill={true}

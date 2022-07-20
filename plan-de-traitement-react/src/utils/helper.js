@@ -119,5 +119,13 @@ export const getGroupeKeyPosition = (allGroupes, groupeKey) => {
 }
 
 export const getFisrtLetter = (word) => {
-  return word.charAt(0).toLowerCase()
+  switch(word){
+    case "Jour" : 
+    word = word.charAt(0).toUpperCase()+word.charAt(3).toLowerCase();break;
+    case "Heure" : 
+    word = word.charAt(0).toUpperCase()+word.charAt(3).toLowerCase();break;
+    case "Semaine" : 
+    word = word.charAt(0).toUpperCase()+word.charAt(1).toLowerCase()+word.charAt(2).toLowerCase();break;
+  }
+  return word
 }
