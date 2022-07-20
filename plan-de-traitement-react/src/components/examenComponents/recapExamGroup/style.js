@@ -62,10 +62,10 @@ const styles = {
   customBar: {
     position: "absolute",
     top: -15,
-    left: -42,
+    left: -41,
     background: "#0f4461",
     width: 7,
-    height: 105,
+    height: "108%",
   },
 
   customBarLeft: {
@@ -74,7 +74,7 @@ const styles = {
     right: -38.5,
     background: "#0f4461",
     width: 7,
-    height: 103,
+    height: "108%",
   },
 };
 
