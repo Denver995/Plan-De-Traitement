@@ -1,4 +1,4 @@
-import { EuiIcon } from "@elastic/eui";
+import { EuiIcon, EuiText } from "@elastic/eui";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
@@ -7,28 +7,59 @@ import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { deleteGroup } from "../../../redux/examens/actions";
 import colors from "../../../utils/colors";
 import Propover from "../../Propover";
+import styles from "./style";
 
-const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixePosition }) => {
-  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
-  const dispatch = useDispatch()
-  const [reRenderDel, setRerenderDel] = useState(false)
+const RecapExamItemV2 = ({
+  color,
+  date,
+  position,
+  index_,
+  data,
+  groupKey,
+  onFixePosition,
+  group,
+}) => {
+  const groupesWithData = useSelector(
+    (state) => state.ExamenReducer.groupWithData
+  );
+  const dispatch = useDispatch();
+  const [reRenderDel, setRerenderDel] = useState(false);
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
   useEffect(() => {
-    setRerenderDel(true)
-  }, [reRenderDel, groupesWithData])
+    setRerenderDel(true);
+  }, [reRenderDel, groupesWithData]);
   return (
     <VerticalTimelineElement
+      className="custom-vertical-timeline-element-group"
       contentStyle={{
         background: "white",
         border: "1px solid",
         padding: 10,
         marginBottom: 10,
-        marginTop: -40,
+        marginTop: -55,
       }}
       position={position}
+      date={"1h - 2h"}
     >
+      <EuiText style={position === "right" ? styles.textRight : styles.text}>
+        Groupe {index_ + 1}
+      </EuiText>
+      <div
+        style={
+          position === "right" ? styles.dotContainer : styles.dotContainerLeft
+        }
+        className="dotContainer-right"
+      >
+        <div style={styles.dotChild}></div>
+      </div>
+      {group.id_child !== undefined && (
+        <div
+          className="custom-bar"
+          style={position === "right" ? styles.customBar : styles.customBarLeft}
+        ></div>
+      )}
       {position === "left" ? (
         <div
           style={{
@@ -38,11 +69,21 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
             marginRight: -5,
           }}
         >
-          <Propover onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
-            dispatch(deleteGroup(groupKey));
-            setRerenderDel(true);
-          }} />
-          {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
+          <Propover
+            onFixePosition={onFixePosition}
+            idGroupe={groupKey}
+            setRerenderDel={setRerenderDel}
+            isModelGroup={true}
+            index={index_}
+            forEXam={false}
+            onDeleteGroup={() => {
+              dispatch(deleteGroup(groupKey));
+              setRerenderDel(true);
+            }}
+          />
+          {groupesWithData[groupKey]?.positionFixed && (
+            <PinIcon width={7} height={11} />
+          )}
         </div>
       ) : (
         <div
@@ -54,11 +95,21 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
             marginRight: -10,
           }}
         >
-          <Propover onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} onDeleteGroup={() => {
-            dispatch(deleteGroup(groupKey));
-            setRerenderDel(true);
-          }} index={index_} forEXam={false} />
-          {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
+          <Propover
+            onFixePosition={onFixePosition}
+            idGroupe={groupKey}
+            setRerenderDel={setRerenderDel}
+            isModelGroup={true}
+            onDeleteGroup={() => {
+              dispatch(deleteGroup(groupKey));
+              setRerenderDel(true);
+            }}
+            index={index_}
+            forEXam={false}
+          />
+          {groupesWithData[groupKey]?.positionFixed && (
+            <PinIcon width={7} height={11} />
+          )}
         </div>
       )}
 
@@ -75,7 +126,14 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
             }}
           >
             <div style={{ marginBottom: 14 }}>
-              <div className="card-content-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
+              <div
+                className="card-content-header"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
                 <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
                   <strong>
                     {exam.id_specialite ? exam.id_specialite : "Spécialité"} -{" "}
@@ -117,19 +175,19 @@ const RecapExamItemV2 = ({ color, date, position, index_, data, groupKey, onFixe
                   espacementSubExam["group " + index_]["subEspace " + index]
                     .length - 1
                 ].minInterval +
-                espacementSubExam["group " + index_]["subEspace " + index][
-                  espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].minIntervalUnit +
-                "-" +
-                espacementSubExam["group " + index_]["subEspace " + index][
-                  espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].maxInterval +
-                espacementSubExam["group " + index_]["subEspace " + index][
-                  espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].maxIntervalUnit}
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].minIntervalUnit +
+                  "-" +
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].maxInterval +
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].maxIntervalUnit}
             </p>
           )}
         </div>

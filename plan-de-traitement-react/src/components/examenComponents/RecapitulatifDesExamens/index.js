@@ -3,7 +3,7 @@ import {
   EuiButtonEmpty,
   EuiFlexGroup,
   EuiHorizontalRule,
-  EuiSpacer
+  EuiSpacer,
 } from "@elastic/eui";
 import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,6 @@ import TimeLineHelper from "../../common/TimeLineHelper";
 import ExamCard from "../ExamCard";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
 import styles from "./styles";
-
 
 const RecapitulatifDesExamens = ({
   closeModal,
@@ -55,7 +54,6 @@ const RecapitulatifDesExamens = ({
     setShowAlert(true);
   };
   const onBack = () => dispatch(deleteStep(previousStep));
-
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -103,16 +101,19 @@ const RecapitulatifDesExamens = ({
               </div>
             </div>
           </div>
-          <div style={styles.timeline}>
-            <VerticalTimeline lineColor={"rgba(19, 83, 117, 0.479)"}>
+          <div style={styles.timeline} className="custom-timeline">
+            <VerticalTimeline
+              lineColor={"rgba(19, 83, 117, 0.479)"}
+              layout={"2-columns"}
+            >
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
                   <ExamCard
                     examId={index}
                     examen={exam}
-                    date="12 mars"
-                    position={index % 2 === 0 ? "left" : "right"}
+                    date="1h-2h"
+                    position={index % 2 === 0 ? "right" : "left"}
                     onBack={onBack}
                   />
                 </div>
@@ -122,9 +123,13 @@ const RecapitulatifDesExamens = ({
           <EuiSpacer size="xxl" />
           <EuiSpacer size="xxl" />
 
-          <EuiFlexGroup style={styles.btnContainer}>
+          <EuiFlexGroup
+            className="custom-footer-group"
+            style={styles.btnContainer}
+          >
             {recapType === typeRecap.model && (
               <EuiButtonEmpty
+                className="custom-button"
                 style={styles.backBtn}
                 onClick={() => {
                   onBack();
@@ -133,7 +138,7 @@ const RecapitulatifDesExamens = ({
                 Retour
               </EuiButtonEmpty>
             )}
-            <EuiButton style={styles.validateBtn} fill={true} onClick={onSave}>
+            <EuiButton className="custom-button button-valid" style={styles.validateBtn} fill={true} onClick={onSave}>
               Valider
             </EuiButton>
           </EuiFlexGroup>

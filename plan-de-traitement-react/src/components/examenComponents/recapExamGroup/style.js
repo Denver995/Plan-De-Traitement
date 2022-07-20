@@ -1,73 +1,6 @@
 import colors from "../../../utils/colors";
 
 const styles = {
-  rightHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexDirection: "row-reverse",
-  },
-
-  leftHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-
-  sectionPraticien: {
-    // marginTop: "10px",
-  },
-
-  praticienLeftContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "end",
-  },
-
-  praticienRightContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-  },
-
-  speciality: {
-    fontSize: "13px",
-    color: colors.darkBlue,
-    letterSpacing: 0,
-    fontWeight: "bold",
-  },
-
-  praticien: {
-    fontSize: "13px",
-    letterSpacing: 0,
-    color: colors.darkBlue,
-    marginLeft: "5px",
-    marginRight: "30px",
-  },
-
-  adresse: {
-    fontSize: "13px",
-    color: colors.darkBlue,
-    letterSpacing: 0,
-    marginLeft: "5px",
-  },
-
-  pinRight: {
-    float: "right",
-    marginTop: 5,
-  },
-
-  pinLeft: {
-    float: "left",
-    marginTop: 5,
-  },
-
-  propRight: {
-    marginRight: -6,
-  },
-
-  propLeft: {
-    marginLeft: -6,
-  },
-
   text: {
     marginTop: 5,
     fontSize: 20,
@@ -90,7 +23,7 @@ const styles = {
   dotContainer: {
     position: "absolute",
     top: -35,
-    left: -51,
+    left: -52,
     width: 28,
     height: 28,
     // marginLeft: -1,
@@ -99,7 +32,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: -1
+    zIndex: -1,
   },
 
   dotChild: {
@@ -114,7 +47,7 @@ const styles = {
   dotContainerLeft: {
     position: "absolute",
     top: -35,
-    right: -47.5,
+    right: -49,
     width: 28,
     height: 28,
     // marginLeft: -1,
@@ -123,26 +56,26 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: -1
+    zIndex: -1,
   },
 
   customBar: {
     position: "absolute",
     top: -15,
-    left: -40,
+    left: -42,
     background: "#0f4461",
     width: 7,
-    height: 103
+    height: 105,
   },
 
   customBarLeft: {
     position: "absolute",
     top: -15,
-    right: -37,
+    right: -38.5,
     background: "#0f4461",
     width: 7,
-    height: 103
-  }
+    height: 103,
+  },
 };
 
 export default styles;

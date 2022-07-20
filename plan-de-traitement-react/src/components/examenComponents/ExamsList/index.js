@@ -58,37 +58,10 @@ const ExamsList = ({
 
     if (!result.destination) return;
 
-    if (
-      !destination.positionFixed &&
-      !source.positionFixed &&
-      destination.id_child === undefined &&
-      destination.id_parent === undefined
-    ) {
-      if (source.id_child !== undefined) {
-        let child = items[result.source.index + 1];
-
-        items.splice(result.source.index + 1, 1);
-        items.splice(result.source.index, 1);
-
-        items.splice(result.destination.index, 0, source);
-        items.splice(result.destination.index + 1, 0, child);
-
-        dispatch(storeExams(items));
-      } else if (source.id_parent !== undefined) {
-        let parent = items[result.source.index - 1];
-
-        items.splice(result.source.index, 1);
-        items.splice(result.source.index - 1, 1);
-
-        items.splice(result.destination.index, 0, parent);
-        items.splice(result.destination.index + 1, 0, source);
-
-        dispatch(storeExams(items));
-      } else {
-        items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, source);
-        dispatch(storeExams(items));
-      }
+    if (!destination.positionFixed && !source.positionFixed) {
+      items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, source);
+      dispatch(storeExams(items));
     }
   };
   const onCancel = () => {
@@ -293,7 +266,7 @@ const ExamsList = ({
               >
                 Retour
               </EuiButtonEmpty>
-              {exams.length > 2 ? (
+              {exams.length > 0 ? (
                 <EuiButton
                   style={styles.activated}
                   className="button_next_me"
@@ -303,6 +276,7 @@ const ExamsList = ({
                 </EuiButton>
               ) : (
                 <EuiButton
+                  disabled={true}
                   style={styles.deactivated}
                   className="button_next_me"
                 >
