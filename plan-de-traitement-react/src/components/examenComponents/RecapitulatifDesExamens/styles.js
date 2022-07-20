@@ -26,7 +26,9 @@ const styles = {
   },
 
   timeline: {
-    paddingTop: 140
+    paddingTop: 140,
+    display: "flex",
+    justifyContent: "flex-end"
   },
 
   title: {

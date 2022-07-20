@@ -13,9 +13,10 @@ const styles = {
     marginRight: 10,
   },
   leftDiv: {
-    width: "49%",
+    width: "46.5%",
     display: "flex",
     justifyContent: "flex-end",
+    marginRight: 20
   },
   dotContainer: {
     width: 25,

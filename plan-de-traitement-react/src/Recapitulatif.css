@@ -38,7 +38,7 @@
 }
 
 .vertical-timeline-element-content {
-  width: 500px;
+  width: 518px;
   height: 90px;
 }
 .vertical-timeline * {
@@ -71,7 +71,7 @@
 }
 @media only screen and (min-width: 1170px) {
   .vertical-timeline.vertical-timeline--two-columns {
-    width: 90%;
+    width: 100%;
   }
   .vertical-timeline.vertical-timeline--two-columns .exam-title {
     margin-bottom: -60px;
@@ -229,7 +229,7 @@
   -webkit-backface-visibility: hidden;
 }
 .vertical-timeline--animate .vertical-timeline-element-icon.is-hidden {
-  visibility: hidden;
+  visibility: visible !important;
 }
 .vertical-timeline--animate .vertical-timeline-element-icon.bounce-in {
   visibility: visible;

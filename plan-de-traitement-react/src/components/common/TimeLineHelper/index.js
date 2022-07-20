@@ -11,7 +11,7 @@ const TimeLineHelper = ({ index, entityType }) => {
   const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam)
   return (
     <div>
-      <div style={styles.titleWrapper}>
+      {/* <div style={styles.titleWrapper}>
         <div style={styles.leftDiv}>
           {index % 2 === 0 && <span style={styles.title}>{entityType ? entityType : "Examen"} {index + 1}</span>}
         </div>
@@ -19,9 +19,9 @@ const TimeLineHelper = ({ index, entityType }) => {
           <div style={styles.dotChild}></div>
         </div>
         <div style={styles.rightDiv}>
-          {index % 2 !== 0 && <span style={{ ...styles.title, marginLeft: 10 }}>{entityType ? entityType : "Examen"} {index + 1}</span>}
+          {index % 2 !== 0 && <span style={{ ...styles.title, marginLeft: 30 }}>{entityType ? entityType : "Examen"} {index + 1}</span>}
         </div>
-      </div>
+      </div> */}
       <div style={styles.date}>
         {
           groupeToShowContentId === -1 &&

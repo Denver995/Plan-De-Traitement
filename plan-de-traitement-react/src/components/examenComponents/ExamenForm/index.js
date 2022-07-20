@@ -17,6 +17,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
 import { useDimension } from "../../../hooks/dimensions";
 import "../../../modifierexamen.css";
+import "../../../eui_theme_light_.css"
 import {
   setAlert,
   setComponent,

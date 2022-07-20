@@ -1,3 +1,4 @@
+import { EuiText } from "@elastic/eui";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
@@ -18,17 +19,19 @@ function ExamCard({
   examId,
   onBack,
 }) {
-  const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
+  const groupesWithData = useSelector(
+    (state) => state.ExamenReducer.groupWithData
+  );
 
-  useEffect(() => {
-
-  }, [groupesWithData])
+  useEffect(() => {}, [groupesWithData]);
   return (
     <VerticalTimelineElement
+      className="custom-vertical-timeline-element"
       contentStyle={{
         background: examen.color ? examen.color : "white",
         height: 82,
-        marginTop: -40,
+        marginTop: -30,
+        padding: 10,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
       }}
       date={date}
@@ -37,9 +40,30 @@ function ExamCard({
         background: "rgb(19, 83, 117)",
         color: "#fff",
         border: "rgb(19, 83, 117)",
+        zIndex: 1,
       }}
+      icon={<MapIcon />}
     >
       <div className="exam-card-content">
+        <EuiText style={position === "right" ? styles.textRight : styles.text}>
+          Examen {examId + 1}
+        </EuiText>
+        <div
+          style={
+            position === "right" ? styles.dotContainer : styles.dotContainerLeft
+          }
+          className="dotContainer-right"
+        >
+          <div style={styles.dotChild}></div>
+        </div>
+        {examen.id_child !== undefined && (
+          <div
+            className="custom-bar"
+            style={
+              position === "right" ? styles.customBar : styles.customBarLeft
+            }
+          ></div>
+        )}
         <div
           style={position === "right" ? styles.rightHeader : styles.leftHeader}
         >
@@ -77,6 +101,13 @@ function ExamCard({
             <MapIcon width={"0.7rem"} />
             <h4 style={styles.adresse}>{examen.id_lieu ?? "id_lieu"}</h4>
           </div>
+          {examen.positionFixed && (
+            <PinIcon
+              width={"7px"}
+              height={"11px"}
+              style={position === "right" ? styles.pinRight : styles.pinLeft}
+            />
+          )}
           {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
             <PinIcon
               width={"7px"}
