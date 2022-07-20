@@ -71,7 +71,7 @@ const styles = {
     background: colors.white,
     display: "flex",
     width: "100%",
-    bottom: 15
+    bottom: 10
   },
 
   btnTerminer: {
