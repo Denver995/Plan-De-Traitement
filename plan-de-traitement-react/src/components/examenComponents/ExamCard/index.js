@@ -5,12 +5,14 @@ import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.svg";
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
+import { getFisrtLetter } from "../../../utils/helper";
 import Propover from "../../Propover";
 import styles from "./style";
 
 function ExamCard({
   date,
   color,
+  entityType ,
   index,
   position,
   groupKey,
@@ -22,6 +24,39 @@ function ExamCard({
   const groupesWithData = useSelector(
     (state) => state.ExamenReducer.groupWithData
   );
+  const espacement = useSelector(state => state.ExamenReducer.espacement)
+  const espacementNonGroupe = useSelector(state => state.ExamenReducer.espacementNonGroupe)
+  const groupeToShowContentId = useSelector(state=>state.ExamenReducer.groupeToShowContentId)
+  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam)
+  let date_ = 
+    (groupeToShowContentId === -1 &&
+    !entityType) ? 
+    espacementNonGroupe['espaceNonGroupe ' + index] &&
+    espacementNonGroupe['espaceNonGroupe ' + index].length > 0 &&
+    espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minInterval +
+    espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit + "-" +
+    espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxInterval +
+    espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxIntervalUnit
+  :
+    (groupeToShowContentId === -1 &&
+    entityType) ?
+    espacement['espace ' + index] &&
+    espacement['espace ' + index].length > 0 &&
+    espacement['espace ' + index][espacement['espace ' + index].length - 1].minInterval +
+    espacement['espace ' + index][espacement['espace ' + index].length - 1].minIntervalUnit + "-" +
+    espacement['espace ' + index][espacement['espace ' + index].length - 1].maxInterval +
+    espacement['espace ' + index][espacement['espace ' + index].length - 1].maxIntervalUnit
+  :
+    (groupeToShowContentId !== -1 &&
+    entityType) ?
+    espacementSubExam['group ' + groupeToShowContentId] &&
+    espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index] &&
+    espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index].length > 0 &&
+    espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index][espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index].length - 1].minInterval +
+    getFisrtLetter(espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index][espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index].length - 1].minIntervalUnit) + "-" +
+    espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index][espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index].length - 1].maxInterval +
+    getFisrtLetter(espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index][espacementSubExam['group ' + groupeToShowContentId]["subEspace "+index].length - 1].maxIntervalUnit)
+  : null
 
   useEffect(() => {}, [groupesWithData]);
   return (
@@ -34,7 +69,7 @@ function ExamCard({
         padding: 10,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
       }}
-      date={date}
+      date={date_}
       position={position}
       iconStyle={{
         background: "rgb(19, 83, 117)",
@@ -46,7 +81,7 @@ function ExamCard({
     >
       <div className="exam-card-content">
         <EuiText style={position === "right" ? styles.textRight : styles.text}>
-          Examen {examId + 1}
+          Examen {index + 1}
         </EuiText>
         <div
           style={

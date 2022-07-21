@@ -58,6 +58,7 @@ import ExamItem from "../ExamItem";
 import styles from "./styles";
 import AsyncSelect from 'react-select/async';
 
+
 const ExamenForm = ({
   isModelGroup,
   onAddExam,
@@ -379,12 +380,7 @@ const ExamenForm = ({
       i.label.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
-  // const promiseOptions = (inputValue) =>
-  //   new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve(filterData(inputValue));
-  //     }, 1000);
-  //   });
+
 
   return (
     <>
@@ -437,36 +433,30 @@ const ExamenForm = ({
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Spécialité* :</p>
                 <EuiSpacer size="xs" />
-                {/* <EuiSelect
-                  style={styles.input}
-                  fullWidth
-                  options={listSpecialite}
-                  value={specialite}
-                  onChange={onChangeSpecialite}
-                /> */}
                 <AsyncSelect className="input-search-examform" defaultOptions={listSpecialite} onChange={onChangeSpecialite} loadOptions={(inputValue) =>
-                    new Promise((resolve) => {
-                      setTimeout(() => {
-                        resolve(filterData(inputValue, listSpecialite));
-                      }, 1000);
-                    })} />
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listSpecialite));
+                    }, 1000);
+                  })}
+                  components={{
+                    IndicatorSeparator : () => null
+                  }}
+                  />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Motif* :</p>
                 <EuiSpacer size="xs" />
-                {/* <EuiSelect
-                  fullWidth
-                  style={styles.input}
-                  options={listMotif}
-                  value={motif}
-                  onChange={onChangeMotif}
-                /> */}
                 <AsyncSelect defaultOptions={listMotif} onChange={onChangeMotif} loadOptions={(inputValue) =>
                   new Promise((resolve) => {
                     setTimeout(() => {
                       resolve(filterData(inputValue, listMotif));
                     }, 1000);
-                  })} />
+                  })}
+                  components={{
+                    IndicatorSeparator : () => null
+                  }} 
+                  />
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="xl" />
@@ -474,36 +464,30 @@ const ExamenForm = ({
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
-                {/* <EuiSelect
-                  fullWidth
-                  style={styles.input}
-                  options={listPraticien}
-                  value={praticien}
-                  onChange={onChangePraticien}
-                /> */}
                 <AsyncSelect defaultOptions={listPraticien} onChange={onChangePraticien} loadOptions={(inputValue) =>
                   new Promise((resolve) => {
                     setTimeout(() => {
                       resolve(filterData(inputValue, listPraticien));
                     }, 1000);
-                  })} />
+                  })}
+                  components={{
+                    IndicatorSeparator : () => null
+                  }}
+                  />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Lieu* :</p>
                 <EuiSpacer size="xs" />
-                {/* <EuiSelect
-                  fullWidth
-                  style={styles.input}
-                  options={listLieu}
-                  value={lieu}
-                  onChange={onChangeLieu}
-                /> */}
                 <AsyncSelect defaultOptions={listLieu} onChange={onChangeLieu} loadOptions={(inputValue) =>
                   new Promise((resolve) => {
                     setTimeout(() => {
                       resolve(filterData(inputValue, listLieu));
                     }, 1000);
-                  })} />
+                  })}
+                  components={{
+                    IndicatorSeparator : () => null
+                  }}
+                  />
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiSpacer size="l" />

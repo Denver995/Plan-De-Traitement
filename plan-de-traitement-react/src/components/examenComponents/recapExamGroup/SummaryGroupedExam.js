@@ -63,7 +63,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
       else dispatch(deleteStep(previousStep));
     }
   };
-  useEffect(() => {}, [groupesWithData]);
+  useEffect(() => { }, [groupesWithData]);
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, paddingBottom: 100 }}>
@@ -115,49 +115,50 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
         >
           {groupeToShowContentId === -1
             ? groupesWithDataKeys.map((group, index) => (
-                <div
-                  className="custom-timeline-group"
-                  key={index}
-                  style={{ position: "relative", paddingTop: 15 }}
-                >
-                  <TimeLineHelper index={index} entityType={"Groupe"} />
-                  <RecapExamItemV2
-                    color={""}
-                    onFixePosition={() => {
-                      dispatch(
-                        toggleFixGroupPosition({
-                          selectedGroup: "group " + index,
-                        })
-                      );
-                    }}
-                    data={groupesWithData["group " + index]?.exams}
-                    date={new Date().toDateString()}
-                    index_={index}
-                    groupKey={"group " + index}
-                    position={index % 2 === 0 ? "right" : "left"}
-                    positionFixed={
-                      groupesWithData["group " + index]?.positionFixed
-                    }
-                    group={group}
+              <div
+                className="custom-timeline-group"
+                key={index}
+                style={{ position: "relative", paddingTop: 15 }}
+              >
+                <TimeLineHelper index={index} entityType={"Groupe"} />
+                <RecapExamItemV2
+                  color={""}
+                  onFixePosition={() => {
+                    dispatch(
+                      toggleFixGroupPosition({
+                        selectedGroup: "group " + index,
+                      })
+                    );
+                  }}
+                  data={groupesWithData["group " + index]?.exams}
+                  date={new Date().toDateString()}
+                  index_={index}
+                  groupKey={"group " + index}
+                  position={index % 2 === 0 ? "right" : "left"}
+                  positionFixed={
+                    groupesWithData["group " + index]?.positionFixed
+                  }
+                  group={group}
+                />
+              </div>
+            ))
+            : groupesWithData["group " + groupeToShowContentId]?.exams?.map(
+              (exam, index) => (
+                <div key={index} style={{ position: "relative" }}>
+                  <TimeLineHelper index={index} entityType={"Examen"} />
+                  <ExamCard
+                    entityType={"Examen"}
+                    examen={exam}
+                    isExamGroup={true}
+                    groupKey={"group " + groupeToShowContentId}
+                    index={index}
+                    color={exam.color}
+                    date="12 mars"
+                    position={index % 2 === 0 ? "left" : "right"}
                   />
                 </div>
-              ))
-            : groupesWithData["group " + groupeToShowContentId]?.exams?.map(
-                (exam, index) => (
-                  <div key={index} style={{ position: "relative" }}>
-                    <TimeLineHelper index={index} entityType={"Examen"} />
-                    <ExamCard
-                      examen={exam}
-                      isExamGroup={true}
-                      groupKey={"group " + groupeToShowContentId}
-                      index={index}
-                      color={exam.color}
-                      date="12 mars"
-                      position={index % 2 === 0 ? "left" : "right"}
-                    />
-                  </div>
-                )
-              )}
+              )
+            )}
         </VerticalTimeline>
       </div>
 
