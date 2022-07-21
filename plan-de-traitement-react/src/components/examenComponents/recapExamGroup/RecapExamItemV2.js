@@ -28,8 +28,10 @@ const RecapExamItemV2 = ({
     (state) => state.ExamenReducer.espacementSubExam
   );
   useEffect(() => {
-    setRerenderDel(true);
-  }, [reRenderDel, groupesWithData]);
+    setRerenderDel(true)
+  }, [reRenderDel])
+  useEffect(() => { }, [groupesWithData])
+
   return (
     <VerticalTimelineElement
       className="custom-vertical-timeline-element-group"
@@ -69,21 +71,11 @@ const RecapExamItemV2 = ({
             marginRight: -5,
           }}
         >
-          <Propover
-            onFixePosition={onFixePosition}
-            idGroupe={groupKey}
-            setRerenderDel={setRerenderDel}
-            isModelGroup={true}
-            index={index_}
-            forEXam={false}
-            onDeleteGroup={() => {
-              dispatch(deleteGroup(groupKey));
-              setRerenderDel(true);
-            }}
-          />
-          {groupesWithData[groupKey]?.positionFixed && (
-            <PinIcon width={7} height={11} />
-          )}
+          <Propover isRecap = {true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
+            dispatch(deleteGroup(groupKey));
+            setRerenderDel(true);
+          }} />
+          {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
         </div>
       ) : (
         <div
@@ -95,25 +87,15 @@ const RecapExamItemV2 = ({
             marginRight: -10,
           }}
         >
-          <Propover
-            onFixePosition={onFixePosition}
-            idGroupe={groupKey}
-            setRerenderDel={setRerenderDel}
-            isModelGroup={true}
-            onDeleteGroup={() => {
-              dispatch(deleteGroup(groupKey));
-              setRerenderDel(true);
-            }}
-            index={index_}
-            forEXam={false}
-          />
-          {groupesWithData[groupKey]?.positionFixed && (
-            <PinIcon width={7} height={11} />
-          )}
+          <Propover isRecap = {true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} onDeleteGroup={() => {
+            dispatch(deleteGroup(groupKey));
+            setRerenderDel(true);
+          }} index={index_} forEXam={false} />
+          {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
         </div>
       )}
 
-      {data?.map((exam, index) => (
+      {groupesWithData[groupKey]?.exams?.map((exam, index) => (
         <div key={index}>
           <div
             style={{
