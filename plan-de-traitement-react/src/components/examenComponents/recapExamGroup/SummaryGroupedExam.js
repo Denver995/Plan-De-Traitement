@@ -122,6 +122,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
               >
                 <TimeLineHelper index={index} entityType={"Groupe"} />
                 <RecapExamItemV2
+                  entityType={"Groupe"}
                   color={""}
                   onFixePosition={() => {
                     dispatch(
