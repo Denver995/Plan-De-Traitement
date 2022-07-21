@@ -1,52 +1,24 @@
 import colors from "../../utils/colors";
 
-var win = window,
-  doc = document,
-  docElem = doc.documentElement,
-  body = doc.getElementsByTagName("body")[0],
-  x = win.innerWidth || docElem.clientWidth || body.clientWidth;
 const styles = {
-  container: {
-    padding: "25px 30px 0px 30px",
-  },
-
-  bodyContainer: {
-    alignItems: "center",
-  },
   modal: {
     width: 837,
-    minHeight: 386,
+    height: 386,
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     borderRadius: 10,
     opacity: 1,
   },
+
+  container: {
+    padding: "25px 30px 0px 30px",
+  },
+
   title: {
     width: "100%",
     height: 27,
     font: "normal normal 600 20px/27px Open Sans",
     letterSpacing: 0,
     color: "#464646",
-    opacity: 1,
-  },
-
-  secondTitle: {
-    marginTop: 20,
-    marginBottom: 10,
-    font: "normal normal bold 14px/19px Open Sans",
-    color: "#464646",
-    fontWeight: "bold",
-    opacity: 1,
-  },
-
-  hidden: {
-    visibility: "hidden",
-    top: 305,
-    left: 779,
-    width: 173,
-    height: 40,
-    background: "#FFFFFF 0% 0% no-repeat padding-box",
-    border: "1px solid #707070",
-    borderRadius: 7,
     opacity: 1,
   },
 
@@ -57,14 +29,27 @@ const styles = {
     fontWeight: "bold",
   },
 
-  number: {
-    fontSize: 20,
-    color: colors.primary,
+  inputContainer: {
+    paddingTop: 4,
+  },
+
+  hidden: {
+    visibility: "hidden",
+    background: "#FFFFFF 0% 0% no-repeat padding-box",
+    border: "1px solid #707070",
+    borderRadius: 7,
+    opacity: 1,
   },
 
   select: {
     fontSize: 20,
     color: colors.blackClaire,
+  },
+
+  btnContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   cancel: {
@@ -80,11 +65,6 @@ const styles = {
   annuler: {
     font: "normal normal normal 27px/37px Open Sans",
     color: colors.primary,
-    fontFamily: "arial",
-  },
-
-  ajouter: {
-    font: "normal normal normal 27px/37px Open Sans",
     fontFamily: "arial",
   },
 
@@ -107,14 +87,19 @@ const styles = {
     borderColor: colors.lightGray,
   },
 
-  btnContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+  ajouter: {
+    font: "normal normal normal 27px/37px Open Sans",
+    fontFamily: "arial",
   },
 
-  inputContainer: {
-    paddingTop: 4,
+  number: {
+    fontSize: 20,
+    color: colors.primary,
+  },
+
+  toolText: {
+    fontSize: 11,
+    color: colors.light,
   },
 };
 

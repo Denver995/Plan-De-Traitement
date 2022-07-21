@@ -175,7 +175,6 @@ const Alert = ({
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
     >
-      <EuiSpacer size="xl" />
       <EuiModalBody style={styles.body}>
         {showInputForm ? (
           <EuiForm id="">
@@ -212,6 +211,7 @@ const Alert = ({
         {alert?.showCustomComponent && <EspacementInterExamenForm />}
       </EuiModalBody>
       {/* {showButtonBlock && ( */}
+      <EuiSpacer size="m" />
       <EuiModalFooter
         className="btn_group alert"
         style={{
@@ -222,21 +222,21 @@ const Alert = ({
         <EuiButtonEmpty
           style={{
             ...styles.abortBtn,
-            fontSize: innerWidth <= 500 ? 20 : 25,
+            fontSize: 27,
             padding: innerWidth <= 500 ? "5px" : "",
             width: innerWidth <= 500 ? "100%" : 210,
             marginBottom: innerWidth <= 500 ? "20px" : "",
           }}
           onClick={goBack}
         >
-          {alert?.buttonText?.cancelText ?? "Annuler"}
+          {alert?.buttonText?.cancelText ?? "Retour"}
         </EuiButtonEmpty>
         <EuiButton
           style={{
             ...styles.btn,
             backgroundColor: colors.primary,
             borderColor: colors.primary,
-            fontSize: innerWidth <= 500 ? 20 : 25,
+            fontSize: 27,
             width: innerWidth <= 500 ? "100%" : "210px",
             textDecoration: "none",
           }}

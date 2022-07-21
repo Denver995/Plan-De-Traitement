@@ -107,7 +107,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
           />
         </div>
       </div>
-      <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card">
+      <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card custom-timeline">
         <EuiSpacer size="l" />
         <VerticalTimeline
           className="container"
@@ -145,7 +145,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
             ))
             : groupesWithData["group " + groupeToShowContentId]?.exams?.map(
               (exam, index) => (
-                <div key={index} style={{ position: "relative" }}>
+                <div key={index}>
                   <TimeLineHelper index={index} entityType={"Examen"} />
                   <ExamCard
                     entityType={"Examen"}
@@ -153,9 +153,10 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
                     isExamGroup={true}
                     groupKey={"group " + groupeToShowContentId}
                     index={index}
+                    examId={index}
                     color={exam.color}
-                    date="12 mars"
-                    position={index % 2 === 0 ? "left" : "right"}
+                    date="1h - 2h"
+                    position={index % 2 === 0 ? "right" : "left"}
                   />
                 </div>
               )

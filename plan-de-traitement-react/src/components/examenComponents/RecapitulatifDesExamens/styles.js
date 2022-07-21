@@ -2,7 +2,7 @@ import colors from "../../../utils/colors";
 
 const styles = {
   modal: {
-    width: "70rem",
+    width: 1361,
   },
 
   container: { 
@@ -26,7 +26,7 @@ const styles = {
   },
 
   timeline: {
-    paddingTop: 140,
+    paddingTop: 125,
     display: "flex",
     justifyContent: "flex-end"
   },

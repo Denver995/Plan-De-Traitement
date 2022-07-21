@@ -283,7 +283,7 @@ const EspacementInterExamenForm = ({
             </p>
           </EuiButton>
         </div>
-        <EuiSpacer size="xl" />
+        {/* <EuiSpacer size="xl" /> */}
         {errorMessage && (
           <>
             <EuiSpacer size="xl" />

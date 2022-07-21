@@ -132,7 +132,7 @@ const styles = {
     left: -40,
     background: "#0f4461",
     width: 7,
-    height: 103
+    height: "142%"
   },
 
   customBarLeft: {
@@ -141,7 +141,7 @@ const styles = {
     right: -37,
     background: "#0f4461",
     width: 7,
-    height: 103
+    height: "142%"
   }
 };
 

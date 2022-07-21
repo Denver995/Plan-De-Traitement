@@ -229,6 +229,7 @@ const ModalForm = ({
           fullWidth
         />
         <EuiSpacer size="xl" />
+        {!showGroupOption && <EuiSpacer size="xl" />}
 
         <EuiFlexGroup>
           {showGroupOption && (
@@ -308,12 +309,13 @@ const ModalForm = ({
             </EuiFlexItem>
           )}
         </EuiFlexGroup>
-        <EuiSpacer size="m" />
+        {/* <EuiSpacer size="l" /> */}
         {groupe_rdv && showGroupOption && (
           <EuiFlexGroup
             style={{ marginLeft: -12, marginRight: -12, marginBottom: 33 }}
             direction="column"
           >
+            <EuiSpacer size="m" />
             <div style={styles.periodeRecherche}>
               <div style={styles.groupeTitle2}>
                 Période de recherche d'un groupe :
@@ -390,7 +392,7 @@ const ModalForm = ({
             onClick={() =>
               isEdited ? onSaveChange("RECAPITULATIF") : closeModale()
             }
-            style={{...styles.cancelButton, height: "59px"}}
+            style={{ ...styles.cancelButton, height: "59px" }}
           >
             Annuler
           </EuiButtonEmpty>
@@ -441,7 +443,6 @@ const ModalForm = ({
             </EuiButton>
           )}
         </EuiFlexGroup>
-        <EuiSpacer size="xl" />
         {errorMessage && (
           <>
             <EuiSpacer size="xl" />
@@ -449,6 +450,7 @@ const ModalForm = ({
           </>
         )}
       </EuiForm>
+      <EuiSpacer size="m" />
       <style jsx="true">
         {`
           .euiTool {
@@ -461,7 +463,6 @@ const ModalForm = ({
           }
         `}
       </style>
-      <EuiSpacer size="m" />
     </ModalWrapper>
   );
 };

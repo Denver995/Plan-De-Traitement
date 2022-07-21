@@ -2,7 +2,8 @@ import colors from "../../../utils/colors";
 
 const styles = {
   modal: {
-    width: "70rem",
+    width: 1361,
+    minHeight: 566
   },
 
   examForm: {
@@ -57,7 +58,7 @@ const styles = {
   },
 
   buttonContainer: {
-    marginTop: "5%",
+    marginTop: "4%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

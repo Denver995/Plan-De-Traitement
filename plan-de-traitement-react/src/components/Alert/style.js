@@ -3,12 +3,11 @@ import colors from "../../utils/colors";
 var win = window,
   doc = document,
   docElem = doc.documentElement,
-  body = doc.getElementsByTagName('body')[0],
+  body = doc.getElementsByTagName("body")[0],
   x = win.innerWidth || docElem.clientWidth || body.clientWidth;
 
-
 const styles = {
-  modal: { width: "50rem" },
+  modal: { width: 839 },
 
   nomModel: {
     color: colors.primary,
@@ -19,11 +18,21 @@ const styles = {
     marginLeft: "50px",
   },
 
-  message: { fontSize: 22, fontWeight: "500", textAlign: "center", marginRight: x < 768 ? "20%" : "" },
+  message: {
+    fontSize: 22,
+    fontWeight: "500",
+    textAlign: "center",
+    marginRight: x < 768 ? "20%" : "",
+  },
 
-  footer: { display: "flex", justifyContent: "center", padding: 0, marginBottom: 30 },
+  footer: {
+    display: "flex",
+    justifyContent: "center",
+    padding: 0,
+    marginBottom: 20,
+  },
   footerResp: {
-    flexDirection: 'column'
+    flexDirection: "column",
   },
   saveBtn: {
     width: "210px",
@@ -49,7 +58,7 @@ const styles = {
     marginBottom: x <= 500 ? "20px" : "",
   },
   abortBtnResp: {
-    fontSize: 20,
+    fontSize: 27,
     padding: 5,
     width: "100%",
     marginBottom: 20,
@@ -57,7 +66,13 @@ const styles = {
   // body: { marginTop: 30, marginBottom: 30 },
   // message: { textAlign: "center", fontSize: 22, fontWeight: "600" },
   // footer: { justifyContent: "center", padding: 0, marginBottom: 30 },
-  btn: { fontSize: x <= 500 ? 20 : 25, fontFamily: 'Open Sans, Sans Serif', width: x <= 500 ? "100%" : "210px", padding: x <= 500 ? "5px" : "", },
+  btn: {
+    fontSize: x <= 500 ? 20 : 25,
+    fontFamily: "Open Sans, Sans Serif",
+    width: x <= 500 ? "100%" : "210px",
+    padding: x <= 500 ? "5px" : "",
+    height: 48
+  },
   btnRep: {
     fontSize: 20,
     width: "100%",
@@ -67,7 +82,8 @@ const styles = {
   textContainer: {
     float: "left",
     fontSize: 22,
-    color: "#242729"
+    fontWeight: 600,
+    color: "#242729",
   },
 
   textTitle: {
@@ -90,7 +106,7 @@ const styles = {
     marginLeft: 15,
     // marginTop: -2,
     cursor: "pointer",
-  }
+  },
 };
 
 export default styles;

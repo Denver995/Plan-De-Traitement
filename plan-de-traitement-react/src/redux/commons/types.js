@@ -12,3 +12,5 @@ export const SET_FIELD_DATA = 'SET_FIELD_DATA';
 export const SET_COMPONENT = 'SET_COMPONENT';
 
 export const ERROR = 'ERROR';
+
+export const SHOW_PERIOD_FORM = 'SHOW_PERIOD_FORM'; 

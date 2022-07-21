@@ -385,7 +385,7 @@ const ExamenForm = ({
   return (
     <>
       <ModalWrapper style={styles.modal}>
-        <EuiSpacer size="l" />
+        <EuiSpacer size="m" />
         <div style={styles.examForm}>
           <div>
             <EuiFlexGroup>
@@ -427,7 +427,7 @@ const ExamenForm = ({
             <TracIcon width={"1rem"} />
             <EuiFlexItem style={styles.examTitle}>Examen </EuiFlexItem>
           </EuiFlexGroup>
-          <EuiSpacer size="xl" />
+          <EuiSpacer size="l" />
           <EuiForm>
             <EuiFlexGroup>
               <EuiFlexItem>
@@ -540,7 +540,7 @@ const ExamenForm = ({
                   }}
                   style={{
                     ...styles.cancelBtn,
-                    marginRight: innerWidth >= 768 ? 50 : 0,
+                    marginRight: innerWidth >= 768 ? 40 : 0,
                   }}
                 >
                   Annuler
@@ -600,7 +600,7 @@ const ExamenForm = ({
           <style jsx="true">
             {`
               .euiFlexGroup .input_left {
-                margin-left: 12%;
+                margin-left: 8%;
               }
             `}
           </style>

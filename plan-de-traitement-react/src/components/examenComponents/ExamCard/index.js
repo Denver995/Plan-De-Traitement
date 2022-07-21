@@ -69,7 +69,7 @@ function ExamCard({
         padding: 10,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
       }}
-      date={date_}
+      date={date}
       position={position}
       iconStyle={{
         background: "rgb(19, 83, 117)",
@@ -81,7 +81,7 @@ function ExamCard({
     >
       <div className="exam-card-content">
         <EuiText style={position === "right" ? styles.textRight : styles.text}>
-          Examen {index + 1}
+          Examen {examId + 1}
         </EuiText>
         <div
           style={
@@ -143,13 +143,13 @@ function ExamCard({
               style={position === "right" ? styles.pinRight : styles.pinLeft}
             />
           )}
-          {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
+          {/* {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
             <PinIcon
               width={"7px"}
               height={"11px"}
               style={position === "right" ? styles.pinRight : styles.pinLeft}
             />
-          )}
+          )} */}
         </div>
       </div>
     </VerticalTimelineElement>

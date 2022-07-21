@@ -46,3 +46,8 @@ export const setComponent = (componentTodisplay) => ({
   type: types.SET_COMPONENT,
   componentTodisplay
 });
+
+export const setShowPeriodForm = (payload) => ({
+  type: types.SHOW_PERIOD_FORM,
+  payload
+});

@@ -2,7 +2,8 @@ import colors from "../../utils/colors";
 
 const styles = {
   modal: {
-    width: "70rem",
+    width: 1057,
+    // height: 328,
     bottom: "unset",
   },
 
@@ -103,7 +104,7 @@ const styles = {
     marginBottom: 4,
     letterSpacing: 0,
     color: colors.blackClaire,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
 
   inputModal: {

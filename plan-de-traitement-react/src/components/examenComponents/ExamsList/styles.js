@@ -3,7 +3,7 @@ import colors from "../../../utils/colors";
 const styles = {
   modal: {
     width: 1361,
-    height: 582,
+    minHeight: 358,
   },
   contain :{
     height:"84%", 

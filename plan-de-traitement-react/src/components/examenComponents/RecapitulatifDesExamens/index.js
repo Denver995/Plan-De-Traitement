@@ -121,7 +121,7 @@ const RecapitulatifDesExamens = ({
             </VerticalTimeline>
           </div>
           <EuiSpacer size="xxl" />
-          <EuiSpacer size="xxl" />
+          {/* <EuiSpacer size="xxl" /> */}
 
           <EuiFlexGroup
             className="custom-footer-group"
