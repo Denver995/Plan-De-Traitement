@@ -396,6 +396,6 @@
 }
 
 .custom-vertical-timeline-element-group > div .vertical-timeline-element-date {
-  top: 50%;
+  top: 50% !important;
   margin-top: -10px;
 }

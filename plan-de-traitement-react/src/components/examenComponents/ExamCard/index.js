@@ -30,7 +30,7 @@ function ExamCard({
       contentStyle={{
         background: examen.color ? examen.color : "white",
         height: 82,
-        marginTop: -30,
+        marginTop: -20,
         padding: 10,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
       }}
