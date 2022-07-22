@@ -26,13 +26,13 @@ const styles = {
   },
 
   examen: {
-    font: "normal normal 600 20px/27px Open Sans",
+    font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
     color: "#052A3E",
   },
 
   special: {
     width: 138,
-    font: "normal normal bold 13px/18px Open Sans",
+    font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
     color: "#052A3E",
   },
   

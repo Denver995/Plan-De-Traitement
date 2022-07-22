@@ -2,7 +2,8 @@ import colors from "../../../utils/colors";
 
 const styles = {
   modal: {
-    width: "70rem",
+    width: 1361,
+    minHeight: 566
   },
 
   examForm: {
@@ -57,7 +58,7 @@ const styles = {
   },
 
   buttonContainer: {
-    marginTop: "5%",
+    marginTop: "4%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -68,7 +69,9 @@ const styles = {
     fontSize: "27px",
     color: colors.primary,
     width: "210px",
-    height: "59px",
+    // paddingLeft : "20px",
+    // paddingRight : "20px",
+    height: "48px",
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
     //marginRight: "8%",
@@ -78,9 +81,11 @@ const styles = {
 
   addBtn: {
     fontSize: "27px",
+    // paddingLeft : "20px",
+    // paddingRight : "20px",
     color: colors.white,
     width: "210px",
-    height: "59px",
+    height: "48px",
     border: "3px solid #5D9AD4",
     borderRadius: "35px",
     textDecoration: "none",
@@ -89,8 +94,10 @@ const styles = {
   btnDisabled: {
     fontSize: "27px",
     color: colors.white,
+    // paddingLeft: "20px",
+    // paddingRight: "20px",
     width: "210px",
-    height: "59px",
+    height: "48px",
     borderRadius: "35px",
     textDecoration: "none",
     background: colors.lightGray,

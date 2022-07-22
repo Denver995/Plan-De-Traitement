@@ -1,30 +1,38 @@
 import {
   EuiButton,
   EuiButtonEmpty,
-  EuiCheckbox, EuiFlexGroup,
+  EuiCheckbox,
+  EuiFlexGroup,
   EuiFlexItem,
-  EuiForm, EuiHorizontalRule, EuiSelect, EuiSpacer, useGeneratedHtmlId
+  EuiForm,
+  EuiHorizontalRule, EuiSpacer,
+  useGeneratedHtmlId
 } from "@elastic/eui";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
+import AsyncSelect from 'react-select/async';
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
+import "../../../eui_theme_light_.css";
 import { useDimension } from "../../../hooks/dimensions";
 import "../../../modifierexamen.css";
-import { setAlert, setComponent, setError, startLoading } from "../../../redux/commons/actions";
+import {
+  setAlert,
+  setComponent,
+  setError,
+  startLoading
+} from "../../../redux/commons/actions";
 import {
   addExam,
-  addExamGrouped, addExamOnAllGroups, CreateEspacementSubExam,
-  createExamen, createExamen as createExamenAction, examPayload, mostBeEditable, setShowExamForm, shareAllExams, shareExamData, shareLieu, shareMotif, sharePraticienData,
-  shareSpecialitieData
+  addExamGrouped, addExamOnAllGroups, CreateEspacementSubExam, createExamen, createExamen as createExamenAction, examPayload, mostBeEditable, setShowExamForm, shareAllExams
 } from "../../../redux/examens/actions";
 import {
   addStep,
   // deleteStep,
   desactivateStep
 } from "../../../redux/steps/actions";
-import examenService from '../../../services/examens';
+import examenService from "../../../services/examens";
 import LieuxService from "../../../services/lieux";
 import MotifsService from "../../../services/motifs";
 import PraticiensService from "../../../services/praticiens";
@@ -34,7 +42,6 @@ import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
-
 
 
 const ExamenForm = ({
@@ -48,16 +55,21 @@ const ExamenForm = ({
   modelData,
   handleGetExamByGroupIndex,
   predecessor,
-  groupWithData
+  groupWithData,
 }) => {
   const dispatch = useDispatch();
   const fixedExamenCheckboxId = useGeneratedHtmlId({
     prefix: "indeterminateCheckbox",
   });
-  const mustBeEditable = useSelector(state => state.ExamenReducer.mustBeEditable)
+  const mustBeEditable = useSelector(
+    (state) => state.ExamenReducer.mustBeEditable
+  );
+  const examGroupedToEdite = useSelector(state => state.ExamenReducer.ExamenReducer)
   const steps = useSelector((state) => state.StepReducer.steps);
-  const error = useSelector(state => state.CommonReducer.error);
-  const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload)
+  const error = useSelector((state) => state.CommonReducer.error);
+  const groupExamPayload = useSelector(
+    (state) => state.ExamenReducer.groupExamPayload
+  );
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
@@ -65,18 +77,17 @@ const ExamenForm = ({
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [listExam, setListExam] = useState([]);
   const [showEditForm, setShowEditForm] = useState(
-    mustBeEditable ? true :
-      formType === typeScreen.examFormEdit
+    mustBeEditable ? true : formType === typeScreen.examFormEdit
   );
   const [reload, setReload] = useState(false);
-  const [specialite, setSpecialite] = useState("");
   const [motif, setMotif] = useState("");
   const [praticien, setPraticien] = useState("");
   const [lieu, setLieu] = useState("");
   const [selectedExamId, setSelectedExamId] = useState("");
   const [listSpecialite, setListSpecialite] = useState([]);
+  const [specialite, setSpecialite] = useState("");
   const [listLieu, setListLieu] = useState([]);
-  const [listMotif, setListMotif] = useState([])
+  const [listMotif, setListMotif] = useState([]);
   const [listPraticien, setListPraticien] = useState([]);
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
@@ -88,13 +99,14 @@ const ExamenForm = ({
     setFixedExamPosition(!fixedExamPosition);
   };
 
-  const onChangeSpecialite = (e) => setSpecialite(e.target.value);
+  const onChangeSpecialite = (e) => setSpecialite(e ? e.value : "")
 
-  const onChangeMotif = (e) => setMotif(e.target.value);
 
-  const onChangePraticien = (e) => setPraticien(e.target.value);
+  const onChangeMotif = (e) => setMotif(e ? e.value : "");
 
-  const onChangeLieu = (e) => setLieu(e.target.value);
+  const onChangePraticien = (e) => setPraticien(e ? e.value : "");
+
+  const onChangeLieu = (e) => setLieu(e ? e.value : "");
 
   const onClickNext = (isGroup = false) => {
     if (!isGroup) {
@@ -105,9 +117,6 @@ const ExamenForm = ({
       dispatch(addStep(nextStep));
     }
   };
-
-  useEffect(() => {
-  }, [])
 
 
   const handleGetExams = () => {
@@ -124,8 +133,16 @@ const ExamenForm = ({
       })
       .catch((error) => {
         setLoading(false);
+        if (error.message === "Network Error") {
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
+        } else {
+          dispatch(setError("Une erreur est survenue"));
+        }
       });
-  }
+  };
+
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const userInfo = {
     id_praticien: praticien,
@@ -133,7 +150,7 @@ const ExamenForm = ({
     id_motif: motif,
     id_profession: specialite,
     fixedPosition: fixedExamPosition,
-    typeAl: "examens"
+    typeAl: "examens",
   };
   const alertMessage =
     '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer la modification sur l\'ensemble des groupes ?</EuiText>';
@@ -202,16 +219,17 @@ const ExamenForm = ({
           setLoading(false)
           setErrorMessage(true);
           if (error.message === "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
           } else {
-            dispatch(setError("Une erreur est survenue"))
+            dispatch(setError("Une erreur est survenue"));
           }
         });
     }
   };
 
   const updateFormData = (resetFormData = false, exam) => {
-    console.log(exam);
     setLieu(resetFormData ? "" : exam?.id_lieu);
     setPraticien(resetFormData ? "" : exam?.id_praticien);
     setMotif(resetFormData ? "" : exam?.id_motif);
@@ -247,19 +265,17 @@ const ExamenForm = ({
       })
   }
 
-
   const onEditExamen = () => {
     if (mustBeEditable) {
-      dispatch(mostBeEditable(false))
-      handleUpdateExams();
-      onPrevious()
+      dispatch(mostBeEditable(false));
+      onPrevious();
     } else {
       handleUpdateExams();
     }
     return;
   };
 
-  
+
   const onCancel = () => {
     console.log("cancel--");
     dispatch(mostBeEditable(false));
@@ -291,52 +307,49 @@ const ExamenForm = ({
   useEffect(() => {
     SpecialiteService.getListeSpecialite()
       .then((res) => {
-        dispatch(shareSpecialitieData(res.data));
-        var data = [{ value: "", text: "Veuillez sélectionner" }]
-        res.data.forEach(element => {
-          data.push({ value: element.id, text: element.libelle })
+        let data = [];
+        res.data.forEach((element) => {
+          data.push({ value: element.id, label: element.libelle });
         });
         setListSpecialite(data);
       })
-      .catch((error) => {
-      });
+      .catch((error) => { });
 
     LieuxService.getListeLieux()
       .then((res) => {
-        dispatch(shareLieu(res.data.tabinfo));
-        var data = [{ value: "", text: "Veuillez sélectionner" }]
-        res.data.tabinfo.forEach(element => {
-          data.push({ value: element.id_lieu, text: element.libelle_lieu })
+        let data = [];
+        res.data.tabinfo.forEach((element) => {
+          data.push({ value: element.id_lieu, label: element.libelle_lieu });
         });
         setListLieu(data);
-        dispatch(shareExamData(res))
       })
-      .catch((error) => {
-      });
+      .catch((error) => { });
 
     MotifsService.getListeMotif()
       .then((res) => {
-        dispatch(shareMotif(res.data.tabinfo));
-        var data = [{ value: "", text: "Veuillez sélectionner" }]
-        res.data.tabinfo.forEach(element => {
-          data.push({ value: element.id_motif_rdv, text: element.libelle_motif_rdv })
+        let data = [];
+        res.data.tabinfo.forEach((element) => {
+          data.push({
+            value: element.id_motif_rdv,
+            label: element.libelle_motif_rdv,
+          });
         });
         setListMotif(data);
       })
-      .catch((error) => {
-      });
+      .catch((error) => { });
 
     PraticiensService.getListePraticien()
       .then((res) => {
-        dispatch(sharePraticienData(res.data.tabinfo));
-        var data = [{ value: "", text: "Veuillez sélectionner" }]
-        res.data.tabinfo.forEach(element => {
-          data.push({ value: element.id_praticien, text: element.nom_praticien + " " + element.prenom_praticien })
+        let data = [];
+        res.data.tabinfo.forEach((element) => {
+          data.push({
+            value: element.id_praticien,
+            label: element.nom_praticien + " " + element.prenom_praticien,
+          });
         });
         setListPraticien(data);
       })
-      .catch((error) => {
-      });
+      .catch((error) => { });
   }, []);
 
   useEffect(() => {
@@ -349,27 +362,33 @@ const ExamenForm = ({
       setSelectedExamId(examenSelected.id);
       updateFormData(false, examenSelected[examenSelected.indexExam]);
     }
-  }, [reload, examenSelected, showEditForm, steps, selectedExamId]);
+  }, [reload, examenSelected, showEditForm, steps, selectedExamId, examGroupedToEdite]);
 
   useEffect(() => { }, [groupSelected, examsGrouped]);
+  const filterData = (inputValue, dataToMap) => {
+    return dataToMap.filter((i) =>
+      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+
 
   return (
     <>
       <ModalWrapper style={styles.modal}>
-        <EuiSpacer size="l" />
+        <EuiSpacer size="m" />
         <div style={styles.examForm}>
           <div>
             <EuiFlexGroup>
-              <EuiFlexItem style={styles.modelContainer}>
+              <EuiFlexItem grow={1} style={styles.modelContainer}>
                 <p style={styles.text}>Modèle:</p>
                 <EuiSpacer size="s" />
                 <p style={styles.input}>{modelData.modelName}</p>
               </EuiFlexItem>
               {isModelGroup ? (
-                <EuiFlexItem>
+                <EuiFlexItem grow={3}>
                   <p>Groupe:</p>
                   <EuiSpacer size="s" />
-                  <p>{activeGroup}</p>
+                  <p style={styles.input}>{`Groupe ${parseInt(activeGroup.slice(6)) + 1}`}</p>
                 </EuiFlexItem>
               ) : null}
             </EuiFlexGroup>
@@ -398,29 +417,35 @@ const ExamenForm = ({
             <TracIcon width={"1rem"} />
             <EuiFlexItem style={styles.examTitle}>Examen </EuiFlexItem>
           </EuiFlexGroup>
-          <EuiSpacer size="xl" />
+          <EuiSpacer size="l" />
           <EuiForm>
             <EuiFlexGroup>
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Spécialité* :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
-                  style={styles.input}
-                  fullWidth
-                  options={listSpecialite}
-                  value={specialite}
-                  onChange={onChangeSpecialite}
+                <AsyncSelect className="input-search-examform" isClearable defaultOptions={listSpecialite} onChange={onChangeSpecialite} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listSpecialite));
+                    }, 1000);
+                  })}
+                  components={{
+                    IndicatorSeparator: () => null
+                  }}
                 />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Motif* :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
-                  fullWidth
-                  style={styles.input}
-                  options={listMotif}
-                  value={motif}
-                  onChange={onChangeMotif}
+                <AsyncSelect defaultOptions={listMotif} isClearable onChange={onChangeMotif} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listMotif));
+                    }, 1000);
+                  })}
+                  components={{
+                    IndicatorSeparator: () => null
+                  }}
                 />
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -429,23 +454,29 @@ const ExamenForm = ({
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
-                  fullWidth
-                  style={styles.input}
-                  options={listPraticien}
-                  value={praticien}
-                  onChange={onChangePraticien}
+                <AsyncSelect defaultOptions={listPraticien} isClearable onChange={onChangePraticien} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listPraticien));
+                    }, 1000);
+                  })}
+                  components={{
+                    IndicatorSeparator: () => null
+                  }}
                 />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Lieu* :</p>
                 <EuiSpacer size="xs" />
-                <EuiSelect
-                  fullWidth
-                  style={styles.input}
-                  options={listLieu}
-                  value={lieu}
-                  onChange={onChangeLieu}
+                <AsyncSelect defaultOptions={listLieu} isClearable onChange={onChangeLieu} loadOptions={(inputValue) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve(filterData(inputValue, listLieu));
+                    }, 1000);
+                  })}
+                  components={{
+                    IndicatorSeparator: () => null
+                  }}
                 />
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -509,7 +540,7 @@ const ExamenForm = ({
                   }}
                   style={{
                     ...styles.cancelBtn,
-                    marginRight: innerWidth >= 768 ? 50 : 0,
+                    marginRight: innerWidth >= 768 ? 40 : 0,
                   }}
                 >
                   Annuler
@@ -524,53 +555,67 @@ const ExamenForm = ({
                   }
                   disabled={motif === "" || lieu === "" || specialite === ""}
                 >
-                  {loading ?
-                    <Box style={{ display: 'flex', alignItems: 'center' }}>
-                      <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
-                      Ajouter
-                    </Box>
-                    : <>Ajouter</>}
+                  {
+                    loading ? (
+                      <Box style={{ display: 'flex', alignItems: 'center' }}>
+                        <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
+                        Ajouter
+                      </Box>
+                    ) : (
+                      <>Ajouter</>
+                    )}
                 </EuiButton>
-              </EuiFlexGroup>
-            )}
-            {errorMessage && (
-              <>
-                <EuiSpacer size="xl" />
-                <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-              </>
-            )}
-            {!showEditForm && listExam.length > 2 && (
-              <>
-                <EuiFlexGroup>
-                  <EuiHorizontalRule className="horizontalRule" />
-                </EuiFlexGroup>
-                <EuiFlexGroup justifyContent="flexEnd">
-                  <EuiFlexItem grow={true}>
-                    <EuiButton
-                      onClick={() => onClickNext()}
-                      className="button_finished"
-                    >
-                      Terminer
-                    </EuiButton>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </>
-            )}
-          </EuiForm>
+                {errorMessage && (
+                  <>
+                    <EuiSpacer size="xl" />
+                    <p style={{ color: "red", textAlign: "center" }}>{error}</p>
+                  </>
+                )}
+              </EuiFlexGroup >
+            )
+            }
+            {
+              errorMessage && (
+                <>
+                  <EuiSpacer size="xl" />
+                  <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+                </>
+              )
+            }
+            {
+              !showEditForm && listExam.length > 2 && (
+                <>
+                  <EuiFlexGroup>
+                    <EuiHorizontalRule className="horizontalRule" />
+                  </EuiFlexGroup>
+                  <EuiFlexGroup justifyContent="flexEnd">
+                    <EuiFlexItem grow={true}>
+                      <EuiButton
+                        onClick={() => onClickNext()}
+                        className="button_finished"
+                      >
+                        Terminer
+                      </EuiButton>
+                    </EuiFlexItem>
+                  </EuiFlexGroup>
+                </>
+              )
+            }
+          </EuiForm >
           <style jsx="true">
             {`
               .euiFlexGroup .input_left {
-                margin-left: 12%;
+                margin-left: 8%;
               }
             `}
           </style>
-        </div>
-      </ModalWrapper>
+        </div >
+      </ModalWrapper >
     </>
   );
 };
 
-const mapStateToProps = ({ ExamenReducer, ModelsReducer, }) => ({
+const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   examsGrouped: ExamenReducer.examsGrouped,
   groupSelected: ExamenReducer.examenSelected,
   activeGroup: ExamenReducer.activeGroup,

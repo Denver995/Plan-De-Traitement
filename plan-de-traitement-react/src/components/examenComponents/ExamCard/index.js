@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { EuiText } from "@elastic/eui";
+import { default as React,useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.svg";
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
-import Propover from "../../Propover";
 import { setError } from "../../../redux/commons/actions";
-import styles from "./style";
 import examenService from '../../../services/examens';
+import Propover from "../../Propover";
+import styles from "./style";
 
 function ExamCard({
   showEditForm,
   date,
   color,
+  entityType ,
   index,
   position,
   groupKey,
@@ -130,10 +132,12 @@ function ExamCard({
   }
   return (
     <VerticalTimelineElement
+      className="custom-vertical-timeline-element"
       contentStyle={{
         background: examen[index]?.color_type_rdv ? examen[index]?.color_type_rdv : "white",
         height: 82,
-        marginTop: -40,
+        marginTop: -20,
+        padding: 10,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
       }}
       date={date}
@@ -142,9 +146,30 @@ function ExamCard({
         background: "rgb(19, 83, 117)",
         color: "#fff",
         border: "rgb(19, 83, 117)",
+        zIndex: 1,
       }}
+      icon={<MapIcon />}
     >
       <div className="exam-card-content">
+        <EuiText style={position === "right" ? styles.textRight : styles.text}>
+          Examen {examId + 1}
+        </EuiText>
+        <div
+          style={
+            position === "right" ? styles.dotContainer : styles.dotContainerLeft
+          }
+          className="dotContainer-right"
+        >
+          <div style={styles.dotChild}></div>
+        </div>
+        {examen.id_child !== undefined && (
+          <div
+            className="custom-bar"
+            style={
+              position === "right" ? styles.customBar : styles.customBarLeft
+            }
+          ></div>
+        )}
         <div
           style={position === "right" ? styles.rightHeader : styles.leftHeader}
         >
@@ -186,13 +211,20 @@ function ExamCard({
             <MapIcon width={"0.7rem"} />
             <h4 style={styles.adresse}>{lieu ?? "id_lieu"}</h4>
           </div>
-          {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
+          {examen.positionFixed && (
             <PinIcon
               width={"7px"}
               height={"11px"}
               style={position === "right" ? styles.pinRight : styles.pinLeft}
             />
           )}
+          {/* {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
+            <PinIcon
+              width={"7px"}
+              height={"11px"}
+              style={position === "right" ? styles.pinRight : styles.pinLeft}
+            />
+          )} */}
         </div>
       </div>
     </VerticalTimelineElement>

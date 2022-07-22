@@ -13,6 +13,7 @@ import { type_espacement } from "../../utils/constants";
 import { isPossibleGranularly } from "../../utils/helper";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./styles";
+import { fleche } from "../../assets/images/index"
 
 const EspacementInterExamenForm = ({
   isModelGroup,
@@ -155,17 +156,22 @@ const EspacementInterExamenForm = ({
     <ModalWrapper style={styles.modal}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
         {typeEspacement === type_espacement.group ? (
-          <p className="label_exams" style={styles.title}>
-            Espacement entre le groupe {initialIndex} et le groupe{" "}
-            {initialIndex + 1}
-          </p>
+          <div style={{display: 'flex', flexDirection: "row"}}>
+            <img style={{width: 20, marginRight: "15px"}} src={fleche} alt="this is a btn" />
+            <p className="label_exams" style={styles.title}>
+              Espacement entre le groupe {initialIndex + 1} et le groupe{" "}
+              {initialIndex + 2}
+            </p>
+          </div>
         ) : (
-          <p className="label_exams" style={styles.title}>
-            Espacement entre l'examen {initialIndex} et l'examen{" "}
-            {initialIndex + 1}
-          </p>
+          <div style={{display: 'flex', flexDirection: "row"}}>
+            <img style={{width: 20, marginRight: "15px"}} src={fleche} alt="this is a btn" />
+            <p  className="label_exams" style={styles.title}>
+              Espacement entre l'examen {initialIndex + 1} et l'examen{" "}
+              {initialIndex + 2}
+            </p>
+          </div>
         )}
-
         <p className="inter" style={styles.secondTitle}>
           Espacement inter examens*:
         </p>
@@ -255,7 +261,7 @@ const EspacementInterExamenForm = ({
             </p>
           </EuiButton>
         </div>
-        <EuiSpacer size="xl" />
+        {/* <EuiSpacer size="xl" /> */}
         {errorMessage && (
           <>
             <EuiSpacer size="xl" />

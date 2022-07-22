@@ -105,3 +105,27 @@ export const isPossibleGranularly = (data1, data2) => {
   }
   return minInterval < maxInterval
 }
+
+export const getGroupeKeyPosition = (allGroupes, groupeKey) => {
+  let allGroupesKeys = Object.keys(allGroupes);
+  let position = null;
+  for(var i = 0 ; i < allGroupesKeys.length ; i++){
+    if(allGroupesKeys[i] === groupeKey){
+      position = i;
+      break;
+    }
+  }
+  return position;
+}
+
+export const getFisrtLetter = (word) => {
+  switch(word){
+    case "Jour" : 
+    word = word.charAt(0).toUpperCase()+word.charAt(3).toLowerCase();break;
+    case "Heure" : 
+    word = word.charAt(0).toUpperCase()+word.charAt(3).toLowerCase();break;
+    case "Semaine" : 
+    word = word.charAt(0).toUpperCase()+word.charAt(1).toLowerCase()+word.charAt(2).toLowerCase();break;
+  }
+  return word
+}

@@ -2,7 +2,8 @@ import colors from "../../utils/colors";
 
 const styles = {
   modal: {
-    width: "70rem",
+    width: 1057,
+    // height: 328,
     bottom: "unset",
   },
 
@@ -69,7 +70,7 @@ const styles = {
 
   cancelButton: {
     border: "3px solid #5D9AD4",
-    height: "59px",
+    height: "48px",
     borderRadius: "41px",
     fontSize: "27px",
     color: colors.primary,
@@ -103,7 +104,7 @@ const styles = {
     marginBottom: 4,
     letterSpacing: 0,
     color: colors.blackClaire,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
 
   inputModal: {

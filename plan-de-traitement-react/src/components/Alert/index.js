@@ -1,39 +1,33 @@
 import {
-  EuiButton, EuiButtonEmpty, EuiFieldText, EuiForm,
-  EuiFormRow, EuiModalBody,
-  EuiModalFooter, EuiSpacer, EuiText
+  EuiButton,
+  EuiButtonEmpty,
+  EuiFieldText,
+  EuiForm,
+  EuiFormRow,
+  EuiModalBody,
+  EuiModalFooter,
+  EuiSpacer,
+  EuiText
 } from "@elastic/eui";
-import {
-  createExamen as createExamenAction,
-  createExamen,
-  addExam,
-  addExamGrouped,
-  CreateEspacement,
-  createGroups,
-  shareGroupPayload,
-  shareListExamGroup,
-  setShowExamForm,
-  addExamOnAllGroups,
-  newExam,
-  CreateEspacementSubExam,
-} from "../../redux/examens/actions";
-import React, { useEffect, useState } from "react";
-import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
+import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import { useDimension } from "../../hooks/dimensions";
 import { setAlert, setComponent, setError } from "../../redux/commons/actions";
+import {
+  addExam, addExamOnAllGroups, CreateEspacementSubExam, setShowExamForm, shareListExamGroup
+} from "../../redux/examens/actions";
+import { saveModel } from "../../redux/models/actions";
 import examenService from '../../services/examens';
 import examenLieService from '../../services/examensLie';
-import ModelService from "../../services/models";
 import GroupeLieService from "../../services/groupeLie";
+import ModelService from "../../services/models";
 import colors from "../../utils/colors";
 import ModalWrapper from "../common/ModalWrapper";
 import EspacementInterExamenForm from "../EspacementInterExamenForm";
-import { saveModel } from "../../redux/models/actions";
 import styles from "./style";
-
 
 const Alert = ({
   message,
@@ -56,10 +50,9 @@ const Alert = ({
   const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload);
   const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
   const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
-  const { innerHeight, innerWidth } = useDimension();
+  const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const colorsArr = ["primaryLight", "danger", "success", "warning"];
 
   useEffect(() => {
   }, [buttonText]);
@@ -119,10 +112,10 @@ const Alert = ({
         if (error.message == "Network Error") {
           dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
         } else {
-          dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          dispatch(setError("Une erreur est survenue, veuillez réessayer"));
         }
-      })
-  }
+      });
+  };
 
   const handleCreateExamenLie = () => {
     setErrorMessage(false);
@@ -159,7 +152,6 @@ const Alert = ({
   const handleCreateExamenLieForAll = () => {
     setErrorMessage(false);
     setLoading(true);
-    let initialIds = 0;
     for (var i = 0; i < getAllExams.length - 1; i++) {
       examenLieService.createExamenLie({
         id_examen_parent: parseInt(getAllExams[i].id_examen),
@@ -234,7 +226,16 @@ const Alert = ({
         onReject();
         setLoading(false);
         setErrorMessage(false);
-        dispatch(setError(null))
+        dispatch(setError(null));
+        response.data.data.id_group = activeGroup;
+        response.data.data.allGroup = true;
+        dispatch(addExam({ index: activeGroup, exam: response.data.data }));
+        dispatch(
+          addExamOnAllGroups({ index: activeGroup, exam: response.data.data })
+        );
+        dispatch(setShowExamForm(false));
+        dispatch(setAlert(false));
+        dispatch(CreateEspacementSubExam());
       })
       .catch((error) => {
         setLoading(false);
@@ -242,10 +243,10 @@ const Alert = ({
         if (error.message == "Network Error") {
           dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
       });
-  }
+  };
 
   const handleCreateExamenForAll = () => {
     setLoading(true);
@@ -318,13 +319,26 @@ const Alert = ({
     return;
   };
 
+  const submit = () => {
+    if (onAccept) {
+      onAccept();
+      dispatch(setAlert({ showAlert: false, message: "" }));
+      if (isConfirmation || alert.isConfirmation) {
+        if (alert.closeModal) alert.closeModal();
+        if (closeModal) closeModal();
+        dispatch(saveModel());
+      }
+      return;
+    }
+    dispatch(setAlert({ showAlert: false, message: "" }));
+    return;
+  };
+
   return (
     <ModalWrapper
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
     >
-
-      <EuiSpacer size="xl" />
       <EuiModalBody style={styles.body}>
         {showInputForm ? (
           <EuiForm id="">
@@ -365,6 +379,7 @@ const Alert = ({
         <Box style={{ display: 'flex', justifyContent: 'center', color: "white" }}>
           <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
         </Box>}
+      <EuiSpacer size="m" />
       <EuiModalFooter
         className="btn_group alert"
         style={{
@@ -375,39 +390,57 @@ const Alert = ({
         <EuiButtonEmpty
           style={{
             ...styles.abortBtn,
-            fontSize: innerWidth <= 500 ? 20 : 25,
+            fontSize: 27,
             padding: innerWidth <= 500 ? "5px" : "",
             width: innerWidth <= 500 ? "100%" : 210,
             marginBottom: innerWidth <= 500 ? "20px" : "",
           }}
           onClick={goBack}
         >
-          {alert?.buttonText?.cancelText ?? "Annuler"}
+          {alert?.buttonText?.cancelText ?? "Retour"}
         </EuiButtonEmpty>
         <EuiButton
           style={{
             ...styles.btn,
             backgroundColor: colors.primary,
             borderColor: colors.primary,
-            fontSize: innerWidth <= 500 ? 20 : 25,
+            fontSize: 27,
             width: innerWidth <= 500 ? "100%" : "210px",
             textDecoration: "none",
           }}
-          onClick={handleCreate}
+          onClick={
+            isConfirmation || alert.isConfirmation ? submit : handleCreate
+          }
           fill={true}
         >
-          {alert?.buttonText?.confirmText ?? "Enregistrer"}
+          {loading && (
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                color: "white",
+              }}
+            >
+              <CircularProgress
+                style={{
+                  marginRight: "5px",
+                  color: "white",
+                  width: "25px",
+                  height: "25px",
+                }}
+              />
+              <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
+            </Box>
+          )}
         </EuiButton>
       </EuiModalFooter>
-      {/* )} */}
       {errorMessage && (
         <>
           <EuiSpacer size="xl" />
-          <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+          <p style={{ color: "red", textAlign: "center" }}>{error}</p>
         </>
       )}
     </ModalWrapper>
-
   );
 };
 

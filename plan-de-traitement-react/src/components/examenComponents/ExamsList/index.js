@@ -1,6 +1,7 @@
 import {
   EuiButton,
-  EuiButtonEmpty, EuiFlexGroup,
+  EuiButtonEmpty,
+  EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer
 } from "@elastic/eui";
@@ -23,7 +24,6 @@ import ModalWrapper from "../../common/ModalWrapper";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
-
 
 const ExamsList = ({
   exams,
@@ -139,8 +139,8 @@ const ExamsList = ({
     if (!result.destination) return;
 
     if (!destination.positionFixed && !source.positionFixed) {
-      items.splice(result.destination.index, 1, source);
-      items.splice(result.source.index, 1, destination);
+      items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, source);
       dispatch(storeExams(items));
       handleUpdatePosition(items, result.destination.index, result.source.index);
     }
@@ -227,8 +227,8 @@ const ExamsList = ({
                                         "espaceNonGroupe " + index
                                       ].length - 1
                                     ].applyOnAll === false
-                                    ? `Délai entre l'examen ${index} et l'examen ${index + 1
-                                    } : ${espacementNonGroupe[
+                                    ? `Délai entre l'examen ${index + 1
+                                    } et l'examen ${index + 2} : ${espacementNonGroupe[
                                       "espaceNonGroupe " + index
                                     ][0].minInterval
                                     } ${espacementNonGroupe[
@@ -252,8 +252,8 @@ const ExamsList = ({
                                           "espaceNonGroupe " + index
                                         ].length - 1
                                       ].applyOnAll === true
-                                      ? `Délai entre l'examen ${index} et l'examen ${index + 1
-                                      } : ${espacementNonGroupe[
+                                      ? `Délai entre l'examen ${index + 1
+                                      } et l'examen ${index + 2} : ${espacementNonGroupe[
                                         "espaceNonGroupe " + index
                                       ][
                                         espacementNonGroupe[
@@ -331,7 +331,7 @@ const ExamsList = ({
               >
                 Retour
               </EuiButtonEmpty>
-              {exams.length > 2 ? (
+              {exams.length > 0 ? (
                 <EuiButton
                   style={styles.activated}
                   className="button_next_me"
@@ -341,6 +341,7 @@ const ExamsList = ({
                 </EuiButton>
               ) : (
                 <EuiButton
+                  disabled={true}
                   style={styles.deactivated}
                   className="button_next_me"
                 >

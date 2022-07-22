@@ -5,7 +5,9 @@ import {
   EuiHorizontalRule,
   EuiSpacer
 } from "@elastic/eui";
-import React, { useState, useEffect } from "react";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
@@ -19,11 +21,7 @@ import ModalWrapper from "../../common/ModalWrapper";
 import TimeLineHelper from "../../common/TimeLineHelper";
 import ExamCard from "../ExamCard";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import styles from "./styles";
-
-
 
 const RecapitulatifDesExamens = ({
   closeModal,
@@ -49,7 +47,7 @@ const RecapitulatifDesExamens = ({
         <div style="height: 25px; width: 25px; border-radius: 50%; border: 1px solid #5D9AD4; margin-left: 15px; margin-top: -2px; cursor: pointer"><Pencil size={"1rem"} /></div>
       </div>
     </EuiText>
-  `; 
+  `;
   const onSave = () => {
     setAlert({
       title: "Enregistrer le modèle",
@@ -111,8 +109,11 @@ const RecapitulatifDesExamens = ({
               </div>
             </div>
           </div>
-          <div style={styles.timeline}>
-            {!loading?<VerticalTimeline lineColor={"rgba(19, 83, 117, 0.479)"}>
+          <div style={styles.timeline} className="custom-timeline">
+            {!loading ? <VerticalTimeline
+              lineColor={"rgba(19, 83, 117, 0.479)"}
+              layout={"2-columns"}
+            >
               {exams.map((exam, index) => (
                 <div key={index}>
                   <TimeLineHelper index={index} />
@@ -121,24 +122,28 @@ const RecapitulatifDesExamens = ({
                     examId={exam[index]?.id_examen}
                     index={index}
                     examen={exam}
-                    date="12 mars"
-                    position={index % 2 === 0 ? "left" : "right"}
+                    date="1h-2h"
+                    position={index % 2 === 0 ? "right" : "left"}
                     onBack={onBack}
                   />
                 </div>
               ))}
-            </VerticalTimeline>:
-            <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
+            </VerticalTimeline> :
+              <Box style={{ display: 'flex', alignItems: 'center' }}>
+                <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
 
-          </Box>}
+              </Box>}
           </div>
           <EuiSpacer size="xxl" />
-          <EuiSpacer size="xxl" />
+          {/* <EuiSpacer size="xxl" /> */}
 
-          <EuiFlexGroup style={styles.btnContainer}>
+          <EuiFlexGroup
+            className="custom-footer-group"
+            style={styles.btnContainer}
+          >
             {recapType === typeRecap.model && (
               <EuiButtonEmpty
+                className="custom-button"
                 style={styles.backBtn}
                 onClick={() => {
                   onBack();
@@ -147,7 +152,7 @@ const RecapitulatifDesExamens = ({
                 Retour
               </EuiButtonEmpty>
             )}
-            <EuiButton style={styles.validateBtn} fill={true} onClick={onSave}>
+            <EuiButton className="custom-button button-valid" style={styles.validateBtn} fill={true} onClick={onSave}>
               Valider
             </EuiButton>
           </EuiFlexGroup>
