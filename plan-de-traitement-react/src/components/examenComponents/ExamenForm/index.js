@@ -25,7 +25,7 @@ import {
 } from "../../../redux/commons/actions";
 import {
   addExam,
-  addExamGrouped, addExamOnAllGroups, CreateEspacementSubExam, createExamen, createExamen as createExamenAction, examPayload, mostBeEditable, setShowExamForm, shareAllExams
+  addExamGrouped, addExamOnAllGroups, CreateEspacementSubExam, createExamen as createExamenAction, examPayload, mostBeEditable, setShowExamForm, shareAllExams
 } from "../../../redux/examens/actions";
 import {
   addStep,
@@ -125,9 +125,7 @@ const ExamenForm = ({
       .then((response) => {
         setLoading(false);
         dispatch(shareAllExams(response.data.data));
-        dispatch(createExamen(response.data.data));
         onAddExam({ name: "EXAMSLIST" });
-        onAddExam({ name: typeScreen.examList });
         dispatch(addExam({ exam: response.data.data }));
         dispatch(createExamenAction(response.data.data));
       })
