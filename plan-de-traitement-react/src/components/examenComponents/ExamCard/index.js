@@ -43,6 +43,7 @@ function ExamCard({
 
 
   useEffect(() => {
+    console.log("Examen---",examen);
     handleGetSpecialitie();
     handleGetPraticien();
     handleGetLieu();

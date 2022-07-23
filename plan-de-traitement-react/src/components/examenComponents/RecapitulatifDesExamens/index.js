@@ -7,7 +7,7 @@ import {
 } from "@elastic/eui";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
@@ -62,6 +62,9 @@ const RecapitulatifDesExamens = ({
   const loadingScreen = (show) => {
     setLoading(show);
   }
+  useEffect(() => {
+    console.log("exams -----", exams)
+  }, [])
 
   return (
     <ModalWrapper style={styles.modal}>
