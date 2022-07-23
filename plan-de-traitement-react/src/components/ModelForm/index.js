@@ -62,7 +62,7 @@ const ModalForm = ({
     step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false
   );
   const [nomModele, setNomModele] = useState(
-    isEdited ? modelData.nom : !isEdited && step.data.nom ? step.data.nom : ""
+    isEdited ? modelData.nom || modelData.modelName : !isEdited && step.data.nom ? step.data.nom : ""
   );
   const [showGroupOption, setShowGroupOption] = useState(
     !isEdited && step.data.nb_occurence ? true : false

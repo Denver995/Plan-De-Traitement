@@ -61,7 +61,7 @@ const Propover = ({
   const groupesWithData = useSelector(
     (state) => state.ExamenReducer.groupWithData
   );
-
+  const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
   const exams = useSelector((state) => state.ExamenReducer.exams);
   const groupPayload = useSelector((state) => state.ExamenReducer.groupPayload);
   const espacementSubExam = useSelector(
@@ -171,12 +171,15 @@ const Propover = ({
     loadingScreen(l);
   }
 
-  const handleBindExamen = (data) => {
+  const handleBindExamen = (data, examid, index) => {
     setErrorMessage(false);
     setLoadingg(true);
     load(true);
     examenLieService.createExamenLie(data)
       .then(response => {
+        dispatch(linkToExam({ parent: examid, child: data.id_examen_enfant }));
+        handleClose();
+        togglePropover();
         setErrorMessage(false)
         dispatch(setError(null));
         setLoadingg(false);
@@ -194,18 +197,18 @@ const Propover = ({
       })
   }
 
-  // const handleCreateExamenLie = (index) => {
-  //   for (let i = 0; i < getAllExams.length; i++) {
-  //     if (index === i) {
-  //       handleBindExamen({
-  //         id_examen_parent: examId,
-  //         id_examen_enfant: getAllExams[i].id_examen
-  //       })
-  //       return;
-  //     }
+   const handleCreateExamenLie = (index, examId) => {
+     for (let i = 0; i < getAllExams.length; i++) {
+       if (index === i) {
+         handleBindExamen({
+           id_examen_parent: examId,
+           id_examen_enfant: getAllExams[i].id_examen
+         },examId,index)
+         return;
+       }
 
-  //   }
-  // }
+     }
+   }
 
   const handleBindGroup = (data) => {
     setErrorMessage(false);
@@ -326,7 +329,8 @@ const Propover = ({
               {groupesWithData && (isModelGroup || isModelGroup === 0)
                 ? Object.keys(groupesWithData).length > 0 &&
                 Object.keys(groupesWithData).map(
-                  (key, i) =>
+                  (key, i) =>{ console.log("-----", key, "idGroupe-- ", idGroup);
+                    return(
                     idGroupe !== "group " + i && (
                       <EuiListGroupItem
                         key={i}
@@ -342,6 +346,8 @@ const Propover = ({
                         label={`group ${i + 1}`}
                       />
                     )
+                    )
+                    }
                 )
                 : exams.map(
                   //   (exam, i) =>
@@ -349,23 +355,22 @@ const Propover = ({
                   //       <EuiListGroupItem
                   //         key={i}
                   //         onClick={() => handleCreateExamenLie(i)}
-                  //         label={`Examen ${i + 1}`}
+                  //         label={`Exame ${i + 1}`}
                   //       />
                   //     )
 
                   // )}
-                  (exam, i) =>
-                    examId !== i && (
+                  (exam, i) =>{
+                  return(examId !== exam[i]?.id_examen && (
                       <EuiListGroupItem
                         key={i}
-                        onClick={() => {
-                          dispatch(linkToExam({ parent: examId, child: i }));
-                          handleClose();
-                          togglePropover();
+                        onClick={() => { handleCreateExamenLie(i, examId)
+                          
                         }}
                         label={`Examen ${i + 1}`}
                       />
-                    )
+                    ))
+                    }
                 )}
             </EuiListGroup>
           </EuiPopover>

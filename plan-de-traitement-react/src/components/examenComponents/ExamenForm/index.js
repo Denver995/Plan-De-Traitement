@@ -629,12 +629,7 @@ const ExamenForm = ({
                     <>Ajouter</>
                   )}
                 </EuiButton>
-                {errorMessage && (
-                  <>
-                    <EuiSpacer size="xl" />
-                    <p style={{ color: "red", textAlign: "center" }}>{error}</p>
-                  </>
-                )}
+              
               </EuiFlexGroup>
             )}
             {errorMessage && (

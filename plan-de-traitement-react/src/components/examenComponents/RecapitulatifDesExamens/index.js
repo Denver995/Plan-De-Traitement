@@ -118,6 +118,7 @@ const RecapitulatifDesExamens = ({
                 <div key={index}>
                   <TimeLineHelper index={index} />
                   <ExamCard
+                    entityType = {"Examen"}
                     loadingScreen={loadingScreen}
                     examId={exam[index]?.id_examen}
                     index={index}
