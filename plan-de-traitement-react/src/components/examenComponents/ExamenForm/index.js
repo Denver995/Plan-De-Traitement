@@ -34,6 +34,10 @@ import {
   mostBeEditable,
   setShowExamForm,
   shareAllExams,
+  shareSpecialitieData,
+  sharePraticienData,
+  shareLieu,
+  shareMotif,
 } from "../../../redux/examens/actions";
 import {
   addStep,
@@ -322,6 +326,7 @@ const ExamenForm = ({
   useEffect(() => {
     SpecialiteService.getListeSpecialite()
       .then((res) => {
+        dispatch(shareSpecialitieData(res.data));
         let data = [];
         res.data.forEach((element) => {
           data.push({ value: element.id, label: element.libelle });
@@ -332,6 +337,7 @@ const ExamenForm = ({
 
     LieuxService.getListeLieux()
       .then((res) => {
+        dispatch(shareLieu(res.data.tabinfo));
         let data = [];
         res.data.tabinfo.forEach((element) => {
           data.push({ value: element.id_lieu, label: element.libelle_lieu });
@@ -342,6 +348,7 @@ const ExamenForm = ({
 
     MotifsService.getListeMotif()
       .then((res) => {
+        dispatch(shareMotif(res.data.tabinfo));
         let data = [];
         res.data.tabinfo.forEach((element) => {
           data.push({
@@ -355,6 +362,7 @@ const ExamenForm = ({
 
     PraticiensService.getListePraticien()
       .then((res) => {
+        dispatch(sharePraticienData(res.data.tabinfo));
         let data = [];
         res.data.tabinfo.forEach((element) => {
           data.push({
