@@ -389,8 +389,8 @@ const GroupItem = ({
                                                               cursor: "pointer",
                                                               textDecoration:
                                                                 "underline",
-                                                              fontSize: "17px",
-                                                              font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
+                                                              fontSize: "15px",
+                                                              font: "var(--unnamed-font-style-normal) normal normal 15px/20px var(--unnamed-font-family-open-sans);",
                                                               letterSpacing: 0,
                                                               color: colors.primary,
                                                             }}

@@ -124,8 +124,7 @@ const EspacementInterExamenForm = ({
       isModelGroup: isModelGroup,
       typeAl: "espacement"
     }
-    const alertMessage =
-      '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer cette intervalle à tous les espacements inter examens ?</EuiText>';
+    const alertMessage = "Souhaitez-vous appliquer cette intervalle à tous les espacements inter examens ?"
     dispatch(
       setAlert({
         title: "Enregistrer le modèle",

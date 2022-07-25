@@ -24,6 +24,8 @@ import ModalWrapper from "../../common/ModalWrapper";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
+import { useDimension } from "../../../hooks/dimensions";
+
 
 const ExamsList = ({
   exams,
@@ -36,6 +38,7 @@ const ExamsList = ({
   predecessor,
   actualNonGroupeIndex
 }) => {
+  const innerWidth = { useDimension };
   const espacementNonGroupe = useSelector(
     (state) => state.ExamenReducer.espacementNonGroupe
   );
@@ -205,6 +208,7 @@ const ExamsList = ({
                               <EuiSpacer size="xs" />
                               {index !== examsList.length - 1 && (
                                 <span
+                                style={{marginLeft: innerWidth < 520 ? -78 : ""}}
                                   onClick={() => {
                                     setShowInterExam(true);
                                     dispatch(
@@ -313,7 +317,7 @@ const ExamsList = ({
             <EuiSpacer size="xxl" />
             <EuiSpacer size="xxl" />
           </div>
-          <div style={styles.terminer}>
+          <div style={{...styles.terminer, bottom: innerWidth < 768 ?? 100 }}>
 
             <EuiFlexGroup
               className="btn_group"
@@ -351,7 +355,8 @@ const ExamsList = ({
             </EuiFlexGroup>
           </div>
         </ModalWrapper>
-      )}
+  )
+}
     </>
   );
 };

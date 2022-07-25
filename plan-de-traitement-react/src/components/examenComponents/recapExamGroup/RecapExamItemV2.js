@@ -37,7 +37,7 @@ const RecapExamItemV2 = ({
       className="custom-vertical-timeline-element-group"
       contentStyle={{
         background: "white",
-        border: "1px solid",
+        border: "1px solid #5d9ad4",
         padding: 10,
         marginBottom: 10,
         marginTop: -55,
@@ -68,10 +68,11 @@ const RecapExamItemV2 = ({
             display: "flex",
             justifyContent: "space-between",
             marginLeft: -10,
+            alignItems: "center",            
             marginRight: -5,
           }}
         >
-          <Propover isRecap = {true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
+          <Propover isRecap={true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} />
@@ -87,7 +88,7 @@ const RecapExamItemV2 = ({
             marginRight: -10,
           }}
         >
-          <Propover isRecap = {true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} onDeleteGroup={() => {
+          <Propover isRecap={true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} onDeleteGroup={() => {
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} index={index_} forEXam={false} />
@@ -95,68 +96,69 @@ const RecapExamItemV2 = ({
         </div>
       )}
 
-      {groupesWithData[groupKey]?.exams?.map((exam, index) => (
-        <div key={index}>
-          <div
-            style={{
-              backgroundColor: exam.color,
-              padding: 5,
-              marginBottom: data.length - 1 !== index ? 1 : 0,
-              boxShadow: "0px 3px 6px #00000029",
-              marginLeft: 6,
-              marginRight: position === "right" ? 6 : 0,
-            }}
-          >
-            <div style={{ marginBottom: 14 }}>
-              <div
-                className="card-content-header"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
-                  <strong>
-                    {exam.id_profession ? exam.id_profession : "Spécialité"} -{" "}
-                    {exam.id_modif ? exam.id_modif : "exam.id_modif"}
-                  </strong>
-                </h4>
-                {exam.positionFixed && <PinIcon width={7} height={11} />}
-              </div>
-            </div>
-            <div>
-              <div className="praticien">
-                <EuiIcon type="user" id="icon" />
-                <h4 className="prc">
-                  {exam.id_praticien ? exam.id_praticien : "id_praticien"}
-                </h4>
-                <EuiIcon type="visMapCoordinate" id="icon" />
-                <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
-                  {exam.id_lieu}
-                </h4>
-              </div>
-            </div>
-          </div>
-          {index !== data.length - 1 && (
-            <p
+      <div>
+        {groupesWithData[groupKey]?.exams?.map((exam, index) => (
+          <div key={index}>
+            <div
               style={{
-                fontSize: 12,
-                textDecoration: "underline",
-                textAlign: "right",
-                marginTop: 0,
-                marginBottom: 0,
-                marginRight: position === "right" ? 5 : 0,
-                color: colors.primarySombre,
+                backgroundColor: exam.color,
+                padding: 5,
+                marginBottom: data.length - 1 !== index ? 1 : 0,
+                boxShadow: "0px 3px 6px #00000029",
+                marginLeft: 6,
+                marginRight: position === "right" ? 6 : 0,
               }}
             >
-              {espacementSubExam["group " + index_]["subEspace " + index] &&
-                espacementSubExam["group " + index_]["subEspace " + index]
-                  .length > 0 &&
-                espacementSubExam["group " + index_]["subEspace " + index][
+              <div style={{ marginBottom: 14 }}>
+                <div
+                  className="card-content-header"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
+                    <strong>
+                      {exam.id_profession ? exam.id_profession : "Spécialité"} -{" "}
+                      {exam.id_modif ? exam.id_modif : "exam.id_modif"}
+                    </strong>
+                  </h4>
+                  {exam.positionFixed && <PinIcon width={7} height={11} />}
+                </div>
+              </div>
+              <div>
+                <div className="praticien">
+                  <EuiIcon type="user" id="icon" />
+                  <h4 className="prc">
+                    {exam.id_praticien ? exam.id_praticien : "id_praticien"}
+                  </h4>
+                  <EuiIcon type="visMapCoordinate" id="icon" />
+                  <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
+                    {exam.id_lieu}
+                  </h4>
+                </div>
+              </div>
+            </div>
+            {index !== data.length - 1 && (
+              <p
+                style={{
+                  fontSize: 12,
+                  textDecoration: "underline",
+                  textAlign: "right",
+                  marginTop: 0,
+                  marginBottom: 0,
+                  marginRight: position === "right" ? 5 : 0,
+                  color: colors.primarySombre,
+                }}
+              >
+                {espacementSubExam["group " + index_]["subEspace " + index] &&
                   espacementSubExam["group " + index_]["subEspace " + index]
-                    .length - 1
-                ].minInterval +
+                    .length > 0 &&
+                  espacementSubExam["group " + index_]["subEspace " + index][
+                    espacementSubExam["group " + index_]["subEspace " + index]
+                      .length - 1
+                  ].minInterval +
                   espacementSubExam["group " + index_]["subEspace " + index][
                     espacementSubExam["group " + index_]["subEspace " + index]
                       .length - 1
@@ -170,10 +172,12 @@ const RecapExamItemV2 = ({
                     espacementSubExam["group " + index_]["subEspace " + index]
                       .length - 1
                   ].maxIntervalUnit}
-            </p>
-          )}
-        </div>
-      ))}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+
     </VerticalTimelineElement>
   );
 };

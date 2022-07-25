@@ -396,6 +396,7 @@ const ModalForm = ({
                 <div style={{ width: "49%" }}>
                   <select
                     name="cars"
+                    className="styled-select"
                     id="cars"
                     style={styles.fieldNumber2}
                     onChange={onChangeTypePeriode}

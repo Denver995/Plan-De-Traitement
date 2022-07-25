@@ -54,6 +54,9 @@ import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
+import { components } from 'react-select'
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+
 
 const ExamenForm = ({
   isModelGroup,
@@ -107,7 +110,7 @@ const ExamenForm = ({
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-
+  const allExams = useSelector(state=>state.ExamenReducer.getAllExams);
   const previousStep = getStepByKey(steps, STEP2);
 
   const onChangePositionExamen = () => {
@@ -164,8 +167,7 @@ const ExamenForm = ({
     fixedPosition: fixedExamPosition,
     typeAl: "examens",
   };
-  const alertMessage =
-    '<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans}}>Souhaitez-vous appliquer la modification sur l\'ensemble des groupes ?</EuiText>';
+  const alertMessage = "Souhaitez-vous appliquer la modification sur l'ensemble des groupes ?";
 
   const onAddExamen = () => {
     const payload = {
@@ -333,7 +335,7 @@ const ExamenForm = ({
         });
         setListSpecialite(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     LieuxService.getListeLieux()
       .then((res) => {
@@ -344,7 +346,7 @@ const ExamenForm = ({
         });
         setListLieu(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     MotifsService.getListeMotif()
       .then((res) => {
@@ -358,7 +360,7 @@ const ExamenForm = ({
         });
         setListMotif(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     PraticiensService.getListePraticien()
       .then((res) => {
@@ -372,7 +374,7 @@ const ExamenForm = ({
         });
         setListPraticien(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, []);
 
   useEffect(() => {
@@ -394,12 +396,34 @@ const ExamenForm = ({
     examGroupedToEdite,
   ]);
 
-  useEffect(() => {}, [groupSelected, examsGrouped]);
+  useEffect(() => { }, [groupSelected, examsGrouped]);
   const filterData = (inputValue, dataToMap) => {
     return dataToMap.filter((i) =>
       i.label.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
+
+  const NoOptionsMessage = props => {
+    return (
+      <components.NoOptionsMessage {...props}>
+        <span className="custom-css-class">Chargement ....</span>
+      </components.NoOptionsMessage>
+    );
+  };
+
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? "white" : "white",
+      color: "#5D9AD4",
+      fontSize: 20
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#5D9AD4",
+      fontSize: 20
+    }),
+  }
 
   return (
     <>
@@ -417,9 +441,8 @@ const ExamenForm = ({
                 <EuiFlexItem grow={3}>
                   <p>Groupe:</p>
                   <EuiSpacer size="s" />
-                  <p style={styles.input}>{`Groupe ${
-                    parseInt(activeGroup.slice(6)) + 1
-                  }`}</p>
+                  <p style={styles.input}>{`Groupe ${parseInt(activeGroup.slice(6)) + 1
+                    }`}</p>
                 </EuiFlexItem>
               ) : null}
             </EuiFlexGroup>
@@ -455,6 +478,8 @@ const ExamenForm = ({
                 <p style={styles.selectLabel}>Spécialité* :</p>
                 <EuiSpacer size="xs" />
                 <AsyncSelect
+                  placeholder=""
+                  styles={customStyles}
                   className="input-search-examform"
                   isClearable
                   defaultOptions={listSpecialite}
@@ -466,8 +491,11 @@ const ExamenForm = ({
                       }, 1000);
                     })
                   }
+                  loadingMessage={() => 'Chargement...'}
                   components={{
                     IndicatorSeparator: () => null,
+                    NoOptionsMessage,
+                    ClearIndicator: () => null,
                   }}
                 />
               </EuiFlexItem>
@@ -475,6 +503,9 @@ const ExamenForm = ({
                 <p style={styles.selectLabel}>Motif* :</p>
                 <EuiSpacer size="xs" />
                 <AsyncSelect
+                  placeholder=""
+                  styles={customStyles}
+                  loadingMessage={() => 'Chargement...'}
                   defaultOptions={listMotif}
                   isClearable
                   onChange={onChangeMotif}
@@ -487,6 +518,8 @@ const ExamenForm = ({
                   }
                   components={{
                     IndicatorSeparator: () => null,
+                    NoOptionsMessage,
+                    ClearIndicator: () => null,
                   }}
                 />
               </EuiFlexItem>
@@ -497,6 +530,9 @@ const ExamenForm = ({
                 <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
                 <AsyncSelect
+                  placeholder="Rendez-vous le plus rapide"
+                  styles={customStyles}
+                  loadingMessage={() => 'Chargement...'}
                   defaultOptions={listPraticien}
                   isClearable
                   onChange={onChangePraticien}
@@ -509,6 +545,8 @@ const ExamenForm = ({
                   }
                   components={{
                     IndicatorSeparator: () => null,
+                    NoOptionsMessage,
+                    ClearIndicator: () => null,
                   }}
                 />
               </EuiFlexItem>
@@ -516,7 +554,10 @@ const ExamenForm = ({
                 <p style={styles.selectLabel}>Lieu* :</p>
                 <EuiSpacer size="xs" />
                 <AsyncSelect
+                  placeholder=""
+                  styles={customStyles}
                   defaultOptions={listLieu}
+                  loadingMessage={() => 'Chargement...'}
                   isClearable
                   onChange={onChangeLieu}
                   loadOptions={(inputValue) =>
@@ -528,6 +569,8 @@ const ExamenForm = ({
                   }
                   components={{
                     IndicatorSeparator: () => null,
+                    NoOptionsMessage,
+                    ClearIndicator: () => null,
                   }}
                 />
               </EuiFlexItem>
@@ -589,7 +632,10 @@ const ExamenForm = ({
             ) : (
               <EuiFlexGroup
                 className="examen__form__button__container"
-                style={styles.buttonContainer}
+                style={{
+                  ...styles.buttonContainer,
+                  justifyContent: allExams?.length > 0 ? "space-between" : "center"
+                }}
               >
                 <EuiButtonEmpty
                   className="btn-annuler-examForm ExamenFormCancel_btn"
@@ -598,6 +644,7 @@ const ExamenForm = ({
                   }}
                   style={{
                     ...styles.cancelBtn,
+                    width : allExams?.length > 0 ? "179px" : "210px",
                     marginRight: innerWidth >= 768 ? 40 : 0,
                   }}
                 >
@@ -608,8 +655,9 @@ const ExamenForm = ({
                   onClick={onAddExamen}
                   style={
                     motif === "" || lieu === "" || specialite === ""
-                      ? styles.btnDisabled
-                      : styles.addBtn
+                      ? {...styles.btnDisabled, width : allExams?.length > 0 ? "179px" : "210px"}
+                      : {...styles.addBtn, width : allExams?.length > 0 ? "179px" : "210px"}
+                      
                   }
                   disabled={motif === "" || lieu === "" || specialite === ""}
                 >
@@ -629,7 +677,7 @@ const ExamenForm = ({
                     <>Ajouter</>
                   )}
                 </EuiButton>
-              
+
               </EuiFlexGroup>
             )}
             {errorMessage && (

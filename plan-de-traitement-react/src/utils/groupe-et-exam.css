@@ -1,3 +1,9 @@
+.styled-select select{
+  -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+}
+
 .group-exam-item {
   height: 35px;
   display: flex;
@@ -53,7 +59,8 @@
   border-radius: 15px;
   padding-bottom: 15px;
   border: 1px solid #5d9ad4;
-  margin-bottom: 0.5%;
+  margin-bottom: 0.2%;
+  margin-top: 0.2%;
   scrollbar-color: red yellow;
   background-color: white;
   padding-top: 8px;

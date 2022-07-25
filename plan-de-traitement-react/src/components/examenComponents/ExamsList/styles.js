@@ -93,11 +93,13 @@ const styles = {
     boxShadow: "3px 3px 6px #00000029",
     borderRadius: 32,
     borderColor: colors.lightGray,
+    textDecoration: "none",
     color: colors.white,
   },
   activated: {
     background: "#134058",
     fontSize: 27,
+    textDecoration: "none",
     width: 235,
     height: 49,
     boxShadow: "3px 3px 6px #00000029",

@@ -349,7 +349,7 @@ const Alert = ({
           </EuiForm>
         ) : isConfirmation || alert.isConfirmation ? (
           <div>
-            <EuiText style={styles.textContainer}>
+            <EuiText style={{...styles.textContainer, textAlign: innerWidth < 641 ? "center" : "", left : innerWidth < 641 ? 0 : ""}}>
               Ce modèle va être enregistré sous le nom :
               <br />
               <div style={styles.textTitle}>
@@ -368,17 +368,14 @@ const Alert = ({
           </div>
         ) : (
           <div
-            style={styles.message}
-            dangerouslySetInnerHTML={{ __html: message }}
-          ></div>
+            style={{ ...styles.message, marginRight: innerWidth < 768 ? "20%" : "", font: "normal normal 600 22px/25px Open Sans" }}
+          >
+            {alert.message ? alert.message : message}
+          </div>
         )}
         {alert?.showCustomComponent && <EspacementInterExamenForm />}
       </EuiModalBody>
       {/* {showButtonBlock && ( */}
-      {loading &&
-        <Box style={{ display: 'flex', justifyContent: 'center', color: "white" }}>
-          <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
-        </Box>}
       <EuiSpacer size="m" />
       <EuiModalFooter
         className="btn_group alert"
@@ -392,7 +389,7 @@ const Alert = ({
             ...styles.abortBtn,
             fontSize: 27,
             padding: innerWidth <= 500 ? "5px" : "",
-            width: innerWidth <= 500 ? "100%" : 210,
+            width: innerWidth <= 500 ? "100%" : 256,
             marginBottom: innerWidth <= 500 ? "20px" : "",
           }}
           onClick={goBack}
@@ -402,10 +399,10 @@ const Alert = ({
         <EuiButton
           style={{
             ...styles.btn,
+            fontSize: 27,
             backgroundColor: colors.primary,
             borderColor: colors.primary,
-            fontSize: 27,
-            width: innerWidth <= 500 ? "100%" : "210px",
+            width: innerWidth <= 500 ? "100%" : 256,
             textDecoration: "none",
           }}
           onClick={
@@ -413,7 +410,7 @@ const Alert = ({
           }
           fill={true}
         >
-          {loading && (
+          {loading ? (
             <Box
               style={{
                 display: "flex",
@@ -423,14 +420,24 @@ const Alert = ({
             >
               <CircularProgress
                 style={{
-                  marginRight: "5px",
+                  marginRight: "7px",
                   color: "white",
                   width: "25px",
                   height: "25px",
+                  marginTop: "4px"
                 }}
               />
               <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
             </Box>
+          ) : (<Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              color: "white",
+            }}
+          >
+            <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
+          </Box>
           )}
         </EuiButton>
       </EuiModalFooter>

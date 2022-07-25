@@ -21,8 +21,9 @@ const styles = {
   message: {
     fontSize: 22,
     fontWeight: "500",
+    left: 0,
     textAlign: "center",
-    marginRight: x < 768 ? "20%" : "",
+    
   },
 
   footer: {
@@ -67,11 +68,14 @@ const styles = {
   // message: { textAlign: "center", fontSize: 22, fontWeight: "600" },
   // footer: { justifyContent: "center", padding: 0, marginBottom: 30 },
   btn: {
-    fontSize: x <= 500 ? 20 : 25,
+    fontSize: x <= 500 ? 20 : 27,
     fontFamily: "Open Sans, Sans Serif",
-    width: x <= 500 ? "100%" : "210px",
+    width: x <= 500 ? "100%" : 256,
     padding: x <= 500 ? "5px" : "",
-    height: 48
+    height: 48,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
   },
   btnRep: {
     fontSize: 20,

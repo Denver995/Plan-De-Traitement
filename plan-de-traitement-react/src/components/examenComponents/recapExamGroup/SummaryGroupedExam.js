@@ -188,7 +188,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
             border: "3px solid #052A3E",
             borderRadius: "39px",
             width: "187px",
-            height: "48px",
+            height: "59px",
             textDecoration: "none",
           }}
           onClick={() => {
@@ -207,7 +207,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
             backgroundColor: colors.darkBlue,
             borderRadius: "39px",
             width: "187px",
-            height: "48px",
+            height: "59px",
             textDecoration: "none",
           }}
           fill={true}
