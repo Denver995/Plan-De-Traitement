@@ -110,7 +110,7 @@ const ExamenForm = ({
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const allExams = useSelector(state=>state.ExamenReducer.getAllExams);
+  const allExams = useSelector(state => state.ExamenReducer.getAllExams);
   const previousStep = getStepByKey(steps, STEP2);
 
   const onChangePositionExamen = () => {
@@ -429,11 +429,11 @@ const ExamenForm = ({
     }),
     defaultInputValue: (defaultStyles) => {
       return {
-          ...defaultStyles,
-          color: 'red',
-          fontSize: 17
+        ...defaultStyles,
+        color: 'red',
+        fontSize: 17
       }
-  }
+    }
   }
 
   return (
@@ -543,7 +543,7 @@ const ExamenForm = ({
                 <AsyncSelect
                   placeholder="Rendez-vous le plus rapide"
                   styles={customStyles}
-                  defaultInputValue = {"Rendez-vous le plus rapide"}
+                  defaultInputValue={"Rendez-vous le plus rapide"}
                   loadingMessage={() => 'Chargement...'}
                   defaultOptions={listPraticien}
                   isClearable
@@ -646,7 +646,7 @@ const ExamenForm = ({
                 className="examen__form__button__container"
                 style={{
                   ...styles.buttonContainer,
-                  justifyContent: allExams?.length > 0 ? "space-between" : "center"
+                  justifyContent: (allExams?.length > 0 && !isModelGroup) ? "space-between" : "center"
                 }}
               >
                 <EuiButtonEmpty
@@ -656,7 +656,7 @@ const ExamenForm = ({
                   }}
                   style={{
                     ...styles.cancelBtn,
-                    width : allExams?.length > 0 ? "179px" : "210px",
+                    width: (allExams?.length > 0 && !isModelGroup) ? "179px" : "210px",
                     marginRight: innerWidth >= 768 ? 40 : 0,
                   }}
                 >
@@ -667,9 +667,9 @@ const ExamenForm = ({
                   onClick={onAddExamen}
                   style={
                     motif === "" || lieu === "" || specialite === ""
-                      ? {...styles.btnDisabled, width : allExams?.length > 0 ? "179px" : "210px"}
-                      : {...styles.addBtn, width : allExams?.length > 0 ? "179px" : "210px"}
-                      
+                      ? { ...styles.btnDisabled, width: (allExams?.length > 0 && !isModelGroup) ? "179px" : "210px" }
+                      : { ...styles.addBtn, width: (allExams?.length > 0 && !isModelGroup) ? "179px" : "210px" }
+
                   }
                   disabled={motif === "" || lieu === "" || specialite === ""}
                 >
