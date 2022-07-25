@@ -29,6 +29,7 @@ import {
 } from "../redux/examens/actions";
 import examenLieService from "../services/examensLie";
 import GroupeLieService from "../services/groupeLie";
+import { typeScreen } from "../utils/constants";
 
 const Propover = ({
   isModelGroup,
@@ -54,7 +55,9 @@ const Propover = ({
   isRecap,
   loadingScreen,
   isGroup,
-  examOnGroup
+  examOnGroup,
+  predecessor,
+  setPredecessor,
 }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
@@ -82,41 +85,24 @@ const Propover = ({
     dispatch(SetShowGroupeContentForUpdate(index));
     dispatch(editExam({ ...exam, id: examId + 1 }));
 
-    if(isGroup) isExamGroup = isGroup;
+    if (isGroup) isExamGroup = isGroup;
 
     if (isExamGroup) {
       if (examId) {
         dispatch(setGroupeToEditeExam({ groupKey, index }));
         dispatch(mostBeEditable(true));
-        // dispatch(setShowExamForm({ show: true }));
         dispatch(editExamGrouped(groupesWithData[groupKey].exams[examId]));
-        // dispatch(
-        //   setComponent({
-        //     name: "EXAMENFORMEDIT",
-        //     groupKey: groupKey,
-        //     examId: examId,
-        //     data: groupesWithData,
-        //   })
-        // );
       } else {
         dispatch(mostBeEditable(true));
-        // dispatch(setShowExamForm({ show: true }));
         dispatch(editExamGrouped(groupesWithData[groupKey].exams[index]));
-        // dispatch(
-        //   setComponent({
-        //     name: "EXAMENFORMEDIT",
-        //     groupKey: groupKey,
-        //     examId: index,
-        //     data: groupesWithData,
-        //   })
-        // );
         onBack();
       }
     } else {
+      if (predecessor) setPredecessor(typeScreen.examList);
       dispatch(mostBeEditable(true));
       dispatch(setShowExamForm({ show: false }));
       exam.indexExam = index;
-      dispatch(setComponent({ name: "EXAMENFORMEDIT", data: exam }));
+      dispatch(setComponent({ name: typeScreen.examFormEdit, data: exam }));
       isRecap && onBack();
     }
     togglePropover();
@@ -152,7 +138,7 @@ const Propover = ({
       togglePropover();
     }
 
-    if(examOnGroup) isExamGroup = examOnGroup;
+    if (examOnGroup) isExamGroup = examOnGroup;
 
     if (isExamGroup) {
       dispatch(

@@ -53,6 +53,9 @@ const ExamenWrapper = ({
       ) : (
         <ExamsList
           exams={exams}
+          setPredecessor={(pred) => {
+            setPredecessor(pred);
+          }}
           onAdd={(data, parent) => {
             onChangeComponent({ name: data });
             setPredecessor(parent);

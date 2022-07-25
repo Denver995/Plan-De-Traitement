@@ -44,6 +44,7 @@ const ExamsList = ({
   onPrevious,
   predecessor,
   actualNonGroupeIndex,
+  setPredecessor
 }) => {
   const espacementNonGroupe = useSelector(
     (state) => state.ExamenReducer.espacementNonGroupe
@@ -221,6 +222,7 @@ const ExamsList = ({
                                 index={index}
                                 id_modele={item.id_modele}
                                 loadingScreen={loadingScreen}
+                                setPredecessor={setPredecessor}
                               />
                               <EuiSpacer size="xs" />
                               {index !== examsList.length - 1 && (
@@ -341,7 +343,7 @@ const ExamsList = ({
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  onAdd("EXAMENFORM", "EXAMSLIST");
+                  onAdd("EXAMENFORM", typeScreen.examList);
                 }}
                 style={styles.plusBtn}
               >

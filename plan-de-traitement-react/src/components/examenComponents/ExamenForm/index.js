@@ -308,15 +308,26 @@ const ExamenForm = ({
         dispatch(setComponent(typeScreen.examList));
         return;
       }
-      // onPrevious && onPrevious();
-      let nextStep = createStep(STEP3);
-      nextStep.previousStep = previousStep;
-      dispatch(desactivateStep(STEP2));
-      dispatch(setShowExamForm(false));
-      dispatch(addStep(nextStep));
+      if (showEditForm) {
+        let nextStep = createStep(STEP3);
+        nextStep.previousStep = previousStep;
+        dispatch(desactivateStep(STEP2));
+        dispatch(setShowExamForm(false));
+        dispatch(addStep(nextStep));
+      }
+      onPrevious && onPrevious();
     } else {
-      if (formType === typeScreen.examFormEdit) {
-        dispatch(setComponent(typeScreen.examList));
+      if (
+        formType === typeScreen.examFormEdit &&
+        predecessor !== typeScreen.examList
+      ) {
+        // dispatch(setComponent(typeScreen.examList));
+        let nextStep = createStep(STEP3);
+        nextStep.previousStep = previousStep;
+        dispatch(startLoading());
+        dispatch(desactivateStep(STEP2));
+        dispatch(setComponent({ mane: typeScreen.examList }));
+        dispatch(addStep(nextStep));
         return;
       }
       if (predecessor === typeScreen.examList) {
