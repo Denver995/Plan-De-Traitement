@@ -1,5 +1,5 @@
 import { EuiText } from "@elastic/eui";
-import { default as React,useEffect, useState } from "react";
+import { default as React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
@@ -15,7 +15,7 @@ function ExamCard({
   showEditForm,
   date,
   color,
-  entityType ,
+  entityType,
   index,
   position,
   groupKey,
@@ -24,6 +24,8 @@ function ExamCard({
   examId,
   onBack,
   loadingScreen,
+  isGroup,
+  examOnGroup
 }) {
   const dispatch = useDispatch();
   const espacementNonGroupe = useSelector(state=>state.ExamenReducer.espacementNonGroupe);
@@ -55,63 +57,66 @@ function ExamCard({
   const [lieu, setLieu] = useState("");
   const [motif, setMotif] = useState("");
 
-
   useEffect(() => {
-    console.log("Examen---",examen);
+    console.log("Examen---", examen);
     handleGetSpecialitie();
     handleGetPraticien();
     handleGetLieu();
     handleGetMotif();
-  }, [groupesWithData])
+  }, [groupesWithData]);
 
   const handleUpdateExams = () => {
     setLoading(true);
     setErrorMessage(false);
-    examenService.updateExamen(examenSelected[index].id_examen, {
-      position: index + 1,
-      id_modele: examenSelected[index]?.id_modele,
-      id_modele_groupe: examenSelected[index]?.id_modele_groupe,
-      id_praticien: examenSelected[index]?.id_praticien,
-      id_profession: examenSelected[index]?.id_profession,
-      id_lieu: examenSelected[index]?.id_lieu,
-      fixe: examenSelected[index]?.fixe ? 1 : 0,
-      id_motif: examenSelected[index]?.id_motif,
-    })
-      .then(response => {
-        setLoading(false)
+    examenService
+      .updateExamen(examenSelected[index].id_examen, {
+        position: index + 1,
+        id_modele: examenSelected[index]?.id_modele,
+        id_modele_groupe: examenSelected[index]?.id_modele_groupe,
+        id_praticien: examenSelected[index]?.id_praticien,
+        id_profession: examenSelected[index]?.id_profession,
+        id_lieu: examenSelected[index]?.id_lieu,
+        fixe: examenSelected[index]?.fixe ? 1 : 0,
+        id_motif: examenSelected[index]?.id_motif,
+      })
+      .then((response) => {
+        setLoading(false);
         setErrorMessage(false);
         dispatch(setError(null));
       })
-      .catch(error => {
-        setLoading(false)
+      .catch((error) => {
+        setLoading(false);
         setErrorMessage(true);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
-      })
-  }
+      });
+  };
 
   const handleLoading = (l) => {
-    loadingScreen(l)
-  }
+    loadingScreen(l);
+  };
 
   const handleDeleteExam = () => {
     setLoading(true);
     handleLoading(true);
-    examenService.deleteExamen(examen[index]?.id_examen)
-      .then(response => {
+    examenService
+      .deleteExamen(examen[index]?.id_examen)
+      .then((response) => {
         setLoading(false);
         handleLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         handleLoading(false);
-      })
-  }
+      });
+  };
   const handleFixePosition = () => {
     handleUpdateExams();
-  }
+  };
 
   const handleGetSpecialitie = () => {
     for (var i = 0; i < specialitieData.length; i++) {
@@ -120,15 +125,19 @@ function ExamCard({
         return;
       }
     }
-  }
+  };
   const handleGetPraticien = () => {
     for (var i = 0; i < praticienData.length; i++) {
       if (praticienData[i]?.id_praticien == examen[index]?.id_praticien) {
-        setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
+        setPraticien(
+          praticienData[i].nom_praticien +
+            " " +
+            praticienData[i].prenom_praticien
+        );
         return;
       }
     }
-  }
+  };
   const handleGetLieu = () => {
     for (var i = 0; i < lieuData.length; i++) {
       if (lieuData[i].id_lieu == examen[index]?.id_lieu) {
@@ -136,7 +145,7 @@ function ExamCard({
         return;
       }
     }
-  }
+  };
   const handleGetMotif = () => {
     for (var i = 0; i < motifData.length; i++) {
       if (motifData[i]?.id_motif_rdv == examen[index]?.id_motif) {
@@ -144,12 +153,14 @@ function ExamCard({
         return;
       }
     }
-  }
+  };
   return (
     <VerticalTimelineElement
       className="custom-vertical-timeline-element"
       contentStyle={{
-        background: examen[index]?.color_type_rdv ? examen[index]?.color_type_rdv : "white",
+        background: examen[index]?.color_type_rdv
+          ? examen[index]?.color_type_rdv
+          : "white",
         height: 82,
         marginTop: -20,
         padding: 10,
@@ -199,14 +210,18 @@ function ExamCard({
               groupKey={groupKey}
               exam={examen}
               isExamGroup={isExamGroup}
-              examId={examen[index]?.id_examen}
+              examId={examId}
               loadingScreen={handleLoading}
               onBack={onBack}
               isRecap={true}
+              isGroup={isGroup}
+              examOnGroup={examOnGroup}
             />
           </div>
           <h4 className="spec" style={styles.speciality}>
-            <strong>{specialite} - {motif ?? "id_motif"}</strong>
+            <strong>
+              {specialite} - {motif ?? "id_motif"}
+            </strong>
           </h4>
         </div>
       </div>
@@ -220,9 +235,7 @@ function ExamCard({
             }
           >
             <PersonIcon width={"1rem"} />
-            <h4 style={styles.praticien}>
-              {praticien ?? "id_praticien"}
-            </h4>
+            <h4 style={styles.praticien}>{praticien ?? "id_praticien"}</h4>
             <MapIcon width={"0.7rem"} />
             <h4 style={styles.adresse}>{lieu ?? "id_lieu"}</h4>
           </div>

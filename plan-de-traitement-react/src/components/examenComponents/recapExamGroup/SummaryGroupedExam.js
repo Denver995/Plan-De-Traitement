@@ -157,6 +157,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
                     color={exam.color}
                     date="1h - 2h"
                     position={index % 2 === 0 ? "right" : "left"}
+                    examOnGroup={true}
                     onBack={() => dispatch(deleteStep(previousStep))}
                   />
                 </div>
