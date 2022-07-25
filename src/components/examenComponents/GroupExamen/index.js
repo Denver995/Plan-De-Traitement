@@ -36,6 +36,13 @@ import Propover from "../../Propover";
 import ExamenForm from "../ExamenForm";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
+import React from 'react';
+import {
+  EuiDragDropContext,
+  EuiDraggable,
+  EuiDroppable,
+  htmlIdGenerator,
+} from '@elastic/eui';
 
 const getExamByGroupIndex = (group, groupKey) => {
   const result = Object.keys(group).length > 0 ? group[groupKey]?.exams : [];
@@ -135,6 +142,10 @@ const GroupItem = ({
     }
   }, [openGroup]);
 
+  const onDragEnd = ({ source, destination }) => {
+    console.log(source, destination);
+  };
+
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
     <>
@@ -178,7 +189,7 @@ const GroupItem = ({
               Object.keys(groupWithData).map((groupKey, index) => {
                 return (
                   <Draggable
-                    disableInteractiveElementBlocking={false}
+                    disableInteractiveElementBlocking
                     key={index}
                     draggableId={"draggable-" + index}
                     index={index}
@@ -319,8 +330,8 @@ const GroupItem = ({
                                     </span>
                                   </button>
                                 </div>
-                                <DragDropContext>
-                                  <Droppable droppableId="exams">
+                                <EuiDragDropContext onDragEnd={onDragEnd}>
+                                  <EuiDroppable  droppableId="DROPPABLE_AREA_BARE">
                                     {(provided) => {
                                       return (
                                         <div
@@ -332,10 +343,7 @@ const GroupItem = ({
                                             groupKey
                                           )?.map((exam, i) => {
                                             return (
-                                              <Draggable
-                                                key={"item-" + i}
-                                                draggableId={"draggable-" + i}
-                                                index={i}
+                                              <EuiDraggable key={i} index={i} draggableId={"draggable"+i}
                                               >
                                                 {(provided) => {
                                                   return (
@@ -594,15 +602,15 @@ const GroupItem = ({
                                                     </div>
                                                   );
                                                 }}
-                                              </Draggable>
+                                              </EuiDraggable>
                                             );
                                           })}
                                           {provided.placeholder}
                                         </div>
                                       );
                                     }}
-                                  </Droppable>
-                                </DragDropContext>
+                                  </EuiDroppable>
+                                </EuiDragDropContext>
                               </div>
                             )}
                           </div>

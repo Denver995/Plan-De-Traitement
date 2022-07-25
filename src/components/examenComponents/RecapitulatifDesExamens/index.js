@@ -22,6 +22,7 @@ import TimeLineHelper from "../../common/TimeLineHelper";
 import ExamCard from "../ExamCard";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
 import styles from "./styles";
+import { useDimension } from "../../../hooks/dimensions";
 
 const RecapitulatifDesExamens = ({
   closeModal,
@@ -32,6 +33,7 @@ const RecapitulatifDesExamens = ({
   isEditing = false,
   recapType = typeRecap.model,
 }) => {
+  const innerWidth = { useDimension }
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const steps = useSelector((state) => state.StepReducer.steps);
@@ -121,7 +123,7 @@ const RecapitulatifDesExamens = ({
                 <div key={index}>
                   <TimeLineHelper index={index} />
                   <ExamCard
-                    entityType = {"Examen"}
+                    entityType={"Examen"}
                     loadingScreen={loadingScreen}
                     examId={index}
                     index={index}
@@ -148,7 +150,7 @@ const RecapitulatifDesExamens = ({
             {recapType === typeRecap.model && (
               <EuiButtonEmpty
                 className="custom-button"
-                style={styles.backBtn}
+                style={{ ...styles.backBtn }}
                 onClick={() => {
                   onBack();
                 }}
@@ -156,7 +158,11 @@ const RecapitulatifDesExamens = ({
                 Retour
               </EuiButtonEmpty>
             )}
-            <EuiButton className="custom-button button-valid" style={styles.validateBtn} fill={true} onClick={onSave}>
+            <EuiButton className="custom-button" style={{
+              ...styles.validateBtn,
+              bottom: innerWidth < 458 ?? 110,
+              marginRight: innerWidth < 458 ? 0 : 30,
+            }} fill={true} onClick={onSave}>
               Valider
             </EuiButton>
           </EuiFlexGroup>
