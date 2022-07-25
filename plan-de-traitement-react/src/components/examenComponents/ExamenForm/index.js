@@ -532,6 +532,7 @@ const ExamenForm = ({
                 <AsyncSelect
                   placeholder="Rendez-vous le plus rapide"
                   styles={customStyles}
+                  defaultInputValue = {"Rendez-vous le plus rapide"}
                   loadingMessage={() => 'Chargement...'}
                   defaultOptions={listPraticien}
                   isClearable
