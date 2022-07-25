@@ -1,11 +1,3 @@
-/**.button_valider-espace-inter{
-  width: 100%;
-  margin-top: 20px;
-}
-.button_annuler-espace-inter{
-  width: 100%;
-}**/
-
 .containe::-webkit-scrollbar {
   width: 12px;               /* width of the entire scrollbar */
 }
