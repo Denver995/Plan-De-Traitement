@@ -123,7 +123,7 @@ const RecapitulatifDesExamens = ({
                   <ExamCard
                     entityType = {"Examen"}
                     loadingScreen={loadingScreen}
-                    examId={exam[index]?.id_examen}
+                    examId={index}
                     index={index}
                     examen={exam}
                     date="1h-2h"
