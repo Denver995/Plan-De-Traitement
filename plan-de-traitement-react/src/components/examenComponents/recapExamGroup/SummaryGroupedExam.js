@@ -59,7 +59,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
     if (false) {
       dispatch(SetShowGroupeContentForUpdate(-1))
     } else {
-      if (isEditing) dispatch(setComponent({ name: "GROUPSUMMARY" }));
+      if (groupeToShowContentId !== -1) dispatch(SetShowGroupeContentForUpdate(-1));
       else dispatch(deleteStep(previousStep));
     }
   };
@@ -150,13 +150,14 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
                   <ExamCard
                     entityType={"Examen"}
                     examen={exam}
-                    isExamGroup={true}
+                    isExamGroup={false}
                     groupKey={"group " + groupeToShowContentId}
                     index={index}
                     examId={index}
                     color={exam.color}
                     date="1h - 2h"
                     position={index % 2 === 0 ? "right" : "left"}
+                    onBack={() => dispatch(deleteStep(previousStep))}
                   />
                 </div>
               )

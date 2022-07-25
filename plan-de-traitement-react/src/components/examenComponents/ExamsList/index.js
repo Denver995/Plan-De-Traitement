@@ -3,21 +3,30 @@ import {
   EuiButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiSpacer
+  EuiSpacer,
 } from "@elastic/eui";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Plus } from "../../../assets/images";
-import { setComponent, setError, startLoading } from "../../../redux/commons/actions";
+import {
+  setComponent,
+  setError,
+  startLoading,
+} from "../../../redux/commons/actions";
 import {
   CreateEspacementNonGroupe,
-  setActualExamIndex, storeExams
+  setActualExamIndex,
+  storeExams,
 } from "../../../redux/examens/actions";
-import { addStep, desactivateStep } from "../../../redux/steps/actions";
-import examenService from '../../../services/examens';
+import {
+  addStep,
+  deleteStep,
+  desactivateStep,
+} from "../../../redux/steps/actions";
+import examenService from "../../../services/examens";
 import { STEP2, STEP3, typeScreen } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -36,7 +45,7 @@ const ExamsList = ({
   formType,
   onPrevious,
   predecessor,
-  actualNonGroupeIndex
+  actualNonGroupeIndex,
 }) => {
   const innerWidth = { useDimension };
   const espacementNonGroupe = useSelector(
@@ -63,63 +72,69 @@ const ExamsList = ({
     setLoading(true);
     setErrorMessage(false);
     for (var i = 0; i < examsList.length; i++) {
-      examenService.updateExamen(examsList[i][i].id_examen, {
-        position: i,
-        id_modele: examsList[i][i]?.id_modele,
-        id_modele_groupe: examsList[i][i]?.id_modele_groupe,
-        id_praticien: examsList[i][i]?.id_praticien,
-        id_profession: examsList[i][i]?.id_profession,
-        id_lieu: examsList[i][i]?.id_lieu,
-        fixe: examsList[i][i]?.fixe ? 1 : 0,
-        id_motif: examsList[i][i]?.id_motif,
-      })
-        .then(response => {
-          setLoading(false)
+      examenService
+        .updateExamen(examsList[i][i].id_examen, {
+          position: i,
+          id_modele: examsList[i][i]?.id_modele,
+          id_modele_groupe: examsList[i][i]?.id_modele_groupe,
+          id_praticien: examsList[i][i]?.id_praticien,
+          id_profession: examsList[i][i]?.id_profession,
+          id_lieu: examsList[i][i]?.id_lieu,
+          fixe: examsList[i][i]?.fixe ? 1 : 0,
+          id_motif: examsList[i][i]?.id_motif,
+        })
+        .then((response) => {
+          setLoading(false);
           setErrorMessage(false);
           dispatch(setError(null));
         })
-        .catch(error => {
-          setLoading(false)
+        .catch((error) => {
+          setLoading(false);
           setErrorMessage(true);
           if (error.message === "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
           } else {
-            dispatch(setError("Une erreur est survenue"))
+            dispatch(setError("Une erreur est survenue"));
           }
-        })
+        });
     }
     onClickNext();
-  }
+  };
 
   const handleUpdateIndex = (item, index) => {
     setLoading(true);
     setErrorMessage(false);
-    examenService.updateExamen(item.id_examen, {
-      position: index,
-      id_modele: item?.id_modele,
-      id_modele_groupe: item?.id_modele_groupe,
-      id_praticien: item?.id_praticien,
-      id_profession: item?.id_profession,
-      id_lieu: item?.id_lieu,
-      fixe: item?.fixe ? 1 : 0,
-      id_motif: item?.id_motif,
-    })
-      .then(response => {
-        setLoading(false)
+    examenService
+      .updateExamen(item.id_examen, {
+        position: index,
+        id_modele: item?.id_modele,
+        id_modele_groupe: item?.id_modele_groupe,
+        id_praticien: item?.id_praticien,
+        id_profession: item?.id_profession,
+        id_lieu: item?.id_lieu,
+        fixe: item?.fixe ? 1 : 0,
+        id_motif: item?.id_motif,
+      })
+      .then((response) => {
+        setLoading(false);
         setErrorMessage(false);
         dispatch(setError(null));
         dispatch(setComponent(typeScreen.examList));
       })
-      .catch(error => {
-        setLoading(false)
+      .catch((error) => {
+        setLoading(false);
         setErrorMessage(true);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
-      })
-  }
+      });
+  };
 
   const handleUpdatePosition = (items, destinationIndex, sourceIndex) => {
     let tabItem = [];
@@ -133,7 +148,7 @@ const ExamsList = ({
     tabItem.push(itemForDestination);
     handleUpdateIndex(tabItem[0], destinationIndex);
     handleUpdateIndex(tabItem[1], sourceIndex);
-  }
+  };
 
   const handleOnDragEnd = (result) => {
     const items = Array.from(examsList);
@@ -145,17 +160,21 @@ const ExamsList = ({
       items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, source);
       dispatch(storeExams(items));
-      handleUpdatePosition(items, result.destination.index, result.source.index);
+      handleUpdatePosition(
+        items,
+        result.destination.index,
+        result.source.index
+      );
     }
   };
   const onCancel = () => {
+    dispatch(deleteStep(previousStep));
     onAdd("EXAMENFORM");
   };
 
-
   const loadingScreen = (show) => {
     setLoading(show);
-  }
+  };
   useEffect(() => {
     setExamsList(exams);
   }, [exams]);
@@ -185,7 +204,8 @@ const ExamsList = ({
                     ref={provided.innerRef}
                     style={{ marginTop: 20, marginBottom: 10 }}
                   >
-                    {!loading ? examsList.length > 0 &&
+                    {!loading ? (
+                      examsList.length > 0 &&
                       examsList.map((item, index) => (
                         <Draggable
                           key={index}
@@ -221,30 +241,35 @@ const ExamsList = ({
                                   className="delai-inter-group"
                                 >
                                   {espacementNonGroupe &&
+                                  espacementNonGroupe[
+                                    "espaceNonGroupe " + index
+                                  ].length > 0 &&
+                                  espacementNonGroupe[
+                                    "espaceNonGroupe " + index
+                                  ][
                                     espacementNonGroupe[
                                       "espaceNonGroupe " + index
-                                    ].length > 0 &&
-                                    espacementNonGroupe[
-                                      "espaceNonGroupe " + index
-                                    ][
-                                      espacementNonGroupe[
-                                        "espaceNonGroupe " + index
-                                      ].length - 1
-                                    ].applyOnAll === false
-                                    ? `Délai entre l'examen ${index + 1
-                                    } et l'examen ${index + 2} : ${espacementNonGroupe[
-                                      "espaceNonGroupe " + index
-                                    ][0].minInterval
-                                    } ${espacementNonGroupe[
-                                      "espaceNonGroupe " + index
-                                    ][0].minIntervalUnit
-                                    } - ${espacementNonGroupe[
-                                      "espaceNonGroupe " + index
-                                    ][0].maxInterval
-                                    } ${espacementNonGroupe[
-                                      "espaceNonGroupe " + index
-                                    ][0].minIntervalUnit
-                                    }`
+                                    ].length - 1
+                                  ].applyOnAll === false
+                                    ? `Délai entre l'examen ${
+                                        index + 1
+                                      } et l'examen ${index + 2} : ${
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ][0].minInterval
+                                      } ${
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ][0].minIntervalUnit
+                                      } - ${
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ][0].maxInterval
+                                      } ${
+                                        espacementNonGroupe[
+                                          "espaceNonGroupe " + index
+                                        ][0].minIntervalUnit
+                                      }`
                                     : espacementNonGroupe &&
                                       espacementNonGroupe[
                                         "espaceNonGroupe " + index
@@ -256,46 +281,61 @@ const ExamsList = ({
                                           "espaceNonGroupe " + index
                                         ].length - 1
                                       ].applyOnAll === true
-                                      ? `Délai entre l'examen ${index + 1
-                                      } et l'examen ${index + 2} : ${espacementNonGroupe[
-                                        "espaceNonGroupe " + index
-                                      ][
+                                    ? `Délai entre l'examen ${
+                                        index + 1
+                                      } et l'examen ${index + 2} : ${
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ].length - 1
-                                      ].minInterval
-                                      } ${espacementNonGroupe[
-                                        "espaceNonGroupe " + index
-                                      ][
+                                        ][
+                                          espacementNonGroupe[
+                                            "espaceNonGroupe " + index
+                                          ].length - 1
+                                        ].minInterval
+                                      } ${
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ].length - 1
-                                      ].minIntervalUnit
-                                      } - ${espacementNonGroupe[
-                                        "espaceNonGroupe " + index
-                                      ][
+                                        ][
+                                          espacementNonGroupe[
+                                            "espaceNonGroupe " + index
+                                          ].length - 1
+                                        ].minIntervalUnit
+                                      } - ${
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ].length - 1
-                                      ].maxInterval
-                                      } ${espacementNonGroupe[
-                                        "espaceNonGroupe " + index
-                                      ][
+                                        ][
+                                          espacementNonGroupe[
+                                            "espaceNonGroupe " + index
+                                          ].length - 1
+                                        ].maxInterval
+                                      } ${
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ].length - 1
-                                      ].minIntervalUnit
+                                        ][
+                                          espacementNonGroupe[
+                                            "espaceNonGroupe " + index
+                                          ].length - 1
+                                        ].minIntervalUnit
                                       }`
-                                      : "Choisir l'intervalle inter examen"}
+                                    : "Choisir l'intervalle inter examen"}
                                 </span>
                               )}
                               <EuiSpacer size="xs" />
                             </div>
                           )}
                         </Draggable>
-                      )) : <Box style={{ display: 'flex', alignItems: 'center' }}>
-                      <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
-                    </Box>}
+                      ))
+                    ) : (
+                      <Box style={{ display: "flex", alignItems: "center" }}>
+                        <CircularProgress
+                          style={{
+                            margin: "20px auto",
+                            color: "blue",
+                            width: "35px",
+                            height: "35px",
+                          }}
+                        />
+                      </Box>
+                    )}
                     {provided.placeholder}
                   </div>
                 )}

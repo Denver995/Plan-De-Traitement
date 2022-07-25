@@ -79,7 +79,7 @@ const RecapExamItemV2 = ({
             marginRight: -5,
           }}
         >
-          <Propover isRecap={true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
+          <Propover isExamGroup={true} isRecap = {true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} index={index_} forEXam={false} onDeleteGroup={() => {
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} />
@@ -95,7 +95,7 @@ const RecapExamItemV2 = ({
             marginRight: -10,
           }}
         >
-          <Propover isRecap={true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} onDeleteGroup={() => {
+          <Propover isExamGroup={true} isRecap = {true} onFixePosition={onFixePosition} idGroupe={groupKey} setRerenderDel={setRerenderDel} isModelGroup={true} onDeleteGroup={() => {
             dispatch(deleteGroup(groupKey));
             setRerenderDel(true);
           }} index={index_} forEXam={false} />

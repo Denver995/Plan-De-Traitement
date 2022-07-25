@@ -79,28 +79,28 @@ const Propover = ({
       if (examId) {
         dispatch(setGroupeToEditeExam({ groupKey, index }));
         dispatch(mostBeEditable(true));
-        dispatch(setShowExamForm({ show: true }));
+        // dispatch(setShowExamForm({ show: true }));
         dispatch(editExamGrouped(groupesWithData[groupKey].exams[examId]));
-        dispatch(
-          setComponent({
-            name: "EXAMENFORMEDIT",
-            groupKey: groupKey,
-            examId: examId,
-            data: groupesWithData,
-          })
-        );
+        // dispatch(
+        //   setComponent({
+        //     name: "EXAMENFORMEDIT",
+        //     groupKey: groupKey,
+        //     examId: examId,
+        //     data: groupesWithData,
+        //   })
+        // );
       } else {
         dispatch(mostBeEditable(true));
-        dispatch(setShowExamForm({ show: true }));
+        // dispatch(setShowExamForm({ show: true }));
         dispatch(editExamGrouped(groupesWithData[groupKey].exams[index]));
-        dispatch(
-          setComponent({
-            name: "EXAMENFORMEDIT",
-            groupKey: groupKey,
-            examId: index,
-            data: groupesWithData,
-          })
-        );
+        // dispatch(
+        //   setComponent({
+        //     name: "EXAMENFORMEDIT",
+        //     groupKey: groupKey,
+        //     examId: index,
+        //     data: groupesWithData,
+        //   })
+        // );
         onBack();
       }
     } else {
@@ -329,7 +329,7 @@ const Propover = ({
               {groupesWithData && (isModelGroup || isModelGroup === 0)
                 ? Object.keys(groupesWithData).length > 0 &&
                 Object.keys(groupesWithData).map(
-                  (key, i) =>{ console.log("-----", key, "idGroupe-- ", idGroup);
+                  (key, i) =>{
                     return(
                     idGroupe !== "group " + i && (
                       <EuiListGroupItem
