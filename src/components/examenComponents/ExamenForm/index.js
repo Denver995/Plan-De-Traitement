@@ -310,12 +310,14 @@ const ExamenForm = ({
         dispatch(setComponent(typeScreen.examList));
         return;
       }
-      // onPrevious && onPrevious();
-      let nextStep = createStep(STEP3);
-      nextStep.previousStep = previousStep;
-      dispatch(desactivateStep(STEP2));
-      dispatch(setShowExamForm(false));
-      dispatch(addStep(nextStep));
+      onPrevious && onPrevious();
+      if (showEditForm) {
+        let nextStep = createStep(STEP3);
+        nextStep.previousStep = previousStep;
+        dispatch(desactivateStep(STEP2));
+        dispatch(setShowExamForm(false));
+        dispatch(addStep(nextStep));
+      }
     } else {
       if (formType === typeScreen.examFormEdit) {
         dispatch(setComponent(typeScreen.examList));
