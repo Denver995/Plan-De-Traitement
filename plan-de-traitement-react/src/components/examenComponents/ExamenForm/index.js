@@ -415,14 +415,21 @@ const ExamenForm = ({
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected ? "white" : "white",
-      color: "#5D9AD4",
+      color: "rgb(93, 154, 212)",
       fontSize: 20
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: "#5D9AD4",
+      color: "rgb(93, 154, 212)",
       fontSize: 20
     }),
+    defaultInputValue: (defaultStyles) => {
+      return {
+          ...defaultStyles,
+          color: 'red',
+          fontSize: 17
+      }
+  }
   }
 
   return (

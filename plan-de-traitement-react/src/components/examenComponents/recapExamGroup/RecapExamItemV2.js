@@ -6,6 +6,7 @@ import "react-vertical-timeline-component/style.min.css";
 import { ReactComponent as PinIcon } from "../../../assets/svgs/Groupe 301.svg";
 import { deleteGroup } from "../../../redux/examens/actions";
 import colors from "../../../utils/colors";
+import { getFisrtLetter } from "../../../utils/helper";
 import Propover from "../../Propover";
 import styles from "./style";
 
@@ -24,6 +25,8 @@ const RecapExamItemV2 = ({
   );
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
+  const espacement = useSelector(state => state.ExamenReducer.espacement);
+  const espace = espacement["espace " + index_];
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
@@ -43,7 +46,11 @@ const RecapExamItemV2 = ({
         marginTop: -55,
       }}
       position={position}
-      date={"1h - 2h"}
+      date={(espace &&
+        espace[0] &&
+        espace[0].minInterval) ?
+        (espace[0]?.minInterval + getFisrtLetter(espace[0]?.minIntervalUnit) + "-" +
+          espace[0]?.maxInterval + getFisrtLetter(espace[0]?.maxIntervalUnit)) : ""}
     >
       <EuiText style={position === "right" ? styles.textRight : styles.text}>
         Groupe {index_ + 1}
@@ -68,7 +75,7 @@ const RecapExamItemV2 = ({
             display: "flex",
             justifyContent: "space-between",
             marginLeft: -10,
-            alignItems: "center",            
+            alignItems: "center",
             marginRight: -5,
           }}
         >
@@ -159,19 +166,19 @@ const RecapExamItemV2 = ({
                     espacementSubExam["group " + index_]["subEspace " + index]
                       .length - 1
                   ].minInterval +
-                  espacementSubExam["group " + index_]["subEspace " + index][
+                  getFisrtLetter(espacementSubExam["group " + index_]["subEspace " + index][
                     espacementSubExam["group " + index_]["subEspace " + index]
                       .length - 1
-                  ].minIntervalUnit +
+                  ].minIntervalUnit) +
                   "-" +
                   espacementSubExam["group " + index_]["subEspace " + index][
                     espacementSubExam["group " + index_]["subEspace " + index]
                       .length - 1
                   ].maxInterval +
-                  espacementSubExam["group " + index_]["subEspace " + index][
+                  getFisrtLetter(espacementSubExam["group " + index_]["subEspace " + index][
                     espacementSubExam["group " + index_]["subEspace " + index]
                       .length - 1
-                  ].maxIntervalUnit}
+                  ].maxIntervalUnit)}
               </p>
             )}
           </div>

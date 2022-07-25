@@ -109,8 +109,8 @@ export const isPossibleGranularly = (data1, data2) => {
 export const getGroupeKeyPosition = (allGroupes, groupeKey) => {
   let allGroupesKeys = Object.keys(allGroupes);
   let position = null;
-  for(var i = 0 ; i < allGroupesKeys.length ; i++){
-    if(allGroupesKeys[i] === groupeKey){
+  for (var i = 0; i < allGroupesKeys.length; i++) {
+    if (allGroupesKeys[i] === groupeKey) {
       position = i;
       break;
     }
@@ -119,13 +119,52 @@ export const getGroupeKeyPosition = (allGroupes, groupeKey) => {
 }
 
 export const getFisrtLetter = (word) => {
-  switch(word){
-    case "Jour" : 
-    word = word.charAt(0).toUpperCase()+word.charAt(3).toLowerCase();break;
-    case "Heure" : 
-    word = word.charAt(0).toUpperCase()+word.charAt(3).toLowerCase();break;
-    case "Semaine" : 
-    word = word.charAt(0).toUpperCase()+word.charAt(1).toLowerCase()+word.charAt(2).toLowerCase();break;
+  switch (word) {
+    case "Jour":
+      word = word.charAt(0).toUpperCase() + word.charAt(3).toLowerCase(); break;
+    case "Heure":
+      word = word.charAt(0).toLowerCase(); break;
+    case "Semaine":
+      word = word.charAt(0).toUpperCase() + word.charAt(1).toLowerCase() + word.charAt(2).toLowerCase(); break;
   }
   return word
+}
+
+export const generateSpace = (
+  espacementNonGroupe,
+  espacement,
+  espacementSubExam,
+  groupeToShowContentId,
+  entityType,
+  examId,
+  index) => {
+  return (groupeToShowContentId === -1 &&
+    entityType === "Examen") ?
+    espacementNonGroupe['espaceNonGroupe ' + index] &&
+    espacementNonGroupe['espaceNonGroupe ' + index].length > 0 &&
+    espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minInterval +
+    getFisrtLetter(espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].minIntervalUnit) + "-" +
+    espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxInterval +
+    getFisrtLetter(espacementNonGroupe['espaceNonGroupe ' + index][espacementNonGroupe['espaceNonGroupe ' + index].length - 1].maxIntervalUnit)
+    :
+    (groupeToShowContentId === -1 &&
+      entityType === "Groupe") ?
+      espacement['espace ' + index] &&
+      espacement['espace ' + index].length > 0 &&
+      espacement['espace ' + index][espacement['espace ' + index].length - 1].minInterval +
+      getFisrtLetter(espacement['espace ' + index][espacement['espace ' + index].length - 1].minIntervalUnit) + "-" +
+      espacement['espace ' + index][espacement['espace ' + index].length - 1].maxInterval +
+      getFisrtLetter(espacement['espace ' + index][espacement['espace ' + index].length - 1].maxIntervalUnit)
+      :
+      (groupeToShowContentId !== -1 &&
+        entityType) ?
+        espacementSubExam['group ' + groupeToShowContentId] &&
+        espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index] &&
+        espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index].length > 0 &&
+        espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index][espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index].length - 1].minInterval +
+        getFisrtLetter(espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index][espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index].length - 1].minIntervalUnit) + "-" +
+        espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index][espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index].length - 1].maxInterval +
+        getFisrtLetter(espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index][espacementSubExam['group ' + groupeToShowContentId]["subEspace " + index].length - 1].maxIntervalUnit)
+        : null
+
 }

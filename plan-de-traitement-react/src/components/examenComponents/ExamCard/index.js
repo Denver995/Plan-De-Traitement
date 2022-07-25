@@ -7,6 +7,7 @@ import { ReactComponent as PersonIcon } from "../../../assets/svgs/Groupe-367.sv
 import { ReactComponent as MapIcon } from "../../../assets/svgs/Groupe-368.svg";
 import { setError } from "../../../redux/commons/actions";
 import examenService from '../../../services/examens';
+import { generateSpace } from "../../../utils/helper";
 import Propover from "../../Propover";
 import styles from "./style";
 
@@ -25,6 +26,10 @@ function ExamCard({
   loadingScreen,
 }) {
   const dispatch = useDispatch();
+  const espacementNonGroupe = useSelector(state=>state.ExamenReducer.espacementNonGroupe);
+  const espacement = useSelector(state=>state.ExamenReducer.espacement);
+  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam);
+  const groupeToShowContentId = useSelector(state=>state.ExamenReducer.groupeToShowContentId);
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
   const praticienData = useSelector(state => state.ExamenReducer.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
@@ -34,6 +39,15 @@ function ExamCard({
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
+  let date_ = generateSpace(
+    espacementNonGroupe,
+    espacement,
+    espacementSubExam,
+    groupeToShowContentId,
+    entityType,
+    examId,
+    index
+  )
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [specialite, setSpecialite] = useState("");
@@ -141,7 +155,7 @@ function ExamCard({
         padding: 10,
         boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
       }}
-      date={date}
+      date={date_}
       position={position}
       iconStyle={{
         background: "rgb(19, 83, 117)",
