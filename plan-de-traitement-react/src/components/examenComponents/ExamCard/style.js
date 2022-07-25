@@ -114,7 +114,7 @@ const styles = {
   dotContainerLeft: {
     position: "absolute",
     top: -35,
-    right: -47.5,
+    right: -48,
     width: 28,
     height: 28,
     // marginLeft: -1,

@@ -7,21 +7,25 @@ import {
   EuiModalBody,
   EuiModalFooter,
   EuiSpacer,
-  EuiText
+  EuiText,
 } from "@elastic/eui";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import { useDimension } from "../../hooks/dimensions";
 import { setAlert, setComponent, setError } from "../../redux/commons/actions";
 import {
-  addExam, addExamOnAllGroups, CreateEspacementSubExam, setShowExamForm, shareListExamGroup
+  addExam,
+  addExamOnAllGroups,
+  CreateEspacementSubExam,
+  setShowExamForm,
+  shareListExamGroup,
 } from "../../redux/examens/actions";
 import { saveModel } from "../../redux/models/actions";
-import examenService from '../../services/examens';
-import examenLieService from '../../services/examensLie';
+import examenService from "../../services/examens";
+import examenLieService from "../../services/examensLie";
 import GroupeLieService from "../../services/groupeLie";
 import ModelService from "../../services/models";
 import colors from "../../utils/colors";
@@ -41,36 +45,37 @@ const Alert = ({
   isConfirmation,
   modelData,
   closeModal,
-  isComplete
+  isComplete,
 }) => {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.CommonReducer.alert);
   const error = useSelector((state) => state.CommonReducer.error);
-  const activeGroup = useSelector(state => state.ExamenReducer.activeGroup);
-  const groupExamPayload = useSelector(state => state.ExamenReducer.groupExamPayload);
-  const groupPayload = useSelector(state => state.ExamenReducer.groupPayload);
+  const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);
+  const groupExamPayload = useSelector(
+    (state) => state.ExamenReducer.groupExamPayload
+  );
+  const groupPayload = useSelector((state) => state.ExamenReducer.groupPayload);
   const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
-  useEffect(() => {
-  }, [buttonText]);
+  useEffect(() => {}, [buttonText]);
 
   const handleGetExamenGroup = () => {
-    examenService.getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
-      .then(response => {
+    examenService
+      .getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
+      .then((response) => {
         dispatch(shareListExamGroup(response.data.data));
       })
-      .catch(error => {
-      })
-  }
+      .catch((error) => {});
+  };
 
   const handleUpdateModele = () => {
     setLoading(true);
     ModelService.updateModele(modelData.id, { complet: true })
       .then((response) => {
-        setLoading(false)
+        setLoading(false);
         dispatch(setError(null));
         onAccept();
         dispatch(setAlert({ showAlert: false, message: "" }));
@@ -81,15 +86,16 @@ const Alert = ({
         }
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
       });
-  }
-
+  };
 
   const handleCreateGroupeLie = () => {
     setErrorMessage(false);
@@ -98,19 +104,21 @@ const Alert = ({
       id_groupe_parent: parseInt(alert?.espacementData?.initialId),
       id_groupe_enfant: parseInt(alert?.espacementData?.initialId + 1),
       espacement_min: alert?.espacementData.minInterval,
-      espacement_max: alert?.espacementData?.maxInterval
+      espacement_max: alert?.espacementData?.maxInterval,
     })
-      .then(response => {
+      .then((response) => {
         onReject();
-        setErrorMessage(false)
+        setErrorMessage(false);
         dispatch(setError(null));
         setLoading(false);
       })
-      .catch(error => {
-        setLoading(false)
-        setErrorMessage(true)
+      .catch((error) => {
+        setLoading(false);
+        setErrorMessage(true);
         if (error.message == "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
           dispatch(setError("Une erreur est survenue, veuillez réessayer"));
         }
@@ -126,57 +134,62 @@ const Alert = ({
         initialIds = getAllExams[i].id_examen;
       }
     }
-    examenLieService.createExamenLie({
-      id_examen_parent: parseInt(initialIds),
-      id_examen_enfant: parseInt(initialIds + 1),
-      espacement_min: alert?.espacementData.minInterval,
-      espacement_max: alert?.espacementData?.maxInterval
-    })
-      .then(response => {
+    examenLieService
+      .createExamenLie({
+        id_examen_parent: parseInt(initialIds),
+        id_examen_enfant: parseInt(initialIds + 1),
+        espacement_min: alert?.espacementData.minInterval,
+        espacement_max: alert?.espacementData?.maxInterval,
+      })
+      .then((response) => {
         onReject();
-        setErrorMessage(false)
+        setErrorMessage(false);
         dispatch(setError(null));
         setLoading(false);
       })
-      .catch(error => {
-        setLoading(false)
-        setErrorMessage(true)
+      .catch((error) => {
+        setLoading(false);
+        setErrorMessage(true);
         if (error.message == "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+          dispatch(setError("Une erreur est survenue, veuillez réessayer"));
         }
-      })
-  }
+      });
+  };
 
   const handleCreateExamenLieForAll = () => {
     setErrorMessage(false);
     setLoading(true);
     for (var i = 0; i < getAllExams.length - 1; i++) {
-      examenLieService.createExamenLie({
-        id_examen_parent: parseInt(getAllExams[i].id_examen),
-        id_examen_enfant: parseInt(getAllExams[i + 1].id_examen),
-        espacement_min: alert?.espacementData.minInterval,
-        espacement_max: alert?.espacementData?.maxInterval
-      })
-        .then(response => {
-          setErrorMessage(false)
+      examenLieService
+        .createExamenLie({
+          id_examen_parent: parseInt(getAllExams[i].id_examen),
+          id_examen_enfant: parseInt(getAllExams[i + 1].id_examen),
+          espacement_min: alert?.espacementData.minInterval,
+          espacement_max: alert?.espacementData?.maxInterval,
+        })
+        .then((response) => {
+          setErrorMessage(false);
           dispatch(setError(null));
           setLoading(false);
         })
-        .catch(error => {
-          setLoading(false)
-          setErrorMessage(true)
+        .catch((error) => {
+          setLoading(false);
+          setErrorMessage(true);
           if (error.message == "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
           } else {
-            dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+            dispatch(setError("Une erreur est survenue, veuillez réessayer"));
           }
-        })
+        });
     }
     onAccept();
-  }
-
+  };
 
   const handleCreateGroupeLieForAll = () => {
     for (let i = 0; i < groupPayload.length - 1; i++) {
@@ -186,41 +199,42 @@ const Alert = ({
         id_groupe_parent: groupPayload[i].id_modele_groupe,
         id_groupe_enfant: groupPayload[i + 1].id_modele_groupe,
         espacement_min: alert?.espacementData?.minInterval,
-        espacement_max: alert?.espacementData?.maxInterval
+        espacement_max: alert?.espacementData?.maxInterval,
       })
-        .then(response => {
-          setErrorMessage(false)
+        .then((response) => {
+          setErrorMessage(false);
           dispatch(setError(null));
           setLoading(false);
         })
-        .catch(error => {
-          setLoading(false)
-          setErrorMessage(true)
+        .catch((error) => {
+          setLoading(false);
+          setErrorMessage(true);
           if (error.message == "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
           } else {
-            dispatch(setError("Une erreur est survenue, veuillez réessayer"))
+            dispatch(setError("Une erreur est survenue, veuillez réessayer"));
           }
-        })
+        });
     }
     onAccept();
-  }
-
-
+  };
 
   const handleCreateExamenGroup = () => {
     setLoading(true);
-    setErrorMessage(false)
-    examenService.createExamen({
-      id_modele: parseInt(modelData.id),
-      id_modele_groupe: groupExamPayload.idGroup,
-      id_praticien: alert?.userIn?.id_praticien,
-      id_profession: alert?.userIn?.id_profession,
-      id_lieu: alert?.userIn?.id_lieu,
-      id_motif: alert?.userIn?.id_motif,
-      fixe: alert?.userIn?.fixedPosition ? 1 : 0,
-      position: 1,
-    })
+    setErrorMessage(false);
+    examenService
+      .createExamen({
+        id_modele: parseInt(modelData.id),
+        id_modele_groupe: groupExamPayload.idGroup,
+        id_praticien: alert?.userIn?.id_praticien,
+        id_profession: alert?.userIn?.id_profession,
+        id_lieu: alert?.userIn?.id_lieu,
+        id_motif: alert?.userIn?.id_motif,
+        fixe: alert?.userIn?.fixedPosition ? 1 : 0,
+        position: 1,
+      })
       .then((response) => {
         handleGetExamenGroup();
         onReject();
@@ -241,7 +255,9 @@ const Alert = ({
         setLoading(false);
         setErrorMessage(true);
         if (error.message == "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
           dispatch(setError("Une erreur est survenue"));
         }
@@ -250,37 +266,38 @@ const Alert = ({
 
   const handleCreateExamenForAll = () => {
     setLoading(true);
-    setErrorMessage(false)
+    setErrorMessage(false);
     for (let i = 0; i < groupPayload.length; i++) {
-      examenService.createExamen({
-        id_modele: groupPayload[i].id_modele,
-        id_modele_groupe: groupPayload[i].id_modele_groupe,
-        id_praticien: alert?.userIn?.id_praticien,
-        id_profession: alert?.userIn?.id_profession,
-        id_lieu: alert?.userIn?.id_lieu,
-        id_motif: alert?.userIn?.id_motif,
-        fixe: alert?.userIn?.fixedPosition ? 1 : 0,
-        position: 1,
-      })
+      examenService
+        .createExamen({
+          id_modele: groupPayload[i].id_modele,
+          id_modele_groupe: groupPayload[i].id_modele_groupe,
+          id_praticien: alert?.userIn?.id_praticien,
+          id_profession: alert?.userIn?.id_profession,
+          id_lieu: alert?.userIn?.id_lieu,
+          id_motif: alert?.userIn?.id_motif,
+          fixe: alert?.userIn?.fixedPosition ? 1 : 0,
+          position: 1,
+        })
         .then((response) => {
           setLoading(false);
           setErrorMessage(false);
-          dispatch(setError(null))
+          dispatch(setError(null));
         })
         .catch((error) => {
           setLoading(false);
           setErrorMessage(true);
           if (error.message == "Network Error") {
-            dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
           } else {
-            dispatch(setError("Une erreur est survenue"))
+            dispatch(setError("Une erreur est survenue"));
           }
         });
     }
     onAccept();
-  }
-
-
+  };
 
   const handleCreate = () => {
     if (onAccept) {
@@ -288,18 +305,15 @@ const Alert = ({
         if (!alert?.espacementData?.isModelGroup) {
           handleCreateExamenLieForAll();
         } else {
-
           handleCreateGroupeLieForAll();
         }
-
       } else if (alert?.userIn?.typeAl === "examens") {
         handleCreateExamenForAll();
       } else if (!isComplete) {
         handleUpdateModele();
       }
     }
-
-  }
+  };
 
   const goBack = () => {
     if (onReject) {
@@ -309,10 +323,10 @@ const Alert = ({
         } else {
           handleCreateGroupeLie();
         }
-
       } else if (alert?.userIn?.typeAl === "examens") {
         handleCreateExamenGroup();
       }
+      onReject();
       return;
     }
     dispatch(setAlert({ showAlert: false, message: "" }));
@@ -344,7 +358,11 @@ const Alert = ({
           <EuiForm id="">
             <EuiSpacer size="m" />
             <EuiFormRow label="nom du modèle" fullWidth>
-              <EuiFieldText name="nomModele" value={modelData.modelName} fullWidth />
+              <EuiFieldText
+                name="nomModele"
+                value={modelData.modelName}
+                fullWidth
+              />
             </EuiFormRow>
           </EuiForm>
         ) : isConfirmation || alert.isConfirmation ? (
@@ -375,10 +393,20 @@ const Alert = ({
         {alert?.showCustomComponent && <EspacementInterExamenForm />}
       </EuiModalBody>
       {/* {showButtonBlock && ( */}
-      {loading &&
-        <Box style={{ display: 'flex', justifyContent: 'center', color: "white" }}>
-          <CircularProgress style={{ marginRight: '5px', color: 'blue', width: '25px', height: '25px' }} />
-        </Box>}
+      {loading && (
+        <Box
+          style={{ display: "flex", justifyContent: "center", color: "white" }}
+        >
+          <CircularProgress
+            style={{
+              marginRight: "5px",
+              color: "blue",
+              width: "25px",
+              height: "25px",
+            }}
+          />
+        </Box>
+      )}
       <EuiSpacer size="m" />
       <EuiModalFooter
         className="btn_group alert"

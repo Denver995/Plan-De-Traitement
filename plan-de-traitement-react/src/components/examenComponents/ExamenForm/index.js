@@ -298,7 +298,6 @@ const ExamenForm = ({
   };
 
   const onCancel = () => {
-    console.log("cancel--");
     dispatch(mostBeEditable(false));
     if (isModelGroup) {
       if (formType === typeScreen.examFormEdit) {
@@ -309,7 +308,12 @@ const ExamenForm = ({
         dispatch(setComponent(typeScreen.examList));
         return;
       }
-      onPrevious && onPrevious();
+      // onPrevious && onPrevious();
+      let nextStep = createStep(STEP3);
+      nextStep.previousStep = previousStep;
+      dispatch(desactivateStep(STEP2));
+      dispatch(setShowExamForm(false));
+      dispatch(addStep(nextStep));
     } else {
       if (formType === typeScreen.examFormEdit) {
         dispatch(setComponent(typeScreen.examList));
@@ -629,7 +633,6 @@ const ExamenForm = ({
                     <>Ajouter</>
                   )}
                 </EuiButton>
-              
               </EuiFlexGroup>
             )}
             {errorMessage && (
