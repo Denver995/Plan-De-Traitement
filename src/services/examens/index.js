@@ -13,6 +13,7 @@ class ExamenService {
     if (payload.id_modele_groupe) {
       formdata.append("id_modele_groupe", payload.id_modele_groupe);
     }
+
     formdata.append("id_praticien", payload.id_praticien);
     formdata.append("id_profession", payload.id_profession);
     formdata.append("id_lieu", payload.id_lieu);
@@ -44,7 +45,7 @@ class ExamenService {
   updateExamen = (id_examen, payload) => {
     const formdata = new FormData();
     formdata.append("id_modele", payload.id_modele);
-    formdata.append("id_modele_groupe", payload.id_modele_groupe);
+    formdata.append("id_modele_groupe", null);//payload.id_modele_groupe
     formdata.append("id_praticien", payload.id_praticien);
     formdata.append("id_profession", payload.id_profession);
     formdata.append("id_lieu", payload.id_lieu);

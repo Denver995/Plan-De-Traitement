@@ -616,7 +616,7 @@ const ExamenForm = ({
                     Retour
                   </EuiButtonEmpty>
                   <EuiButton
-                    disabled={motif === "" || lieu === "" || specialite === ""}
+                    disabled={motif === "" || lieu === "" || specialite === "" || loading}
                     style={
                       motif === "" || lieu === "" || specialite === ""
                         ? styles.deactivated
