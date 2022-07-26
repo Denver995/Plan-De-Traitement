@@ -1,5 +1,11 @@
-
-import { EuiButton, EuiButtonEmpty, EuiFlexGroup, EuiSpacer } from "@elastic/eui";
+import {
+  EuiButton,
+  EuiButtonEmpty,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiLoadingSpinner,
+  EuiSpacer,
+} from "@elastic/eui";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from "@mui/material/Box";
@@ -17,12 +23,12 @@ import {
   setShowExamForm,
   SetShowGroupeContentForUpdate,
   shareGroupExamPayload,
-  toggleFixGroupPosition
+  toggleFixGroupPosition,
 } from "../../../redux/examens/actions";
 import {
   addStep,
   deleteStep,
-  desactivateStep
+  desactivateStep,
 } from "../../../redux/steps/actions";
 import ModelGroupeService from "../../../services/modelGroupe";
 import ModelService from "../../../services/models";
@@ -49,7 +55,7 @@ const GroupItem = ({
   groupPayload,
   openGroup,
   reRender_,
-  showPeriodForm
+  showPeriodForm,
 }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
@@ -149,540 +155,561 @@ const GroupItem = ({
           parentSubExamId={IsForSubExam[2]}
           initialId={initialGroupId}
         />
-      ) :
-        showPeriodForm ? (
-          <PeriodeRechercheForm />
-        ) : (
-          <div style={styles.container} className="contain">
-            <div style={{ marginLeft: 30, marginTop: 28, marginBottom: 20 }}>
-              <p
-                style={{
-                  font: "normal normal bold 14px/19px Open Sans",
-                  letterSpacing: 0,
-                  color: colors.blackClaire,
-                }}
-              >
-                Modèle
-              </p>
-              <p
-                style={{
-                  fontSize: "20px",
-                  letterSpacing: 0,
-                  color: colors.primary,
-                }}
-              >
-                {modelData?.nom}
-              </p>
-            </div>
-            {!loading ? (
-              Object.keys(groupWithData).map((groupKey, index) => {
-                return (
-                  <Draggable
-                    disableInteractiveElementBlocking={false}
-                    key={index}
-                    draggableId={"draggable-" + index}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                      >
-                        <div key={index}>
-                          <div className="groups-content">
-                            <div className="group-exam-item">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  marginLeft: 50,
-                                }}
-                              >
-                                <div style={{ marginRight: 25 }}>
-                                  <Propover
-                                    isOnGroupe={true}
-                                    idGroupe={groupKey}
-                                    isModelGroup={true}
-                                    idGroup={
+      ) : showPeriodForm ? (
+        <PeriodeRechercheForm />
+      ) : (
+        <div style={styles.container} className="contain">
+          <div style={{ marginLeft: 30, marginTop: 28, marginBottom: 20 }}>
+            <p
+              style={{
+                font: "normal normal bold 14px/19px Open Sans",
+                letterSpacing: 0,
+                color: colors.blackClaire,
+              }}
+            >
+              Modèle
+            </p>
+            <p
+              style={{
+                fontSize: "20px",
+                letterSpacing: 0,
+                color: colors.primary,
+              }}
+            >
+              {modelData?.nom}
+            </p>
+          </div>
+          {!loading ? (
+            Object.keys(groupWithData).map((groupKey, index) => {
+              return (
+                <Draggable
+                  disableInteractiveElementBlocking={false}
+                  key={index}
+                  draggableId={"draggable-" + index}
+                  index={index}
+                >
+                  {(provided) => (
+                    <div
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                    >
+                      <div key={index}>
+                        <div className="groups-content">
+                          <div className="group-exam-item">
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginLeft: 50,
+                              }}
+                            >
+                              <div style={{ marginRight: 25 }}>
+                                <Propover
+                                  isOnGroupe={true}
+                                  idGroupe={groupKey}
+                                  isModelGroup={true}
+                                  idGroup={
+                                    groupWithData[groupKey]?.payload
+                                      ?.id_modele_groupe
+                                  }
+                                  onDeleteGroup={() => {
+                                    handleDeleteGroup(
                                       groupWithData[groupKey]?.payload
-                                        ?.id_modele_groupe
-                                    }
-                                    onDeleteGroup={() => {
-                                      handleDeleteGroup(
-                                        groupWithData[groupKey]?.payload
-                                          ?.id_modele_groupe,
-                                        groupKey
-                                      );
-                                    }}
-                                    data={{
-                                      groupKey: groupKey,
-                                      data: groupWithData,
-                                    }}
-                                    onEditItem={() => {
-                                      // dispatch(
-                                      //   setComponent({
-                                      //     name: "RECAPITULATIF",
-                                      //     data: {
-                                      //       groupKey: groupKey,
-                                      //       data: groupWithData,
-                                      //     },
-                                      //   })
-                                      // );
-                                    }}
-                                    onFixePosition={() => {
-                                      dispatch(
-                                        toggleFixGroupPosition({
-                                          selectedGroup: groupKey,
-                                        })
-                                      );
-                                    }}
-                                  />
-                                </div>
-                                <div
-                                  style={{
-                                    color: colors.primarySombre,
-                                    fontWeight: "600",
+                                        ?.id_modele_groupe,
+                                      groupKey
+                                    );
                                   }}
-                                >
-                                  {groupWithData[groupKey]?.payload &&
-                                    groupWithData[groupKey]?.payload?.nom}
-                                </div>
+                                  data={{
+                                    groupKey: groupKey,
+                                    data: groupWithData,
+                                  }}
+                                  onEditItem={() => {
+                                    // dispatch(
+                                    //   setComponent({
+                                    //     name: "RECAPITULATIF",
+                                    //     data: {
+                                    //       groupKey: groupKey,
+                                    //       data: groupWithData,
+                                    //     },
+                                    //   })
+                                    // );
+                                  }}
+                                  onFixePosition={() => {
+                                    dispatch(
+                                      toggleFixGroupPosition({
+                                        selectedGroup: groupKey,
+                                      })
+                                    );
+                                  }}
+                                />
                               </div>
-
                               <div
                                 style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                  marginRight: 30,
+                                  color: colors.primarySombre,
+                                  fontWeight: "600",
                                 }}
                               >
-                                <p
-                                  style={{
-                                    fontSize: 17,
-                                    color: colors.primarySombre,
-                                  }}
-                                >
-                                  <span className="period-recherche-label">
-                                    Periode de recherche :
-                                  </span>{" "}
-                                  00h
-                                </p>
-                                {toggledGroup[index] ? (
-                                  <ArrowDropUpIcon
-                                    onClick={() => toggle(index)}
-                                    style={{ cursor: "pointer" }}
-                                  />
-                                ) : (
-                                  <ArrowDropDownIcon
-                                    onClick={() => toggle(index)}
-                                    style={{ cursor: "pointer" }}
-                                  />
-                                )}
+                                {groupWithData[groupKey]?.payload &&
+                                  groupWithData[groupKey]?.payload?.nom}
                               </div>
                             </div>
 
-                            {toggledGroup[index] && (
-                              <div className="exams">
-                                <div style={{ marginBottom: "20px" }}>
-                                  <hr
-                                    className="divisor"
-                                    color="#5d9ad4"
-                                    size="1"
-                                  ></hr>
-                                  <button
-                                    className="divisor-btn"
-                                    onClick={() =>
-                                      handleAddExam(
-                                        groupKey,
-                                        groupWithData[groupKey]?.payload
-                                          ?.id_modele_groupe
-                                      )
-                                    }
-                                  >
-                                    <span
-                                      className="dividor-btn-icon"
-                                      style={{
-                                        fontWeight: "bold",
-                                        fontSize: 25,
-                                        marginRight: 5,
-                                      }}
-                                    >
-                                      +
-                                    </span>
-                                    <span
-                                      className="dividor-btn-text"
-                                      style={{ marginTop: 4 }}
-                                    >
-                                      Ajouter un examen
-                                    </span>
-                                  </button>
-                                </div>
-                                <DragDropContext>
-                                  <Droppable droppableId="exams">
-                                    {(provided) => {
-                                      return (
-                                        <div
-                                          {...provided.droppableProps}
-                                          ref={provided.innerRef}
-                                        >
-                                          {getExamByGroupIndex(
-                                            groupWithData,
-                                            groupKey
-                                          )?.map((exam, i) => {
-                                            return (
-                                              <Draggable
-                                                key={"item-" + i}
-                                                draggableId={"draggable-" + i}
-                                                index={i}
-                                              >
-                                                {(provided) => {
-                                                  return (
-                                                    <div
-                                                      {...provided.draggableProps}
-                                                      {...provided.dragHandleProps}
-                                                      ref={provided.innerRef}
-                                                      style={{
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                      }}
-                                                    >
-                                                      <ExamItem
-                                                        setEspacement={
-                                                          setEspacement
-                                                        }
-                                                        color={
-                                                          colors[colorsArr[i]]
-                                                        }
-                                                        exam={exam}
-                                                        id_modele={
-                                                          modelData.id_modele
-                                                        }
-                                                        index={i}
-                                                        isExamGroup={true}
-                                                        groupKey={groupKey}
-                                                        setReload={setReload}
-                                                        reload={reload}
-                                                      />
-                                                      {i !==
-                                                        Object.keys(
-                                                          getExamByGroupIndex(
-                                                            groupWithData,
-                                                            groupKey
-                                                          )
-                                                        ).length -
-                                                        1 && (
-                                                          <p
-                                                            onClick={() => {
-                                                              setIsForSubExam([
-                                                                true,
-                                                                i,
-                                                                index,
-                                                              ]);
-                                                              setShowInterExam(
-                                                                true
-                                                              );
-                                                            }}
-                                                            style={{
-                                                              marginLeft: "6%",
-                                                              cursor: "pointer",
-                                                              textDecoration:
-                                                                "underline",
-                                                              fontSize: "15px",
-                                                              font: "var(--unnamed-font-style-normal) normal normal 15px/20px var(--unnamed-font-family-open-sans);",
-                                                              letterSpacing: 0,
-                                                              color: colors.primary,
-                                                            }}
-                                                          >
-                                                            {espace &&
-                                                              espace[
-                                                              "group " + index
-                                                              ] &&
-                                                              espace[
-                                                              "group " + index
-                                                              ]["subEspace " + i] &&
-                                                              espace[
-                                                                "group " + index
-                                                              ]["subEspace " + i]
-                                                                ?.length > 0 &&
-                                                              espace[
-                                                                "group " + index
-                                                              ]["subEspace " + i][
-                                                                espace[
-                                                                  "group " + index
-                                                                ]["subEspace " + i]
-                                                                  .length - 1
-                                                              ].parentSubExamId ===
-                                                              index &&
-                                                              espace[
-                                                                "group " + index
-                                                              ]["subEspace " + i][
-                                                                espace[
-                                                                  "group " + index
-                                                                ]["subEspace " + i]
-                                                                  .length - 1
-                                                              ].applyOnAll === false
-                                                              ? `Délai entre l'examen ${i + 1
-                                                              } et l'examen ${i + 2
-                                                              } : ${espace[
-                                                                "group " + index
-                                                              ][
-                                                                "subEspace " + i
-                                                              ][
-                                                                espace[
-                                                                  "group " +
-                                                                  index
-                                                                ][
-                                                                  "subEspace " +
-                                                                  i
-                                                                ].length <= 1
-                                                                  ? 0
-                                                                  : espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                              ].minInterval
-                                                              } ${espace[
-                                                                "group " + index
-                                                              ][
-                                                                "subEspace " + i
-                                                              ][
-                                                                espace[
-                                                                  "group " +
-                                                                  index
-                                                                ][
-                                                                  "subEspace " +
-                                                                  i
-                                                                ].length <= 1
-                                                                  ? 0
-                                                                  : espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                              ].minIntervalUnit
-                                                              } - ${espace[
-                                                                "group " + index
-                                                              ][
-                                                                "subEspace " + i
-                                                              ][
-                                                                espace[
-                                                                  "group " +
-                                                                  index
-                                                                ][
-                                                                  "subEspace " +
-                                                                  i
-                                                                ].length <= 1
-                                                                  ? 0
-                                                                  : espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                              ].maxInterval
-                                                              } ${espace[
-                                                                "group " + index
-                                                              ][
-                                                                "subEspace " + i
-                                                              ][
-                                                                espace[
-                                                                  "group " +
-                                                                  index
-                                                                ][
-                                                                  "subEspace " +
-                                                                  i
-                                                                ].length <= 1
-                                                                  ? 0
-                                                                  : espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                              ].minIntervalUnit
-                                                              }`
-                                                              : espace &&
-                                                                espace[
-                                                                "group " + index
-                                                                ] &&
-                                                                espace[
-                                                                "group " + index
-                                                                ][
-                                                                "subEspace " + i
-                                                                ] &&
-                                                                espace[
-                                                                  "group " + index
-                                                                ]["subEspace " + i]
-                                                                  ?.length > 0 &&
-                                                                espace[
-                                                                  "group " + index
-                                                                ]["subEspace " + i][
-                                                                  espace[
-                                                                    "group " + index
-                                                                  ][
-                                                                    "subEspace " + i
-                                                                  ]?.length - 1
-                                                                ].applyOnAll ===
-                                                                true
-                                                                ? `Délai entre l'examen ${i + 1
-                                                                } et l'examen ${i + 2
-                                                                } : ${espace[
-                                                                  "group " + index
-                                                                ][
-                                                                  "subEspace " + i
-                                                                ][
-                                                                  espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                                ].minInterval
-                                                                } ${espace[
-                                                                  "group " + index
-                                                                ][
-                                                                  "subEspace " + i
-                                                                ][
-                                                                  espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                                ].minIntervalUnit
-                                                                } - ${espace[
-                                                                  "group " + index
-                                                                ][
-                                                                  "subEspace " + i
-                                                                ][
-                                                                  espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                                ].maxInterval
-                                                                } ${espace[
-                                                                  "group " + index
-                                                                ][
-                                                                  "subEspace " + i
-                                                                ][
-                                                                  espace[
-                                                                    "group " +
-                                                                    index
-                                                                  ][
-                                                                    "subEspace " +
-                                                                    i
-                                                                  ].length - 1
-                                                                ].minIntervalUnit
-                                                                }`
-                                                                : "Choisir l'intervalle inter examen"}
-                                                          </p>
-                                                        )}
-                                                    </div>
-                                                  );
-                                                }}
-                                              </Draggable>
-                                            );
-                                          })}
-                                          {provided.placeholder}
-                                        </div>
-                                      );
-                                    }}
-                                  </Droppable>
-                                </DragDropContext>
-                              </div>
-                            )}
-                          </div>
-                          {index !== Object.keys(groupWithData).length - 1 && (
-                            <div style={{ marginLeft: 50 }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginRight: 30,
+                              }}
+                            >
                               <p
-                                onClick={() =>
-                                  onClickChooseIntervalInterGroupe(
-                                    index,
-                                    groupWithData[groupKey]?.payload
-                                      ?.id_modele_groupe
-                                  )
-                                }
                                 style={{
-                                  cursor: "pointer",
-                                  textDecoration: "underline",
-                                  fontSize: "17px",
-                                  font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
-                                  letterSpacing: 0,
-                                  color: colors.primary,
+                                  fontSize: 17,
+                                  color: colors.primarySombre,
                                 }}
                               >
-                                {espacement &&
+                                <span className="period-recherche-label">
+                                  Periode de recherche :
+                                </span>{" "}
+                                00h
+                              </p>
+                              {toggledGroup[index] ? (
+                                <ArrowDropUpIcon
+                                  onClick={() => toggle(index)}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              ) : (
+                                <ArrowDropDownIcon
+                                  onClick={() => toggle(index)}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              )}
+                            </div>
+                          </div>
+
+                          {toggledGroup[index] && (
+                            <div className="exams">
+                              <div style={{ marginBottom: "20px" }}>
+                                <hr
+                                  className="divisor"
+                                  color="#5d9ad4"
+                                  size="1"
+                                ></hr>
+                                <button
+                                  className="divisor-btn"
+                                  onClick={() =>
+                                    handleAddExam(
+                                      groupKey,
+                                      groupWithData[groupKey]?.payload
+                                        ?.id_modele_groupe
+                                    )
+                                  }
+                                >
+                                  <span
+                                    className="dividor-btn-icon"
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: 25,
+                                      marginRight: 5,
+                                    }}
+                                  >
+                                    +
+                                  </span>
+                                  <span
+                                    className="dividor-btn-text"
+                                    style={{ marginTop: 4 }}
+                                  >
+                                    Ajouter un examen
+                                  </span>
+                                </button>
+                              </div>
+                              <DragDropContext>
+                                <Droppable droppableId="exams">
+                                  {(provided) => {
+                                    return (
+                                      <div
+                                        {...provided.droppableProps}
+                                        ref={provided.innerRef}
+                                      >
+                                        {getExamByGroupIndex(
+                                          groupWithData,
+                                          groupKey
+                                        )?.map((exam, i) => {
+                                          return (
+                                            <Draggable
+                                              key={"item-" + i}
+                                              draggableId={"draggable-" + i}
+                                              index={i}
+                                            >
+                                              {(provided) => {
+                                                return (
+                                                  <div
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    ref={provided.innerRef}
+                                                    style={{
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                    }}
+                                                  >
+                                                    <ExamItem
+                                                      setEspacement={
+                                                        setEspacement
+                                                      }
+                                                      color={
+                                                        colors[colorsArr[i]]
+                                                      }
+                                                      exam={exam}
+                                                      id_modele={
+                                                        modelData.id_modele
+                                                      }
+                                                      index={i}
+                                                      isExamGroup={true}
+                                                      groupKey={groupKey}
+                                                      setReload={setReload}
+                                                      reload={reload}
+                                                    />
+                                                    {i !==
+                                                      Object.keys(
+                                                        getExamByGroupIndex(
+                                                          groupWithData,
+                                                          groupKey
+                                                        )
+                                                      ).length -
+                                                        1 && (
+                                                      <p
+                                                        onClick={() => {
+                                                          setIsForSubExam([
+                                                            true,
+                                                            i,
+                                                            index,
+                                                          ]);
+                                                          setShowInterExam(
+                                                            true
+                                                          );
+                                                        }}
+                                                        style={{
+                                                          marginLeft: "6%",
+                                                          cursor: "pointer",
+                                                          textDecoration:
+                                                            "underline",
+                                                          fontSize: "15px",
+                                                          font: "var(--unnamed-font-style-normal) normal normal 15px/20px var(--unnamed-font-family-open-sans);",
+                                                          letterSpacing: 0,
+                                                          color: colors.primary,
+                                                        }}
+                                                      >
+                                                        {espace &&
+                                                        espace[
+                                                          "group " + index
+                                                        ] &&
+                                                        espace[
+                                                          "group " + index
+                                                        ]["subEspace " + i] &&
+                                                        espace[
+                                                          "group " + index
+                                                        ]["subEspace " + i]
+                                                          ?.length > 0 &&
+                                                        espace[
+                                                          "group " + index
+                                                        ]["subEspace " + i][
+                                                          espace[
+                                                            "group " + index
+                                                          ]["subEspace " + i]
+                                                            .length - 1
+                                                        ].parentSubExamId ===
+                                                          index &&
+                                                        espace[
+                                                          "group " + index
+                                                        ]["subEspace " + i][
+                                                          espace[
+                                                            "group " + index
+                                                          ]["subEspace " + i]
+                                                            .length - 1
+                                                        ].applyOnAll === false
+                                                          ? `Délai entre l'examen ${
+                                                              i + 1
+                                                            } et l'examen ${
+                                                              i + 2
+                                                            } : ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length <= 1
+                                                                  ? 0
+                                                                  : espace[
+                                                                      "group " +
+                                                                        index
+                                                                    ][
+                                                                      "subEspace " +
+                                                                        i
+                                                                    ].length - 1
+                                                              ].minInterval
+                                                            } ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length <= 1
+                                                                  ? 0
+                                                                  : espace[
+                                                                      "group " +
+                                                                        index
+                                                                    ][
+                                                                      "subEspace " +
+                                                                        i
+                                                                    ].length - 1
+                                                              ].minIntervalUnit
+                                                            } - ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length <= 1
+                                                                  ? 0
+                                                                  : espace[
+                                                                      "group " +
+                                                                        index
+                                                                    ][
+                                                                      "subEspace " +
+                                                                        i
+                                                                    ].length - 1
+                                                              ].maxInterval
+                                                            } ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length <= 1
+                                                                  ? 0
+                                                                  : espace[
+                                                                      "group " +
+                                                                        index
+                                                                    ][
+                                                                      "subEspace " +
+                                                                        i
+                                                                    ].length - 1
+                                                              ].minIntervalUnit
+                                                            }`
+                                                          : espace &&
+                                                            espace[
+                                                              "group " + index
+                                                            ] &&
+                                                            espace[
+                                                              "group " + index
+                                                            ][
+                                                              "subEspace " + i
+                                                            ] &&
+                                                            espace[
+                                                              "group " + index
+                                                            ]["subEspace " + i]
+                                                              ?.length > 0 &&
+                                                            espace[
+                                                              "group " + index
+                                                            ]["subEspace " + i][
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ]?.length - 1
+                                                            ].applyOnAll ===
+                                                              true
+                                                          ? `Délai entre l'examen ${
+                                                              i + 1
+                                                            } et l'examen ${
+                                                              i + 2
+                                                            } : ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length - 1
+                                                              ].minInterval
+                                                            } ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length - 1
+                                                              ].minIntervalUnit
+                                                            } - ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length - 1
+                                                              ].maxInterval
+                                                            } ${
+                                                              espace[
+                                                                "group " + index
+                                                              ][
+                                                                "subEspace " + i
+                                                              ][
+                                                                espace[
+                                                                  "group " +
+                                                                    index
+                                                                ][
+                                                                  "subEspace " +
+                                                                    i
+                                                                ].length - 1
+                                                              ].minIntervalUnit
+                                                            }`
+                                                          : "Choisir l'intervalle inter examen"}
+                                                      </p>
+                                                    )}
+                                                  </div>
+                                                );
+                                              }}
+                                            </Draggable>
+                                          );
+                                        })}
+                                        {provided.placeholder}
+                                      </div>
+                                    );
+                                  }}
+                                </Droppable>
+                              </DragDropContext>
+                            </div>
+                          )}
+                        </div>
+                        {index !== Object.keys(groupWithData).length - 1 && (
+                          <div style={{ marginLeft: 50 }}>
+                            <p
+                              onClick={() =>
+                                onClickChooseIntervalInterGroupe(
+                                  index,
+                                  groupWithData[groupKey]?.payload
+                                    ?.id_modele_groupe
+                                )
+                              }
+                              style={{
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                                fontSize: "17px",
+                                font: "var(--unnamed-font-style-normal) normal normal 17px/23px var(--unnamed-font-family-open-sans);",
+                                letterSpacing: 0,
+                                color: colors.primary,
+                              }}
+                            >
+                              {espacement &&
+                              espacement["espace " + index] &&
+                              espacement["espace " + index].length > 0 &&
+                              espacement["espace " + index][
+                                espacement["espace " + index].length - 1
+                              ].applyOnAll === false
+                                ? `Délai entre le groupe ${index} et le groupe ${
+                                    index + 1
+                                  } : ${
+                                    espacement["espace " + index][0].minInterval
+                                  } ${
+                                    espacement["espace " + index][0]
+                                      .minIntervalUnit
+                                  } - ${
+                                    espacement["espace " + index][0].maxInterval
+                                  } ${
+                                    espacement["espace " + index][0]
+                                      .minIntervalUnit
+                                  }`
+                                : espacement &&
                                   espacement["espace " + index] &&
                                   espacement["espace " + index].length > 0 &&
                                   espacement["espace " + index][
                                     espacement["espace " + index].length - 1
-                                  ].applyOnAll === false
-                                  ? `Délai entre le groupe ${index} et le groupe ${index + 1
-                                  } : ${espacement["espace " + index][0].minInterval
-                                  } ${espacement["espace " + index][0]
-                                    .minIntervalUnit
-                                  } - ${espacement["espace " + index][0].maxInterval
-                                  } ${espacement["espace " + index][0]
-                                    .minIntervalUnit
-                                  }`
-                                  : espacement &&
-                                    espacement["espace " + index] &&
-                                    espacement["espace " + index].length > 0 &&
+                                  ].applyOnAll === true
+                                ? `Délai entre le groupe ${index} et le groupe ${
+                                    index + 1
+                                  } : ${
                                     espacement["espace " + index][
                                       espacement["espace " + index].length - 1
-                                    ].applyOnAll === true
-                                    ? `Délai entre le groupe ${index} et le groupe ${index + 1
-                                    } : ${espacement["espace " + index][
-                                      espacement["espace " + index].length - 1
                                     ].minInterval
-                                    } ${espacement["espace " + index][
+                                  } ${
+                                    espacement["espace " + index][
                                       espacement["espace " + index].length - 1
                                     ].minIntervalUnit
-                                    } - ${espacement["espace " + index][
+                                  } - ${
+                                    espacement["espace " + index][
                                       espacement["espace " + index].length - 1
                                     ].maxInterval
-                                    } ${espacement["espace " + index][
+                                  } ${
+                                    espacement["espace " + index][
                                       espacement["espace " + index].length - 1
                                     ].minIntervalUnit
-                                    }`
-                                    : "Choisir l'intervalle inter groupe"}
-                              </p>
-                            </div>
-                          )}
-                        </div>
+                                  }`
+                                : "Choisir l'intervalle inter groupe"}
+                            </p>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </Draggable>
-                );
-              })
-            ) : (
-              <Box style={{ display: "flex", alignItems: "center" }}>
-                <CircularProgress
-                  style={{
-                    margin: "20px auto",
-                    color: "blue",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                />
-              </Box>
-            )}
-          </div>
-        )}
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })
+          ) : (
+            <Box style={{ display: "flex", alignItems: "center" }}>
+              <CircularProgress
+                style={{
+                  margin: "20px auto",
+                  color: "blue",
+                  width: "35px",
+                  height: "35px",
+                }}
+              />
+            </Box>
+          )}
+        </div>
+      )}
     </>
   );
 };
@@ -693,12 +720,12 @@ const GroupExamenSummary = ({
   examsGrouped,
   espacement,
   openGroup,
-  showPeriodForm
+  showPeriodForm,
 }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
-  const modelData = useSelector(state => state.ModelsReducer.modelData);
-  const error = useSelector(state => state.CommonReducer.error);
+  const modelData = useSelector((state) => state.ModelsReducer.modelData);
+  const error = useSelector((state) => state.CommonReducer.error);
   const groupesWithData = useSelector(
     (state) => state.ExamenReducer.groupWithData
   );
@@ -706,7 +733,7 @@ const GroupExamenSummary = ({
   const previousStep = getStepByKey(steps, STEP2);
   const [reRender, setReRender] = useState(false);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [disable, setDisable] = useState(false)
+  const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -714,24 +741,25 @@ const GroupExamenSummary = ({
     setLoading(true);
     ModelService.updateModele(modelData.id, { complet: true })
       .then((response) => {
-        setLoading(false)
+        setLoading(false);
         dispatch(setError(null));
-
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
       });
     let nextStep = createStep(STEP3);
     nextStep.previousStep = previousStep;
     dispatch(desactivateStep(STEP2));
     dispatch(addStep(nextStep));
-    dispatch(SetShowGroupeContentForUpdate(-1))
-  }
+    dispatch(SetShowGroupeContentForUpdate(-1));
+  };
 
   const onClickNext = () => {
     handleUpdateModele();
@@ -820,6 +848,12 @@ const GroupExamenSummary = ({
         </DragDropContext>
       )}
 
+      {groupWithData["group 0"] === undefined && (
+        <div style={styles.loader}>
+          <EuiLoadingSpinner size="xxl" color={colors.primary} />
+        </div>
+      )}
+
       {!showForm && (
         <>
           <EuiFlexGroup
@@ -832,30 +866,46 @@ const GroupExamenSummary = ({
               justifyContent: disable ? "space-between" : "",
             }}
           >
-            {disable && <EuiButton
-              fill={true}
-              style={{ ...styles.addBtn }}
-              className="button_next_me"
-              onClick={onClickNext}
-            >{loading ?
-              <Box style={{ display: 'flex', alignItems: 'center' }}>
-                <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
-                Enregistrer
-              </Box>
-              : <>Enregistrer</>
-              }
-            </EuiButton>}
+            {disable && (
+              <EuiButton
+                fill={true}
+                style={{
+                  ...styles.addBtn,
+                  visibility:
+                    groupWithData["group 0"] === undefined
+                      ? "hidden"
+                      : "visible",
+                }}
+                className="button_next_me"
+                onClick={onClickNext}
+              >
+                {loading ? (
+                  <Box style={{ display: "flex", alignItems: "center" }}>
+                    <CircularProgress
+                      style={{
+                        marginRight: "5px",
+                        color: "white",
+                        width: "25px",
+                        height: "25px",
+                      }}
+                    />
+                    Enregistrer
+                  </Box>
+                ) : (
+                  <>Enregistrer</>
+                )}
+              </EuiButton>
+            )}
             <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
               Retour
             </EuiButtonEmpty>
           </EuiFlexGroup>
         </>
       )}
-      <EuiSpacer size="xl" />
       {errorMessage && (
         <>
           <EuiSpacer size="xl" />
-          <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+          <p style={{ color: "red", textAlign: "center" }}>{error}</p>
         </>
       )}
     </ModalWrapper>

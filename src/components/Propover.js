@@ -343,7 +343,7 @@ const Propover = ({
                             handleClose();
                             togglePropover();
                           }}
-                          label={`group ${i + 1}`}
+                          label={`Groupe ${i + 1}`}
                         />
                       )
                     );

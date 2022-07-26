@@ -35,7 +35,6 @@ import ExamItem from "../ExamItem";
 import styles from "./styles";
 import { useDimension } from "../../../hooks/dimensions";
 
-
 const ExamsList = ({
   exams,
   onAdd,
@@ -46,7 +45,7 @@ const ExamsList = ({
   onPrevious,
   predecessor,
   actualNonGroupeIndex,
-  setPredecessor
+  setPredecessor,
 }) => {
   const innerWidth = { useDimension };
   const espacementNonGroupe = useSelector(
@@ -230,7 +229,9 @@ const ExamsList = ({
                               <EuiSpacer size="xs" />
                               {index !== examsList.length - 1 && (
                                 <span
-                                style={{marginLeft: innerWidth < 520 ? -78 : ""}}
+                                  style={{
+                                    marginLeft: innerWidth < 520 ? -78 : "",
+                                  }}
                                   onClick={() => {
                                     setShowInterExam(true);
                                     dispatch(
@@ -359,8 +360,7 @@ const ExamsList = ({
             <EuiSpacer size="xxl" />
             <EuiSpacer size="xxl" />
           </div>
-          <div style={{...styles.terminer, bottom: innerWidth < 768 ?? 100 }}>
-
+          <div style={{ ...styles.terminer, bottom: innerWidth < 768 ?? 100 }}>
             <EuiFlexGroup
               className="btn_group"
               style={{
@@ -397,8 +397,7 @@ const ExamsList = ({
             </EuiFlexGroup>
           </div>
         </ModalWrapper>
-  )
-}
+      )}
     </>
   );
 };

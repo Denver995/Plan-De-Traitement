@@ -460,7 +460,7 @@ const ExamenForm = ({
               </EuiFlexItem>
               {isModelGroup ? (
                 <EuiFlexItem grow={3}>
-                  <p>Groupe:</p>
+                  <p style={styles.text}>Groupe:</p>
                   <EuiSpacer size="s" />
                   <p style={styles.input}>{`Groupe ${
                     parseInt(activeGroup.slice(6)) + 1
