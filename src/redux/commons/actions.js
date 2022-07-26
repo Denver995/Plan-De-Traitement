@@ -1,26 +1,26 @@
-import * as types from './types';
+import * as types from "./types";
 
-export const setAlert = alert => ({
+export const setAlert = (alert) => ({
   type: types.SHOW_ALERT,
-  alert
-})
+  alert,
+});
 
 export const editExam = (examData) => ({
   type: types.EDIT_EXAM,
   examData,
 });
-export const setShowExamForm = show => ({
+export const setShowExamForm = (show) => ({
   type: types.SHOW_EXAM_FORM,
-  show
+  show,
 });
 
 export const startLoading = () => ({
   type: types.START_LOADING,
-})
+});
 
 export const stopLoading = () => ({
   type: types.STOP_LOADING,
-})
+});
 
 export const setModelType = (modelType) => ({
   type: types.SET_MODEL_TYPE,
@@ -32,11 +32,6 @@ export const setError = (error) => ({
   error,
 });
 
-
-
-
-
-
 export const addFieldData = (key, value) => ({
   type: types.SET_FIELD_DATA,
   payload: { [key]: value },
@@ -44,10 +39,15 @@ export const addFieldData = (key, value) => ({
 
 export const setComponent = (componentTodisplay) => ({
   type: types.SET_COMPONENT,
-  componentTodisplay
+  componentTodisplay,
 });
 
 export const setShowPeriodForm = (payload) => ({
   type: types.SHOW_PERIOD_FORM,
-  payload
+  payload,
+});
+
+export const setActive = (payload) => ({
+  type: types.IS_ACTIVE,
+  payload,
 });

@@ -70,13 +70,14 @@ const styles = {
   btn: {
     fontSize: x <= 500 ? 20 : 27,
     fontFamily: "Open Sans, Sans Serif",
-    width: x <= 500 ? "100%" : 256,
+    width: x <= 500 ? "100%" : 210,
     padding: x <= 500 ? "5px" : "",
-    height: 48,
+    height: "48px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center"
   },
+  
   btnRep: {
     fontSize: 20,
     width: "100%",

@@ -4,13 +4,12 @@ import {
   EuiFieldText,
   EuiForm,
   EuiFormRow,
+  EuiLoadingSpinner,
   EuiModalBody,
   EuiModalFooter,
   EuiSpacer,
   EuiText,
 } from "@elastic/eui";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
@@ -115,7 +114,7 @@ const Alert = ({
       .catch((error) => {
         setLoading(false);
         setErrorMessage(true);
-        if (error.message == "Network Error") {
+        if (error.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
           );
@@ -150,7 +149,7 @@ const Alert = ({
       .catch((error) => {
         setLoading(false);
         setErrorMessage(true);
-        if (error.message == "Network Error") {
+        if (error.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
           );
@@ -179,7 +178,7 @@ const Alert = ({
         .catch((error) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message == "Network Error") {
+          if (error.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -209,7 +208,7 @@ const Alert = ({
         .catch((error) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message == "Network Error") {
+          if (error.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -254,7 +253,7 @@ const Alert = ({
       .catch((error) => {
         setLoading(false);
         setErrorMessage(true);
-        if (error.message == "Network Error") {
+        if (error.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
           );
@@ -287,7 +286,7 @@ const Alert = ({
         .catch((error) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message == "Network Error") {
+          if (error.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -367,7 +366,13 @@ const Alert = ({
           </EuiForm>
         ) : isConfirmation || alert.isConfirmation ? (
           <div>
-            <EuiText style={{...styles.textContainer, textAlign: innerWidth < 641 ? "center" : "", left : innerWidth < 641 ? 0 : ""}}>
+            <EuiText
+              style={{
+                ...styles.textContainer,
+                textAlign: innerWidth < 641 ? "center" : "",
+                left: innerWidth < 641 ? 0 : "",
+              }}
+            >
               Ce modèle va être enregistré sous le nom :
               <br />
               <div style={styles.textTitle}>
@@ -386,7 +391,11 @@ const Alert = ({
           </div>
         ) : (
           <div
-            style={{ ...styles.message, marginRight: innerWidth < 768 ? "20%" : "", font: "normal normal 600 22px/25px Open Sans" }}
+            style={{
+              ...styles.message,
+              marginRight: innerWidth < 768 ? "20%" : "",
+              font: "normal normal 600 22px/25px Open Sans",
+            }}
           >
             {alert.message ? alert.message : message}
           </div>
@@ -407,7 +416,7 @@ const Alert = ({
             ...styles.abortBtn,
             fontSize: 27,
             padding: innerWidth <= 500 ? "5px" : "",
-            width: innerWidth <= 500 ? "100%" : 256,
+            width: innerWidth <= 500 ? "100%" : 210,
             marginBottom: innerWidth <= 500 ? "20px" : "",
           }}
           onClick={goBack}
@@ -420,7 +429,7 @@ const Alert = ({
             fontSize: 27,
             backgroundColor: colors.primary,
             borderColor: colors.primary,
-            width: innerWidth <= 500 ? "100%" : 256,
+            width: innerWidth <= 500 ? "100%" : 210,
             textDecoration: "none",
           }}
           onClick={
@@ -429,33 +438,13 @@ const Alert = ({
           fill={true}
         >
           {loading ? (
-            <Box
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                color: "white",
-              }}
-            >
-              <CircularProgress
-                style={{
-                  marginRight: "7px",
-                  color: "white",
-                  width: "25px",
-                  height: "25px",
-                  marginTop: "4px"
-                }}
-              />
-              <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
-            </Box>
-          ) : (<Box
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              color: "white",
-            }}
-          >
+            <EuiLoadingSpinner
+              style={{ marginTop: 7, marginRight: 1, marginLeft: 1 }}
+              size="l"
+              color={colors.white}
+            />
+          ) : (
             <>{alert?.buttonText?.confirmText ?? "Enregistrer"}</>
-          </Box>
           )}
         </EuiButton>
       </EuiModalFooter>

@@ -60,12 +60,24 @@
 
 @media (max-width: 457px) {
   .custom-footer-group {
-    /* display: none !important; */
     position: relative !important;
     bottom: 0px !important;
     padding-left: 0px !important;
     padding-right: 0px !important;
     margin-bottom: -60px !important;
+  }
+
+  .footer-non-group {
+    display: block !important;
+  }
+
+  .custom-non-group {
+    margin-left: 0 !important;
+  }
+
+  .custom-non-group-valid {
+    position: relative !important;
+    margin-right: 0 !important;
   }
 
   .custom-button {

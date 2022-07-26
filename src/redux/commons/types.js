@@ -14,3 +14,5 @@ export const SET_COMPONENT = 'SET_COMPONENT';
 export const ERROR = 'ERROR';
 
 export const SHOW_PERIOD_FORM = 'SHOW_PERIOD_FORM'; 
+
+export const IS_ACTIVE = 'IS_ACTIVE';

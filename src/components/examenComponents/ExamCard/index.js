@@ -58,7 +58,6 @@ function ExamCard({
   const [motif, setMotif] = useState("");
 
   useEffect(() => {
-    console.log("Examen---", examen);
     handleGetSpecialitie();
     handleGetPraticien();
     handleGetLieu();

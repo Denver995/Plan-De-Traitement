@@ -142,12 +142,12 @@ const RecapitulatifDesExamens = ({
           {/* <EuiSpacer size="xxl" /> */}
 
           <EuiFlexGroup
-            className="custom-footer-group"
+            className="custom-footer-group footer-non-group"
             style={styles.btnContainer}
           >
             {recapType === typeRecap.model && (
               <EuiButtonEmpty
-                className="custom-button"
+                className="custom-button custom-non-group"
                 style={styles.backBtn}
                 onClick={() => {
                   onBack();
@@ -156,7 +156,7 @@ const RecapitulatifDesExamens = ({
                 Retour
               </EuiButtonEmpty>
             )}
-            <EuiButton className="custom-button button-valid" style={styles.validateBtn} fill={true} onClick={onSave}>
+            <EuiButton className="custom-button button-valid custom-non-group-valid" style={styles.validateBtn} fill={true} onClick={onSave}>
               Valider
             </EuiButton>
           </EuiFlexGroup>

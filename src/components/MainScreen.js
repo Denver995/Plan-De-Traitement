@@ -10,8 +10,10 @@ import ExamenWrapper from "./examenComponents/ExamenWrapper";
 import GroupWrapper from "./examenComponents/GroupWrapper";
 import RecapitulatifWrapper from "./examenComponents/recapitulatifWrapper";
 
+import colors from "../utils/colors";
 
 import PopUp from "./PopUp";
+import { EuiButton } from "@elastic/eui";
 
 const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -70,9 +72,27 @@ const MainScreen = () => {
   if (isModalVisible && !alert.showAlert) {
     modal = content;
   }
+
+  const styles = {
+    nomModel: {
+      fontSize: 19,
+      color: colors.white,
+      backgroundColor: colors.darkBlue,
+      borderRadius: 7,
+      height: 40,
+      width: 172,
+      borderColor: colors.darkBlue,
+      paddingTop: 5,
+      margin: "10px 0px 0px 10px",
+      textDecoration: "none"
+    },
+  };
+
   return (
     <div className="modal">
-      <ButtonLight text={"Créer un model"} onClick={showModal} />
+      <EuiButton style={styles.nomModel} onClick={showModal}>
+        Nouveau modèle
+      </EuiButton>
       {alert.showAlert && (
         <Alert
           message={alert.message}

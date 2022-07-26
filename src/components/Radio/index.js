@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { setActive } from "../../redux/commons/actions";
 import colors from "../../utils/colors";
 import styles from "./styles";
 
@@ -6,15 +8,15 @@ import styles from "./styles";
  * @todo Refactor Component
  */
 
-const Radio = ({ onChange }) => {
-  const [active, setActive] = useState(true);
-  const [styleTrue, setStyleTrue] = useState({
+const Radio = ({ onChange, active }) => {
+  const dispatch = useDispatch();
+  const deactivate = {
     outerCircle: {},
     innerCircle: {},
     color: colors.blackClaire,
-  });
+  };
 
-  const [styleFalse, setStyleFalse] = useState({
+  const activate = {
     outerCircle: {
       borderColor: colors.primary,
     },
@@ -23,43 +25,17 @@ const Radio = ({ onChange }) => {
       borderColor: colors.primary,
     },
     color: colors.primary,
-  });
+  };
+
+  const [styleTrue, setStyleTrue] = useState(active ? activate : deactivate);
+
+  const [styleFalse, setStyleFalse] = useState(active ? deactivate : activate);
 
   const handleTrue = () => {
     let isActive = true;
-    if (active) {
-      setStyleTrue({
-        outerCircle: {
-          borderColor: colors.primary,
-        },
-        innerCircle: {
-          backgroundColor: colors.primary,
-          borderColor: colors.primary,
-        },
-        color: colors.primary,
-      });
-      setStyleFalse({
-        outerCircle: {},
-        innerCircle: {},
-        color: colors.blackClaire,
-      });
-    } else {
-      setStyleTrue({
-        outerCircle: {},
-        innerCircle: {},
-        color: colors.blackClaire,
-      });
-      setStyleTrue({
-        outerCircle: {
-          borderColor: colors.primary,
-        },
-        innerCircle: {
-          backgroundColor: colors.primary,
-          borderColor: colors.primary,
-        },
-        color: colors.primary,
-      });
-    }
+    dispatch(setActive(true));
+    setStyleTrue(activate);
+    setStyleFalse(deactivate);
 
     // setActive(!active);
     onChangeModel(isActive);
@@ -67,44 +43,15 @@ const Radio = ({ onChange }) => {
 
   const handleFalse = () => {
     const isActive = false;
-    if (!active) {
-      setStyleFalse({
-        outerCircle: {},
-        innerCircle: {},
-        color: colors.blackClaire,
-      });
-      setStyleTrue({
-        outerCircle: {
-          borderColor: colors.primary,
-        },
-        innerCircle: {
-          backgroundColor: colors.primary,
-          borderColor: colors.primary,
-        },
-        color: colors.primary,
-      });
-    } else {
-      setStyleFalse({
-        outerCircle: {
-          borderColor: colors.primary,
-        },
-        innerCircle: {
-          backgroundColor: colors.primary,
-          borderColor: colors.primary,
-        },
-        color: colors.primary,
-      });
-      setStyleTrue({
-        outerCircle: {},
-        innerCircle: {},
-        color: colors.blackClaire,
-      });
-    }
+    dispatch(setActive(false));
+    setStyleFalse(activate);
+    setStyleTrue(deactivate);
+
     // setActive(!active);
     onChangeModel(isActive);
   };
 
-  React.useEffect(() => { }, [active]);
+  React.useEffect(() => {}, [active]);
 
   const onChangeModel = (value) => {
     onChange(value);
@@ -126,6 +73,7 @@ const Radio = ({ onChange }) => {
         </div>
         <div style={{ color: styleTrue.color }}>Oui</div>
       </div>
+
       <div style={styles.flexCenter} onClick={handleFalse}>
         <div style={{ ...styles.outerCircle, ...styleFalse.outerCircle }}>
           <div
@@ -138,4 +86,8 @@ const Radio = ({ onChange }) => {
   );
 };
 
-export default Radio;
+const mapStateToProps = ({ CommonReducer }) => ({
+  active: CommonReducer.active,
+});
+
+export default connect(mapStateToProps)(Radio);
