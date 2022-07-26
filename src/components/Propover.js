@@ -310,7 +310,7 @@ const Propover = ({
             <EuiListGroupItem onClick={onEdit} label="Modifier" />
           )}
           <EuiListGroupItem
-            onClick={() => console.log("done")}
+            onClick={() => {}}
             label="Dupliquer"
           />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />

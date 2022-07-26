@@ -64,9 +64,7 @@ const RecapitulatifDesExamens = ({
   const loadingScreen = (show) => {
     setLoading(show);
   }
-  useEffect(() => {
-    console.log("exams -----", exams)
-  }, [])
+  
 
   return (
     <ModalWrapper style={styles.modal}>
