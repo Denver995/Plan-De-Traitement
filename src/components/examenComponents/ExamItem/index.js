@@ -6,6 +6,7 @@ import {
   shareAllExams
 } from "../../../redux/examens/actions";
 import examenService from '../../../services/examens';
+import { typeScreen } from "../../../utils/constants";
 import "../../../utils/groupe-et-exam.css";
 import { formatExamNumber } from "../../../utils/helper";
 import Propover from "../../Propover";
@@ -24,6 +25,7 @@ const ExamItem = ({
   reload,
   setReload,
   loadingScreen,
+  setPredecessor
 }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [loading, setLoading] = useState(false);
@@ -147,6 +149,8 @@ const ExamItem = ({
             loading={loading}
             loadingScreen={handleLoading}
             setReload={() => setReload(!reload)}
+            predecessor={typeScreen.examList}
+            setPredecessor={setPredecessor}
           />
         </div>
         <div>

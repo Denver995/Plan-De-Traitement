@@ -54,9 +54,8 @@ import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
-import { components } from 'react-select'
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
-
+import { components } from "react-select";
+import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 
 const ExamenForm = ({
   isModelGroup,
@@ -167,7 +166,8 @@ const ExamenForm = ({
     fixedPosition: fixedExamPosition,
     typeAl: "examens",
   };
-  const alertMessage = "Souhaitez-vous appliquer la modification sur l'ensemble des groupes ?";
+  const alertMessage =
+    "Souhaitez-vous appliquer la modification sur l'ensemble des groupes ?";
 
   const onAddExamen = () => {
     const payload = {
@@ -291,8 +291,7 @@ const ExamenForm = ({
 
   const onEditExamen = () => {
     if (mustBeEditable) {
-      dispatch(mostBeEditable(false));
-      onPrevious();
+      onCancel();
     } else {
       handleUpdateExams();
     }
@@ -310,7 +309,6 @@ const ExamenForm = ({
         dispatch(setComponent(typeScreen.examList));
         return;
       }
-      onPrevious && onPrevious();
       if (showEditForm) {
         let nextStep = createStep(STEP3);
         nextStep.previousStep = previousStep;
@@ -318,9 +316,19 @@ const ExamenForm = ({
         dispatch(setShowExamForm(false));
         dispatch(addStep(nextStep));
       }
+      onPrevious && onPrevious();
     } else {
-      if (formType === typeScreen.examFormEdit) {
-        dispatch(setComponent(typeScreen.examList));
+      if (
+        formType === typeScreen.examFormEdit &&
+        predecessor !== typeScreen.examList
+      ) {
+        // dispatch(setComponent(typeScreen.examList));
+        let nextStep = createStep(STEP3);
+        nextStep.previousStep = previousStep;
+        dispatch(startLoading());
+        dispatch(desactivateStep(STEP2));
+        dispatch(setComponent({ name: typeScreen.examList }));
+        dispatch(addStep(nextStep));
         return;
       }
       if (predecessor === typeScreen.examList) {
@@ -341,7 +349,7 @@ const ExamenForm = ({
         });
         setListSpecialite(data);
       })
-      .catch((error) => { });
+      .catch((error) => {});
 
     LieuxService.getListeLieux()
       .then((res) => {
@@ -352,7 +360,7 @@ const ExamenForm = ({
         });
         setListLieu(data);
       })
-      .catch((error) => { });
+      .catch((error) => {});
 
     MotifsService.getListeMotif()
       .then((res) => {
@@ -366,7 +374,7 @@ const ExamenForm = ({
         });
         setListMotif(data);
       })
-      .catch((error) => { });
+      .catch((error) => {});
 
     PraticiensService.getListePraticien()
       .then((res) => {
@@ -380,7 +388,7 @@ const ExamenForm = ({
         });
         setListPraticien(data);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }, []);
 
   useEffect(() => {
@@ -402,14 +410,14 @@ const ExamenForm = ({
     examGroupedToEdite,
   ]);
 
-  useEffect(() => { }, [groupSelected, examsGrouped]);
+  useEffect(() => {}, [groupSelected, examsGrouped]);
   const filterData = (inputValue, dataToMap) => {
     return dataToMap.filter((i) =>
       i.label.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
 
-  const NoOptionsMessage = props => {
+  const NoOptionsMessage = (props) => {
     return (
       <components.NoOptionsMessage {...props}>
         <span className="custom-css-class">Chargement ....</span>
@@ -422,21 +430,21 @@ const ExamenForm = ({
       ...provided,
       backgroundColor: state.isSelected ? "white" : "white",
       color: "rgb(93, 154, 212)",
-      fontSize: 20
+      fontSize: 20,
     }),
     singleValue: (provided) => ({
       ...provided,
       color: "rgb(93, 154, 212)",
-      fontSize: 20
+      fontSize: 20,
     }),
     defaultInputValue: (defaultStyles) => {
       return {
         ...defaultStyles,
-        color: 'red',
-        fontSize: 17
-      }
-    }
-  }
+        color: "red",
+        fontSize: 17,
+      };
+    },
+  };
 
   return (
     <>
@@ -452,10 +460,11 @@ const ExamenForm = ({
               </EuiFlexItem>
               {isModelGroup ? (
                 <EuiFlexItem grow={3}>
-                  <p>Groupe:</p>
+                  <p style={styles.text}>Groupe:</p>
                   <EuiSpacer size="s" />
-                  <p style={styles.input}>{`Groupe ${parseInt(activeGroup.slice(6)) + 1
-                    }`}</p>
+                  <p style={styles.input}>{`Groupe ${
+                    parseInt(activeGroup.slice(6)) + 1
+                  }`}</p>
                 </EuiFlexItem>
               ) : null}
             </EuiFlexGroup>
@@ -504,7 +513,7 @@ const ExamenForm = ({
                       }, 1000);
                     })
                   }
-                  loadingMessage={() => 'Chargement...'}
+                  loadingMessage={() => "Chargement..."}
                   components={{
                     IndicatorSeparator: () => null,
                     NoOptionsMessage,
@@ -518,7 +527,7 @@ const ExamenForm = ({
                 <AsyncSelect
                   placeholder=""
                   styles={customStyles}
-                  loadingMessage={() => 'Chargement...'}
+                  loadingMessage={() => "Chargement..."}
                   defaultOptions={listMotif}
                   isClearable
                   onChange={onChangeMotif}
@@ -546,7 +555,7 @@ const ExamenForm = ({
                   placeholder="Rendez-vous le plus rapide"
                   styles={customStyles}
                   defaultInputValue={"Rendez-vous le plus rapide"}
-                  loadingMessage={() => 'Chargement...'}
+                  loadingMessage={() => "Chargement..."}
                   defaultOptions={listPraticien}
                   isClearable
                   onChange={onChangePraticien}
@@ -571,7 +580,7 @@ const ExamenForm = ({
                   placeholder=""
                   styles={customStyles}
                   defaultOptions={listLieu}
-                  loadingMessage={() => 'Chargement...'}
+                  loadingMessage={() => "Chargement..."}
                   isClearable
                   onChange={onChangeLieu}
                   loadOptions={(inputValue) =>

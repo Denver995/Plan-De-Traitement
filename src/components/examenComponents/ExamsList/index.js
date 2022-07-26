@@ -35,7 +35,6 @@ import ExamItem from "../ExamItem";
 import styles from "./styles";
 import { useDimension } from "../../../hooks/dimensions";
 
-
 const ExamsList = ({
   exams,
   onAdd,
@@ -46,6 +45,7 @@ const ExamsList = ({
   onPrevious,
   predecessor,
   actualNonGroupeIndex,
+  setPredecessor,
 }) => {
   const innerWidth = { useDimension };
   const espacementNonGroupe = useSelector(
@@ -224,11 +224,14 @@ const ExamsList = ({
                                 index={index}
                                 id_modele={item.id_modele}
                                 loadingScreen={loadingScreen}
+                                setPredecessor={setPredecessor}
                               />
                               <EuiSpacer size="xs" />
                               {index !== examsList.length - 1 && (
                                 <span
-                                style={{marginLeft: innerWidth < 520 ? -78 : ""}}
+                                  style={{
+                                    marginLeft: innerWidth < 520 ? -78 : "",
+                                  }}
                                   onClick={() => {
                                     setShowInterExam(true);
                                     dispatch(
@@ -345,7 +348,7 @@ const ExamsList = ({
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  onAdd("EXAMENFORM", "EXAMSLIST");
+                  onAdd("EXAMENFORM", typeScreen.examList);
                 }}
                 style={styles.plusBtn}
               >
@@ -357,8 +360,7 @@ const ExamsList = ({
             <EuiSpacer size="xxl" />
             <EuiSpacer size="xxl" />
           </div>
-          <div style={{...styles.terminer, bottom: innerWidth < 768 ?? 100 }}>
-
+          <div style={{ ...styles.terminer, bottom: innerWidth < 768 ?? 100 }}>
             <EuiFlexGroup
               className="btn_group"
               style={{
@@ -395,8 +397,7 @@ const ExamsList = ({
             </EuiFlexGroup>
           </div>
         </ModalWrapper>
-  )
-}
+      )}
     </>
   );
 };

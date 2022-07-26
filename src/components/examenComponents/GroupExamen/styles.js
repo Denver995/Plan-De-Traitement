@@ -14,7 +14,14 @@ const styles = {
     borderColor: colors.darkBlue,
     borderRadius: 35,
     textDecoration: "none",
-    backgroundColor: colors.darkBlue
+    backgroundColor: colors.darkBlue,
+  },
+
+  loader: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "20px 0px 50px 0px",
   },
 };
 

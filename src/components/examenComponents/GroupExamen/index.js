@@ -1,5 +1,11 @@
-
-import { EuiButton, EuiButtonEmpty, EuiFlexGroup, EuiSpacer } from "@elastic/eui";
+import {
+  EuiButton,
+  EuiButtonEmpty,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiLoadingSpinner,
+  EuiSpacer,
+} from "@elastic/eui";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from "@mui/material/Box";
@@ -17,12 +23,12 @@ import {
   setShowExamForm,
   SetShowGroupeContentForUpdate,
   shareGroupExamPayload,
-  toggleFixGroupPosition
+  toggleFixGroupPosition,
 } from "../../../redux/examens/actions";
 import {
   addStep,
   deleteStep,
-  desactivateStep
+  desactivateStep,
 } from "../../../redux/steps/actions";
 import ModelGroupeService from "../../../services/modelGroupe";
 import ModelService from "../../../services/models";
@@ -56,7 +62,7 @@ const GroupItem = ({
   groupPayload,
   openGroup,
   reRender_,
-  showPeriodForm
+  showPeriodForm,
 }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
@@ -329,8 +335,8 @@ const GroupItem = ({
                                     </span>
                                   </button>
                                 </div>
-                                <EuiDragDropContext onDragEnd={onDragEnd}>
-                                  <EuiDroppable  droppableId="DROPPABLE_AREA_BARE">
+                                <EuiDragDropContext>
+                                  <EuiDroppable droppableId="exams">
                                     {(provided) => {
                                       return (
                                         <div
@@ -342,7 +348,10 @@ const GroupItem = ({
                                             groupKey
                                           )?.map((exam, i) => {
                                             return (
-                                              <EuiDraggable key={i} index={i} draggableId={"draggable"+i}
+                                              <EuiDraggable
+                                                key={"item-" + i}
+                                                draggableId={"draggable-" + i}
+                                                index={i}
                                               >
                                                 {(provided) => {
                                                   return (
@@ -700,12 +709,12 @@ const GroupExamenSummary = ({
   examsGrouped,
   espacement,
   openGroup,
-  showPeriodForm
+  showPeriodForm,
 }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
-  const modelData = useSelector(state => state.ModelsReducer.modelData);
-  const error = useSelector(state => state.CommonReducer.error);
+  const modelData = useSelector((state) => state.ModelsReducer.modelData);
+  const error = useSelector((state) => state.CommonReducer.error);
   const groupesWithData = useSelector(
     (state) => state.ExamenReducer.groupWithData
   );
@@ -713,7 +722,7 @@ const GroupExamenSummary = ({
   const previousStep = getStepByKey(steps, STEP2);
   const [reRender, setReRender] = useState(false);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [disable, setDisable] = useState(false)
+  const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -721,24 +730,25 @@ const GroupExamenSummary = ({
     setLoading(true);
     ModelService.updateModele(modelData.id, { complet: true })
       .then((response) => {
-        setLoading(false)
+        setLoading(false);
         dispatch(setError(null));
-
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
       });
     let nextStep = createStep(STEP3);
     nextStep.previousStep = previousStep;
     dispatch(desactivateStep(STEP2));
     dispatch(addStep(nextStep));
-    dispatch(SetShowGroupeContentForUpdate(-1))
-  }
+    dispatch(SetShowGroupeContentForUpdate(-1));
+  };
 
   const onClickNext = () => {
     handleUpdateModele();
@@ -827,6 +837,12 @@ const GroupExamenSummary = ({
         </DragDropContext>
       )}
 
+      {groupWithData["group 0"] === undefined && (
+        <div style={styles.loader}>
+          <EuiLoadingSpinner size="xxl" color={colors.primary} />
+        </div>
+      )}
+
       {!showForm && (
         <>
           <EuiFlexGroup
@@ -839,30 +855,46 @@ const GroupExamenSummary = ({
               justifyContent: disable ? "space-between" : "",
             }}
           >
-            {disable && <EuiButton
-              fill={true}
-              style={{ ...styles.addBtn }}
-              className="button_next_me"
-              onClick={onClickNext}
-            >{loading ?
-              <Box style={{ display: 'flex', alignItems: 'center' }}>
-                <CircularProgress style={{ marginRight: '5px', color: 'white', width: '25px', height: '25px' }} />
-                Enregistrer
-              </Box>
-              : <>Enregistrer</>
-              }
-            </EuiButton>}
+            {disable && (
+              <EuiButton
+                fill={true}
+                style={{
+                  ...styles.addBtn,
+                  visibility:
+                    groupWithData["group 0"] === undefined
+                      ? "hidden"
+                      : "visible",
+                }}
+                className="button_next_me"
+                onClick={onClickNext}
+              >
+                {loading ? (
+                  <Box style={{ display: "flex", alignItems: "center" }}>
+                    <CircularProgress
+                      style={{
+                        marginRight: "5px",
+                        color: "white",
+                        width: "25px",
+                        height: "25px",
+                      }}
+                    />
+                    Enregistrer
+                  </Box>
+                ) : (
+                  <>Enregistrer</>
+                )}
+              </EuiButton>
+            )}
             <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
               Retour
             </EuiButtonEmpty>
           </EuiFlexGroup>
         </>
       )}
-      <EuiSpacer size="xl" />
       {errorMessage && (
         <>
           <EuiSpacer size="xl" />
-          <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+          <p style={{ color: "red", textAlign: "center" }}>{error}</p>
         </>
       )}
     </ModalWrapper>
