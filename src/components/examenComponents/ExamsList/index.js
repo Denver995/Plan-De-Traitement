@@ -178,6 +178,7 @@ const ExamsList = ({
   useEffect(() => {
     setExamsList(exams);
   }, [exams]);
+  console.log(espacementNonGroupe)
   return (
     <>
       {showInterExam ? (

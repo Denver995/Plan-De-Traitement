@@ -134,8 +134,8 @@ const GroupItem = ({
   };
 
   useEffect(() => {
-    if (typeof openGroup === "object") {
-      for (let index = 0; index < openGroup.length; index++) {
+    if (typeof openGroup === "object" && openGroup) {
+      for (let index = 0; index < openGroup?.length; index++) {
         toggle(openGroup[index]);
       }
       // dispatch(setIsClose());
@@ -335,8 +335,8 @@ const GroupItem = ({
                                     </span>
                                   </button>
                                 </div>
-                                <EuiDragDropContext>
-                                  <EuiDroppable droppableId="exams">
+                                <EuiDragDropContext onDragEnd= {onDragEnd}>
+                                  <EuiDroppable droppableId="exams" style={{backgroundColor: "white"}}>
                                     {(provided) => {
                                       return (
                                         <div
