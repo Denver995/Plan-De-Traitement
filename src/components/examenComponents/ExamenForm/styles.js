@@ -3,7 +3,7 @@ import colors from "../../../utils/colors";
 const styles = {
   modal: {
     width: 1361,
-    minHeight: 566
+    minHeight: 566,
   },
 
   examForm: {
@@ -31,6 +31,7 @@ const styles = {
     marginBottom: "4px",
     letterSpacing: "0px",
     color: colors.blackClaire,
+    fontWeight: "bold",
   },
 
   selectLabel: {
