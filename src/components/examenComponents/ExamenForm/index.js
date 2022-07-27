@@ -393,10 +393,17 @@ const ExamenForm = ({
     defaultInputValue: (defaultStyles) => {
       return {
         ...defaultStyles,
-        color: "red",
-        fontSize: 17,
+        color: "rgb(93, 154, 212)",
+        fontSize: 20,
       };
     },
+  };
+  const NoOptionsMessage = props => {
+    return (
+      <components.NoOptionsMessage {...props}>
+        <span>Chargement...</span> 
+      </components.NoOptionsMessage>
+    );
   };
 
   return (
@@ -459,6 +466,12 @@ const ExamenForm = ({
                   defaultOptions={listSpecialite}
                   onChange={onChangeSpecialite}
                   value={specialite}
+                  components = {{
+                    IndicatorSeparator: () => null,
+                    ClearIndicator: () => null,
+                    LoadingIndicator: () => null,
+                    NoOptionsMessage
+                  }}
                   loadOptions={(inputValue) =>
                     new Promise((resolve) => {
                       setTimeout(() => {
@@ -480,6 +493,11 @@ const ExamenForm = ({
                   isClearable
                   onChange={onChangeMotif}
                   value={motif}
+                  components = {{
+                    IndicatorSeparator: () => null,
+                    ClearIndicator: () => null,
+                    LoadingIndicator: () => null
+                  }}
                   loadOptions={(inputValue) =>
                     new Promise((resolve) => {
                       setTimeout(() => {
@@ -498,10 +516,17 @@ const ExamenForm = ({
                 <AsyncSelect
                   placeholder=""
                   styles={customStyles}
+                  defaultInputValue={"Rendez-vous le plus rapide"}
                   loadingMessage={() => "Chargement..."}
                   defaultOptions={listPraticien}
                   isClearable
                   onChange={onChangePraticien}
+                  components = {{
+                    IndicatorSeparator: () => null,
+                    ClearIndicator: () => null,
+                    LoadingIndicator: () => null,
+                    NoOptionsMessage
+                  }}
                   loadOptions={(inputValue) =>
                     new Promise((resolve) => {
                       setTimeout(() => {
@@ -522,6 +547,11 @@ const ExamenForm = ({
                   loadingMessage={() => "Chargement..."}
                   isClearable
                   onChange={onChangeLieu}
+                  components = {{
+                    IndicatorSeparator: () => null,
+                    ClearIndicator: () => null,
+                    LoadingIndicator: () => null
+                  }}
                   loadOptions={(inputValue) =>
                     new Promise((resolve) => {
                       setTimeout(() => {

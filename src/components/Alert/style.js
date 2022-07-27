@@ -22,7 +22,7 @@ const styles = {
     fontSize: 22,
     fontWeight: "500",
     left: 0,
-    textAlign: "center",
+    textAlign: "left",
     
   },
 
@@ -71,7 +71,7 @@ const styles = {
     fontSize: x <= 500 ? 20 : 27,
     fontFamily: "Open Sans, Sans Serif",
     padding: x <= 500 ? "5px" : "",
-    height: "48px",
+    height: "59px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center"

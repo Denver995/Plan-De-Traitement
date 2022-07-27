@@ -58,6 +58,7 @@ const Alert = ({
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  
 
   useEffect(() => { }, [buttonText]);
 
@@ -335,6 +336,7 @@ const Alert = ({
 
   const submit = () => {
     if (onAccept) {
+      console.log('on passe la')
       onAccept();
       dispatch(setAlert({ showAlert: false, message: "" }));
       if (isConfirmation || alert.isConfirmation) {
@@ -347,10 +349,11 @@ const Alert = ({
     dispatch(setAlert({ showAlert: false, message: "" }));
     return;
   };
+ 
 
   return (
     <ModalWrapper
-      goBack={() => dispatch(setAlert({ showAlert: false, message: "" }))}
+      goBack={goBack}
       closeModal={closeModal}
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
@@ -371,9 +374,9 @@ const Alert = ({
           <div>
             <p
               style={{
-                ...styles.textContainer,
-                textAlign: innerWidth < 641 ? "left" : "",
-                left: innerWidth < 641 ? 0 : "",
+                ...styles.message,
+                marginRight: innerWidth < 768 ? "20%" : "",
+                font: "normal normal 600 22px/25px Open Sans",
               }}
             >
               Ce modèle va être enregistré sous le nom :
@@ -429,6 +432,7 @@ const Alert = ({
         <EuiButton
           style={{
             ...styles.btn,
+            height: innerWidth <= 500 ?? "59px",
             fontSize: 27,
             backgroundColor: colors.primary,
             borderColor: colors.primary,
