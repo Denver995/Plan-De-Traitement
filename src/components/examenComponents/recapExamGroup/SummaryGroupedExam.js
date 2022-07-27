@@ -98,7 +98,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
         </div>
         <div className="recap-nom-container">
           <p style={{ marginLeft: 25 }} className="x-text">
-            {modelData.nom}
+            {modelData.modelName}
           </p>
           <PencilIcon
             onClick={() => dispatch(setComponent("EDITMODEL"))}
