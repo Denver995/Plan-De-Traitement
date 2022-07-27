@@ -297,7 +297,9 @@ const Alert = ({
           }
         });
     }
-    onAccept();
+    dispatch(setShowExamForm(false));
+    dispatch(setAlert(false));
+    dispatch(CreateEspacementSubExam());
   };
 
   const handleCreate = () => {

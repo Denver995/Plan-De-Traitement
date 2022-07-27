@@ -27,10 +27,8 @@ const RecapExamItemV2 = ({
   groupKey,
   onFixePosition,
   group,
+  groupesWithData
 }) => {
-  const groupesWithData = useSelector(
-    (state) => state.ExamenReducer.groupWithData
-  );
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false)
   const [reRenderDel, setRerenderDel] = useState(false);
@@ -40,11 +38,62 @@ const RecapExamItemV2 = ({
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
+  const praticienData = useSelector(state => state.ExamenReducer?.praticienData);
+  const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
+  const lieuData = useSelector(state => state.ExamenReducer.lieuData);
+  const motifData = useSelector(state => state.ExamenReducer.motifData);
   useEffect(() => {
     setRerenderDel(true)
   }, [reRenderDel])
   useEffect(() => { }, [groupesWithData])
+  useEffect(() => {
+    handleGetSpecialitie();
+    handleGetPraticien();
+    handleGetLieu();
+    handleGetMotif();
+  }, [groupesWithData]);
 
+  const handleGetSpecialitie = (examen) => {
+    for (var i = 0; i < specialitieData.length; i++) {
+      let id;
+      id = examen?.id_profession
+      if (specialitieData[i]?.id == id) {
+        return specialitieData[i].libelle;
+      }
+    }
+  };
+  const handleGetPraticien = (examen) => {
+    if (praticienData && praticienData.length > 0)
+
+      for (var i = 0; i < praticienData.length; i++) {
+        let id;
+        id = examen?.id_praticien
+        if (praticienData[i]?.id_praticien == id) {
+          return praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien
+
+        }
+      }
+  };
+  const handleGetLieu = (examen) => {
+    for (var i = 0; i < lieuData.length; i++) {
+
+      let id;
+      id = examen?.id_lieu
+
+      if (lieuData[i].id_lieu == id) {
+        return lieuData[i].libelle_lieu
+      }
+    }
+  };
+  const handleGetMotif = (examen) => {
+    for (var i = 0; i < motifData.length; i++) {
+      let id;
+      id = examen?.id_motif
+      if (motifData[i]?.id_motif_rdv == id) {
+        return motifData[i].libelle_motif_rdv
+      }
+    }
+  };
   const onDragEnd = ({ source, destination }) => {
 
   };
@@ -141,7 +190,7 @@ const RecapExamItemV2 = ({
                           <div key={index}>
                             <div
                               style={{
-                                backgroundColor: exam.color,
+                                backgroundColor: exam.color_type_rdv,
                                 padding: 5,
                                 marginBottom: data.length - 1 !== index ? 1 : 0,
                                 boxShadow: "0px 3px 6px #00000029",
@@ -160,8 +209,9 @@ const RecapExamItemV2 = ({
                                 >
                                   <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
                                     <strong>
-                                      {exam.id_profession ? exam.id_profession : "Spécialité"} -{" "}
-                                      {exam.id_modif ? exam.id_modif : "exam.id_modif"}
+                                      {exam.id_profession && handleGetSpecialitie(exam)}
+                                      {exam.id_modif && (<>
+                                        -{" "} {handleGetMotif(exam)}</>)}
                                     </strong>
                                   </h4>
                                   {exam.positionFixed && <PinIcon width={7} height={11} />}
@@ -169,14 +219,19 @@ const RecapExamItemV2 = ({
                               </div>
                               <div>
                                 <div className="praticien">
-                                  <EuiIcon type="user" id="icon" />
-                                  <h4 className="prc">
-                                    {exam.id_praticien ? exam.id_praticien : "id_praticien"}
-                                  </h4>
-                                  <EuiIcon type="visMapCoordinate" id="icon" />
-                                  <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
-                                    {exam.id_lieu}
-                                  </h4>
+                                  {exam.id_praticien && (<>
+
+                                    <EuiIcon type="user" id="icon" />
+                                    <h4 className="prc">
+                                      {handleGetPraticien(exam)}
+                                    </h4>
+                                  </>)}
+                                  {exam.id_lieu && (<>
+                                    <EuiIcon type="visMapCoordinate" id="icon" />
+                                    <h4 style={{ fontSize: 13, color: colors.primarySombre }}>
+                                      {handleGetLieu(exam)}
+                                    </h4>
+                                  </>)}
                                 </div>
                               </div>
                             </div>

@@ -86,7 +86,7 @@ const ExamenForm = ({
   const examsListGroup = useSelector(
     (state) => state.ExamenReducer.examsListGroup
   );
-  const [fixedExamPosition, setFixedExamPosition] = useState(examData?.fixe ? examData.fixe : true);
+  const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [showEditForm, setShowEditForm] = useState(
     mustBeEditable ? true : formType === typeScreen.examFormEdit
   );
@@ -160,7 +160,7 @@ const ExamenForm = ({
             //   addExamOnAllGroups({ index: activeGroup, exam: examsListGroup })
             // );
             dispatch(setShowExamForm(false));
-            // dispatch(setAlert(false));
+            dispatch(setAlert(false));
             // dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
@@ -285,6 +285,7 @@ const ExamenForm = ({
     if (formType != typeScreen.examFormEdit)
       examData = undefined
 
+    setFixedExamPosition(examData ? examData.fixe : false)
     SpecialiteService.getListeSpecialite()
       .then((res) => {
         dispatch(shareSpecialitieData(res.data));
