@@ -59,7 +59,7 @@ const Alert = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
-  useEffect(() => {}, [buttonText]);
+  useEffect(() => { }, [buttonText]);
 
   const handleGetExamenGroup = () => {
     examenService
@@ -67,7 +67,7 @@ const Alert = ({
       .then((response) => {
         dispatch(shareListExamGroup(response.data.data));
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const handleUpdateModele = () => {
@@ -279,6 +279,7 @@ const Alert = ({
           position: 1,
         })
         .then((response) => {
+
           setLoading(false);
           setErrorMessage(false);
           dispatch(setError(null));

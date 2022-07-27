@@ -8,7 +8,7 @@ import {
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { default as React, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
   setComponent,
   setError,
@@ -30,6 +30,7 @@ import {
 import examenLieService from "../services/examensLie";
 import GroupeLieService from "../services/groupeLie";
 import { typeScreen } from "../utils/constants";
+import examenService from "../services/examens";
 
 const Propover = ({
   isModelGroup,
@@ -58,6 +59,7 @@ const Propover = ({
   examOnGroup,
   predecessor,
   setPredecessor,
+  modelData
 }) => {
   const dispatch = useDispatch();
   const [isPopoverOpen, setPopover] = useState(false);
@@ -70,13 +72,46 @@ const Propover = ({
   const groupesWithData = useSelector(
     (state) => state.ExamenReducer.groupWithData
   );
-  const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
-  const exams = useSelector((state) => state.ExamenReducer.exams);
+
+  const getAllExams = () => {
+    if (isModelGroup)
+      examenService
+        .getExamenByIds(modelData.id, idGroup)
+        .then((response) => {
+          setExams(response.data.data);
+        })
+        .catch((error) => {
+          if (error.message === "Network Error") {
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
+          } else {
+            dispatch(setError("Une erreur est survenue"));
+          }
+        });
+    else
+      examenService
+        .getExamenByModelId(modelData.id)
+        .then((response) => {
+          setExams(response.data.data);
+        })
+        .catch((error) => {
+          if (error.message === "Network Error") {
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
+          } else {
+            dispatch(setError("Une erreur est survenue"));
+          }
+        });
+  };
+
+  const [exams, setExams] = useState([]);
   const groupPayload = useSelector((state) => state.ExamenReducer.groupPayload);
-  const espacementSubExam = useSelector(
-    (state) => state.ExamenReducer.espacementSubExam
-  );
-  const handleClick = () => setIsOpen(!isOpen);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen)
+  };
   const handleClose = () => setIsOpen(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
@@ -150,17 +185,38 @@ const Propover = ({
       );
       togglePropover();
     } else {
+      examenService
+        .updateExamen(exam.id_examen, {
+          id_modele: parseInt(modelData.id),
+          id_praticien: exam.id_praticien,
+          id_lieu: exam.id_lieu,
+          id_motif: exam.id_motif,
+          id_profession: exam.id_profession,
+          fixe: exam.fixe ? 1 : 0,
+          position: exam.position ? exam.position : 1,
+        })
+        .catch((error) => {
+          setErrorMessage(true);
+          if (error.message === "Network Error") {
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
+          } else {
+            dispatch(setError("Une erreur est survenue"));
+          }
+        });
       dispatch(
         toggleFixExamPosition({
           selectedExam: examId,
           isExamGroup: false,
         })
       );
+
       togglePropover();
 
       try {
         onFixePosition();
-      } catch (err) {}
+      } catch (err) { }
     }
   };
 
@@ -168,10 +224,9 @@ const Propover = ({
     loadingScreen(l);
   };
 
-  const handleBindExamen = (data, examid, index) => {
+  const handleBindExamen = (data, examid) => {
     setErrorMessage(false);
     setLoadingg(true);
-    load(true);
     examenLieService
       .createExamenLie(data)
       .then((response) => {
@@ -181,12 +236,10 @@ const Propover = ({
         setErrorMessage(false);
         dispatch(setError(null));
         setLoadingg(false);
-        load(false);
       })
       .catch((error) => {
         setLoadingg(false);
         setErrorMessage(true);
-        load(false);
         if (error.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
@@ -198,15 +251,14 @@ const Propover = ({
   };
 
   const handleCreateExamenLie = (index, examId) => {
-    for (let i = 0; i < getAllExams.length; i++) {
+    for (let i = 0; i < exams.length; i++) {
       if (index === i) {
         handleBindExamen(
           {
             id_examen_parent: examId,
-            id_examen_enfant: getAllExams[i].id_examen,
+            id_examen_enfant: exams[i].id_examen,
           },
-          examId,
-          index
+          examId
         );
         return;
       }
@@ -217,6 +269,7 @@ const Propover = ({
     setErrorMessage(false);
     setLoadingg(true);
     load(true);
+
     GroupeLieService.createGroupeLie(data)
       .then((response) => {
         setErrorMessage(false);
@@ -244,11 +297,14 @@ const Propover = ({
           id_groupe_parent: idGroup,
           id_groupe_enfant: groupPayload[i].id_modele_groupe,
         });
-        return;
       }
     }
   };
-  useEffect(() => {}, [groupesWithData]);
+  useEffect(() => { }, [groupesWithData]);
+
+  useEffect(() => {
+    getAllExams()
+  }, [])
 
   const button = (
     <div
@@ -288,7 +344,7 @@ const Propover = ({
           {isOnGroupe ? (
             <EuiListGroupItem
               onClick={() => {
-                dispatch(setShowPeriodForm(true));
+                dispatch(setShowPeriodForm({ data: groupesWithData[groupKey]?.payload, status: true }));
               }}
               label="Modifier la période de recherche"
             />
@@ -296,16 +352,19 @@ const Propover = ({
             <EuiListGroupItem onClick={onEdit} label="Modifier" />
           )}
           <EuiListGroupItem
-            onClick={() => {}}
+            onClick={() => { }}
             label="Dupliquer"
           />
           <EuiListGroupItem onClick={onDelete} label="Supprimer" />
           <EuiListGroupItem
             onClick={onFixPosition}
             label={
-              groupesWithData[groupKey]?.positionFixed
-                ? "Defixer la position"
-                : "Fixer position"
+              isModelGroup ?
+                groupesWithData[groupKey]?.positionFixed
+                  ? "Defixer la position"
+                  : "Fixer position" :
+                exam?.fixe ? "Defixer la position"
+                  : "Fixer position"
             }
           />
           <EuiPopover
@@ -329,50 +388,42 @@ const Propover = ({
             <EuiListGroup>
               {groupesWithData && (isModelGroup || isModelGroup === 0)
                 ? Object.keys(groupesWithData).length > 0 &&
-                  Object.keys(groupesWithData).map((key, i) => {
+                Object.keys(groupesWithData).map((key, i) => {
+                  return (
+                    idGroup != groupesWithData[key]?.payload.id_modele_groupe && (
+                      <EuiListGroupItem
+                        key={i}
+                        onClick={() => {
+                          let child = "group " + i;
+
+                          // dispatch(linkToGroup({ key, child }));
+                          try {
+                            handleCreateGroupeLie(i);
+                          } catch (err) { }
+                          handleClose();
+                          togglePropover();
+                        }}
+                        label={`Groupe ${i + 1}`}
+                      />
+                    )
+                  );
+                })
+                : exams.map(
+                  (exam, i) => {
                     return (
-                      groupKey !== "group " + i && (
+                      (isModelGroup ? examId !== exam[i]?.id_examen : examId !== exam?.id_examen) && (
                         <EuiListGroupItem
                           key={i}
                           onClick={() => {
-                            let child = "group " + i;
-                            dispatch(linkToGroup({ groupKey, child }));
-                            try {
-                              handleCreateGroupeLie(i);
-                            } catch (err) {}
-                            handleClose();
-                            togglePropover();
+                            handleCreateExamenLie(i, examId);
                           }}
-                          label={`Groupe ${i + 1}`}
+                          label={`Examen ${i + 1}`}
                         />
                       )
-                    );
-                  })
-                : exams.map(
-                    //   (exam, i) =>
-                    //     examId !== i && (
-                    //       <EuiListGroupItem
-                    //         key={i}
-                    //         onClick={() => handleCreateExamenLie(i)}
-                    //         label={`Exame ${i + 1}`}
-                    //       />
-                    //     )
 
-                    // )}
-                    (exam, i) => {
-                      return (
-                        examId !== exam[i]?.id_examen && (
-                          <EuiListGroupItem
-                            key={i}
-                            onClick={() => {
-                              handleCreateExamenLie(i, examId);
-                            }}
-                            label={`Examen ${i + 1}`}
-                          />
-                        )
-                      );
-                    }
-                  )}
+                    );
+                  }
+                )}
             </EuiListGroup>
           </EuiPopover>
         </EuiListGroup>
@@ -381,4 +432,9 @@ const Propover = ({
   );
 };
 
-export default Propover;
+const mapStateToProps = ({ ModelsReducer }) => ({
+  modelData: ModelsReducer.modelData
+});
+export default connect(mapStateToProps)(Propover);
+
+// export default Propover;

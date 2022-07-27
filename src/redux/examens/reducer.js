@@ -42,11 +42,6 @@ function ExamenReducer(state = INITIAL_STATE, action) {
   let groupDetail;
   let examDetail;
   switch (action.type) {
-    case types.CREATE_EXAMEN_REQUEST:
-      return {
-        ...state,
-        creating: true,
-      };
     case types.CREATE_EXAMEN_SUCCESS:
       return {
         ...state,
@@ -75,7 +70,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.EDIT_EXAM_GROUP:
       return {
         ...state,
-        examGroupedToEdite : action.examData
+        examGroupedToEdite: action.examData
       };
     case types.SHOW_EXAM_FORM:
       return {
@@ -231,10 +226,10 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       }
 
     case types.SHARE_EXAM_DATA:
-    return{
-      ...state,
-      examp: action.payload,
-    }
+      return {
+        ...state,
+        examp: action.payload,
+      }
 
 
     case types.SHARE_GROUP_PAYLOAD:
@@ -547,7 +542,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       };
 
     case types.LINK_TO_GROUPE:
-      let groupKeyParent = action.data.idGroupe;
+      let groupKeyParent = action.data?.idGroupe;
       let groupKeyChild = action.data.child;
       let espacementSub = state.espacementSubExam;
       let allGroupes_ = state.groupWithData;

@@ -8,7 +8,7 @@ import {
   EuiHorizontalRule,
   EuiLoadingSpinner,
   EuiSpacer,
-  useGeneratedHtmlId,
+  useGeneratedHtmlId
 } from "@elastic/eui";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -23,27 +23,20 @@ import {
   setAlert,
   setComponent,
   setError,
-  startLoading,
+  startLoading
 } from "../../../redux/commons/actions";
 import {
   addExam,
   addExamGrouped,
   addExamOnAllGroups,
-  CreateEspacementSubExam,
-  createExamen as createExamenAction,
-  examPayload,
-  mostBeEditable,
-  setShowExamForm,
-  shareAllExams,
-  shareSpecialitieData,
-  sharePraticienData,
-  shareLieu,
-  shareMotif,
+  CreateEspacementSubExam, mostBeEditable,
+  setShowExamForm, shareLieu,
+  shareMotif, sharePraticienData, shareSpecialitieData
 } from "../../../redux/examens/actions";
 import {
   addStep,
   // deleteStep,
-  desactivateStep,
+  desactivateStep
 } from "../../../redux/steps/actions";
 import examenService from "../../../services/examens";
 import LieuxService from "../../../services/lieux";
@@ -70,6 +63,7 @@ const ExamenForm = ({
   handleGetExamByGroupIndex,
   predecessor,
   groupWithData,
+  examData
 }) => {
   const dispatch = useDispatch();
   const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -92,8 +86,7 @@ const ExamenForm = ({
   const examsListGroup = useSelector(
     (state) => state.ExamenReducer.examsListGroup
   );
-  const [fixedExamPosition, setFixedExamPosition] = useState(false);
-  const [listExam, setListExam] = useState([]);
+  const [fixedExamPosition, setFixedExamPosition] = useState(examData?.fixe ? examData.fixe : true);
   const [showEditForm, setShowEditForm] = useState(
     mustBeEditable ? true : formType === typeScreen.examFormEdit
   );
@@ -117,54 +110,21 @@ const ExamenForm = ({
     setFixedExamPosition(!fixedExamPosition);
   };
 
-  const onChangeSpecialite = (e) => setSpecialite(e ? e.value : "");
+  const onChangeSpecialite = (e) => { setSpecialite(e ? e : "") };
 
-  const onChangeMotif = (e) => setMotif(e ? e.value : "");
+  const onChangeMotif = (e) => setMotif(e ? e : "");
 
-  const onChangePraticien = (e) => setPraticien(e ? e.value : "");
+  const onChangePraticien = (e) => setPraticien(e ? e : "");
 
-  const onChangeLieu = (e) => setLieu(e ? e.value : "");
-
-  const onClickNext = (isGroup = false) => {
-    if (!isGroup) {
-      let nextStep = createStep(STEP3);
-      nextStep.previousStep = previousStep;
-      dispatch(startLoading());
-      dispatch(desactivateStep(STEP2));
-      dispatch(addStep(nextStep));
-    }
-  };
-
-  const handleGetExams = () => {
-    setLoading(true);
-    examenService
-      .getExamenByModelId(modelData.id)
-      .then((response) => {
-        setLoading(false);
-        dispatch(shareAllExams(response.data.data));
-        onAddExam({ name: "EXAMSLIST" });
-        dispatch(addExam({ exam: response.data.data }));
-        dispatch(createExamenAction(response.data.data));
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (error.message === "Network Error") {
-          dispatch(
-            setError("Erreur de connexion, Vérifiez votre connexion internet")
-          );
-        } else {
-          dispatch(setError("Une erreur est survenue"));
-        }
-      });
-  };
+  const onChangeLieu = (e) => setLieu(e ? e : "");
 
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const userInfo = {
-    id_praticien: praticien,
-    id_lieu: lieu,
-    id_motif: motif,
-    id_profession: specialite,
-    fixedPosition: fixedExamPosition,
+    id_praticien: praticien?.value,
+    id_lieu: lieu?.value,
+    id_motif: motif?.value,
+    id_profession: specialite?.value,
+    fixedPosition: fixedExamPosition ? 1 : 0,
     typeAl: "examens",
   };
   const alertMessage =
@@ -174,15 +134,14 @@ const ExamenForm = ({
     const payload = {
       id_modele: parseInt(modelData.id),
       id_modele_groupe: groupExamPayload.idGroup,
-      id_praticien: praticien,
-      id_lieu: lieu,
-      id_motif: motif,
-      id_profession: specialite,
+      id_praticien: praticien?.value,
+      id_lieu: lieu?.value,
+      id_motif: motif?.value,
+      id_profession: specialite?.value,
       fixe: fixedExamPosition ? 1 : 0,
-      positionFixed: fixedExamPosition,
+      // positionFixed: fixedExamPosition,
       position: 1,
     };
-    dispatch(examPayload(payload));
     if (isModelGroup) {
       payload.id_group = activeGroup;
       dispatch(
@@ -195,14 +154,14 @@ const ExamenForm = ({
           userIn: userInfo,
           typeAlert: "examens",
           onAccept: () => {
-            examsListGroup.allGroup = true;
-            dispatch(addExam({ index: activeGroup, exam: examsListGroup }));
-            dispatch(
-              addExamOnAllGroups({ index: activeGroup, exam: examsListGroup })
-            );
+            // examsListGroup.allGroup = true;
+            // dispatch(addExam({ index: activeGroup, exam: examsListGroup }));
+            // dispatch(
+            //   addExamOnAllGroups({ index: activeGroup, exam: examsListGroup })
+            // );
             dispatch(setShowExamForm(false));
-            dispatch(setAlert(false));
-            dispatch(CreateEspacementSubExam());
+            // dispatch(setAlert(false));
+            // dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
             examsListGroup.allGroup = false;
@@ -217,23 +176,12 @@ const ExamenForm = ({
         })
       );
     } else {
-      listExam.push(listExam.length++);
-      setListExam(listExam);
       setLoading(true);
       setErrorMessage(false);
       examenService
-        .createExamen({
-          id_modele: parseInt(modelData.id),
-          id_praticien: praticien,
-          id_lieu: lieu,
-          id_motif: motif,
-          id_profession: specialite,
-          fixe: fixedExamPosition ? 1 : 0,
-          positionFixed: fixedExamPosition,
-          position: 1,
-        })
+        .createExamen(payload)
         .then((response) => {
-          handleGetExams();
+          onAddExam({ name: "EXAMSLIST" });
         })
         .catch((error) => {
           setLoading(false);
@@ -256,26 +204,30 @@ const ExamenForm = ({
     setSpecialite(resetFormData ? "" : exam?.id_profession);
   };
 
-  const handleUpdateExams = () => {
+  const onEditExamen = () => {
     setLoading(true);
     setErrorMessage(false);
     let idGroup = 0;
     if (groupExamPayload && groupExamPayload.idGroup) {
       idGroup = groupExamPayload.idGroup;
     }
+
+    let id_pra;
+    if (praticien == "" || !praticien)
+      id_pra = "0"
+    if (praticien && praticien.length > 0)
+      id_pra = praticien[0]?.value
+
     examenService
-      .updateExamen(examenSelected.id, {
+      .updateExamen(examData.id_examen, {
         id_modele: parseInt(modelData.id),
-        id_praticien: examenSelected.id_praticien
-          ? examenSelected.id_praticien
-          : praticien,
-        id_lieu: examenSelected.id_lieu ? examenSelected.id_lieu : lieu,
-        id_motif: examenSelected.id_motif ? examenSelected.id_motif : motif,
-        id_profession: specialite,
+        id_praticien: praticien?.value ? parseInt(praticien.value) : parseInt(id_pra),
+        id_lieu: lieu?.value ? lieu.value : parseInt(lieu[0]?.value),
+        id_motif: motif?.value ? parseInt(motif.value) : parseInt(motif[0]?.value),
+        id_profession: specialite?.value ? parseInt(specialite.value) : parseInt(specialite[0]?.value),
         id_modele_groupe: idGroup,
-        fixe: fixedExamPosition ? 1 : 0 ? 1 : 0,
-        positionFixed: fixedExamPosition,
-        position: examenSelected.position ? examenSelected.position : 1,
+        fixe: fixedExamPosition ? 1 : 0,
+        position: examData.position ? examData.position : 1,
       })
       .catch((error) => {
         setLoading(false);
@@ -290,23 +242,10 @@ const ExamenForm = ({
       });
   };
 
-  const onEditExamen = () => {
-    if (mustBeEditable) {
-      onCancel();
-    } else {
-      handleUpdateExams();
-    }
-    return;
-  };
-
   const onCancel = () => {
     dispatch(mostBeEditable(false));
     if (isModelGroup) {
-      if (formType === typeScreen.examFormEdit) {
-        dispatch(setComponent(typeScreen.examList));
-        return;
-      }
-      if (predecessor === typeScreen.examList) {
+      if (predecessor === typeScreen.examList || formType === typeScreen.examFormEdit) {
         dispatch(setComponent(typeScreen.examList));
         return;
       }
@@ -338,9 +277,14 @@ const ExamenForm = ({
       }
       onPrevious && onPrevious();
     }
+
   };
 
   useEffect(() => {
+
+    if (formType != typeScreen.examFormEdit)
+      examData = undefined
+
     SpecialiteService.getListeSpecialite()
       .then((res) => {
         dispatch(shareSpecialitieData(res.data));
@@ -349,8 +293,12 @@ const ExamenForm = ({
           data.push({ value: element.id, label: element.libelle });
         });
         setListSpecialite(data);
+        if (examData?.id_profession) {
+          data = data.filter((item) => item.value == examData?.id_profession)
+          setSpecialite(data)
+        }
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     LieuxService.getListeLieux()
       .then((res) => {
@@ -360,8 +308,12 @@ const ExamenForm = ({
           data.push({ value: element.id_lieu, label: element.libelle_lieu });
         });
         setListLieu(data);
+        if (examData?.id_lieu) {
+          data = data.filter((item) => item.value == examData?.id_lieu)
+          setLieu(data)
+        }
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     MotifsService.getListeMotif()
       .then((res) => {
@@ -374,8 +326,12 @@ const ExamenForm = ({
           });
         });
         setListMotif(data);
+        if (examData?.id_motif) {
+          data = data.filter((item) => item.value == examData?.id_motif)
+          setMotif(data)
+        }
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     PraticiensService.getListePraticien()
       .then((res) => {
@@ -388,8 +344,12 @@ const ExamenForm = ({
           });
         });
         setListPraticien(data);
+        if (examData?.id_praticien) {
+          data = data.filter((item) => item.value == examData?.id_praticien)
+          setPraticien(data)
+        }
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, []);
 
   useEffect(() => {
@@ -411,18 +371,10 @@ const ExamenForm = ({
     examGroupedToEdite,
   ]);
 
-  useEffect(() => {}, [groupSelected, examsGrouped]);
+  useEffect(() => { }, [groupSelected, examsGrouped]);
   const filterData = (inputValue, dataToMap) => {
     return dataToMap.filter((i) =>
       i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
-
-  const NoOptionsMessage = (props) => {
-    return (
-      <components.NoOptionsMessage {...props}>
-        <span className="custom-css-class">Chargement ....</span>
-      </components.NoOptionsMessage>
     );
   };
 
@@ -463,9 +415,8 @@ const ExamenForm = ({
                 <EuiFlexItem grow={3}>
                   <p style={styles.text}>Groupe:</p>
                   <EuiSpacer size="s" />
-                  <p style={styles.input}>{`Groupe ${
-                    parseInt(activeGroup.slice(6)) + 1
-                  }`}</p>
+                  <p style={styles.input}>{`Groupe ${parseInt(activeGroup.slice(6)) + 1
+                    }`}</p>
                 </EuiFlexItem>
               ) : null}
             </EuiFlexGroup>
@@ -473,7 +424,7 @@ const ExamenForm = ({
               <EuiHorizontalRule className="horizontalRule" />
             </EuiFlexGroup>
           </div>
-          {isModelGroup && !mustBeEditable ? (
+          {isModelGroup && !mustBeEditable && showEditForm ? (
             <div style={{ marginTop: 28, marginBottom: 28 }}>
               {handleGetExamByGroupIndex(groupWithData, activeGroup).map(
                 (item, index) => (
@@ -507,6 +458,7 @@ const ExamenForm = ({
                   isClearable
                   defaultOptions={listSpecialite}
                   onChange={onChangeSpecialite}
+                  value={specialite}
                   loadOptions={(inputValue) =>
                     new Promise((resolve) => {
                       setTimeout(() => {
@@ -515,11 +467,6 @@ const ExamenForm = ({
                     })
                   }
                   loadingMessage={() => "Chargement..."}
-                  components={{
-                    IndicatorSeparator: () => null,
-                    NoOptionsMessage,
-                    ClearIndicator: () => null,
-                  }}
                 />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
@@ -532,6 +479,7 @@ const ExamenForm = ({
                   defaultOptions={listMotif}
                   isClearable
                   onChange={onChangeMotif}
+                  value={motif}
                   loadOptions={(inputValue) =>
                     new Promise((resolve) => {
                       setTimeout(() => {
@@ -539,11 +487,6 @@ const ExamenForm = ({
                       }, 1000);
                     })
                   }
-                  components={{
-                    IndicatorSeparator: () => null,
-                    NoOptionsMessage,
-                    ClearIndicator: () => null,
-                  }}
                 />
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -555,7 +498,6 @@ const ExamenForm = ({
                 <AsyncSelect
                   placeholder=""
                   styles={customStyles}
-                  defaultInputValue={"Rendez-vous le plus rapide"}
                   loadingMessage={() => "Chargement..."}
                   defaultOptions={listPraticien}
                   isClearable
@@ -567,11 +509,7 @@ const ExamenForm = ({
                       }, 1000);
                     })
                   }
-                  components={{
-                    IndicatorSeparator: () => null,
-                    NoOptionsMessage,
-                    ClearIndicator: () => null,
-                  }}
+                  value={praticien}
                 />
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
@@ -591,11 +529,7 @@ const ExamenForm = ({
                       }, 1000);
                     })
                   }
-                  components={{
-                    IndicatorSeparator: () => null,
-                    NoOptionsMessage,
-                    ClearIndicator: () => null,
-                  }}
+                  value={lieu}
                 />
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -683,7 +617,7 @@ const ExamenForm = ({
                       : { ...styles.addBtn, width: (allExams?.length > 0 && !isModelGroup) ? "179px" : "210px" }
 
                   }
-                  disabled={motif === "" || lieu === "" || specialite === ""}
+                  disabled={motif === "" || lieu === "" || specialite === "" || loading}
                 >
                   {loading ? (
                     <EuiLoadingSpinner
@@ -723,5 +657,6 @@ const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   activeGroup: ExamenReducer.activeGroup,
   modelData: ModelsReducer.modelData,
   groupWithData: ExamenReducer.groupWithData,
+  examData: ExamenReducer.examen?.examData,
 });
 export default connect(mapStateToProps)(ExamenForm);

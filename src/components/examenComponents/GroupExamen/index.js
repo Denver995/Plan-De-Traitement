@@ -1,16 +1,15 @@
 import {
   EuiButton,
-  EuiButtonEmpty,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiLoadingSpinner,
-  EuiSpacer,
+  EuiButtonEmpty, EuiDragDropContext,
+  EuiDraggable,
+  EuiDroppable, EuiFlexGroup, EuiLoadingSpinner,
+  EuiSpacer
 } from "@elastic/eui";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { setError } from "../../../redux/commons/actions";
@@ -23,12 +22,12 @@ import {
   setShowExamForm,
   SetShowGroupeContentForUpdate,
   shareGroupExamPayload,
-  toggleFixGroupPosition,
+  toggleFixGroupPosition
 } from "../../../redux/examens/actions";
 import {
   addStep,
   deleteStep,
-  desactivateStep,
+  desactivateStep
 } from "../../../redux/steps/actions";
 import ModelGroupeService from "../../../services/modelGroupe";
 import ModelService from "../../../services/models";
@@ -42,13 +41,6 @@ import Propover from "../../Propover";
 import ExamenForm from "../ExamenForm";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
-import React from 'react';
-import {
-  EuiDragDropContext,
-  EuiDraggable,
-  EuiDroppable,
-  htmlIdGenerator,
-} from '@elastic/eui';
 
 const getExamByGroupIndex = (group, groupKey) => {
   const result = Object.keys(group).length > 0 ? group[groupKey]?.exams : [];
@@ -148,8 +140,6 @@ const GroupItem = ({
     }
   }, [openGroup]);
 
-  const onDragEnd = ({ source, destination }) => {
-  };
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
@@ -166,7 +156,7 @@ const GroupItem = ({
           initialId={initialGroupId}
         />
       ) :
-        showPeriodForm ? (
+        showPeriodForm?.status ? (
           <PeriodeRechercheForm />
         ) : (
           <div style={styles.container} className="contain">
@@ -236,15 +226,6 @@ const GroupItem = ({
                                       data: groupWithData,
                                     }}
                                     onEditItem={() => {
-                                      // dispatch(
-                                      //   setComponent({
-                                      //     name: "RECAPITULATIF",
-                                      //     data: {
-                                      //       groupKey: groupKey,
-                                      //       data: groupWithData,
-                                      //     },
-                                      //   })
-                                      // );
                                     }}
                                     onFixePosition={() => {
                                       dispatch(
@@ -335,7 +316,7 @@ const GroupItem = ({
                                     </span>
                                   </button>
                                 </div>
-                                <EuiDragDropContext onDragEnd={onDragEnd}>
+                                <EuiDragDropContext>
                                   <EuiDroppable droppableId="exams" style={{ backgroundColor: "white" }}>
                                     {(provided) => {
                                       return (
@@ -827,7 +808,7 @@ const GroupExamenSummary = ({
                     espacement={espacement}
                     groupWithData={groupWithData}
                     openGroup={openGroup}
-                    showPeriodForm={showPeriodForm}
+                    showPeriodForm={showPeriodForm?.status}
                   />
                 ))}
                 {provided.placeholder}

@@ -23,11 +23,12 @@ import ExamCard from "../ExamCard";
 import SummaryGroupedExam from "../recapExamGroup/SummaryGroupedExam";
 import styles from "./styles";
 import { useDimension } from "../../../hooks/dimensions";
+import examenService from "../../../services/examens";
 
 const RecapitulatifDesExamens = ({
   closeModal,
   isModelGroup,
-  exams,
+  // exams,
   modelData,
   appointmentData,
   isEditing = false,
@@ -40,6 +41,7 @@ const RecapitulatifDesExamens = ({
   const previousStep = getStepByKey(steps, STEP3);
   const [loading, setLoading] = useState(false);
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
+  const [exams, setExams] = useState([])
   const alertMessage = `
     <EuiText style="float: left; font-size: 22px; color: #242729">
       Ce modèle va être enregistré sous le nom :
@@ -64,7 +66,21 @@ const RecapitulatifDesExamens = ({
   const loadingScreen = (show) => {
     setLoading(show);
   }
-  
+
+  useEffect(() => {
+    if (!isModelGroup) {
+      setLoading(true)
+      examenService
+        .getExamenByModelId(modelData.id)
+        .then((response) => {
+          setExams(response.data.data);
+          setLoading(false)
+
+        })
+        .catch((error) => {
+        });
+    }
+  }, [])
 
   return (
     <ModalWrapper style={styles.modal}>
@@ -112,34 +128,36 @@ const RecapitulatifDesExamens = ({
               </div>
             </div>
           </div>
-          <div style={styles.timeline} className="custom-timeline">
-            {!loading ? <VerticalTimeline
-              lineColor={"rgba(19, 83, 117, 0.479)"}
-              layout={"2-columns"}
-            >
-              {exams.map((exam, index) => (
-                <div key={index}>
-                  <TimeLineHelper index={index} />
-                  <ExamCard
-                    entityType={"Examen"}
-                    loadingScreen={loadingScreen}
-                    examId={index}
-                    index={index}
-                    examen={exam}
-                    date="1h-2h"
-                    position={index % 2 === 0 ? "right" : "left"}
-                    onBack={onBack}
-                  />
-                </div>
-              ))}
-            </VerticalTimeline> :
-              <Box style={{ display: 'flex', alignItems: 'center' }}>
-                <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
+          {!loading ?
+            <div style={styles.timeline} className="custom-timeline">
+              <VerticalTimeline
+                lineColor={"rgba(19, 83, 117, 0.479)"}
+                layout={"2-columns"}
+              >
+                {exams.map((exam, index) => (
+                  <div key={index}>
+                    <TimeLineHelper index={index} />
+                    <ExamCard
+                      entityType={"Examen"}
+                      loadingScreen={loadingScreen}
+                      examId={index}
+                      index={index}
+                      examen={exam}
+                      date="1h-2h"
+                      position={index % 2 === 0 ? "right" : "left"}
+                      onBack={onBack}
+                    />
+                  </div>
+                ))}
+              </VerticalTimeline>
+            </div>
+            :
+            <Box style={{ display: 'flex', alignItems: 'center' }}>
+              <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
 
-              </Box>}
-          </div>
+            </Box>
+          }
           <EuiSpacer size="xxl" />
-          {/* <EuiSpacer size="xxl" /> */}
 
           <EuiFlexGroup
             className="custom-footer-group footer-non-group"

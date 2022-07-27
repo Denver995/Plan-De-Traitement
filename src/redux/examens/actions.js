@@ -42,10 +42,10 @@ export const shareLieu = (payload) => ({
   payload,
 });
 
-export const shareMotif= (payload) => ({
+export const shareMotif = (payload) => ({
   type: types.SHARE_MOTIF,
   payload,
-}); 
+});
 
 export const examPayload = (payload) => ({
   type: types.SHARE_EXAM_PAYLOAD,
@@ -57,10 +57,6 @@ export const setShowExamForm = (show) => ({
   show,
 });
 
-export const createExamen = (payload) => ({
-  type: types.CREATE_EXAMEN_REQUEST,
-  payload,
-});
 
 export const shareAllExams = (payload) => ({
   type: types.SHARE_ALL_EXAMS,
@@ -72,7 +68,7 @@ export const addExam = (payload) => ({
   payload,
 });
 
-export const  newExam = (payload) => ({
+export const newExam = (payload) => ({
   type: types.NEW_EXAM,
   payload,
 })

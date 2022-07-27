@@ -14,6 +14,7 @@ import { isPossibleGranularly } from "../../utils/helper";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./styles";
 import { fleche } from "../../assets/images/index"
+import GranulariteService from "../../services/granularites";
 
 const EspacementInterExamenForm = ({
   isModelGroup,
@@ -36,26 +37,21 @@ const EspacementInterExamenForm = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const error = useSelector((state) => state.CommonReducer.error);
-  const options = [
-    {
-      value: "Jour",
-      text: "Jour",
-    },
-    {
-      value: "Minute",
-      text: "Minute",
-    },
-    {
-      value: "Heure",
-      text: "Heure",
-    },
-    {
-      value: "Semaine",
-      text: "Semaine",
-    },
-  ];
+  const [optionsMin, setOptionsMin] = useState([]);
+  const [optionsMax, setOptionsMax] = useState([]);
 
-
+  useEffect(() => {
+    GranulariteService.getListeGranularite()
+      .then((res) => {
+        var data = [];
+        res.data.data.forEach((element) => {
+          data.push({ value: element.id_granularite, text: element.nom });
+        });
+        setOptionsMax(data);
+        setOptionsMin(data);
+      })
+      .catch((error) => { });
+  }, [])
 
   useEffect(() => {
     setIsValid(isPossibleGranularly({ minInterval, minIntervalUnit }, { maxInterval, maxIntervalUnit }))
@@ -155,17 +151,17 @@ const EspacementInterExamenForm = ({
     <ModalWrapper style={styles.modal}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
         {typeEspacement === type_espacement.group ? (
-          <div style={{display: 'flex', flexDirection: "row"}}>
-            <img style={{width: 20, marginRight: "15px"}} src={fleche} alt="this is a btn" />
+          <div style={{ display: 'flex', flexDirection: "row" }}>
+            <img style={{ width: 20, marginRight: "15px" }} src={fleche} alt="this is a btn" />
             <p className="label_exams" style={styles.title}>
               Espacement entre le groupe {initialIndex + 1} et le groupe{" "}
               {initialIndex + 2}
             </p>
           </div>
         ) : (
-          <div style={{display: 'flex', flexDirection: "row"}}>
-            <img style={{width: 20, marginRight: "15px"}} src={fleche} alt="this is a btn" />
-            <p  className="label_exams" style={styles.title}>
+          <div style={{ display: 'flex', flexDirection: "row" }}>
+            <img style={{ width: 20, marginRight: "15px" }} src={fleche} alt="this is a btn" />
+            <p className="label_exams" style={styles.title}>
               Espacement entre l'examen {initialIndex + 1} et l'examen{" "}
               {initialIndex + 2}
             </p>
@@ -194,7 +190,7 @@ const EspacementInterExamenForm = ({
                 <EuiSelect
                   fullWidth
                   style={styles.select}
-                  options={options}
+                  options={optionsMin}
                   onChange={(e) => onChangeMinIntervalUnit(e)}
                   isClearable={true}
                 />
@@ -220,7 +216,7 @@ const EspacementInterExamenForm = ({
                   value={maxIntervalUnit}
                   style={styles.select}
                   onChange={(e) => onChangeMaxIntervalUnit(e)}
-                  options={options}
+                  options={optionsMax}
                   isClearable={true}
                 />
               </div>

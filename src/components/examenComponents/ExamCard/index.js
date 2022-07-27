@@ -28,10 +28,10 @@ function ExamCard({
   examOnGroup
 }) {
   const dispatch = useDispatch();
-  const espacementNonGroupe = useSelector(state=>state.ExamenReducer.espacementNonGroupe);
-  const espacement = useSelector(state=>state.ExamenReducer.espacement);
-  const espacementSubExam = useSelector(state=>state.ExamenReducer.espacementSubExam);
-  const groupeToShowContentId = useSelector(state=>state.ExamenReducer.groupeToShowContentId);
+  const espacementNonGroupe = useSelector(state => state.ExamenReducer.espacementNonGroupe);
+  const espacement = useSelector(state => state.ExamenReducer.espacement);
+  const espacementSubExam = useSelector(state => state.ExamenReducer.espacementSubExam);
+  const groupeToShowContentId = useSelector(state => state.ExamenReducer.groupeToShowContentId);
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
   const praticienData = useSelector(state => state.ExamenReducer.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
@@ -57,6 +57,10 @@ function ExamCard({
   const [lieu, setLieu] = useState("");
   const [motif, setMotif] = useState("");
 
+  useEffect(() => {
+    console.log('ssssssssssssssss ', examen);
+
+  }, [])
   useEffect(() => {
     handleGetSpecialitie();
     handleGetPraticien();
@@ -104,7 +108,7 @@ function ExamCard({
     setLoading(true);
     handleLoading(true);
     examenService
-      .deleteExamen(examen[index]?.id_examen)
+      .deleteExamen(isExamGroup ? examen[index]?.id_examen : examen.id_examen)
       .then((response) => {
         setLoading(false);
         handleLoading(false);
@@ -119,7 +123,12 @@ function ExamCard({
 
   const handleGetSpecialitie = () => {
     for (var i = 0; i < specialitieData.length; i++) {
-      if (specialitieData[i]?.id === examInfo[index]?.id_profession) {
+      let id;
+      if (isExamGroup)
+        id = examen[index]?.id_profession
+      else
+        id = examen?.id_profession
+      if (specialitieData[i]?.id == id) {
         setSpecialite(specialitieData[i].libelle);
         return;
       }
@@ -127,11 +136,16 @@ function ExamCard({
   };
   const handleGetPraticien = () => {
     for (var i = 0; i < praticienData.length; i++) {
-      if (praticienData[i]?.id_praticien == examen[index]?.id_praticien) {
+      let id;
+      if (isExamGroup)
+        id = examen[index]?.id_praticien
+      else
+        id = examen?.id_praticien
+      if (praticienData[i]?.id_praticien == id) {
         setPraticien(
           praticienData[i].nom_praticien +
-            " " +
-            praticienData[i].prenom_praticien
+          " " +
+          praticienData[i].prenom_praticien
         );
         return;
       }
@@ -139,7 +153,14 @@ function ExamCard({
   };
   const handleGetLieu = () => {
     for (var i = 0; i < lieuData.length; i++) {
-      if (lieuData[i].id_lieu == examen[index]?.id_lieu) {
+
+      let id;
+      if (isExamGroup)
+        id = examen[index]?.id_lieu
+      else
+        id = examen?.id_lieu
+
+      if (lieuData[i].id_lieu == id) {
         setLieu(lieuData[i].libelle_lieu);
         return;
       }
@@ -147,114 +168,216 @@ function ExamCard({
   };
   const handleGetMotif = () => {
     for (var i = 0; i < motifData.length; i++) {
-      if (motifData[i]?.id_motif_rdv == examen[index]?.id_motif) {
+      let id;
+      if (isExamGroup)
+        id = examen[index]?.id_motif
+      else
+        id = examen?.id_motif
+      if (motifData[i]?.id_motif_rdv == id) {
         setMotif(motifData[i].libelle_motif_rdv);
         return;
       }
     }
   };
-  return (
-    <VerticalTimelineElement
-      className="custom-vertical-timeline-element"
-      contentStyle={{
-        background: examen[index]?.color_type_rdv
-          ? examen[index]?.color_type_rdv
-          : "white",
-        height: 82,
-        marginTop: -20,
-        padding: 10,
-        boxShadow: examen.positionFixed && "inset 0px 3px 6px #00000029",
-      }}
-      date={date_}
-      position={position}
-      iconStyle={{
-        background: "rgb(19, 83, 117)",
-        color: "#fff",
-        border: "rgb(19, 83, 117)",
-        zIndex: 1,
-      }}
-      icon={<MapIcon />}
-    >
-      <div className="exam-card-content">
-        <EuiText style={position === "right" ? styles.textRight : styles.text}>
-          Examen {examId + 1}
-        </EuiText>
-        <div
-          style={
-            position === "right" ? styles.dotContainer : styles.dotContainerLeft
+  return (<>
+    {
+      date_ ?
+        <VerticalTimelineElement
+          className="custom-vertical-timeline-element"
+          contentStyle={{
+            background: isExamGroup ? examen[index]?.color_type_rdv : examen?.color_type_rdv,
+            height: 82,
+            marginTop: -20,
+            padding: 10,
+            boxShadow: examen.fixe && "inset 0px 3px 6px #00000029",
           }
-          className="dotContainer-right"
+          }
+          date={date_}
+          position={position}
+          iconStyle={{
+            background: "rgb(19, 83, 117)",
+            color: "#fff",
+            border: "rgb(19, 83, 117)",
+            zIndex: 1,
+          }
+          }
+          icon={< MapIcon />}
         >
-          <div style={styles.dotChild}></div>
-        </div>
-        {examen.id_child !== undefined && (
-          <div
-            className="custom-bar"
-            style={
-              position === "right" ? styles.customBar : styles.customBarLeft
+          <div className="exam-card-content">
+            <EuiText style={position === "right" ? styles.textRight : styles.text}>
+              Examen {examId + 1}
+            </EuiText>
+            <div
+              style={
+                position === "right" ? styles.dotContainer : styles.dotContainerLeft
+              }
+              className="dotContainer-right"
+            >
+              <div style={styles.dotChild}></div>
+            </div>
+            {examen.id_child !== undefined && (
+              <div
+                className="custom-bar"
+                style={
+                  position === "right" ? styles.customBar : styles.customBarLeft
+                }
+              ></div>
+            )}
+            <div
+              style={position === "right" ? styles.rightHeader : styles.leftHeader}
+            >
+              <div
+                style={position === "right" ? styles.propRight : styles.propLeft}
+              >
+                <Propover
+                  index={index}
+                  onFixePosition={handleFixePosition}
+                  showEditForm={showEditForm}
+                  onDeleteExam={handleDeleteExam}
+                  groupKey={groupKey}
+                  exam={examen}
+                  isExamGroup={isExamGroup}
+                  examId={examId}
+                  loadingScreen={handleLoading}
+                  onBack={onBack}
+                  isRecap={true}
+                  isGroup={isGroup}
+                  examOnGroup={examOnGroup}
+                />
+              </div>
+              <h4 className="spec" style={styles.speciality}>
+                <strong>
+                  {specialite} - {motif ?? "id_motif"}
+                </strong>
+              </h4>
+            </div>
+          </div>
+          <div style={styles.sectionPraticien}>
+            <div>
+              <div
+                style={
+                  position === "right"
+                    ? styles.praticienRightContainer
+                    : styles.praticienLeftContainer
+                }
+              >
+                <PersonIcon width={"1rem"} />
+                <h4 style={styles.praticien}>{praticien ?? "id_praticien"}</h4>
+                <MapIcon width={"0.7rem"} />
+                <h4 style={styles.adresse}>{lieu ?? "id_lieu"}</h4>
+              </div>
+              {(examen.positionFixed || examen.fixe) && (
+                <PinIcon
+                  width={"7px"}
+                  height={"11px"}
+                  style={position === "right" ? styles.pinRight : styles.pinLeft}
+                />
+              )}
+            </div>
+          </div>
+        </VerticalTimelineElement > : (
+          <VerticalTimelineElement
+            className="nodate"
+            id="win"
+            contentStyle={{
+              background: isExamGroup ? examen[index]?.color_type_rdv : examen?.color_type_rdv,
+              height: 82,
+              marginTop: -20,
+              padding: 10,
+              boxShadow: examen.fixe && "inset 0px 3px 6px #00000029",
             }
-          ></div>
+            }
+            //  date={date_}
+            position={position}
+            iconStyle={{
+              background: "rgb(19, 83, 117)",
+              color: "#fff",
+              border: "rgb(19, 83, 117)",
+              zIndex: 1,
+            }
+            }
+            icon={< MapIcon />}
+          >
+            <div className="exam-card-content">
+              <EuiText style={position === "right" ? styles.textRight : styles.text}>
+                Examen {examId + 1}
+              </EuiText>
+              <div
+                style={
+                  position === "right" ? styles.dotContainer : styles.dotContainerLeft
+                }
+                className="dotContainer-right"
+              >
+                <div style={styles.dotChild}></div>
+              </div>
+              {examen.id_child !== undefined && (
+                <div
+                  className="custom-bar"
+                  style={
+                    position === "right" ? styles.customBar : styles.customBarLeft
+                  }
+                ></div>
+              )}
+              <div
+                style={position === "right" ? styles.rightHeader : styles.leftHeader}
+              >
+                <div
+                  style={position === "right" ? styles.propRight : styles.propLeft}
+                >
+                  <Propover
+                    index={index}
+                    onFixePosition={handleFixePosition}
+                    showEditForm={showEditForm}
+                    onDeleteExam={handleDeleteExam}
+                    groupKey={groupKey}
+                    exam={examen}
+                    isExamGroup={isExamGroup}
+                    // examId={examId}
+                    examId={isExamGroup ? examen[index]?.id_examen : examen?.id_examen}
+                    loadingScreen={handleLoading}
+                    onBack={onBack}
+                    isRecap={true}
+                    isGroup={isGroup}
+                    examOnGroup={examOnGroup}
+                  />
+                </div>
+                <h4 className="spec" style={styles.speciality}>
+                  <strong>
+                    {specialite} - {motif ?? "id_motif"}
+                  </strong>
+                </h4>
+              </div>
+            </div>
+            <div style={styles.sectionPraticien}>
+              <div>
+                <div
+                  style={
+                    position === "right"
+                      ? styles.praticienRightContainer
+                      : styles.praticienLeftContainer
+                  }
+                >
+                  {praticien != "" && (<>
+                    <PersonIcon width={"1rem"} />
+                    <h4 style={styles.praticien}>{praticien} </h4>
+                  </>)}
+                  {lieu != "" && (<>
+                    <MapIcon width={"0.7rem"} />
+                    <h4 style={styles.adresse}>{lieu}</h4>
+                  </>)}
+                </div>
+                {(examen.positionFixed || examen.fixe) && (
+                  <PinIcon
+                    width={"7px"}
+                    height={"11px"}
+                    style={position === "right" ? styles.pinRight : styles.pinLeft}
+                  />
+                )}
+              </div>
+            </div>
+          </VerticalTimelineElement >
         )}
-        <div
-          style={position === "right" ? styles.rightHeader : styles.leftHeader}
-        >
-          <div
-            style={position === "right" ? styles.propRight : styles.propLeft}
-          >
-            <Propover
-              index={index}
-              onFixePosition={handleFixePosition}
-              showEditForm={showEditForm}
-              onDeleteExam={handleDeleteExam}
-              groupKey={groupKey}
-              exam={examen}
-              isExamGroup={isExamGroup}
-              examId={examId}
-              loadingScreen={handleLoading}
-              onBack={onBack}
-              isRecap={true}
-              isGroup={isGroup}
-              examOnGroup={examOnGroup}
-            />
-          </div>
-          <h4 className="spec" style={styles.speciality}>
-            <strong>
-              {specialite} - {motif ?? "id_motif"}
-            </strong>
-          </h4>
-        </div>
-      </div>
-      <div style={styles.sectionPraticien}>
-        <div>
-          <div
-            style={
-              position === "right"
-                ? styles.praticienRightContainer
-                : styles.praticienLeftContainer
-            }
-          >
-            <PersonIcon width={"1rem"} />
-            <h4 style={styles.praticien}>{praticien ?? "id_praticien"}</h4>
-            <MapIcon width={"0.7rem"} />
-            <h4 style={styles.adresse}>{lieu ?? "id_lieu"}</h4>
-          </div>
-          {examen.positionFixed && (
-            <PinIcon
-              width={"7px"}
-              height={"11px"}
-              style={position === "right" ? styles.pinRight : styles.pinLeft}
-            />
-          )}
-          {/* {groupesWithData[groupKey]?.exams[index]?.positionFixed && (
-            <PinIcon
-              width={"7px"}
-              height={"11px"}
-              style={position === "right" ? styles.pinRight : styles.pinLeft}
-            />
-          )} */}
-        </div>
-      </div>
-    </VerticalTimelineElement>
+  </>
   );
 }
 
