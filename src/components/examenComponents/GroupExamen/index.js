@@ -790,9 +790,9 @@ const GroupExamenSummary = ({
   const canContinue = useCallback(() => {
     let can = false;
     let number = 0;
-    let groupesWithDataKeys = Object.keys(groupesWithData);
+    let groupesWithDataKeys = Object.keys(groupWithData);
     for (var i = 0; i < groupesWithDataKeys.length; i++) {
-      if (groupesWithData["group " + i]?.exams?.length > 0) {
+      if (groupWithData["group " + i]?.exams?.length > 0) {
         number = number + 1;
       }
     }
@@ -805,12 +805,12 @@ const GroupExamenSummary = ({
   useEffect(() => {
     setReRender(false);
     setDisable(canContinue());
-  }, [showForm, ignored, canContinue, groupesWithData]);
+  }, [showForm, ignored, canContinue, groupWithData]);
 
   useEffect(() => {
     setReRender(true);
     setDisable(canContinue());
-  }, [reRender, disable, setDisable, canContinue, groupesWithData]);
+  }, [reRender, disable, setDisable, canContinue, groupWithData]);
 
   useEffect(() => {
     getGroupExam()
@@ -875,7 +875,7 @@ const GroupExamenSummary = ({
     setReRender(true);
     forceUpdate();
   };
-
+  console.log(disable, groupesWithData)
   return (
     <ModalWrapper style={styles.modal}>
       {showForm ? (
@@ -935,7 +935,7 @@ const GroupExamenSummary = ({
                 style={{
                   ...styles.addBtn,
                   visibility:
-                    groupWithData["group 0"] === undefined
+                    Object.keys(groupWithData).length < 1
                       ? "hidden"
                       : "visible",
                 }}

@@ -122,7 +122,7 @@ const RecapExamItemV2 = ({
             espace[0] &&
             espace[0].minInterval) ?
             (espace[0]?.minInterval + getFisrtLetter(espace[0]?.minIntervalUnit) + "-" +
-              espace[0]?.maxInterval + getFisrtLetter(espace[0]?.maxIntervalUnit)) : "----------"}
+              espace[0]?.maxInterval + getFisrtLetter(espace[0]?.maxIntervalUnit)) : ""}
         >
           <EuiText style={position === "right" ? styles.textRight : styles.text}>
             Groupe {index_ + 1}
