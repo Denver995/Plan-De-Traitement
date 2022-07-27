@@ -16,8 +16,6 @@ import styles from "./styles";
 const ExamItem = ({
   showEditForm,
   reRender,
-  color,
-  id_modele,
   exam,
   index,
   isExamGroup = false,
@@ -36,9 +34,7 @@ const ExamItem = ({
   const [specialite, setSpecialite] = useState("");
   const [praticien, setPraticien] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
-  const examenSelected = useSelector(
-    (state) => state.CommonReducer.examen.examData
-  );
+
   const dispatch = useDispatch();
   useEffect(() => {
     function handleWindowResiwe() {
@@ -59,19 +55,36 @@ const ExamItem = ({
       });
   }
 
-  const handleUpdateExams = () => {
+  const handleFixePosition = () => {
     setLoading(true);
     setErrorMessage(false);
-    examenService.updateExamen(exam[index]?.id_examen, {
-      id_modele: exam[index]?.id_modele,
-      id_modele_groupe: exam[index]?.id_modele_groupe,
-      id_praticien: exam[index]?.id_praticien,
-      id_profession: exam[index]?.id_profession,
-      id_lieu: exam[index]?.id_lieu,
-      fixe: 1,
-      position: exam[index]?.position,
-      id_motif: exam[index]?.id_motif,
-    })
+    let payload = {};
+
+    if (isExamGroup)
+      payload = {
+        id_modele: exam[index]?.id_modele,
+        id_modele_groupe: exam[index]?.id_modele_groupe,
+        id_praticien: exam[index]?.id_praticien,
+        id_profession: exam[index]?.id_profession,
+        id_lieu: exam[index]?.id_lieu,
+        fixe: 1,
+        position: exam[index]?.position,
+        id_motif: exam[index]?.id_motif,
+      }
+
+    else
+      payload = {
+        id_modele: exam?.id_modele,
+        id_modele_groupe: exam?.id_modele_groupe,
+        id_praticien: exam?.id_praticien,
+        id_profession: exam?.id_profession,
+        id_lieu: exam?.id_lieu,
+        fixe: 1,
+        position: exam?.position,
+        id_motif: exam?.id_motif,
+      }
+
+    examenService.updateExamen(isExamGroup ? exam[index]?.id_examen : exam?.id_examen, payload)
       .then(response => {
         setLoading(false)
         setErrorMessage(false);
@@ -90,7 +103,7 @@ const ExamItem = ({
 
   const handleGetSpecialitie = () => {
     for (var i = 0; i < specialitieData.length; i++) {
-      if (specialitieData[i]?.id === examInfo[index]?.id_profession) {
+      if (specialitieData[i]?.id == exam?.id_profession || specialitieData[i]?.id == examInfo[index]?.id_profession) {
         setSpecialite(specialitieData[i].libelle);
         return;
       }
@@ -98,7 +111,7 @@ const ExamItem = ({
   }
   const handleGetPraticien = () => {
     for (var i = 0; i < praticienData.length; i++) {
-      if (praticienData[i]?.id_praticien == exam[index]?.id_praticien) {
+      if (praticienData[i]?.id_praticien == exam?.id_praticien || praticienData[i]?.id_praticien == examInfo[index]?.id_praticien) {
         setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
         return;
       }
@@ -112,7 +125,7 @@ const ExamItem = ({
 
     setLoading(true);
     handleLoading(true);
-    examenService.deleteExamen(exam[index]?.id_examen || examenSelected[index]?.id_examen)
+    examenService.deleteExamen(isExamGroup ? exam[index]?.id_examen : exam?.id_examen)
       .then(response => {
         handleGetExams();
         setLoading(false);
@@ -124,17 +137,14 @@ const ExamItem = ({
 
       })
   }
-  const handleFixePosition = () => {
-    handleUpdateExams();
-  }
-
 
   useEffect(() => {
     handleGetSpecialitie();
     handleGetPraticien();
   }, [reRender]);
+
   return (
-    <div style={{ ...styles.lineWrapper, backgroundColor: exam[index]?.color_type_rdv }}>
+    <div style={{ ...styles.lineWrapper, backgroundColor: isExamGroup ? exam[index]?.color_type_rdv : exam.color_type_rdv }}>
       <div style={styles.flex}>
         <div>
           <Propover
@@ -145,7 +155,7 @@ const ExamItem = ({
             exam={exam}
             isExamGroup={isExamGroup}
             groupKey={groupKey}
-            examId={exam[index]?.id_examen}
+            examId={isExamGroup ? exam[index]?.id_examen : exam?.id_examen}
             loading={loading}
             loadingScreen={handleLoading}
             setReload={() => setReload(!reload)}
@@ -168,8 +178,13 @@ const ExamItem = ({
       </div>
       <div className="exam-item-infos">
         <span style={styles.special}>{specialite}</span>
-        <span style={styles.separator}>|</span>
-        <span className="praticien-info">{praticien}</span>
+        {praticien && praticien != "" && (
+          <>
+            <span style={styles.separator}>|</span>
+            <span className="praticien-info">{praticien}</span>
+          </>
+        )}
+
       </div>
     </div>
   );

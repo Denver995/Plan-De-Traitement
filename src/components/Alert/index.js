@@ -60,7 +60,7 @@ const Alert = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
-  useEffect(() => {}, [buttonText]);
+  useEffect(() => { }, [buttonText]);
 
   const handleGetExamenGroup = () => {
     examenService
@@ -68,7 +68,7 @@ const Alert = ({
       .then((response) => {
         dispatch(shareListExamGroup(response.data.data));
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const handleUpdateModele = () => {
@@ -280,6 +280,7 @@ const Alert = ({
           position: 1,
         })
         .then((response) => {
+
           setLoading(false);
           setErrorMessage(false);
           dispatch(setError(null));
@@ -367,7 +368,7 @@ const Alert = ({
           </EuiForm>
         ) : isConfirmation || alert.isConfirmation ? (
           <div>
-            <EuiText style={{...styles.textContainer, textAlign: innerWidth < 641 ? "center" : "", left : innerWidth < 641 ? 0 : ""}}>
+            <EuiText style={{ ...styles.textContainer, textAlign: innerWidth < 641 ? "center" : "", left: innerWidth < 641 ? 0 : "" }}>
               Ce modèle va être enregistré sous le nom :
               <br />
               <div style={styles.textTitle}>

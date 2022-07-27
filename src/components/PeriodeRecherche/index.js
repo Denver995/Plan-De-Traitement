@@ -6,41 +6,50 @@ import {
   EuiForm,
   EuiSelect,
   EuiSpacer,
-  EuiText,
+  EuiText
 } from "@elastic/eui";
+import { useEffect, useState } from "react";
+import { fleche } from "../../assets/images/index";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./style";
-import { fleche } from "../../assets/images/index";
-import { useEffect, useState } from "react";
 // import { setAlert } from "../../redux/commons/actions";
-import { useDispatch } from "react-redux";
-import { setShowPeriodForm } from "../../redux/commons/actions";
-import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
+import { connect, useDispatch } from "react-redux";
 import ReactTooltip from "react-tooltip";
+import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
+import { setShowPeriodForm } from "../../redux/commons/actions";
+import GranulariteService from "../../services/granularites";
 import colors from "../../utils/colors";
 
-const PeriodeRechercheForm = () => {
-  const options = [
-    {
-      value: "Semaine",
-      text: "Semaine",
-    },
-  ];
+const PeriodeRechercheForm = ({ showPeriodForm }) => {
+  const [options, setOptions] = useState([])
   const dispatch = useDispatch();
   const [periode, setPeriode] = useState();
-  const [label, setLabel] = useState(options[0].value);
+  const [label, setLabel] = useState("");
   const [isValid, setIsValid] = useState(false);
 
   const changePeriode = (e) => setPeriode(e.target.value);
   const changeLabel = (e) => setLabel(e.target.value);
 
   const goBack = () => {
-    dispatch(setShowPeriodForm(false));
+    dispatch(setShowPeriodForm({ data: {}, status: false }));
   };
 
   const saveChange = () => {
-    dispatch(setShowPeriodForm(false));
+    dispatch(setShowPeriodForm({ data: {}, status: false }));
   };
+
+  useEffect(() => {
+    GranulariteService.getListeGranularite()
+      .then((res) => {
+        var data = [];
+        res.data.data.forEach((element) => {
+          data.push({ value: element.id_granularite, text: element.nom });
+        });
+        setLabel(data.length > 0 ? data[0].value : "")
+        setOptions(data);
+      })
+      .catch((error) => { });
+  }, [])
 
   useEffect(() => {
     setIsValid(!(periode === undefined || periode === ""));
@@ -169,4 +178,8 @@ const PeriodeRechercheForm = () => {
   );
 };
 
-export default PeriodeRechercheForm;
+const mapStateToProps = ({ CommonReducer }) => ({
+  showPeriodForm: CommonReducer.showPeriodForm,
+});
+
+export default connect(mapStateToProps)(PeriodeRechercheForm);

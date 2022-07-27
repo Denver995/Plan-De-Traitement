@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     onReject: undefined,
   },
   examen: { examenSelected: {}, show: false },
-  showPeriodForm: false,
+  showPeriodForm: { data: {}, status: false },
   modelType: false,
   dataSource: {},
   loading: false,
