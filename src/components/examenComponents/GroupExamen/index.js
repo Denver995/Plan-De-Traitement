@@ -335,8 +335,8 @@ const GroupItem = ({
                                     </span>
                                   </button>
                                 </div>
-                                <EuiDragDropContext onDragEnd= {onDragEnd}>
-                                  <EuiDroppable droppableId="exams" style={{backgroundColor: "white"}}>
+                                <EuiDragDropContext onDragEnd={onDragEnd}>
+                                  <EuiDroppable droppableId="exams" style={{ backgroundColor: "white" }}>
                                     {(provided) => {
                                       return (
                                         <div

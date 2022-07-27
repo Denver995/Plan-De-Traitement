@@ -6,6 +6,7 @@ import {
   EuiFlexItem,
   EuiForm,
   EuiHorizontalRule,
+  EuiLoadingSpinner,
   EuiSpacer,
   useGeneratedHtmlId,
 } from "@elastic/eui";
@@ -55,7 +56,7 @@ import ModalWrapper from "../../common/ModalWrapper";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
 import { components } from "react-select";
-import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
+import colors from "../../../utils/colors";
 
 const ExamenForm = ({
   isModelGroup,
@@ -552,7 +553,7 @@ const ExamenForm = ({
                 <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
                 <AsyncSelect
-                  placeholder="Rendez-vous le plus rapide"
+                  placeholder=""
                   styles={customStyles}
                   defaultInputValue={"Rendez-vous le plus rapide"}
                   loadingMessage={() => "Chargement..."}
@@ -625,9 +626,9 @@ const ExamenForm = ({
                     Retour
                   </EuiButtonEmpty>
                   <EuiButton
-                    disabled={motif === "" || lieu === "" || specialite === ""}
+                    disabled={motif === "" || lieu === "" || specialite === "" || loading}
                     style={
-                      motif === "" || lieu === "" || specialite === ""
+                      motif === "" || lieu === "" || specialite === "" || loading
                         ? styles.deactivated
                         : styles.activated
                     }
@@ -685,19 +686,13 @@ const ExamenForm = ({
                   disabled={motif === "" || lieu === "" || specialite === ""}
                 >
                   {loading ? (
-                    <Box style={{ display: "flex", alignItems: "center" }}>
-                      <CircularProgress
-                        style={{
-                          marginRight: "5px",
-                          color: "blue",
-                          width: "25px",
-                          height: "25px",
-                        }}
-                      />
-                      Ajouter
-                    </Box>
+                    <EuiLoadingSpinner
+                      style={{ marginTop: 7, marginRight: 1 }}
+                      size="l"
+                      color={colors.white}
+                    />
                   ) : (
-                    <>Ajouter</>
+                    "Ajouter"
                   )}
                 </EuiButton>
               </EuiFlexGroup>

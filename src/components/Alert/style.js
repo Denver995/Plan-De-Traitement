@@ -52,7 +52,7 @@ const styles = {
     border: "1px solid #5D9AD4",
     borderRadius: "39px",
     opacity: 1,
-    width: x <= 500 ? "100%" : "210px",
+    width: x <= 500 ? "100%" : "256px",
     height: "48px",
     marginRight: "46px",
     textDecoration: "none",
@@ -70,13 +70,13 @@ const styles = {
   btn: {
     fontSize: x <= 500 ? 20 : 27,
     fontFamily: "Open Sans, Sans Serif",
-    width: x <= 500 ? "100%" : 256,
     padding: x <= 500 ? "5px" : "",
-    height: 48,
+    height: "48px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center"
   },
+  
   btnRep: {
     fontSize: 20,
     width: "100%",

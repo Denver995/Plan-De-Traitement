@@ -114,7 +114,7 @@
 .delai-inter-group {
   margin-top: 12px;
   margin-bottom: 12px;
-  margin-left: 78px;
+  padding-left: 50px;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--unnamed-color-052a3e);
   text-align: left;

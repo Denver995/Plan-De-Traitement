@@ -171,6 +171,12 @@ const styles = {
     fontSize: 11,
     color: colors.light,
   },
+
+  errorMessage: {
+    fontSize: 14,
+    color: "red",
+    marginLeft: 5
+  }
 };
 
 export default styles;

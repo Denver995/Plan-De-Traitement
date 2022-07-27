@@ -229,10 +229,8 @@ const ExamsList = ({
                               />
                               <EuiSpacer size="xs" />
                               {index !== examsList.length - 1 && (
-                                <span
-                                  style={{
-                                    marginLeft: innerWidth < 520 ? -78 : "",
-                                  }}
+                                <div>
+                                  <span
                                   onClick={() => {
                                     setShowInterExam(true);
                                     dispatch(
@@ -312,6 +310,7 @@ const ExamsList = ({
                                       }`
                                       : "Choisir l'intervalle inter examen"}
                                 </span>
+                                </div>
                               )}
                               <EuiSpacer size="xs" />
                             </div>

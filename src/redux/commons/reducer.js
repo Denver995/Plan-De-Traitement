@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   dataSource: {},
   loading: false,
   error: null,
+  active: false,
 };
 
 function CommonReducer(state = INITIAL_STATE, action) {
@@ -75,6 +76,11 @@ function CommonReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         showPeriodForm: action.payload,
+      };
+    case types.IS_ACTIVE:
+      return {
+        ...state,
+        active: action.payload,
       };
     default:
       return state;

@@ -8,9 +8,10 @@ import {
   EuiForm,
   EuiFormRow,
   EuiSelect,
+  EuiLoadingSpinner,
   EuiSpacer,
   EuiText,
-  useGeneratedHtmlId
+  useGeneratedHtmlId,
 } from "@elastic/eui";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -25,13 +26,13 @@ import {
   createGroups,
   numOfGroupsChange,
   shareGroupPayload,
-  updateModeleData
+  updateModeleData,
 } from "../../redux/examens/actions";
 import { setModelData, updateModel } from "../../redux/models/actions";
 import {
   addStep,
   desactivateStep,
-  updateStep
+  updateStep,
 } from "../../redux/steps/actions";
 import GranulariteService from "../../services/granularites";
 import ModelGroupeService from "../../services/modelGroupe";
@@ -57,13 +58,18 @@ const ModalForm = ({
   const [periode, setPeriode] = useState("1");
   const [typePeriode, setTypePeriode] = useState();
   const [loading, setLoading] = useState(false);
+  const [abort, setAbort] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   let step = getStepByKey(steps, STEP1);
   const [groupe_rdv, setIsGroup] = useState(
     step.data.groupe_rdv && step.data.groupe_rdv === 1 ? true : false
   );
   const [nomModele, setNomModele] = useState(
-    isEdited ? modelData.nom || modelData.modelName : !isEdited && step.data.nom ? step.data.nom : ""
+    isEdited
+      ? modelData.nom || modelData.modelName
+      : !isEdited && step.data.nom
+      ? step.data.nom
+      : ""
   );
   const [showGroupOption, setShowGroupOption] = useState(
     !isEdited && step.data.nb_occurence ? true : false
@@ -81,7 +87,7 @@ const ModalForm = ({
         });
         setListTypePeriode(data);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }, []);
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
@@ -94,21 +100,20 @@ const ModalForm = ({
 
   const closeModale = () => {
     dispatch(setError(null));
-    setLoading(true);
+    setAbort(true);
     if (modelData && modelData.id) {
       ModelService.deleteModele(modelData.id)
         .then((response) => {
-          setLoading(false);
+          setAbort(false);
           closeModal();
         })
         .then((error) => {
-          setLoading(false);
+          setAbort(false);
         });
     } else {
       closeModal();
     }
-
-  }
+  };
   const handleUpdateModele = () => {
     ModelService.updateModele(modelData.id, {
       nom: nomModele,
@@ -123,18 +128,20 @@ const ModalForm = ({
       .then((response) => {
         dispatch(updateModel(nomModele));
         onSaveChange("RECAPITULATIF");
-        setLoading(false)
+        setLoading(false);
         dispatch(setError(null));
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
         if (error.message === "Network Error") {
-          dispatch(setError("Erreur de connexion, Vérifiez votre connexion internet"))
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
         } else {
-          dispatch(setError("Une erreur est survenue"))
+          dispatch(setError("Une erreur est survenue"));
         }
       });
-  }
+  };
 
   const createModele = (values) => {
     let nextStep = createStep(STEP2);
@@ -163,8 +170,8 @@ const ModalForm = ({
         id_modele: parseInt(modelData.id),
         nom: "Groupe " + i,
       })
-        .then((response) => { })
-        .catch((error) => { });
+        .then((response) => {})
+        .catch((error) => {});
     }
     handleGetGroup();
   };
@@ -228,7 +235,7 @@ const ModalForm = ({
           setShowGroupOption(true);
           response.data.modelName = payload.nom;
           dispatch(setModelData(response.data));
-          setLoading(false)
+          setLoading(false);
         })
         .catch((error) => {
           setLoading(false);
@@ -426,7 +433,15 @@ const ModalForm = ({
             }
             style={{ ...styles.cancelButton, height: "59px" }}
           >
-            Annuler
+            {abort ? (
+              <div
+                style={{ display: "flex", alignItems: "center", padding: 2 }}
+              >
+                <EuiLoadingSpinner size="l" color={colors.white} />
+              </div>
+            ) : (
+              "Annuler"
+            )}
           </EuiButtonEmpty>
           {isEdited ? (
             <EuiButton
@@ -455,19 +470,13 @@ const ModalForm = ({
               className="button_global btn-suivant-modelForm"
             >
               {loading ? (
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                  <CircularProgress
-                    style={{
-                      marginRight: "5px",
-                      color: "white",
-                      width: "25px",
-                      height: "25px",
-                    }}
-                  />
-                  Suivant
-                </Box>
+                <EuiLoadingSpinner
+                  style={{ marginTop: 3, marginRight: 1 }}
+                  size="l"
+                  color={colors.white}
+                />
               ) : (
-                <>Suivant</>
+                "Suivant"
               )}
             </EuiButton>
           )}

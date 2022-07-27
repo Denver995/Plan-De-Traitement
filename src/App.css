@@ -1,17 +1,17 @@
 .containe::-webkit-scrollbar {
-  width: 12px;               /* width of the entire scrollbar */
+  width: 12px; /* width of the entire scrollbar */
 }
 
 .containe::-webkit-scrollbar-track {
-  background: orange;        /* color of the tracking area */
+  background: orange; /* color of the tracking area */
 }
 
 .containe::-webkit-scrollbar-thumb {
-  background-color: blue;    /* color of the scroll thumb */
-  border-radius: 20px;       /* roundness of the scroll thumb */
-  border: 3px solid orange;  /* creates padding around scroll thumb */
+  background-color: blue; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid orange; /* creates padding around scroll thumb */
 }
-#inputNomber-for-periode{
+#inputNomber-for-periode {
   width: 95%;
 }
 .btn-annuler-examForm {
@@ -22,9 +22,13 @@
   width: "210px";
 }
 
-/* .btn-ajouter-examForm:hover {
-  background-color: transparent !important;
-} */
+.btn-ajouter-examForm:hover {
+  background-color: #5d9ad4 !important;
+}
+
+.euiButton.euiButton-isDisabled:hover {
+  background-color: #C1C1C1 !important;
+}
 
 .btn-suivant-modelForm {
   width: 187px;
@@ -90,23 +94,21 @@ body {
   /* overflow-y: hidden;
 }*/
 
-
-
-.euiModal__flex .euiModalBody .euiModalBody__overflow{
+.euiModal__flex .euiModalBody .euiModalBody__overflow {
   margin-right: 6px;
 }
 .euiModal__flex .euiModalBody .euiModalBody__overflow::-webkit-scrollbar {
-  width: 8px;        
+  width: 8px;
 }
 
 .euiModal__flex .euiModalBody .euiModalBody__overflow::-webkit-scrollbar-track {
-  background: whitesmoke;        /* color of the tracking area */
+  background: whitesmoke; /* color of the tracking area */
 }
 
 .euiModal__flex .euiModalBody .euiModalBody__overflow::-webkit-scrollbar-thumb {
-  background-color: #5d9ad4;    /* color of the scroll thumb */
-  border-radius: 20px;       /* roundness of the scroll thumb */
-  border: 1px solid #5d9ad4;  /* creates padding around scroll thumb */
+  background-color: #5d9ad4; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 1px solid #5d9ad4; /* creates padding around scroll thumb */
 }
 
 .euiModal__flex .euiModalBody .euiModalBody__overflow {
@@ -464,6 +466,7 @@ hr {
     margin-bottom: 10px;
     margin-top: 10px;
   }
+  
   .btn_group {
     display: flex;
     flex-direction: column;
