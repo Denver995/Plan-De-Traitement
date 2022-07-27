@@ -185,6 +185,7 @@ const Propover = ({
       );
       togglePropover();
     } else {
+      load(true)
       examenService
         .updateExamen(exam.id_examen, {
           id_modele: parseInt(modelData.id),
@@ -192,11 +193,13 @@ const Propover = ({
           id_lieu: exam.id_lieu,
           id_motif: exam.id_motif,
           id_profession: exam.id_profession,
-          fixe: exam.fixe ? 1 : 0,
+          fixe: exam.fixe ? 0 : 1,
           position: exam.position ? exam.position : 1,
         })
         .catch((error) => {
           setErrorMessage(true);
+          load(false)
+
           if (error.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
@@ -225,11 +228,13 @@ const Propover = ({
   };
 
   const handleBindExamen = (data, examid) => {
+    load(true)
     setErrorMessage(false);
     setLoadingg(true);
     examenLieService
       .createExamenLie(data)
       .then((response) => {
+        load(false)
         dispatch(linkToExam({ parent: examid, child: data.id_examen_enfant }));
         handleClose();
         togglePropover();

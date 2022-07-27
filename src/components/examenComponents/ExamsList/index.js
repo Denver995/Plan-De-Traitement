@@ -173,6 +173,8 @@ const ExamsList = ({
 
   const getAllExams = () => {
     setLoading(true);
+    setExamsList([]);
+
     examenService
       .getExamenByModelId(modelData.id)
       .then((response) => {
@@ -193,6 +195,7 @@ const ExamsList = ({
 
 
   const loadingScreen = (show) => {
+    getAllExams()
     setLoading(show);
   };
 

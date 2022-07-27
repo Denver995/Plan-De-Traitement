@@ -33,11 +33,10 @@ function ExamCard({
   const espacementSubExam = useSelector(state => state.ExamenReducer.espacementSubExam);
   const groupeToShowContentId = useSelector(state => state.ExamenReducer.groupeToShowContentId);
   const groupesWithData = useSelector(state => state.ExamenReducer.groupWithData);
-  const praticienData = useSelector(state => state.ExamenReducer.praticienData);
+  const praticienData = useSelector(state => state.ExamenReducer?.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
   const lieuData = useSelector(state => state.ExamenReducer.lieuData);
   const motifData = useSelector(state => state.ExamenReducer.motifData);
-  const examInfo = useSelector(state => state.ExamenReducer.examInfo);
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
@@ -57,16 +56,14 @@ function ExamCard({
   const [lieu, setLieu] = useState("");
   const [motif, setMotif] = useState("");
 
-  useEffect(() => {
-    console.log('ssssssssssssssss ', examen);
 
-  }, [])
   useEffect(() => {
     handleGetSpecialitie();
     handleGetPraticien();
     handleGetLieu();
     handleGetMotif();
   }, [groupesWithData]);
+
 
   const handleUpdateExams = () => {
     setLoading(true);
@@ -108,7 +105,7 @@ function ExamCard({
     setLoading(true);
     handleLoading(true);
     examenService
-      .deleteExamen(isExamGroup ? examen[index]?.id_examen : examen.id_examen)
+      .deleteExamen(examen.id_examen)
       .then((response) => {
         setLoading(false);
         handleLoading(false);
@@ -124,10 +121,7 @@ function ExamCard({
   const handleGetSpecialitie = () => {
     for (var i = 0; i < specialitieData.length; i++) {
       let id;
-      if (isExamGroup)
-        id = examen[index]?.id_profession
-      else
-        id = examen?.id_profession
+      id = examen?.id_profession
       if (specialitieData[i]?.id == id) {
         setSpecialite(specialitieData[i].libelle);
         return;
@@ -135,30 +129,26 @@ function ExamCard({
     }
   };
   const handleGetPraticien = () => {
-    for (var i = 0; i < praticienData.length; i++) {
-      let id;
-      if (isExamGroup)
-        id = examen[index]?.id_praticien
-      else
+    if (praticienData && praticienData.length > 0)
+
+      for (var i = 0; i < praticienData.length; i++) {
+        let id;
         id = examen?.id_praticien
-      if (praticienData[i]?.id_praticien == id) {
-        setPraticien(
-          praticienData[i].nom_praticien +
-          " " +
-          praticienData[i].prenom_praticien
-        );
-        return;
+        if (praticienData[i]?.id_praticien == id) {
+          setPraticien(
+            praticienData[i].nom_praticien +
+            " " +
+            praticienData[i].prenom_praticien
+          );
+          return;
+        }
       }
-    }
   };
   const handleGetLieu = () => {
     for (var i = 0; i < lieuData.length; i++) {
 
       let id;
-      if (isExamGroup)
-        id = examen[index]?.id_lieu
-      else
-        id = examen?.id_lieu
+      id = examen?.id_lieu
 
       if (lieuData[i].id_lieu == id) {
         setLieu(lieuData[i].libelle_lieu);
@@ -169,10 +159,7 @@ function ExamCard({
   const handleGetMotif = () => {
     for (var i = 0; i < motifData.length; i++) {
       let id;
-      if (isExamGroup)
-        id = examen[index]?.id_motif
-      else
-        id = examen?.id_motif
+      id = examen?.id_motif
       if (motifData[i]?.id_motif_rdv == id) {
         setMotif(motifData[i].libelle_motif_rdv);
         return;
@@ -185,7 +172,7 @@ function ExamCard({
         <VerticalTimelineElement
           className="custom-vertical-timeline-element"
           contentStyle={{
-            background: isExamGroup ? examen[index]?.color_type_rdv : examen?.color_type_rdv,
+            background: examen?.color_type_rdv,
             height: 82,
             marginTop: -20,
             padding: 10,
@@ -261,10 +248,13 @@ function ExamCard({
                     : styles.praticienLeftContainer
                 }
               >
-                <PersonIcon width={"1rem"} />
-                <h4 style={styles.praticien}>{praticien ?? "id_praticien"}</h4>
-                <MapIcon width={"0.7rem"} />
-                <h4 style={styles.adresse}>{lieu ?? "id_lieu"}</h4>
+                {praticien != "" && (<>
+                  <PersonIcon width={"1rem"} />
+                  <h4 style={styles.praticien}>{praticien}</h4>
+                </>)}
+                {lieu != "" && (<> <MapIcon width={"0.7rem"} />
+                  <h4 style={styles.adresse}>{lieu}</h4>
+                </>)}
               </div>
               {(examen.positionFixed || examen.fixe) && (
                 <PinIcon
@@ -280,11 +270,12 @@ function ExamCard({
             className="nodate"
             id="win"
             contentStyle={{
-              background: isExamGroup ? examen[index]?.color_type_rdv : examen?.color_type_rdv,
+              background: examen?.color_type_rdv,
               height: 82,
               marginTop: -20,
               padding: 10,
               boxShadow: examen.fixe && "inset 0px 3px 6px #00000029",
+              marginBottom: "1.5rem",
             }
             }
             //  date={date_}
@@ -333,7 +324,7 @@ function ExamCard({
                     exam={examen}
                     isExamGroup={isExamGroup}
                     // examId={examId}
-                    examId={isExamGroup ? examen[index]?.id_examen : examen?.id_examen}
+                    examId={examen?.id_examen}
                     loadingScreen={handleLoading}
                     onBack={onBack}
                     isRecap={true}

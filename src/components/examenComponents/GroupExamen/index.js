@@ -29,6 +29,7 @@ import {
   deleteStep,
   desactivateStep
 } from "../../../redux/steps/actions";
+import ExamenService from "../../../services/examens";
 import ModelGroupeService from "../../../services/modelGroupe";
 import ModelService from "../../../services/models";
 import colors from "../../../utils/colors";
@@ -50,7 +51,7 @@ const getExamByGroupIndex = (group, groupKey) => {
 const GroupItem = ({
   groupName,
   espacement,
-  groupWithData,
+  // groupWithData,
   groupPayload,
   openGroup,
   reRender_,
@@ -71,6 +72,7 @@ const GroupItem = ({
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialGroupId, setInitialGroupId] = useState(1);
+  const [groupWithData, setGroupWithData] = useState({});
 
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
@@ -99,15 +101,57 @@ const GroupItem = ({
         setLoading(false);
       });
   };
+  const getGroupExam = () => {
+    let newobjet = {}
+    setLoading(true);
+    setGroupWithData({})
+    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
+      .then((response) => {
+        setLoading(false);
+        response.data.data.forEach((element, index) => {
 
+          ExamenService.getExamenByIds(parseInt(modelData.id), parseInt(element.id_modele_groupe))
+            .then((res) => {
+              setLoading(false);
+
+              newobjet["group " + index] = {
+                payload: element,
+                positionFixed: false,
+                exams: res.data.data
+              }
+              setGroupWithData(newobjet)
+            })
+            .catch((error) => {
+              setLoading(false);
+
+              newobjet["group " + index] = {
+                payload: element,
+                positionFixed: false,
+                exams: []
+              }
+              setGroupWithData(newobjet)
+            });
+
+        });
+        setLoading(false);
+
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+
+  }
   useEffect(() => {
+    getGroupExam()
     let newToggleGrp = [];
     Object.keys(groupWithData).map((item, i) => {
       newToggleGrp[i] = false;
       return newToggleGrp;
     });
     setToggledGroup(newToggleGrp);
-  }, [groupWithData, reload]);
+    setLoading(false);
+
+  }, [reload]);
 
   useEffect(() => {
     setReRender(false);
@@ -681,14 +725,15 @@ const GroupItem = ({
               </Box>
             )}
           </div>
-        )}
+        )
+      }
     </>
   );
 };
 
 const GroupExamenSummary = ({
   nbrGroupe,
-  groupWithData,
+  // groupWithData,
   examsGrouped,
   espacement,
   openGroup,
@@ -704,6 +749,7 @@ const GroupExamenSummary = ({
   const showForm = useSelector((state) => state.CommonReducer.examen.show);
   const previousStep = getStepByKey(steps, STEP2);
   const [reRender, setReRender] = useState(false);
+  const [groupWithData, setGroupWithData] = useState({});
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -767,6 +813,53 @@ const GroupExamenSummary = ({
     setReRender(true);
     setDisable(canContinue());
   }, [reRender, disable, setDisable, canContinue]);
+
+  useEffect(() => {
+    getGroupExam()
+    setLoading(false);
+
+  }, [])
+
+  const getGroupExam = () => {
+    let newobjet = {}
+    setLoading(true);
+    setGroupWithData({})
+    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
+      .then((response) => {
+        setLoading(false);
+        response.data.data.forEach((element, index) => {
+
+          ExamenService.getExamenByIds(parseInt(modelData.id), parseInt(element.id_modele_groupe))
+            .then((res) => {
+              setLoading(false);
+
+              newobjet["group " + index] = {
+                payload: element,
+                positionFixed: false,
+                exams: res.data.data
+              }
+              setGroupWithData(newobjet)
+            })
+            .catch((error) => {
+              setLoading(false);
+
+              newobjet["group " + index] = {
+                payload: element,
+                positionFixed: false,
+                exams: []
+              }
+              setGroupWithData(newobjet)
+            });
+
+        });
+        setLoading(false);
+
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+
+  }
 
   const handleOnDragEnd = (result) => {
     let source = result.source.index;

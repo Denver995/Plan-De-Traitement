@@ -28,7 +28,7 @@ const ExamItem = ({
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [loading, setLoading] = useState(false);
   const modelData = useSelector(state => state.ModelsReducer.modelData);
-  const praticienData = useSelector(state => state.ExamenReducer.praticienData);
+  const praticienData = useSelector(state => state.ExamenReducer?.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
   const examInfo = useSelector(state => state.ExamenReducer.examInfo);
   const [specialite, setSpecialite] = useState("");
@@ -60,31 +60,31 @@ const ExamItem = ({
     setErrorMessage(false);
     let payload = {};
 
-    if (isExamGroup)
-      payload = {
-        id_modele: exam[index]?.id_modele,
-        id_modele_groupe: exam[index]?.id_modele_groupe,
-        id_praticien: exam[index]?.id_praticien,
-        id_profession: exam[index]?.id_profession,
-        id_lieu: exam[index]?.id_lieu,
-        fixe: 1,
-        position: exam[index]?.position,
-        id_motif: exam[index]?.id_motif,
-      }
+    // if (isExamGroup)
+    //   payload = {
+    //     id_modele: exam[index]?.id_modele,
+    //     id_modele_groupe: exam[index]?.id_modele_groupe,
+    //     id_praticien: exam[index]?.id_praticien,
+    //     id_profession: exam[index]?.id_profession,
+    //     id_lieu: exam[index]?.id_lieu,
+    //     fixe: 1,
+    //     position: exam[index]?.position,
+    //     id_motif: exam[index]?.id_motif,
+    //   }
 
-    else
-      payload = {
-        id_modele: exam?.id_modele,
-        id_modele_groupe: exam?.id_modele_groupe,
-        id_praticien: exam?.id_praticien,
-        id_profession: exam?.id_profession,
-        id_lieu: exam?.id_lieu,
-        fixe: 1,
-        position: exam?.position,
-        id_motif: exam?.id_motif,
-      }
+    // else
+    payload = {
+      id_modele: exam?.id_modele,
+      id_modele_groupe: exam?.id_modele_groupe,
+      id_praticien: exam?.id_praticien,
+      id_profession: exam?.id_profession,
+      id_lieu: exam?.id_lieu,
+      fixe: 1,
+      position: exam?.position,
+      id_motif: exam?.id_motif,
+    }
 
-    examenService.updateExamen(isExamGroup ? exam[index]?.id_examen : exam?.id_examen, payload)
+    examenService.updateExamen(exam?.id_examen, payload)
       .then(response => {
         setLoading(false)
         setErrorMessage(false);
@@ -103,19 +103,20 @@ const ExamItem = ({
 
   const handleGetSpecialitie = () => {
     for (var i = 0; i < specialitieData.length; i++) {
-      if (specialitieData[i]?.id == exam?.id_profession || specialitieData[i]?.id == examInfo[index]?.id_profession) {
+      if (specialitieData[i]?.id == exam?.id_profession) {
         setSpecialite(specialitieData[i].libelle);
         return;
       }
     }
   }
   const handleGetPraticien = () => {
-    for (var i = 0; i < praticienData.length; i++) {
-      if (praticienData[i]?.id_praticien == exam?.id_praticien || praticienData[i]?.id_praticien == examInfo[index]?.id_praticien) {
-        setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
-        return;
+    if (praticienData && praticienData.length > 0)
+      for (var i = 0; i < praticienData.length; i++) {
+        if (praticienData[i]?.id_praticien == exam?.id_praticien) {
+          setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
+          return;
+        }
       }
-    }
   }
   const handleLoading = (l) => {
     loadingScreen(l)
@@ -125,7 +126,7 @@ const ExamItem = ({
 
     setLoading(true);
     handleLoading(true);
-    examenService.deleteExamen(isExamGroup ? exam[index]?.id_examen : exam?.id_examen)
+    examenService.deleteExamen(exam?.id_examen)
       .then(response => {
         handleGetExams();
         setLoading(false);
@@ -144,7 +145,7 @@ const ExamItem = ({
   }, [reRender]);
 
   return (
-    <div style={{ ...styles.lineWrapper, backgroundColor: isExamGroup ? exam[index]?.color_type_rdv : exam.color_type_rdv }}>
+    <div style={{ ...styles.lineWrapper, backgroundColor: exam.color_type_rdv }}>
       <div style={styles.flex}>
         <div>
           <Propover
@@ -155,7 +156,7 @@ const ExamItem = ({
             exam={exam}
             isExamGroup={isExamGroup}
             groupKey={groupKey}
-            examId={isExamGroup ? exam[index]?.id_examen : exam?.id_examen}
+            examId={isExamGroup ? exam?.id_examen : exam?.id_examen}
             loading={loading}
             loadingScreen={handleLoading}
             setReload={() => setReload(!reload)}

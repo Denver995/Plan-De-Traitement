@@ -4,13 +4,16 @@ import {
   EuiFlexGroup,
   EuiSpacer,
 } from "@elastic/eui";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe-254.svg";
 import { ReactComponent as PencilIcon } from "../../../assets/svgs/Groupe-460.svg";
 import { setAlert, setComponent } from "../../../redux/commons/actions";
+import ModelGroupeService from "../../../services/modelGroupe";
+import ExamenService from "../../../services/examens";
+
 import {
   SetShowGroupeContentForUpdate,
   toggleFixGroupPosition,
@@ -31,10 +34,51 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
     (state) => state.ExamenReducer.groupeToShowContentId
   );
   const previousStep = getStepByKey(steps, STEP3);
-  const groupesWithData = useSelector(
-    (state) => state.ExamenReducer.groupWithData
-  );
+  // const groupesWithData = useSelector(
+  //   (state) => state.ExamenReducer.groupWithData
+  // );
+  const [groupesWithData, setGroupesWithData] = useState({});
+
+
+  useEffect(() => {
+    getGroupExam()
+  }, [])
+
+  const getGroupExam = () => {
+    let newobjet = {}
+    setGroupesWithData({})
+    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
+      .then((response) => {
+        response.data.data.forEach((element, index) => {
+          ExamenService.getExamenByIds(parseInt(modelData.id), parseInt(element.id_modele_groupe))
+            .then((res) => {
+
+              newobjet["group " + index] = {
+                payload: element,
+                positionFixed: false,
+                exams: res.data.data
+              }
+              setGroupesWithData(newobjet)
+            })
+            .catch((error) => {
+
+              newobjet["group " + index] = {
+                payload: element,
+                positionFixed: false,
+                exams: []
+              }
+              setGroupesWithData(newobjet)
+            });
+
+        });
+
+      })
+      .catch((error) => {
+      });
+
+  }
   const groupesWithDataKeys = Object.keys(groupesWithData);
+
   const alertMessage = `<EuiText className="text_alert" style={{font: normal normal 600 22px/25px Open Sans, marginBottom: 20}}>Ce modèle va être enregistré sous le nom : </EuiText>
     <p style={{color: '#5d9ad4'}}>Xxxxxxxxxx xxxxxxxxxxx XXXX</p>`;
   const onSave = () => {
@@ -123,7 +167,6 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
                 <TimeLineHelper index={index} entityType={"Groupe"} />
                 <RecapExamItemV2
                   entityType={"Groupe"}
-                  // color={""}
                   onFixePosition={() => {
                     dispatch(
                       toggleFixGroupPosition({
@@ -140,6 +183,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
                     groupesWithData["group " + index]?.positionFixed
                   }
                   group={group}
+                  groupesWithData={groupesWithData}
                 />
               </div>
             ))
