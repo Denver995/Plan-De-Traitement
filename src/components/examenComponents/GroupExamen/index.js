@@ -759,12 +759,12 @@ const GroupExamenSummary = ({
   useEffect(() => {
     setReRender(false);
     setDisable(canContinue());
-  }, [showForm, ignored, canContinue]);
+  }, [showForm, ignored, canContinue, groupesWithData]);
 
   useEffect(() => {
     setReRender(true);
     setDisable(canContinue());
-  }, [reRender, disable, setDisable, canContinue]);
+  }, [reRender, disable, setDisable, canContinue, groupesWithData]);
 
   const handleOnDragEnd = (result) => {
     let source = result.source.index;
