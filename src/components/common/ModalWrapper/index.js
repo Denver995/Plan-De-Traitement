@@ -6,6 +6,8 @@ import {
   EuiSpacer,
 } from "@elastic/eui";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setModalState } from "../../../redux/commons/actions";
 import colors from "../../../utils/colors";
 import styles from "./styles";
 
@@ -13,12 +15,28 @@ const ModalWrapper = ({
   children,
   classContainer,
   closeModal,
+  onCancel,
+  goBack,
   style,
   className,
   titleText,
 }) => {
+  const dispatch = useDispatch()
   const handleClose = () => {
-    closeModal();
+    console.log('fermer modal')
+    // dispatch(setModalState(false))
+    if (goBack) {
+      try {
+        goBack()
+      } catch (e) { }
+    } else if (onCancel) {
+      try {
+        onCancel()
+      } catch (e) { }
+    } else {
+      window.location = "/"
+      dispatch(setModalState(false))
+    }
   };
 
   return (

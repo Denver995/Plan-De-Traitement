@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ModelForm from "./ModelForm";
 import Alert from "./Alert";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getActiveStep, getStepByKey } from "../utils/helper";
 import { STEP1, STEP2, STEP3 } from "../utils/constants";
 import ButtonLight from "./Buttons/ButtonLight";
@@ -14,22 +14,24 @@ import colors from "../utils/colors";
 
 import PopUp from "./PopUp";
 import { EuiButton } from "@elastic/eui";
+import { setModalState } from "../redux/commons/actions";
 
 const MainScreen = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const dispatch = useDispatch()
   const steps = useSelector((state) => state.StepReducer.steps);
+  const modalState = useSelector(state=>state.CommonReducer.modalState)
+  console.log("modalState", modalState)
   const alert = useSelector((state) => state.CommonReducer.alert);
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);
   const isRecorded = useSelector((state) => state.ModelsReducer.isRecorded);
 
   const closeModal = () => {
-    setIsModalVisible(false);
+    dispatch(setModalState(true));
     window.location = "";
   };
 
-  const showModal = () => setIsModalVisible(true);
+  const showModal = () => dispatch(setModalState(true))
 
   let modal;
   let content;
@@ -52,7 +54,7 @@ const MainScreen = () => {
           closeModal={closeModal}
         />
       ) : (
-        <ExamenWrapper activeGroup={activeGroup} isModelGroup={isModelGroup} />
+        <ExamenWrapper activeGroup={activeGroup} closeModal={closeModal} isModelGroup={isModelGroup} />
       );
       break;
     case STEP3:
@@ -69,7 +71,7 @@ const MainScreen = () => {
       return content;
   }
 
-  if (isModalVisible && !alert.showAlert) {
+  if (modalState && !alert.showAlert) {
     modal = content;
   }
 

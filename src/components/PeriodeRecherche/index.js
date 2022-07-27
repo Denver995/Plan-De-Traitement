@@ -56,7 +56,7 @@ const PeriodeRechercheForm = ({ showPeriodForm }) => {
   }, [periode, label]);
 
   return (
-    <ModalWrapper style={styles.modal}>
+    <ModalWrapper style={styles.modal} goBack={goBack}>
       <EuiForm style={styles.container} component="form">
         <div style={{ display: "flex", flexDirection: "row" }}>
           <img

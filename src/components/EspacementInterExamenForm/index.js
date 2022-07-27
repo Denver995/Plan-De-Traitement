@@ -146,9 +146,8 @@ const EspacementInterExamenForm = ({
     return;
   };
 
-
   return (
-    <ModalWrapper style={styles.modal}>
+    <ModalWrapper style={styles.modal} goBack = {goBack}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
         {typeEspacement === type_espacement.group ? (
           <div style={{ display: 'flex', flexDirection: "row" }}>

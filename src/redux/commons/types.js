@@ -16,3 +16,5 @@ export const ERROR = 'ERROR';
 export const SHOW_PERIOD_FORM = 'SHOW_PERIOD_FORM'; 
 
 export const IS_ACTIVE = 'IS_ACTIVE';
+
+export const SET_MODAL_STATE = "SET_MODAL_STATE";

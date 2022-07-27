@@ -401,7 +401,7 @@ const ExamenForm = ({
 
   return (
     <>
-      <ModalWrapper style={styles.modal}>
+      <ModalWrapper style={styles.modal} onCancel={onCancel}>
         <EuiSpacer size="m" />
         <div style={styles.examForm}>
           <div>

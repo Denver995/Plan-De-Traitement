@@ -54,7 +54,6 @@ const GroupItem = ({
   groupPayload,
   openGroup,
   reRender_,
-  showPeriodForm,
 }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
@@ -62,6 +61,7 @@ const GroupItem = ({
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
+  const showPeriodForm = useSelector(state=>state.CommonReducer.showPeriodForm);
   const [IsForSubExam, setIsForSubExam] = useState([false, 0, 0]);
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setReRender] = useState(false);
@@ -140,8 +140,6 @@ const GroupItem = ({
     }
   }, [openGroup]);
 
-  const onDragEnd = ({ source, destination }) => {
-  };
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (

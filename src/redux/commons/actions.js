@@ -51,3 +51,10 @@ export const setActive = (payload) => ({
   type: types.IS_ACTIVE,
   payload,
 });
+
+export const setModalState = (stateMod) => {
+  return {
+    type: types.SET_MODAL_STATE,
+    stateMod
+  }
+};

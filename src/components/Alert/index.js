@@ -350,6 +350,8 @@ const Alert = ({
 
   return (
     <ModalWrapper
+      goBack={() => dispatch(setAlert({ showAlert: false, message: "" }))}
+      closeModal={closeModal}
       style={styles.modal}
       titleText={alert.title !== "" ? alert.title : "Enregistrer le modèle"}
     >

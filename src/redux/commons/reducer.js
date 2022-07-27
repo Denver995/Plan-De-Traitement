@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
   active: false,
+  modalState:false
 };
 
 function CommonReducer(state = INITIAL_STATE, action) {
@@ -73,6 +74,7 @@ function CommonReducer(state = INITIAL_STATE, action) {
         error: action.error,
       };
     case types.SHOW_PERIOD_FORM:
+      console.log(action.payload)
       return {
         ...state,
         showPeriodForm: action.payload,
@@ -81,6 +83,11 @@ function CommonReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         active: action.payload,
+      };
+      case types.SET_MODAL_STATE:
+      return {
+        ...state,
+        modalState: action.stateMod
       };
     default:
       return state;
