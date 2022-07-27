@@ -245,35 +245,30 @@ const ExamsList = ({
                                   className="delai-inter-group"
                                 >
                                   {espacementNonGroupe &&
-                                  espacementNonGroupe[
-                                    "espaceNonGroupe " + index
-                                  ].length > 0 &&
-                                  espacementNonGroupe[
-                                    "espaceNonGroupe " + index
-                                  ][
                                     espacementNonGroupe[
                                       "espaceNonGroupe " + index
-                                    ].length - 1
-                                  ].applyOnAll === false
-                                    ? `Délai entre l'examen ${
-                                        index + 1
-                                      } et l'examen ${index + 2} : ${
-                                        espacementNonGroupe[
-                                          "espaceNonGroupe " + index
-                                        ][0].minInterval
-                                      } ${
-                                        espacementNonGroupe[
-                                          "espaceNonGroupe " + index
-                                        ][0].minIntervalUnit
-                                      } - ${
-                                        espacementNonGroupe[
-                                          "espaceNonGroupe " + index
-                                        ][0].maxInterval
-                                      } ${
-                                        espacementNonGroupe[
-                                          "espaceNonGroupe " + index
-                                        ][0].minIntervalUnit
-                                      }`
+                                    ].length > 0 &&
+                                    espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][
+                                      espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ].length - 1
+                                    ].applyOnAll === false
+                                    ? `Délai entre l'examen ${index + 1
+                                    } et l'examen ${index + 2} : ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].minInterval
+                                    } ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].minIntervalUnit
+                                    } - ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].maxInterval
+                                    } ${espacementNonGroupe[
+                                      "espaceNonGroupe " + index
+                                    ][0].minIntervalUnit
+                                    }`
                                     : espacementNonGroupe &&
                                       espacementNonGroupe[
                                         "espaceNonGroupe " + index
@@ -285,42 +280,37 @@ const ExamsList = ({
                                           "espaceNonGroupe " + index
                                         ].length - 1
                                       ].applyOnAll === true
-                                    ? `Délai entre l'examen ${
-                                        index + 1
-                                      } et l'examen ${index + 2} : ${
+                                      ? `Délai entre l'examen ${index + 1
+                                      } et l'examen ${index + 2} : ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ][
-                                          espacementNonGroupe[
-                                            "espaceNonGroupe " + index
-                                          ].length - 1
-                                        ].minInterval
-                                      } ${
+                                        ].length - 1
+                                      ].minInterval
+                                      } ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ][
-                                          espacementNonGroupe[
-                                            "espaceNonGroupe " + index
-                                          ].length - 1
-                                        ].minIntervalUnit
-                                      } - ${
+                                        ].length - 1
+                                      ].minIntervalUnit
+                                      } - ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ][
-                                          espacementNonGroupe[
-                                            "espaceNonGroupe " + index
-                                          ].length - 1
-                                        ].maxInterval
-                                      } ${
+                                        ].length - 1
+                                      ].maxInterval
+                                      } ${espacementNonGroupe[
+                                        "espaceNonGroupe " + index
+                                      ][
                                         espacementNonGroupe[
                                           "espaceNonGroupe " + index
-                                        ][
-                                          espacementNonGroupe[
-                                            "espaceNonGroupe " + index
-                                          ].length - 1
-                                        ].minIntervalUnit
+                                        ].length - 1
+                                      ].minIntervalUnit
                                       }`
-                                    : "Choisir l'intervalle inter examen"}
+                                      : "Choisir l'intervalle inter examen"}
                                 </span>
                               )}
                               <EuiSpacer size="xs" />

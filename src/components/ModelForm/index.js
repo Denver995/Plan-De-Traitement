@@ -7,6 +7,7 @@ import {
   EuiFlexItem,
   EuiForm,
   EuiFormRow,
+  EuiSelect,
   EuiSpacer,
   EuiText,
   useGeneratedHtmlId
@@ -69,6 +70,7 @@ const ModalForm = ({
   );
   const { innerWidth } = useDimension();
   const [listTypePeriode, setListTypePeriode] = useState([]);
+  const [options, setOPtions] = useState([])
 
   useEffect(() => {
     GranulariteService.getListeGranularite()
@@ -242,6 +244,12 @@ const ModalForm = ({
     }
   };
 
+  useEffect(() => {
+    listTypePeriode.forEach(data => {
+      setOPtions([...options, { value: data.value, text: data.text }]);
+    });
+  }, [listTypePeriode])
+
   return (
     <ModalWrapper className="modale-modelForm" style={styles.modal}>
       <EuiForm id={modalFormId} style={styles.form}>
@@ -394,19 +402,14 @@ const ModalForm = ({
                   />
                 </div>
                 <div style={{ width: "49%" }}>
-                  <select
-                    name="cars"
-                    className="styled-select"
-                    id="cars"
+                  <EuiSelect
                     style={styles.fieldNumber2}
-                    onChange={onChangeTypePeriode}
-                  >
-                    {listTypePeriode.map((item, index) => (
-                      <option key={index} value={item.value}>
-                        {item.text}
-                      </option>
-                    ))}
-                  </select>
+                    className="styled-select"
+                    fullWidth
+                    options={options}
+                    onChange={(e) => onChangeTypePeriode(e)}
+                    isClearable={true}
+                  />
                 </div>
               </div>
             </EuiFlexItem>

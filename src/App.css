@@ -455,7 +455,7 @@ hr {
     width: 100%;
   }
 }
-@media screen and (max-width: 446px) and (min-width: 0px) {
+@media screen and (max-width: 480px) and (min-width: 0px) {
   .btn-suivant-modelForm {
     width: 100%;
   }

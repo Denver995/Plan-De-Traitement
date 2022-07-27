@@ -59,7 +59,7 @@ const RecapExamItemV2 = ({
         parentSubExamId={index_}
         initialId={index_}
       />) :
-        <VerticalTimelineElement
+        (<VerticalTimelineElement
           className="custom-vertical-timeline-element-group"
           contentStyle={{
             background: "white",
@@ -230,7 +230,7 @@ const RecapExamItemV2 = ({
               </EuiDroppable>
             </EuiDragDropContext>
           </div>
-        </VerticalTimelineElement>}
+        </VerticalTimelineElement>)}
     </>
   );
 };
