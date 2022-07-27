@@ -175,9 +175,7 @@ const RecapitulatifDesExamens = ({
               </EuiButtonEmpty>
             )}
             <EuiButton className="custom-button button-valid custom-non-group-valid" style={{
-              ...styles.validateBtn,
-              bottom: innerWidth < 458 ?? 110,
-              marginRight: innerWidth < 458 ? 0 : 30,
+              ...styles.validateBtn
             }} fill={true} onClick={onSave}>
               Valider
             </EuiButton>

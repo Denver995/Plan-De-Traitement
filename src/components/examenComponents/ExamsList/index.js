@@ -197,9 +197,8 @@ const ExamsList = ({
   };
 
   useEffect(() => {
-    setExamsList(exams);
     getAllExams()
-  }, [exams]);
+  }, []);
 
   return (
     <>

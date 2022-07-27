@@ -140,6 +140,8 @@ const GroupItem = ({
     }
   }, [openGroup]);
 
+  const onDragEnd = ({ source, destination }) => {
+  };
 
   const colorsArr = ["primaryLight", "danger", "success", "warning"];
   return (
