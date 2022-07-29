@@ -109,11 +109,19 @@ const ExamenForm = ({
     setFixedExamPosition(!fixedExamPosition);
   };
 
-  const onChangeSpecialite = (e) => { setSpecialite(e ? e : "") };
+  const onChangeSpecialite = (e) => {
+    setSpecialite(e ? e : "")
+    if (e != "" && e != undefined)
+      getMotif(e.value)
+  };
 
-  const onChangeMotif = (e) => setMotif(e ? e : "");
+  const onChangeMotif = (e) => {
+    setMotif(e ? e : "")
+    if (e != '' && e != undefined)
+      getLieu(e.value)
+  };
 
-  const onChangePraticien = (e) => setPraticien(e ? e : "");
+  const onChangePraticien = (e) => setPraticien(e ? e : "")
 
   const onChangeLieu = (e) => setLieu(e ? e : "");
 
@@ -284,9 +292,20 @@ const ExamenForm = ({
           setSpecialite(data)
         }
       })
-      ;
 
-    LieuxService.getListeLieux()
+    if (((formType == typeScreen.examFormEdit) && !examGroupedToEdite?.id_examen) ||
+      (formType == typeScreen.examFormEdit) && examGroupedToEdite?.id_examen) {
+      getMotif(examData?.id_profession);
+      getLieu(examData?.id_motif);
+      getPraticien(examData?.id_motif, examData?.id_lieu);
+    }
+
+  }, []);
+
+  const getLieu = (e) => {
+    setListLieu([])
+    setLieu("")
+    LieuxService.getListeLieux(e)
       .then((res) => {
         dispatch(shareLieu(res.data.tabinfo));
         let data = [];
@@ -298,10 +317,13 @@ const ExamenForm = ({
           data = data.filter((item) => item.value == examData?.id_lieu)
           setLieu(data)
         }
-      })
-      .catch((error) => { });
+      });
+  }
 
-    MotifsService.getListeMotif()
+  const getMotif = (e) => {
+    setListMotif([])
+    setMotif('')
+    MotifsService.getListeMotif(e)
       .then((res) => {
         dispatch(shareMotif(res.data.tabinfo));
         let data = [];
@@ -316,10 +338,18 @@ const ExamenForm = ({
           data = data.filter((item) => item.value == examData?.id_motif)
           setMotif(data)
         }
-      })
-      .catch((error) => { });
+      });
+  }
 
-    PraticiensService.getListePraticien()
+  useEffect(() => {
+    if (motif && lieu)
+      getPraticien()
+  }, [motif, lieu])
+
+  const getPraticien = (mot = undefined, lie = undefined) => {
+    setListPraticien([])
+    setPraticien('')
+    PraticiensService.getListePraticien(mot ? motif : motif?.value, lie ? lieu : lieu?.value)
       .then((res) => {
         dispatch(sharePraticienData(res.data.tabinfo));
         let data = [];
@@ -334,9 +364,8 @@ const ExamenForm = ({
           data = data.filter((item) => item.value == examData?.id_praticien)
           setPraticien(data)
         }
-      })
-      .catch((error) => { });
-  }, []);
+      });
+  }
 
   useEffect(() => {
     if (reload) setReload(false);
@@ -358,6 +387,7 @@ const ExamenForm = ({
   ]);
 
   useEffect(() => { }, [groupSelected, examsGrouped]);
+
   const filterData = (inputValue, dataToMap) => {
     return dataToMap.filter((i) =>
       i.label.toLowerCase().includes(inputValue.toLowerCase())

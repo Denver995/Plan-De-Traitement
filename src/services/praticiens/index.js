@@ -2,13 +2,8 @@ import { BASE_URL_API } from "../../utils/urls";
 import http from '../http-helper';
 class PraticiensService {
 
-  getListePraticien = () => {
-    return http.get(BASE_URL_API + `api/api_praticien/praticien`, {
-      headers: {
-        "x-alx-idc": "85flnlrfavxymwvma",
-        "authorization": "alaxBOC@alaxione.fr 545541xfndwcsjpwvtita"
-      }
-    });
+  getListePraticien = (idtyperdv, idlieux) => {
+    return http.get(BASE_URL_API + `ajax/liste_praticien.php?idc=85flnlrfavxymwvma&idtyperdv=` + idtyperdv + `&idlieux=` + idlieux)
   }
 
 }
