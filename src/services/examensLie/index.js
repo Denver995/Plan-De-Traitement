@@ -10,6 +10,8 @@ class ExamenLieService {
     const formdata = new FormData();
     formdata.append("id_examen_parent", values.id_examen_parent);
     formdata.append("id_examen_enfant", values.id_examen_enfant);
+    formdata.append("id_granularite_max", values.id_granularite_max);
+    formdata.append("id_granularite_min", values.id_granularite_min);
     if (values.espacement_min)
       formdata.append("espacement_min", values.espacement_min);
     if (values.espacement_max)

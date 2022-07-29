@@ -6,7 +6,6 @@ import http from '../http-helper';
 
 
 class ExamenService {
-  //DONE
   createExamen = (payload) => {
     const formdata = new FormData();
     formdata.append("id_modele", payload.id_modele);
@@ -22,25 +21,20 @@ class ExamenService {
 
     return http.post(BASE_URL_API + `api/api_examen/examen`, formdata);
   }
-  //DONE
   getExamenByIds = (id_modele, id_modele_groupe) => {
 
     return http.get(BASE_URL_API + `api/api_examen/examen?id_modele=${id_modele}&id_modele_groupe=${id_modele_groupe}`);
   }
-  getExamenByModelId = (id_modele) => {
 
+  getExamenByModelId = (id_modele) => {
     return http.get(BASE_URL_API + `api/api_examen/examen?id_modele=${id_modele}`);
   }
-  //DONE
   getAllExamen = () => {
     return http.get(BASE_URL_API + `api/api_examen/examenAll`);
   }
-  //DONE
   deleteExamen = (id_examen) => {
     return http.delete(BASE_URL_API + `api/api_examen/examen/${id_examen}`);
-
   }
-  //NOT DONE
   updateExamen = (id_examen, payload) => {
     let objPatient = {}, objgroup = {}, data = {
       id_modele: payload.id_modele,

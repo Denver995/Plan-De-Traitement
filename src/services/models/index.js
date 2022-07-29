@@ -3,7 +3,7 @@ import http from '../http-helper';
 class ModelService {
   //Done
   createModele = (data) => {
-    var formdata = new FormData();
+    let formdata = new FormData();
     formdata.append("nom", data.nom);
     formdata.append("groupe_rdv", data.groupe_rdv);
     formdata.append("id_granularite_groupe", data.id_granularite_groupe);
@@ -25,7 +25,7 @@ class ModelService {
   }
   //DONE
   updateModele = (id_model_examen, data) => {
-    var formdata = new FormData();
+    let formdata = new FormData();
     formdata.append("nom", data.nom);
     formdata.append("groupe_rdv", data.groupe_rdv);
     formdata.append("id_granularite_groupe", data.id_granularite_groupe);

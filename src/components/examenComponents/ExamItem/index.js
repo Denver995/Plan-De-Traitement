@@ -23,20 +23,21 @@ const ExamItem = ({
   reload,
   setReload,
   loadingScreen,
-  setPredecessor
+  setPredecessor,
+  groupWithData
 }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [loading, setLoading] = useState(false);
   const modelData = useSelector(state => state.ModelsReducer.modelData);
   const praticienData = useSelector(state => state.ExamenReducer?.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
-  const examInfo = useSelector(state => state.ExamenReducer.examInfo);
   const [specialite, setSpecialite] = useState("");
   const [praticien, setPraticien] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
+
     function handleWindowResiwe() {
       setWindowSize(getWindowSize());
     }
@@ -50,30 +51,13 @@ const ExamItem = ({
       .then((response) => {
         dispatch(shareAllExams(response.data));
       })
-      .catch((error) => {
-
-      });
+      ;
   }
 
   const handleFixePosition = () => {
     setLoading(true);
     setErrorMessage(false);
-    let payload = {};
-
-    // if (isExamGroup)
-    //   payload = {
-    //     id_modele: exam[index]?.id_modele,
-    //     id_modele_groupe: exam[index]?.id_modele_groupe,
-    //     id_praticien: exam[index]?.id_praticien,
-    //     id_profession: exam[index]?.id_profession,
-    //     id_lieu: exam[index]?.id_lieu,
-    //     fixe: 1,
-    //     position: exam[index]?.position,
-    //     id_motif: exam[index]?.id_motif,
-    //   }
-
-    // else
-    payload = {
+    let payload = {
       id_modele: exam?.id_modele,
       id_modele_groupe: exam?.id_modele_groupe,
       id_praticien: exam?.id_praticien,
@@ -85,7 +69,7 @@ const ExamItem = ({
     }
 
     examenService.updateExamen(exam?.id_examen, payload)
-      .then(response => {
+      .then(() => {
         setLoading(false)
         setErrorMessage(false);
         dispatch(setError(null));
@@ -102,21 +86,23 @@ const ExamItem = ({
   }
 
   const handleGetSpecialitie = () => {
-    for (var i = 0; i < specialitieData.length; i++) {
-      if (specialitieData[i]?.id == exam?.id_profession) {
-        setSpecialite(specialitieData[i].libelle);
-        return;
-      }
-    }
+    if (specialitieData && specialitieData.length > 0)
+
+      specialitieData.forEach(element => {
+        if (element?.id == exam?.id_profession)
+          setSpecialite(element.libelle);
+
+      });
+
   }
   const handleGetPraticien = () => {
     if (praticienData && praticienData.length > 0)
-      for (var i = 0; i < praticienData.length; i++) {
-        if (praticienData[i]?.id_praticien == exam?.id_praticien) {
-          setPraticien(praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien);
-          return;
-        }
-      }
+
+      praticienData.forEach(element => {
+        if (element?.id_praticien == exam?.id_praticien)
+          setPraticien(element.nom_praticien + " " + element.prenom_praticien);
+      });
+
   }
   const handleLoading = (l) => {
     loadingScreen(l)
@@ -125,15 +111,15 @@ const ExamItem = ({
   const handleDeleteExam = () => {
 
     setLoading(true);
-    handleLoading(true);
+    // handleLoading(true);
     examenService.deleteExamen(exam?.id_examen)
       .then(response => {
         handleGetExams();
         setLoading(false);
-        handleLoading(false);
+        // handleLoading(false);
       })
       .catch(error => {
-        handleLoading(false);
+        // handleLoading(false);
         setLoading(false);
 
       })
@@ -156,12 +142,13 @@ const ExamItem = ({
             exam={exam}
             isExamGroup={isExamGroup}
             groupKey={groupKey}
-            examId={isExamGroup ? exam?.id_examen : exam?.id_examen}
+            examId={exam?.id_examen}
             loading={loading}
             loadingScreen={handleLoading}
             setReload={() => setReload(!reload)}
             predecessor={typeScreen.examList}
             setPredecessor={setPredecessor}
+            groupWithData={groupWithData}
           />
         </div>
         <div>

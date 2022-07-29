@@ -82,121 +82,118 @@ const RecapitulatifDesExamens = ({
     }
   }, [])
 
-  return (
-    <ModalWrapper style={styles.modal}>
-      {isModelGroup ? (
-        <SummaryGroupedExam closeModal={closeModal} isEditing={isEditing} />
-      ) : showAlert ? (
-        <Alert
-          showButtonBlock={true}
-          buttonText={button}
-          message={alertMessage}
-          onAccept={() => setShowAlert(false)}
-          onReject={() => setShowAlert(false)}
-          isConfirmation={true}
-          closeModal={closeModal}
-        />
-      ) : (
-        <div style={styles.container}>
-          <div style={styles.topContainer}>
-            <EuiSpacer size="l" />
-            <EuiFlexGroup style={styles.titleContainer}>
-              <CalendarIcon />
-              <p style={styles.title}>Recapitulatif des rendez vous</p>
-            </EuiFlexGroup>
-            <EuiSpacer size="s" />
-            <EuiHorizontalRule style={styles.horizontalRule} />
+  return (<ModalWrapper style={styles.modal}>
+    {isModelGroup ? (
+      <SummaryGroupedExam closeModal={closeModal} isEditing={isEditing} />
+    ) : showAlert ? (
+      <Alert
+        showButtonBlock={true}
+        buttonText={button}
+        message={alertMessage}
+        onAccept={() => setShowAlert(false)}
+        onReject={() => setShowAlert(false)}
+        isConfirmation={true}
+        closeModal={closeModal}
+      />
+    ) : (
+      <div style={styles.container}>
+        <div style={styles.topContainer}>
+          <EuiSpacer size="l" />
+          <EuiFlexGroup style={styles.titleContainer}>
+            <CalendarIcon />
+            <p style={styles.title}>Recapitulatif des rendez vous</p>
+          </EuiFlexGroup>
+          <EuiSpacer size="s" />
+          <EuiHorizontalRule style={styles.horizontalRule} />
 
-            <div style={styles.headContainer}>
-              <p style={styles.headLabel}>Modèle :</p>
-              <EuiSpacer size="s" />
-              <div style={styles.headTitleContainer}>
-                <p style={styles.headTitle}>
-                  {recapType === typeRecap.model
-                    ? modelData.nom || modelData.modelName
-                    : appointmentData.model.nom}
-                </p>
-                {recapType === typeRecap.model && (
-                  <Pencil
-                    onClick={() =>
-                      dispatch(setComponent(typeScreen.modelFomEdit))
-                    }
-                    width={"21px"}
-                    style={styles.pencil}
-                  />
-                )}
-              </div>
+          <div style={styles.headContainer}>
+            <p style={styles.headLabel}>Modèle :</p>
+            <EuiSpacer size="s" />
+            <div style={styles.headTitleContainer}>
+              <p style={styles.headTitle}>
+                {recapType === typeRecap.model
+                  ? modelData.nom || modelData.modelName
+                  : appointmentData.model.nom}
+              </p>
+              {recapType === typeRecap.model && (
+                <Pencil
+                  onClick={() =>
+                    dispatch(setComponent(typeScreen.modelFomEdit))
+                  }
+                  width={"21px"}
+                  style={styles.pencil}
+                />
+              )}
             </div>
           </div>
-          {!loading ?
-            <div style={styles.timeline} className="custom-timeline">
-              <VerticalTimeline
-                lineColor={"rgba(19, 83, 117, 0.479)"}
-                layout={"2-columns"}
-              >
-                {exams.map((exam, index) => (
-                  <div key={index}>
-                    <TimeLineHelper index={index} />
-                    <ExamCard
-                      entityType={"Examen"}
-                      loadingScreen={loadingScreen}
-                      examId={index}
-                      index={index}
-                      examen={exam}
-                      date="1h-2h"
-                      position={index % 2 === 0 ? "right" : "left"}
-                      onBack={onBack}
-                    />
-                  </div>
-                ))}
-              </VerticalTimeline>
-            </div>
-            :
-            <Box style={{ display: 'flex', alignItems: 'center' }}>
-              <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
-
-            </Box>
-          }
-          <EuiSpacer size="xxl" />
-
-          <EuiFlexGroup
-            className="custom-footer-group footer-non-group"
-            style={styles.btnContainer}
-          >
-            {recapType === typeRecap.model && (
-              <EuiButtonEmpty
-                className="custom-button custom-non-group"
-                style={styles.backBtn}
-                onClick={() => {
-                  onBack();
-                }}
-              >
-                Retour
-              </EuiButtonEmpty>
-            )}
-            <EuiButton className="custom-button button-valid custom-non-group-valid" style={{
-              ...styles.validateBtn
-            }} fill={true} onClick={onSave}>
-              Valider
-            </EuiButton>
-          </EuiFlexGroup>
-          <EuiSpacer size="m" />
-          <style jsx="true">
-            {`
-              euitext.text_alert {
-                width: 612px;
-                height: 30px;
-                text-align: center;
-                font: normal normal 600 22px/25px Open Sans;
-                letter-spacing: 0px;
-                color: #242729;
-                opacity: 1;
-              }
-            `}
-          </style>
         </div>
-      )}
-    </ModalWrapper>
+        {loading ? <Box style={{ paddingTop: '10rem', marginBottom: '3rem', display: 'flex', alignItems: 'center' }}>
+          <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
+        </Box>
+          :
+          <div style={styles.timeline} className="custom-timeline">
+            <VerticalTimeline
+              lineColor={"rgba(19, 83, 117, 0.479)"}
+              layout={"2-columns"}
+            >
+              {exams.map((exam, index) => (
+                <div key={index}>
+                  <TimeLineHelper index={index} />
+                  <ExamCard
+                    entityType={"Examen"}
+                    loadingScreen={loadingScreen}
+                    examId={index}
+                    index={index}
+                    examen={exam}
+                    date="1h-2h"
+                    position={index % 2 === 0 ? "right" : "left"}
+                    onBack={onBack}
+                  />
+                </div>
+              ))}
+            </VerticalTimeline>
+          </div>
+        }
+        <EuiSpacer size="xxl" />
+
+        <EuiFlexGroup
+          className="custom-footer-group footer-non-group"
+          style={styles.btnContainer}
+        >
+          {recapType === typeRecap.model && (
+            <EuiButtonEmpty
+              className="custom-button custom-non-group"
+              style={styles.backBtn}
+              onClick={() => {
+                onBack();
+              }}
+            >
+              Retour
+            </EuiButtonEmpty>
+          )}
+          <EuiButton className="custom-button button-valid custom-non-group-valid" style={{
+            ...styles.validateBtn
+          }} fill={true} onClick={onSave}>
+            Valider
+          </EuiButton>
+        </EuiFlexGroup>
+        <EuiSpacer size="m" />
+        <style jsx="true">
+          {`
+         euitext.text_alert {
+           width: 612px;
+           height: 30px;
+           text-align: center;
+           font: normal normal 600 22px/25px Open Sans;
+           letter-spacing: 0px;
+           color: #242729;
+           opacity: 1;
+         }
+       `}
+        </style>
+      </div>
+    )}
+  </ModalWrapper>
   );
 };
 

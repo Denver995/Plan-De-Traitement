@@ -6,15 +6,10 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiForm,
-  EuiFormRow,
-  EuiSelect,
-  EuiLoadingSpinner,
-  EuiSpacer,
+  EuiFormRow, EuiLoadingSpinner, EuiSelect, EuiSpacer,
   EuiText,
-  useGeneratedHtmlId,
+  useGeneratedHtmlId
 } from "@elastic/eui";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import ReactToolTip from "react-tooltip";
@@ -26,13 +21,13 @@ import {
   createGroups,
   numOfGroupsChange,
   shareGroupPayload,
-  updateModeleData,
+  updateModeleData
 } from "../../redux/examens/actions";
 import { setModelData, updateModel } from "../../redux/models/actions";
 import {
   addStep,
   desactivateStep,
-  updateStep,
+  updateStep
 } from "../../redux/steps/actions";
 import GranulariteService from "../../services/granularites";
 import ModelGroupeService from "../../services/modelGroupe";
@@ -56,7 +51,7 @@ const ModalForm = ({
   const steps = useSelector((state) => state.StepReducer.steps);
   const [nombreOccurence, setNombreOccurence] = useState(4);
   const [periode, setPeriode] = useState("1");
-  const [typePeriode, setTypePeriode] = useState();
+  const [typePeriode, setTypePeriode] = useState("");
   const [loading, setLoading] = useState(false);
   const [abort, setAbort] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -68,8 +63,8 @@ const ModalForm = ({
     isEdited
       ? modelData.nom || modelData.modelName
       : !isEdited && step.data.nom
-      ? step.data.nom
-      : ""
+        ? step.data.nom
+        : ""
   );
   const [showGroupOption, setShowGroupOption] = useState(
     !isEdited && step.data.nb_occurence ? true : false
@@ -87,7 +82,7 @@ const ModalForm = ({
         });
         setListTypePeriode(data);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, []);
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
@@ -103,11 +98,11 @@ const ModalForm = ({
     setAbort(true);
     if (modelData && modelData.id) {
       ModelService.deleteModele(modelData.id)
-        .then((response) => {
+        .then(() => {
           setAbort(false);
           closeModal();
         })
-        .then((error) => {
+        .then(() => {
           setAbort(false);
         });
     } else {
@@ -115,7 +110,7 @@ const ModalForm = ({
     }
   };
   const handleUpdateModele = () => {
-    ModelService.updateModele(modelData.id, {
+    let payload = {
       nom: nomModele,
       groupe_rdv: groupe_rdv ? 1 : 0,
       id_granularite_groupe: 2,
@@ -124,16 +119,19 @@ const ModalForm = ({
       id_entite: 4,
       periode: periode ? periode : 1,
       typePeriode: typePeriode,
-    })
-      .then((response) => {
+    }
+    ModelService.updateModele(modelData.id, payload)
+      .then(() => {
+        dispatch(updateModeleData(payload));
+
         dispatch(updateModel(nomModele));
         onSaveChange("RECAPITULATIF");
         setLoading(false);
         dispatch(setError(null));
       })
-      .catch((error) => {
+      .catch((err) => {
         setLoading(false);
-        if (error.message === "Network Error") {
+        if (err.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
           );
@@ -170,8 +168,7 @@ const ModalForm = ({
         id_modele: parseInt(modelData.id),
         nom: "Groupe " + i,
       })
-        .then((response) => {})
-        .catch((error) => {});
+        .then(() => { });
     }
     handleGetGroup();
   };
@@ -190,17 +187,18 @@ const ModalForm = ({
         typePeriode: typePeriode,
       };
       step.data = data;
-      dispatch(updateModeleData(data));
       if (groupe_rdv) {
         ModelService.updateModele(modelData.id, data)
-          .then((response) => {
+          .then(() => {
+            dispatch(updateModeleData(data));
+
             handleCreateGroup();
             setLoading(false);
             dispatch(setError(null));
           })
-          .catch((error) => {
+          .catch((err) => {
             setLoading(false);
-            if (error.message === "Network Error") {
+            if (err.message === "Network Error") {
               dispatch(
                 setError(
                   "Erreur de connexion, Vérifiez votre connexion internet"
@@ -227,8 +225,12 @@ const ModalForm = ({
         nb_occurence: nombreOccurence,
         espacement_groupe: 2,
         espacement_examen: 4,
+        typePeriode: typePeriode,
+
       };
       setErrorMessage(false);
+      dispatch(updateModeleData(payload));
+
       ModelService.createModele(payload)
         .then((response) => {
           dispatch(setError(null));

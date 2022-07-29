@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Plus } from "../../../assets/images";
 import { useDimension } from "../../../hooks/dimensions";
 import {
@@ -36,27 +36,20 @@ import ExamItem from "../ExamItem";
 import styles from "./styles";
 
 const ExamsList = ({
-  exams,
   onAdd,
   steps,
   modelData,
-  espacement,
-  formType,
-  onPrevious,
-  predecessor,
   actualNonGroupeIndex,
   setPredecessor,
 }) => {
   const innerWidth = { useDimension };
-  const espacementNonGroupe = useSelector(
-    (state) => state.ExamenReducer.espacementNonGroupe
-  );
+
   const dispatch = useDispatch();
   const [showInterExam, setShowInterExam] = useState(false);
   const [examsList, setExamsList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-
+  const [groupWithData, setGroupWithData] = useState({})
   const previousStep = getStepByKey(steps, STEP2);
 
   const onClickNext = () => {
@@ -65,41 +58,6 @@ const ExamsList = ({
     dispatch(startLoading());
     dispatch(desactivateStep(STEP2));
     dispatch(addStep(nextStep));
-  };
-
-  const handleUpdateExams = () => {
-    setLoading(true);
-    setErrorMessage(false);
-    for (var i = 0; i < examsList.length; i++) {
-      examenService
-        .updateExamen(examsList[i].id_examen, {
-          position: i,
-          id_modele: examsList[i]?.id_modele,
-          id_modele_groupe: examsList[i]?.id_modele_groupe,
-          id_praticien: examsList[i]?.id_praticien,
-          id_profession: examsList[i]?.id_profession,
-          id_lieu: examsList[i]?.id_lieu,
-          fixe: examsList[i]?.fixe ? 1 : 0,
-          id_motif: examsList[i]?.id_motif,
-        })
-        .then((response) => {
-          setLoading(false);
-          setErrorMessage(false);
-          dispatch(setError(null));
-        })
-        .catch((error) => {
-          setLoading(false);
-          setErrorMessage(true);
-          if (error.message === "Network Error") {
-            dispatch(
-              setError("Erreur de connexion, Vérifiez votre connexion internet")
-            );
-          } else {
-            dispatch(setError("Une erreur est survenue"));
-          }
-        });
-    }
-    onClickNext();
   };
 
   const handleUpdateIndex = (item, index) => {
@@ -167,6 +125,27 @@ const ExamsList = ({
     }
   };
   const onCancel = () => {
+
+    setLoading(true);
+
+    examsList.forEach(element => {
+      examenService
+        .deleteExamen(element.id_examen)
+        .then((response) => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          if (error.message === "Network Error") {
+            dispatch(
+              setError("Erreur de connexion, Vérifiez votre connexion internet")
+            );
+          } else {
+            dispatch(setError("Une erreur est survenue"));
+          }
+        });
+    });
+
     dispatch(deleteStep(previousStep));
     onAdd("EXAMENFORM");
   };
@@ -250,6 +229,7 @@ const ExamsList = ({
                                 id_modele={item.id_modele}
                                 loadingScreen={loadingScreen}
                                 setPredecessor={setPredecessor}
+                                groupWithData={groupWithData}
                               />
                               <EuiSpacer size="xs" />
                               {index !== examsList?.length - 1 && (
@@ -397,7 +377,7 @@ const ExamsList = ({
                 <EuiButton
                   style={styles.activated}
                   className="button_next_me"
-                  onClick={handleUpdateExams}
+                  onClick={onClickNext}
                 >
                   Terminer
                 </EuiButton>
@@ -421,7 +401,6 @@ const ExamsList = ({
 const mapStateToProps = ({ StepReducer, ModelsReducer, ExamenReducer }) => ({
   steps: StepReducer.steps,
   modelData: ModelsReducer.modelData,
-  espacement: ExamenReducer.espacement,
   actualNonGroupeIndex: ExamenReducer.actualNonGroupeIndex,
 });
 export default connect(mapStateToProps)(ExamsList);

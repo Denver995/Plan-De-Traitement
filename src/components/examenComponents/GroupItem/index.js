@@ -1,45 +1,29 @@
 import {
-  EuiButton,
-  EuiButtonEmpty, EuiDragDropContext,
+  EuiDragDropContext,
   EuiDraggable,
-  EuiDroppable, EuiFlexGroup, EuiLoadingSpinner,
-  EuiSpacer
+  EuiDroppable
 } from "@elastic/eui";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import React, { useEffect, useState } from 'react';
+import { Draggable } from "react-beautiful-dnd";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { setError } from "../../../redux/commons/actions";
 import {
-  deleteGroup,
-  dragAndDrog,
-  getSelectedExamGroup,
+  deleteGroup, getSelectedExamGroup,
   setActiveGroup,
   setIsClose,
-  setShowExamForm,
-  SetShowGroupeContentForUpdate,
-  shareGroupExamPayload,
+  setShowExamForm, shareGroupExamPayload,
   toggleFixGroupPosition
 } from "../../../redux/examens/actions";
-import {
-  addStep,
-  deleteStep,
-  desactivateStep
-} from "../../../redux/steps/actions";
 import ExamenService from "../../../services/examens";
 import ModelGroupeService from "../../../services/modelGroupe";
-import ModelService from "../../../services/models";
 import colors from "../../../utils/colors";
-import { STEP2, STEP3, type_espacement } from "../../../utils/constants";
-import { createStep, getStepByKey } from "../../../utils/helper";
-import ModalWrapper from "../../common/ModalWrapper";
+import { type_espacement } from "../../../utils/constants";
 import EspacementInterExamenForm from "../../EspacementInterExamenForm";
 import PeriodeRechercheForm from "../../PeriodeRecherche";
 import Propover from "../../Propover";
-import ExamenForm from "../ExamenForm";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
 
@@ -49,12 +33,11 @@ const getExamByGroupIndex = (group, groupKey) => {
 };
 
 const GroupItem = ({
-  groupName,
   espacement,
-  // groupWithData,
-  groupPayload,
   openGroup,
   reRender_,
+  groupWithData,
+  groupWithDataTab
 }) => {
   const dispatch = useDispatch();
   const [reRenderDel, setRerenderDel] = useState(false);
@@ -62,7 +45,7 @@ const GroupItem = ({
   const espacementSubExam = useSelector(
     (state) => state.ExamenReducer.espacementSubExam
   );
-  const showPeriodForm = useSelector(state=>state.CommonReducer.showPeriodForm);
+  const showPeriodForm = useSelector(state => state.CommonReducer.showPeriodForm);
   const [IsForSubExam, setIsForSubExam] = useState([false, 0, 0]);
   const [toggledGroup, setToggledGroup] = useState([]);
   const [reRender, setReRender] = useState(false);
@@ -72,7 +55,6 @@ const GroupItem = ({
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialGroupId, setInitialGroupId] = useState(1);
-  const [groupWithData, setGroupWithData] = useState({});
 
   const toggle = (index) => {
     let newToggledGroup = toggledGroup;
@@ -92,70 +74,20 @@ const GroupItem = ({
   const handleDeleteGroup = (id, groupKey) => {
     setLoading(true);
     ModelGroupeService.deleteModelGroupe(id)
-      .then((response) => {
+      .then(() => {
         setLoading(false);
-        dispatch(deleteGroup(groupKey));
-        setRerenderDel(true);
+        reRender_();
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
+        reRender_();
+
       });
   };
-  const getGroupExam = () => {
-    let newobjet = {}
-    setLoading(true);
-    setGroupWithData({})
-    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
-      .then((response) => {
-        setLoading(false);
-        response.data.data.forEach((element, index) => {
-
-          ExamenService.getExamenByIds(parseInt(modelData.id), parseInt(element.id_modele_groupe))
-            .then((res) => {
-              setLoading(false);
-
-              newobjet["group " + index] = {
-                payload: element,
-                positionFixed: false,
-                exams: res.data.data
-              }
-              setGroupWithData(newobjet)
-            })
-            .catch((error) => {
-              setLoading(false);
-
-              newobjet["group " + index] = {
-                payload: element,
-                positionFixed: false,
-                exams: []
-              }
-              setGroupWithData(newobjet)
-            });
-
-        });
-        setLoading(false);
-
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-
-  }
-  useEffect(() => {
-    getGroupExam()
-    let newToggleGrp = [];
-    Object.keys(groupWithData).map((item, i) => {
-      newToggleGrp[i] = false;
-      return newToggleGrp;
-    });
-    setToggledGroup(newToggleGrp);
-    setLoading(false);
-
-  }, [reload]);
 
   useEffect(() => {
     setReRender(false);
-    setReRender(false);
+
   }, [reRender, toggledGroup, reRenderDel, reRender_]);
 
   //is handle when click on "Choisir l'intervalle inter groupe"
@@ -198,6 +130,7 @@ const GroupItem = ({
           initialIndex={!IsForSubExam[0] ? intervalGroupIndex : IsForSubExam[1]}
           parentSubExamId={IsForSubExam[2]}
           initialId={initialGroupId}
+          isModelGroup={true}
         />
       ) :
         showPeriodForm?.status ? (
@@ -225,7 +158,7 @@ const GroupItem = ({
               </p>
             </div>
             {!loading ? (
-              Object.keys(groupWithData).map((groupKey, index) => {
+              groupWithDataTab.length > 0 && groupWithDataTab?.map((groupKey, index) => {
                 return (
                   <Draggable
                     disableInteractiveElementBlocking
@@ -251,6 +184,7 @@ const GroupItem = ({
                               >
                                 <div style={{ marginRight: 25 }}>
                                   <Propover
+                                    groupWithData={groupWithData}
                                     isOnGroupe={true}
                                     idGroupe={groupKey}
                                     isModelGroup={true}
@@ -405,6 +339,7 @@ const GroupItem = ({
                                                         groupKey={groupKey}
                                                         setReload={setReload}
                                                         reload={reload}
+                                                        groupWithData={groupWithData}
                                                       />
                                                       {i !==
                                                         Object.keys(
@@ -729,262 +664,9 @@ const GroupItem = ({
   );
 };
 
-const GroupExamenSummary = ({
-  nbrGroupe,
-  // groupWithData,
-  examsGrouped,
-  espacement,
-  openGroup,
-  showPeriodForm,
-}) => {
-  const dispatch = useDispatch();
-  const steps = useSelector((state) => state.StepReducer.steps);
-  const modelData = useSelector((state) => state.ModelsReducer.modelData);
-  const error = useSelector((state) => state.CommonReducer.error);
-  const groupesWithData = useSelector(
-    (state) => state.ExamenReducer.groupWithData
-  );
-  const showForm = useSelector((state) => state.CommonReducer.examen.show);
-  const previousStep = getStepByKey(steps, STEP2);
-  const [reRender, setReRender] = useState(false);
-  const [groupWithData, setGroupWithData] = useState({});
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [disable, setDisable] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
-
-  const handleUpdateModele = () => {
-    setLoading(true);
-    ModelService.updateModele(modelData.id, { complet: true })
-      .then((response) => {
-        setLoading(false);
-        dispatch(setError(null));
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (error.message === "Network Error") {
-          dispatch(
-            setError("Erreur de connexion, Vérifiez votre connexion internet")
-          );
-        } else {
-          dispatch(setError("Une erreur est survenue"));
-        }
-      });
-    let nextStep = createStep(STEP3);
-    nextStep.previousStep = previousStep;
-    dispatch(desactivateStep(STEP2));
-    dispatch(addStep(nextStep));
-    dispatch(SetShowGroupeContentForUpdate(-1));
-  };
-
-  const onClickNext = () => {
-    handleUpdateModele();
-  };
-
-  const onBack = () => dispatch(deleteStep(previousStep));
-
-  const onPrevious = () => {
-    dispatch(setShowExamForm(false));
-  };
-
-  const canContinue = useCallback(() => {
-    let can = false;
-    let number = 0;
-    let groupesWithDataKeys = Object.keys(groupWithData);
-    for (var i = 0; i < groupesWithDataKeys.length; i++) {
-      if (groupWithData["group " + i]?.exams?.length > 0) {
-        number = number + 1;
-      }
-    }
-    if (number === groupesWithDataKeys.length) {
-      can = true;
-    }
-    return can;
-  });
-
-  useEffect(() => {
-    setReRender(false);
-    setDisable(canContinue());
-  }, [showForm, ignored, canContinue, groupWithData]);
-
-  useEffect(() => {
-    setReRender(true);
-    setDisable(canContinue());
-  }, [reRender, disable, setDisable, canContinue, groupWithData]);
-
-  useEffect(() => {
-    getGroupExam()
-    setLoading(false);
-
-  }, [])
-
-  const getGroupExam = () => {
-    let newobjet = {}
-    setLoading(true);
-    setGroupWithData({})
-    ModelGroupeService.getModelGroupe(parseInt(modelData.id))
-      .then((response) => {
-        setLoading(false);
-        response.data.data.forEach((element, index) => {
-
-          ExamenService.getExamenByIds(parseInt(modelData.id), parseInt(element.id_modele_groupe))
-            .then((res) => {
-              setLoading(false);
-
-              newobjet["group " + index] = {
-                payload: element,
-                positionFixed: false,
-                exams: res.data.data
-              }
-              setGroupWithData(newobjet)
-            })
-            .catch((error) => {
-              setLoading(false);
-
-              newobjet["group " + index] = {
-                payload: element,
-                positionFixed: false,
-                exams: []
-              }
-              setGroupWithData(newobjet)
-            });
-
-        });
-        setLoading(false);
-
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-
-  }
-
-  const handleOnDragEnd = (result) => {
-    let source = result.source.index;
-    let destination = result.destination.index;
-    if (!result.destination) return;
-    const items = Object.keys(groupWithData);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    if (
-      groupesWithData["group " + source].positionFixed === false &&
-      groupesWithData["group " + destination].positionFixed === false
-    ) {
-      dispatch(dragAndDrog({ source, destination }));
-    }
-    setReRender(true);
-    forceUpdate();
-  };
-  console.log(disable, groupesWithData)
-  return (
-    <ModalWrapper style={styles.modal}>
-      {showForm ? (
-        <ExamenForm
-          isModelGroup={true}
-          onPrevious={onPrevious}
-          handleGetExamByGroupIndex={getExamByGroupIndex}
-        />
-      ) : (
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{ marginTop: 28, marginBottom: 60 }}
-              >
-                {[...Array(nbrGroupe).keys()].map((item, index) => (
-                  <GroupItem
-                    reRender_={reRender}
-                    groupName={"Group " + index + 1}
-                    key={index}
-                    espacement={espacement}
-                    groupWithData={groupWithData}
-                    openGroup={openGroup}
-                    showPeriodForm={showPeriodForm?.status}
-                  />
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      )}
-
-      {groupWithData["group 0"] === undefined && (
-        <div style={styles.loader}>
-          <EuiLoadingSpinner size="xxl" color={colors.primary} />
-        </div>
-      )}
-
-      {!showForm && (
-        <>
-          <EuiFlexGroup
-            className="btn_group"
-            style={{
-              margin: 17,
-              ...styles.cancelBtn,
-              display: "flex",
-              flexDirection: disable ? "row-reverse" : "row",
-              justifyContent: disable ? "space-between" : "",
-            }}
-          >
-            {disable && (
-              <EuiButton
-                fill={true}
-                style={{
-                  ...styles.addBtn,
-                  visibility:
-                    Object.keys(groupWithData).length < 1
-                      ? "hidden"
-                      : "visible",
-                }}
-                className="button_next_me"
-                onClick={onClickNext}
-              >
-                {loading ? (
-                  <Box style={{ display: "flex", alignItems: "center" }}>
-                    <CircularProgress
-                      style={{
-                        marginRight: "5px",
-                        color: "white",
-                        width: "25px",
-                        height: "25px",
-                      }}
-                    />
-                    Enregistrer
-                  </Box>
-                ) : (
-                  <>Enregistrer</>
-                )}
-              </EuiButton>
-            )}
-            <EuiButtonEmpty onClick={onBack} className="button_cancel_me">
-              Retour
-            </EuiButtonEmpty>
-          </EuiFlexGroup>
-        </>
-      )}
-      {errorMessage && (
-        <>
-          <EuiSpacer size="xl" />
-          <p style={{ color: "red", textAlign: "center" }}>{error}</p>
-        </>
-      )}
-    </ModalWrapper>
-  );
-};
-
-const mapStateToProps = ({ ExamenReducer, CommonReducer }) => ({
-  examsGrouped: ExamenReducer.examsGrouped,
-  numOfGroups: ExamenReducer.numOfGroups,
-  exams: ExamenReducer.exams,
-  groupSelected: ExamenReducer.examenSelected,
+const mapStateToProps = ({ ModelsReducer, ExamenReducer }) => ({
+  modelData: ModelsReducer.modelData,
   espacement: ExamenReducer.espacement,
-  groupWithData: ExamenReducer.groupWithData,
-  openGroup: ExamenReducer.openGroup,
-  dataModeleUpdate: ExamenReducer.dataModeleUpdate,
-  showPeriodForm: CommonReducer.showPeriodForm,
 });
 
-export default connect(mapStateToProps)(GroupExamenSummary);
+export default connect(mapStateToProps)(GroupItem);

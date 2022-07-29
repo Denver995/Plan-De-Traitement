@@ -29,9 +29,9 @@ const EspacementInterExamenForm = ({
   const { euiTheme } = useEuiTheme();
   const dispatch = useDispatch();
   const [minInterval, setMinInterval] = useState();
-  const [minIntervalUnit, setMinIntervalUnit] = useState("Jour");
+  const [minIntervalUnit, setMinIntervalUnit] = useState("");
   const [maxInterval, setMaxInterval] = useState();
-  const [maxIntervalUnit, setMaxIntervalUnit] = useState("Jour");
+  const [maxIntervalUnit, setMaxIntervalUnit] = useState("");
   const modalFormId = useGeneratedHtmlId({ prefix: "modalForm" });
   const [isValid, setIsValid] = useState(false)
   const [loading, setLoading] = useState(false);
@@ -43,14 +43,16 @@ const EspacementInterExamenForm = ({
   useEffect(() => {
     GranulariteService.getListeGranularite()
       .then((res) => {
-        var data = [];
+        let data = [];
         res.data.data.forEach((element) => {
           data.push({ value: element.id_granularite, text: element.nom });
         });
+        setMaxIntervalUnit(data.length > 0 ? data[0].value : "")
+        setMinIntervalUnit(data.length > 0 ? data[0].value : "")
+
         setOptionsMax(data);
         setOptionsMin(data);
-      })
-      .catch((error) => { });
+      });
   }, [])
 
   useEffect(() => {
@@ -118,9 +120,16 @@ const EspacementInterExamenForm = ({
       minInterval: minInterval,
       maxInterval: maxInterval,
       isModelGroup: isModelGroup,
+      minIntervalUnit: minIntervalUnit,
+      maxIntervalUnit: maxIntervalUnit,
       typeAl: "espacement"
     }
-    const alertMessage = "Souhaitez-vous appliquer cette intervalle à tous les espacements inter examens ?"
+    let alertMessage = ''
+    if (typeEspacement == 'GROUPE')
+      alertMessage = "Souhaitez-vous appliquer cette intervalle à tous les espacements inter groupes ?"
+    else
+      alertMessage = "Souhaitez-vous appliquer cette intervalle à tous les espacements inter examens ?"
+
     dispatch(
       setAlert({
         title: "Enregistrer le modèle",
@@ -147,7 +156,7 @@ const EspacementInterExamenForm = ({
   };
 
   return (
-    <ModalWrapper style={styles.modal} goBack = {goBack}>
+    <ModalWrapper style={styles.modal} goBack={goBack}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
         {typeEspacement === type_espacement.group ? (
           <div style={{ display: 'flex', flexDirection: "row" }}>
@@ -233,7 +242,7 @@ const EspacementInterExamenForm = ({
             <p style={styles.annuler}>Annuler</p>
           </EuiButton>
           <EuiButton
-            type="submit"
+            type="button"
             form={modalFormId}
             onClick={submit}
             style={

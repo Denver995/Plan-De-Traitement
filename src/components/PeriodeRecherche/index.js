@@ -12,21 +12,23 @@ import { useEffect, useState } from "react";
 import { fleche } from "../../assets/images/index";
 import ModalWrapper from "../common/ModalWrapper";
 import styles from "./style";
-// import { setAlert } from "../../redux/commons/actions";
 import { connect, useDispatch } from "react-redux";
 import ReactTooltip from "react-tooltip";
 import { ReactComponent as InfoIcon } from "../../assets/svgs/Soustraction-1.svg";
-import { setShowPeriodForm } from "../../redux/commons/actions";
+import { setError, setShowPeriodForm } from "../../redux/commons/actions";
 import GranulariteService from "../../services/granularites";
 import colors from "../../utils/colors";
+import ModelService from "../../services/models";
+import { Box, CircularProgress } from "@mui/material";
+import { updateModeleData } from "../../redux/examens/actions";
 
-const PeriodeRechercheForm = ({ showPeriodForm }) => {
+const PeriodeRechercheForm = ({ dataModeleUpdate, modelData }) => {
   const [options, setOptions] = useState([])
   const dispatch = useDispatch();
   const [periode, setPeriode] = useState();
   const [label, setLabel] = useState("");
   const [isValid, setIsValid] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const changePeriode = (e) => setPeriode(e.target.value);
   const changeLabel = (e) => setLabel(e.target.value);
 
@@ -35,21 +37,54 @@ const PeriodeRechercheForm = ({ showPeriodForm }) => {
   };
 
   const saveChange = () => {
-    dispatch(setShowPeriodForm({ data: {}, status: false }));
+    setLoading(true);
+
+    let payload = {
+      nom: dataModeleUpdate.nom,
+      groupe_rdv: dataModeleUpdate.groupe_rdv,
+      id_granularite_groupe: dataModeleUpdate.id_granularite_groupe,
+      id_granularite_examen: dataModeleUpdate.id_granularite_examen,
+      nb_occurence: parseInt(dataModeleUpdate.nb_occurence),
+      id_entite: dataModeleUpdate.id_entite,
+      periode: parseInt(periode),
+      typePeriode: parseInt(label),
+    }
+    ModelService.updateModele(modelData.id, payload)
+      .then(() => {
+        dispatch(updateModeleData(payload));
+
+        goBack()
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (err.message === "Network Error") {
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
+        } else {
+          dispatch(setError("Une erreur est survenue"));
+        }
+      });
   };
 
   useEffect(() => {
+    setPeriode(dataModeleUpdate?.periode)
+
+
     GranulariteService.getListeGranularite()
       .then((res) => {
-        var data = [];
+        let data = [];
         res.data.data.forEach((element) => {
           data.push({ value: element.id_granularite, text: element.nom });
         });
-        setLabel(data.length > 0 ? data[0].value : "")
+        if (dataModeleUpdate?.typePeriode)
+          setLabel(dataModeleUpdate?.typePeriode)
+        else
+          setLabel(data.length > 0 ? data[0].value : "")
         setOptions(data);
-      })
-      .catch((error) => { });
+      });
   }, [])
+
 
   useEffect(() => {
     setIsValid(!(periode === undefined || periode === ""));
@@ -158,10 +193,22 @@ const PeriodeRechercheForm = ({ showPeriodForm }) => {
             onClick={saveChange}
             type="submit"
             style={!isValid ? styles.submitDeactivated : styles.submit}
-            disabled={!isValid}
+            disabled={!isValid || loading}
             className="inter-add"
           >
-            <p style={styles.ajouter}>Ajouter</p>
+            {loading ? (
+              <Box style={{ display: "flex", alignItems: "center" }}>
+                <CircularProgress
+                  style={{
+                    marginRight: "5px",
+                    color: "white",
+                    width: "25px",
+                    height: "25px",
+                  }}
+                />
+              </Box>
+            ) : (
+              <p style={styles.ajouter}>Ajouter</p>)}
           </EuiButton>
         </div>
       </EuiForm>
@@ -178,8 +225,10 @@ const PeriodeRechercheForm = ({ showPeriodForm }) => {
   );
 };
 
-const mapStateToProps = ({ CommonReducer }) => ({
-  showPeriodForm: CommonReducer.showPeriodForm,
+const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
+  dataModeleUpdate: ExamenReducer.dataModeleUpdate,
+  modelData: ModelsReducer.modelData,
+
 });
 
 export default connect(mapStateToProps)(PeriodeRechercheForm);

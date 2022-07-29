@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { setComponent } from "../../../redux/commons/actions";
-import GroupExamenSummary from "../GroupExamen";
+import GroupExamenSummary from "../GroupExamenSummary";
 import RecapitulatifDesExamens from "../RecapitulatifDesExamens";
 
 const GroupWrapper = ({

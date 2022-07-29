@@ -58,23 +58,14 @@ const Alert = ({
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  
+
 
   useEffect(() => { }, [buttonText]);
-
-  const handleGetExamenGroup = () => {
-    examenService
-      .getExamenByIds(parseInt(modelData.id), groupExamPayload.idGroup)
-      .then((response) => {
-        dispatch(shareListExamGroup(response.data.data));
-      })
-      .catch((error) => { });
-  };
 
   const handleUpdateModele = () => {
     setLoading(true);
     ModelService.updateModele(modelData.id, { complet: true })
-      .then((response) => {
+      .then(() => {
         setLoading(false);
         dispatch(setError(null));
         onAccept();
@@ -105,17 +96,19 @@ const Alert = ({
       id_groupe_enfant: parseInt(alert?.espacementData?.initialId + 1),
       espacement_min: alert?.espacementData.minInterval,
       espacement_max: alert?.espacementData?.maxInterval,
+      id_granularite_min: alert?.espacementData.minIntervalUnit,
+      id_granularite_max: alert?.espacementData?.maxIntervalUnit,
     })
-      .then((response) => {
+      .then(() => {
         onReject();
         setErrorMessage(false);
         dispatch(setError(null));
         setLoading(false);
       })
-      .catch((error) => {
+      .catch((err) => {
         setLoading(false);
         setErrorMessage(true);
-        if (error.message === "Network Error") {
+        if (err.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
           );
@@ -128,20 +121,31 @@ const Alert = ({
   const handleCreateExamenLie = () => {
     setErrorMessage(false);
     setLoading(true);
-    let initialIds = 0;
-    for (var i = 0; i < getAllExams.length; i++) {
+    let initialIds = 0, idini = 0, initialIds1 = 0;
+    console.log('dddddddddddddddddd  ', alert?.espacementData, getAllExams, getAllExams[alert?.espacementData?.initialIndex]);
+    getAllExams.forEach((element, i) => {
       if (i === alert?.espacementData?.initialIndex) {
-        initialIds = getAllExams[i].id_examen;
+        initialIds = element.id_examen;
+        idini = i
       }
-    }
+    });
+
+    getAllExams.forEach((element, i) => {
+      if (idini === i) {
+        initialIds1 = element.id_examen;
+      }
+    });
+
     examenLieService
       .createExamenLie({
         id_examen_parent: parseInt(initialIds),
-        id_examen_enfant: parseInt(initialIds + 1),
+        id_examen_enfant: parseInt(initialIds1),
         espacement_min: alert?.espacementData.minInterval,
         espacement_max: alert?.espacementData?.maxInterval,
+        id_granularite_min: alert?.espacementData.minIntervalUnit,
+        id_granularite_max: alert?.espacementData?.maxIntervalUnit,
       })
-      .then((response) => {
+      .then(() => {
         onReject();
         setErrorMessage(false);
         dispatch(setError(null));
@@ -163,23 +167,26 @@ const Alert = ({
   const handleCreateExamenLieForAll = () => {
     setErrorMessage(false);
     setLoading(true);
-    for (var i = 0; i < getAllExams.length - 1; i++) {
+
+    for (let i = 0; i < getAllExams.length - 1; i++) {
       examenLieService
         .createExamenLie({
           id_examen_parent: parseInt(getAllExams[i].id_examen),
           id_examen_enfant: parseInt(getAllExams[i + 1].id_examen),
           espacement_min: alert?.espacementData.minInterval,
           espacement_max: alert?.espacementData?.maxInterval,
+          id_granularite_min: alert?.espacementData.minIntervalUnit,
+          id_granularite_max: alert?.espacementData?.maxIntervalUnit,
         })
-        .then((response) => {
+        .then(() => {
           setErrorMessage(false);
           dispatch(setError(null));
           setLoading(false);
         })
-        .catch((error) => {
+        .catch((err) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message === "Network Error") {
+          if (err.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -192,6 +199,7 @@ const Alert = ({
   };
 
   const handleCreateGroupeLieForAll = () => {
+
     for (let i = 0; i < groupPayload.length - 1; i++) {
       setErrorMessage(false);
       setLoading(true);
@@ -200,16 +208,18 @@ const Alert = ({
         id_groupe_enfant: groupPayload[i + 1].id_modele_groupe,
         espacement_min: alert?.espacementData?.minInterval,
         espacement_max: alert?.espacementData?.maxInterval,
+        id_granularite_min: alert?.espacementData.minIntervalUnit,
+        id_granularite_max: alert?.espacementData?.maxIntervalUnit,
       })
-        .then((response) => {
+        .then(() => {
           setErrorMessage(false);
           dispatch(setError(null));
           setLoading(false);
         })
-        .catch((error) => {
+        .catch((err) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message === "Network Error") {
+          if (err.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -236,20 +246,14 @@ const Alert = ({
         position: 1,
       })
       .then((response) => {
-        handleGetExamenGroup();
         onReject();
         setLoading(false);
         setErrorMessage(false);
         dispatch(setError(null));
         response.data.data.id_group = activeGroup;
         response.data.data.allGroup = true;
-        dispatch(addExam({ index: activeGroup, exam: response.data.data }));
-        dispatch(
-          addExamOnAllGroups({ index: activeGroup, exam: response.data.data })
-        );
         dispatch(setShowExamForm(false));
         dispatch(setAlert(false));
-        dispatch(CreateEspacementSubExam());
       })
       .catch((error) => {
         setLoading(false);
@@ -267,28 +271,31 @@ const Alert = ({
   const handleCreateExamenForAll = () => {
     setLoading(true);
     setErrorMessage(false);
-    for (let i = 0; i < groupPayload.length; i++) {
+    groupPayload.forEach(element => {
+      let payload = {
+        id_modele: element.id_modele,
+        id_modele_groupe: element.id_modele_groupe,
+        id_praticien: alert?.userIn?.id_praticien,
+        id_profession: alert?.userIn?.id_profession,
+        id_lieu: alert?.userIn?.id_lieu,
+        id_motif: alert?.userIn?.id_motif,
+        fixe: alert?.userIn?.fixedPosition ? 1 : 0,
+        position: 1,
+      }
       examenService
-        .createExamen({
-          id_modele: groupPayload[i].id_modele,
-          id_modele_groupe: groupPayload[i].id_modele_groupe,
-          id_praticien: alert?.userIn?.id_praticien,
-          id_profession: alert?.userIn?.id_profession,
-          id_lieu: alert?.userIn?.id_lieu,
-          id_motif: alert?.userIn?.id_motif,
-          fixe: alert?.userIn?.fixedPosition ? 1 : 0,
-          position: 1,
-        })
-        .then((response) => {
+        .createExamen(payload)
+        .then(() => {
+          dispatch(setAlert(false));
+          dispatch(setShowExamForm(false));
 
           setLoading(false);
           setErrorMessage(false);
           dispatch(setError(null));
         })
-        .catch((error) => {
+        .catch((err) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message === "Network Error") {
+          if (err.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -296,7 +303,8 @@ const Alert = ({
             dispatch(setError("Une erreur est survenue"));
           }
         });
-    }
+    });
+
     dispatch(setShowExamForm(false));
     dispatch(setAlert(false));
     dispatch(CreateEspacementSubExam());
@@ -338,7 +346,6 @@ const Alert = ({
 
   const submit = () => {
     if (onAccept) {
-      console.log('on passe la')
       onAccept();
       dispatch(setAlert({ showAlert: false, message: "" }));
       if (isConfirmation || alert.isConfirmation) {
@@ -351,7 +358,7 @@ const Alert = ({
     dispatch(setAlert({ showAlert: false, message: "" }));
     return;
   };
- 
+
 
   return (
     <ModalWrapper
@@ -372,7 +379,7 @@ const Alert = ({
               />
             </EuiFormRow>
           </EuiForm>
-        ) : isConfirmation || alert.isConfirmation ? (
+        ) : (isConfirmation || alert.isConfirmation) ? (
           <div>
             <p
               style={{

@@ -63,7 +63,8 @@ const ExamenForm = ({
   handleGetExamByGroupIndex,
   predecessor,
   groupWithData,
-  examData
+  examData,
+  examGroupedToEdite
 }) => {
   const dispatch = useDispatch();
   const fixedExamenCheckboxId = useGeneratedHtmlId({
@@ -72,9 +73,9 @@ const ExamenForm = ({
   const mustBeEditable = useSelector(
     (state) => state.ExamenReducer.mustBeEditable
   );
-  const examGroupedToEdite = useSelector(
-    (state) => state.ExamenReducer.ExamenReducer
-  );
+  // const examGroupedToEdite = useSelector(
+  //   (state) => state.ExamenReducer.ExamenReducer
+  // );
   const steps = useSelector((state) => state.StepReducer.steps);
   const error = useSelector((state) => state.CommonReducer.error);
   const groupExamPayload = useSelector(
@@ -83,9 +84,7 @@ const ExamenForm = ({
   const examenSelected = useSelector(
     (state) => state.CommonReducer.examen.examData
   );
-  const examsListGroup = useSelector(
-    (state) => state.ExamenReducer.examsListGroup
-  );
+
   const [fixedExamPosition, setFixedExamPosition] = useState(false);
   const [showEditForm, setShowEditForm] = useState(
     mustBeEditable ? true : formType === typeScreen.examFormEdit
@@ -139,7 +138,6 @@ const ExamenForm = ({
       id_motif: motif?.value,
       id_profession: specialite?.value,
       fixe: fixedExamPosition ? 1 : 0,
-      // positionFixed: fixedExamPosition,
       position: 1,
     };
     if (isModelGroup) {
@@ -154,21 +152,10 @@ const ExamenForm = ({
           userIn: userInfo,
           typeAlert: "examens",
           onAccept: () => {
-            // examsListGroup.allGroup = true;
-            // dispatch(addExam({ index: activeGroup, exam: examsListGroup }));
-            // dispatch(
-            //   addExamOnAllGroups({ index: activeGroup, exam: examsListGroup })
-            // );
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
-            // dispatch(CreateEspacementSubExam());
           },
           onReject: () => {
-            examsListGroup.allGroup = false;
-            dispatch(addExam({ index: activeGroup, exam: examsListGroup }));
-            dispatch(
-              addExamGrouped({ index: activeGroup, exam: examsListGroup })
-            );
             dispatch(setShowExamForm(false));
             dispatch(setAlert(false));
             dispatch(CreateEspacementSubExam());
@@ -180,13 +167,13 @@ const ExamenForm = ({
       setErrorMessage(false);
       examenService
         .createExamen(payload)
-        .then((response) => {
+        .then(() => {
           onAddExam({ name: "EXAMSLIST" });
         })
-        .catch((error) => {
+        .catch((err) => {
           setLoading(false);
           setErrorMessage(true);
-          if (error.message === "Network Error") {
+          if (err.message === "Network Error") {
             dispatch(
               setError("Erreur de connexion, Vérifiez votre connexion internet")
             );
@@ -229,10 +216,10 @@ const ExamenForm = ({
         fixe: fixedExamPosition ? 1 : 0,
         position: examData.position ? examData.position : 1,
       })
-      .catch((error) => {
+      .catch((err) => {
         setLoading(false);
         setErrorMessage(true);
-        if (error.message === "Network Error") {
+        if (err.message === "Network Error") {
           dispatch(
             setError("Erreur de connexion, Vérifiez votre connexion internet")
           );
@@ -243,16 +230,15 @@ const ExamenForm = ({
   };
 
   const onCancel = () => {
+
     dispatch(mostBeEditable(false));
     if (isModelGroup) {
-      if (predecessor === typeScreen.examList || formType === typeScreen.examFormEdit) {
+      if (predecessor === typeScreen.examList || (formType && (formType === typeScreen.examFormEdit))) {
         dispatch(setComponent(typeScreen.examList));
         return;
       }
       if (showEditForm) {
-        let nextStep = createStep(STEP3);
-        nextStep.previousStep = previousStep;
-        dispatch(desactivateStep(STEP2));
+        let nextStep = createStep(STEP2);
         dispatch(setShowExamForm(false));
         dispatch(addStep(nextStep));
       }
@@ -262,7 +248,6 @@ const ExamenForm = ({
         formType === typeScreen.examFormEdit &&
         predecessor !== typeScreen.examList
       ) {
-        // dispatch(setComponent(typeScreen.examList));
         let nextStep = createStep(STEP3);
         nextStep.previousStep = previousStep;
         dispatch(startLoading());
@@ -281,11 +266,11 @@ const ExamenForm = ({
   };
 
   useEffect(() => {
-
-    if (formType != typeScreen.examFormEdit)
+    if ((formType != typeScreen.examFormEdit) && !examGroupedToEdite?.id_examen)
       examData = undefined
 
     setFixedExamPosition(examData ? examData.fixe : false)
+
     SpecialiteService.getListeSpecialite()
       .then((res) => {
         dispatch(shareSpecialitieData(res.data));
@@ -299,7 +284,7 @@ const ExamenForm = ({
           setSpecialite(data)
         }
       })
-      .catch((error) => { });
+      ;
 
     LieuxService.getListeLieux()
       .then((res) => {
@@ -369,7 +354,7 @@ const ExamenForm = ({
     showEditForm,
     steps,
     selectedExamId,
-    examGroupedToEdite,
+    // examGroupedToEdite,
   ]);
 
   useEffect(() => { }, [groupSelected, examsGrouped]);
@@ -380,9 +365,9 @@ const ExamenForm = ({
   };
 
   const customStyles = {
-    option: (provided, state) => ({
+    option: (provided) => ({
       ...provided,
-      backgroundColor: state.isSelected ? "white" : "white",
+      backgroundColor: "white",
       color: "rgb(93, 154, 212)",
       fontSize: 20,
     }),
@@ -402,7 +387,7 @@ const ExamenForm = ({
   const NoOptionsMessage = props => {
     return (
       <components.NoOptionsMessage {...props}>
-        <span>Chargement...</span> 
+        <span>Chargement...</span>
       </components.NoOptionsMessage>
     );
   };
@@ -423,8 +408,10 @@ const ExamenForm = ({
                 <EuiFlexItem grow={3}>
                   <p style={styles.text}>Groupe:</p>
                   <EuiSpacer size="s" />
-                  <p style={styles.input}>{`Groupe ${parseInt(activeGroup.slice(6)) + 1
-                    }`}</p>
+                  <p style={styles.input}> {
+                    groupWithData["group " + activeGroup]?.payload ?
+                      groupWithData["group " + activeGroup]?.payload.nom
+                      : groupWithData[activeGroup]?.payload.nom}</p>
                 </EuiFlexItem>
               ) : null}
             </EuiFlexGroup>
@@ -432,23 +419,21 @@ const ExamenForm = ({
               <EuiHorizontalRule className="horizontalRule" />
             </EuiFlexGroup>
           </div>
-          {isModelGroup && !mustBeEditable && showEditForm ? (
+          {isModelGroup && !mustBeEditable && showEditForm && (
             <div style={{ marginTop: 28, marginBottom: 28 }}>
               {handleGetExamByGroupIndex(groupWithData, activeGroup).map(
                 (item, index) => (
                   <div key={index}>
                     <ExamItem
-                      color={item.color}
                       showEditForm={setShowEditForm}
                       exam={item}
-                      id_modele={item.id_modele}
                       index={index}
                     />
                   </div>
                 )
               )}
             </div>
-          ) : null}
+          )}
           <EuiFlexGroup style={styles.titleContainer}>
             <TracIcon width={"1rem"} />
             <EuiFlexItem style={styles.examTitle}>Examen </EuiFlexItem>
@@ -467,7 +452,7 @@ const ExamenForm = ({
                   defaultOptions={listSpecialite}
                   onChange={onChangeSpecialite}
                   value={specialite}
-                  components = {{
+                  components={{
                     IndicatorSeparator: () => null,
                     ClearIndicator: () => null,
                     LoadingIndicator: () => null,
@@ -494,7 +479,7 @@ const ExamenForm = ({
                   isClearable
                   onChange={onChangeMotif}
                   value={motif}
-                  components = {{
+                  components={{
                     IndicatorSeparator: () => null,
                     ClearIndicator: () => null,
                     LoadingIndicator: () => null
@@ -522,7 +507,7 @@ const ExamenForm = ({
                   defaultOptions={listPraticien}
                   isClearable
                   onChange={onChangePraticien}
-                  components = {{
+                  components={{
                     IndicatorSeparator: () => null,
                     ClearIndicator: () => null,
                     LoadingIndicator: () => null,
@@ -548,7 +533,7 @@ const ExamenForm = ({
                   loadingMessage={() => "Chargement..."}
                   isClearable
                   onChange={onChangeLieu}
-                  components = {{
+                  components={{
                     IndicatorSeparator: () => null,
                     ClearIndicator: () => null,
                     LoadingIndicator: () => null
@@ -610,7 +595,6 @@ const ExamenForm = ({
                             height: "25px",
                           }}
                         />
-                        Enregistrer
                       </Box>
                     ) : (
                       <>Enregistrer</>
@@ -689,5 +673,7 @@ const mapStateToProps = ({ ExamenReducer, ModelsReducer }) => ({
   modelData: ModelsReducer.modelData,
   groupWithData: ExamenReducer.groupWithData,
   examData: ExamenReducer.examen?.examData,
+  examGroupedToEdite: ExamenReducer.examGroupedToEdite,
+
 });
 export default connect(mapStateToProps)(ExamenForm);

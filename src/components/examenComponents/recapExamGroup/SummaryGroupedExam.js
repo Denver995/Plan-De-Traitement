@@ -26,18 +26,18 @@ import TimeLineHelper from "../../common/TimeLineHelper";
 import ExamCard from "../ExamCard";
 import "./RecapExamGrp.css";
 import RecapExamItemV2 from "./RecapExamItemV2";
+import { Box, CircularProgress } from "@mui/material";
 
-const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
+const SummaryGroupedExam = ({ modelData, closeModal }) => {
   const dispatch = useDispatch();
   const steps = useSelector((state) => state.StepReducer.steps);
   const groupeToShowContentId = useSelector(
     (state) => state.ExamenReducer.groupeToShowContentId
   );
   const previousStep = getStepByKey(steps, STEP3);
-  // const groupesWithData = useSelector(
-  //   (state) => state.ExamenReducer.groupWithData
-  // );
+
   const [groupesWithData, setGroupesWithData] = useState({});
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
   }, [])
 
   const getGroupExam = () => {
+    setLoading(true)
     let newobjet = {}
     setGroupesWithData({})
     ModelGroupeService.getModelGroupe(parseInt(modelData.id))
@@ -59,8 +60,10 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
                 exams: res.data.data
               }
               setGroupesWithData(newobjet)
+              setLoading(false)
             })
             .catch((error) => {
+              setLoading(false)
 
               newobjet["group " + index] = {
                 payload: element,
@@ -74,6 +77,8 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
 
       })
       .catch((error) => {
+        setLoading(false)
+
       });
 
   }
@@ -151,64 +156,68 @@ const SummaryGroupedExam = ({ modelData, closeModal, isEditing }) => {
           />
         </div>
       </div>
-      <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card custom-timeline">
-        <EuiSpacer size="l" />
-        <VerticalTimeline
-          className="container"
-          lineColor={"rgba(19, 83, 117, 0.479)"}
-        >
-          {groupeToShowContentId === -1
-            ? groupesWithDataKeys.map((group, index) => (
-              <div
-                className="custom-timeline-group"
-                key={index}
-                style={{ position: "relative", paddingTop: 15 }}
-              >
-                <TimeLineHelper index={index} entityType={"Groupe"} />
-                <RecapExamItemV2
-                  entityType={"Groupe"}
-                  onFixePosition={() => {
-                    dispatch(
-                      toggleFixGroupPosition({
-                        selectedGroup: "group " + index,
-                      })
-                    );
-                  }}
-                  data={groupesWithData["group " + index]?.exams}
-                  date={new Date().toDateString()}
-                  index_={index}
-                  groupKey={"group " + index}
-                  position={index % 2 === 0 ? "right" : "left"}
-                  positionFixed={
-                    groupesWithData["group " + index]?.positionFixed
-                  }
-                  group={group}
-                  groupesWithData={groupesWithData}
-                />
-              </div>
-            ))
-            : groupesWithData["group " + groupeToShowContentId]?.exams?.map(
-              (exam, index) => (
-                <div key={index}>
-                  <TimeLineHelper index={index} entityType={"Examen"} />
-                  <ExamCard
-                    entityType={"Examen"}
-                    examen={exam}
-                    isExamGroup={false}
-                    groupKey={"group " + groupeToShowContentId}
-                    index={index}
-                    examId={index}
-                    color={exam.color}
-                    date="1h - 2h"
+      {loading ? <Box style={{ paddingTop: '10rem', marginBottom: '3rem', display: 'flex', alignItems: 'center' }}>
+        <CircularProgress style={{ margin: '20px auto', color: 'blue', width: '35px', height: '35px' }} />
+      </Box>
+        :
+        <div style={{ paddingTop: 110, marginTop: -10 }} className="exam-card custom-timeline">
+          <EuiSpacer size="l" />
+          <VerticalTimeline
+            className="container"
+            lineColor={"rgba(19, 83, 117, 0.479)"}
+          >
+            {groupeToShowContentId === -1
+              ? groupesWithDataKeys.map((group, index) => (
+                <div
+                  className="custom-timeline-group"
+                  key={index}
+                  style={{ position: "relative", paddingTop: 15 }}
+                >
+                  <TimeLineHelper index={index} entityType={"Groupe"} />
+                  <RecapExamItemV2
+                    entityType={"Groupe"}
+                    onFixePosition={() => {
+                      dispatch(
+                        toggleFixGroupPosition({
+                          selectedGroup: "group " + index,
+                        })
+                      );
+                    }}
+                    data={groupesWithData["group " + index]?.exams}
+                    date={new Date().toDateString()}
+                    index_={index}
+                    groupKey={"group " + index}
                     position={index % 2 === 0 ? "right" : "left"}
-                    examOnGroup={true}
-                    onBack={() => dispatch(deleteStep(previousStep))}
+                    positionFixed={
+                      groupesWithData["group " + index]?.positionFixed
+                    }
+                    group={group}
+                    groupesWithData={groupesWithData}
                   />
                 </div>
-              )
-            )}
-        </VerticalTimeline>
-      </div>
+              ))
+              : groupesWithData["group " + groupeToShowContentId]?.exams?.map(
+                (exam, index) => (
+                  <div key={index}>
+                    <TimeLineHelper index={index} entityType={"Examen"} />
+                    <ExamCard
+                      entityType={"Examen"}
+                      examen={exam}
+                      isExamGroup={false}
+                      groupKey={"group " + groupeToShowContentId}
+                      index={index}
+                      examId={index}
+                      color={exam.color}
+                      date="1h - 2h"
+                      position={index % 2 === 0 ? "right" : "left"}
+                      examOnGroup={true}
+                      onBack={() => dispatch(deleteStep(previousStep))}
+                    />
+                  </div>
+                )
+              )}
+          </VerticalTimeline>
+        </div>}
 
       <EuiFlexGroup
         className="custom-footer-group"
