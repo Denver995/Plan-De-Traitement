@@ -160,8 +160,8 @@ function ExamCard({
     for (var i = 0; i < motifData.length; i++) {
       let id;
       id = examen?.id_motif
-      if (motifData[i]?.id_motif_rdv == id) {
-        setMotif(motifData[i].libelle_motif_rdv);
+      if (motifData[i]?.id == id) {
+        setMotif(motifData[i].libelle);
         return;
       }
     }

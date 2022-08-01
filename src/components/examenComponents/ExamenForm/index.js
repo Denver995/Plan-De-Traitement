@@ -329,8 +329,8 @@ const ExamenForm = ({
         let data = [];
         res.data.tabinfo.forEach((element) => {
           data.push({
-            value: element.id_motif_rdv,
-            label: element.libelle_motif_rdv,
+            value: element.id,
+            label: element.libelle,
           });
         });
         setListMotif(data);

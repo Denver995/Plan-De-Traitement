@@ -89,8 +89,8 @@ const RecapExamItemV2 = ({
     for (var i = 0; i < motifData.length; i++) {
       let id;
       id = examen?.id_motif
-      if (motifData[i]?.id_motif_rdv == id) {
-        return motifData[i].libelle_motif_rdv
+      if (motifData[i]?.id == id) {
+        return motifData[i].libelle
       }
     }
   };
