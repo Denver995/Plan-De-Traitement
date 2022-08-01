@@ -3,7 +3,7 @@ import http from '../http-helper';
 class PraticiensService {
 
   getListePraticien = (idtyperdv, idlieux) => {
-    return http.get(BASE_URL_API + `ajax/liste_praticien.php?idc=85flnlrfavxymwvma&idtyperdv=` + idtyperdv + `&idlieux=` + idlieux)
+    return http.get(BASE_URL_API + `ajax/liste_praticien.php?idc=195kltbymwehnkhevh&idtyperdv=` + idtyperdv + `&idlieux=` + idlieux)
   }
 
 }
