@@ -54,45 +54,37 @@ const RecapExamItemV2 = ({
   }, [groupesWithData]);
 
   const handleGetSpecialitie = (examen) => {
-    for (var i = 0; i < specialitieData.length; i++) {
-      let id;
-      id = examen?.id_profession
-      if (specialitieData[i]?.id == id) {
-        return specialitieData[i].libelle;
+    specialitieData.forEach(element => {
+      if (element.id == examen?.id_profession) {
+        return element.libelle;
       }
-    }
+    });
+
   };
   const handleGetPraticien = (examen) => {
     if (praticienData && praticienData.length > 0)
-
-      for (var i = 0; i < praticienData.length; i++) {
-        let id;
-        id = examen?.id_praticien
-        if (praticienData[i]?.id_praticien == id) {
-          return praticienData[i].nom_praticien + " " + praticienData[i].prenom_praticien
-
+      praticienData.forEach(element => {
+        if (element.id_user == examen?.id_praticien) {
+          return element?.nom_sms_user + " " + element?.prenom
         }
-      }
+      });
+
   };
   const handleGetLieu = (examen) => {
-    for (var i = 0; i < lieuData.length; i++) {
-
-      let id;
-      id = examen?.id_lieu
-
-      if (lieuData[i].id_lieu == id) {
-        return lieuData[i].libelle_lieu
+    lieuData.forEach(element => {
+      if (element.id_lieu == examen?.id_lieu) {
+        return element.libelle_lieu;
       }
-    }
+    });
+
   };
   const handleGetMotif = (examen) => {
-    for (var i = 0; i < motifData.length; i++) {
-      let id;
-      id = examen?.id_motif
-      if (motifData[i]?.id == id) {
-        return motifData[i].libelle
+    motifData.forEach(element => {
+      if (element.id == examen?.id_motif) {
+        return element?.libelle
       }
-    }
+    });
+
   };
   const onDragEnd = ({ source, destination }) => {
 

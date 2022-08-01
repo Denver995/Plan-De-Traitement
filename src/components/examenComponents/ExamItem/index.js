@@ -96,11 +96,12 @@ const ExamItem = ({
 
   }
   const handleGetPraticien = () => {
+
     if (praticienData && praticienData.length > 0)
 
       praticienData.forEach(element => {
-        if (element?.id_praticien == exam?.id_praticien)
-          setPraticien(element.nom_praticien + " " + element.prenom_praticien);
+        if (element?.id_user == exam?.id_praticien)
+          setPraticien(element?.nom_sms_user + " " + element?.prenom);
       });
 
   }

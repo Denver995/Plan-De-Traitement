@@ -223,6 +223,8 @@ const ExamenForm = ({
         id_modele_groupe: idGroup,
         fixe: fixedExamPosition ? 1 : 0,
         position: examData.position ? examData.position : 1,
+      }).then(() => {
+        onAddExam({ name: "EXAMSLIST" });
       })
       .catch((err) => {
         setLoading(false);
@@ -307,10 +309,10 @@ const ExamenForm = ({
     setLieu("")
     LieuxService.getListeLieux(e)
       .then((res) => {
-        dispatch(shareLieu(res.data.tabinfo));
+        dispatch(shareLieu(res.data));
         let data = [];
-        res.data.tabinfo.forEach((element) => {
-          data.push({ value: element.id_lieu, label: element.libelle_lieu });
+        res.data.forEach((element) => {
+          data.push({ value: element.id, label: element.libelle });
         });
         setListLieu(data);
         if (examData?.id_lieu) {
@@ -325,15 +327,16 @@ const ExamenForm = ({
     setMotif('')
     MotifsService.getListeMotif(e)
       .then((res) => {
-        dispatch(shareMotif(res.data.tabinfo));
+        dispatch(shareMotif(res.data));
         let data = [];
-        res.data.tabinfo.forEach((element) => {
+        res.data.forEach((element) => {
           data.push({
             value: element.id,
             label: element.libelle,
           });
         });
         setListMotif(data);
+
         if (examData?.id_motif) {
           data = data.filter((item) => item.value == examData?.id_motif)
           setMotif(data)
@@ -342,22 +345,23 @@ const ExamenForm = ({
   }
 
   useEffect(() => {
-    if (motif && lieu)
+    if (motif && lieu && !examData)
       getPraticien()
   }, [motif, lieu])
 
   const getPraticien = (mot = undefined, lie = undefined) => {
     setListPraticien([])
     setPraticien('')
-    PraticiensService.getListePraticien(mot ? motif : motif?.value, lie ? lieu : lieu?.value)
+    PraticiensService.getListePraticien(mot !== undefined ? mot : motif?.value, lie !== undefined ? lie : lieu?.value)
       .then((res) => {
-        dispatch(sharePraticienData(res.data.tabinfo));
+        dispatch(sharePraticienData(res.data));
         let data = [];
-        res.data.tabinfo.forEach((element) => {
-          data.push({
-            value: element.id_praticien,
-            label: element.nom_praticien + " " + element.prenom_praticien,
-          });
+        res.data.forEach((element) => {
+          if (element.praticien !== '')
+            data.push({
+              value: element.id_user,
+              label: element?.nom_sms_user + " " + element?.prenom,
+            });
         });
         setListPraticien(data);
         if (examData?.id_praticien) {
