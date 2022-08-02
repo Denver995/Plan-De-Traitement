@@ -7,8 +7,7 @@ import {
   EuiLoadingSpinner,
   EuiModalBody,
   EuiModalFooter,
-  EuiSpacer,
-  EuiText,
+  EuiSpacer
 } from "@elastic/eui";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -16,11 +15,8 @@ import { ReactComponent as Pencil } from "../../assets/svgs/Groupe-460.svg";
 import { useDimension } from "../../hooks/dimensions";
 import { setAlert, setComponent, setError } from "../../redux/commons/actions";
 import {
-  addExam,
-  addExamOnAllGroups,
   CreateEspacementSubExam,
-  setShowExamForm,
-  shareListExamGroup,
+  setShowExamForm
 } from "../../redux/examens/actions";
 import { saveModel } from "../../redux/models/actions";
 import examenService from "../../services/examens";
@@ -54,7 +50,6 @@ const Alert = ({
     (state) => state.ExamenReducer.groupExamPayload
   );
   const groupPayload = useSelector((state) => state.ExamenReducer.groupPayload);
-  const getAllExams = useSelector((state) => state.ExamenReducer.getAllExams);
   const { innerWidth } = useDimension();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -121,25 +116,11 @@ const Alert = ({
   const handleCreateExamenLie = () => {
     setErrorMessage(false);
     setLoading(true);
-    let initialIds = 0, idini = 0, initialIds1 = 0;
-    console.log('dddddddddddddddddd  ', alert?.espacementData, getAllExams, getAllExams[alert?.espacementData?.initialIndex]);
-    getAllExams.forEach((element, i) => {
-      if (i === alert?.espacementData?.initialIndex) {
-        initialIds = element.id_examen;
-        idini = i
-      }
-    });
-
-    getAllExams.forEach((element, i) => {
-      if (idini === i) {
-        initialIds1 = element.id_examen;
-      }
-    });
 
     examenLieService
       .createExamenLie({
-        id_examen_parent: parseInt(initialIds),
-        id_examen_enfant: parseInt(initialIds1),
+        id_examen_parent: parseInt(alert?.espacementData?.initialId),
+        id_examen_enfant: parseInt(alert?.espacementData?.parentSubExamId),
         espacement_min: alert?.espacementData.minInterval,
         espacement_max: alert?.espacementData?.maxInterval,
         id_granularite_min: alert?.espacementData.minIntervalUnit,
@@ -151,7 +132,7 @@ const Alert = ({
         dispatch(setError(null));
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         setErrorMessage(true);
         if (error.message === "Network Error") {
@@ -168,33 +149,52 @@ const Alert = ({
     setErrorMessage(false);
     setLoading(true);
 
-    for (let i = 0; i < getAllExams.length - 1; i++) {
-      examenLieService
-        .createExamenLie({
-          id_examen_parent: parseInt(getAllExams[i].id_examen),
-          id_examen_enfant: parseInt(getAllExams[i + 1].id_examen),
-          espacement_min: alert?.espacementData.minInterval,
-          espacement_max: alert?.espacementData?.maxInterval,
-          id_granularite_min: alert?.espacementData.minIntervalUnit,
-          id_granularite_max: alert?.espacementData?.maxIntervalUnit,
-        })
-        .then(() => {
-          setErrorMessage(false);
-          dispatch(setError(null));
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-          setErrorMessage(true);
-          if (err.message === "Network Error") {
-            dispatch(
-              setError("Erreur de connexion, Vérifiez votre connexion internet")
-            );
-          } else {
-            dispatch(setError("Une erreur est survenue, veuillez réessayer"));
-          }
-        });
-    }
+    examenService
+      .getExamenByModelId(modelData.id)
+      .then((response) => {
+        setLoading(false);
+        let getAllExams = []
+        getAllExams = response.data.data;
+
+        for (let i = 0; i < getAllExams.length - 1; i++) {
+          examenLieService
+            .createExamenLie({
+              id_examen_parent: parseInt(getAllExams[i].id_examen),
+              id_examen_enfant: parseInt(getAllExams[i + 1].id_examen),
+              espacement_min: alert?.espacementData.minInterval,
+              espacement_max: alert?.espacementData?.maxInterval,
+              id_granularite_min: alert?.espacementData.minIntervalUnit,
+              id_granularite_max: alert?.espacementData?.maxIntervalUnit,
+            })
+            .then(() => {
+              setErrorMessage(false);
+              dispatch(setError(null));
+              setLoading(false);
+            })
+            .catch((err) => {
+              setLoading(false);
+              setErrorMessage(true);
+              if (err.message === "Network Error") {
+                dispatch(
+                  setError("Erreur de connexion, Vérifiez votre connexion internet")
+                );
+              } else {
+                dispatch(setError("Une erreur est survenue, veuillez réessayer"));
+              }
+            });
+        }
+      }).catch((err) => {
+        setLoading(false);
+        setErrorMessage(true);
+        if (err.message === "Network Error") {
+          dispatch(
+            setError("Erreur de connexion, Vérifiez votre connexion internet")
+          );
+        } else {
+          dispatch(setError("Une erreur est survenue, veuillez réessayer"));
+        }
+      });
+
     onAccept();
   };
 

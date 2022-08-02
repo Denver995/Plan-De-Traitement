@@ -146,7 +146,7 @@ const GroupExamenSummary = ({
 
                             newobjet["group " + index] = {
                                 payload: element,
-                                positionFixed: false,
+                                fixe: false,
                                 exams: res.data.data
                             }
 
@@ -160,7 +160,7 @@ const GroupExamenSummary = ({
 
                             newobjet["group " + index] = {
                                 payload: element,
-                                positionFixed: false,
+                                fixe: false,
                                 exams: []
                             }
                             newobjet = sortObject(newobjet);
@@ -201,8 +201,8 @@ const GroupExamenSummary = ({
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
         if (
-            groupesWithData["group " + source].positionFixed === false &&
-            groupesWithData["group " + destination].positionFixed === false
+            groupesWithData["group " + source].fixe === false &&
+            groupesWithData["group " + destination].fixe === false
         ) {
             dispatch(dragAndDrog({ source, destination }));
         }

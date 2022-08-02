@@ -23,7 +23,6 @@ const ModalWrapper = ({
 }) => {
   const dispatch = useDispatch()
   const handleClose = () => {
-    console.log('fermer modal')
     // dispatch(setModalState(false))
     if (goBack) {
       try {

@@ -119,10 +119,12 @@ const EspacementInterExamenForm = ({
       initialId: initialId,
       minInterval: minInterval,
       maxInterval: maxInterval,
-      isModelGroup: isModelGroup,
+      isModelGroup: typeEspacement == 'GROUPE',
       minIntervalUnit: minIntervalUnit,
       maxIntervalUnit: maxIntervalUnit,
-      typeAl: "espacement"
+      typeAl: "espacement",
+      parentSubExamId,
+      forSubExam,
     }
     let alertMessage = ''
     if (typeEspacement == 'GROUPE')
@@ -159,14 +161,18 @@ const EspacementInterExamenForm = ({
     <ModalWrapper style={styles.modal} goBack={goBack}>
       <EuiForm style={styles.container} id={modalFormId} component="form">
         {typeEspacement === type_espacement.group ? (
-          <div style={{ display: 'flex', flexDirection: "row" }}>
+          <><div style={{ display: 'flex', flexDirection: "row" }}>
             <img style={{ width: 20, marginRight: "15px" }} src={fleche} alt="this is a btn" />
             <p className="label_exams" style={styles.title}>
               Espacement entre le groupe {initialIndex + 1} et le groupe{" "}
               {initialIndex + 2}
             </p>
           </div>
-        ) : (
+            <p className="inter" style={styles.secondTitle}>
+              Espacement inter groupes*:
+            </p>
+          </>
+        ) : (<>
           <div style={{ display: 'flex', flexDirection: "row" }}>
             <img style={{ width: 20, marginRight: "15px" }} src={fleche} alt="this is a btn" />
             <p className="label_exams" style={styles.title}>
@@ -174,10 +180,12 @@ const EspacementInterExamenForm = ({
               {initialIndex + 2}
             </p>
           </div>
+          <p className="inter" style={styles.secondTitle}>
+            Espacement inter examens*:
+          </p>
+        </>
         )}
-        <p className="inter" style={styles.secondTitle}>
-          Espacement inter examens*:
-        </p>
+
         <div className="position">
           <EuiFlexGroup style={styles.bodyContainer}>
             <EuiFlexItem>

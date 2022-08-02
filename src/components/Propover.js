@@ -327,7 +327,7 @@ const Propover = ({
             onClick={onFixPosition}
             label={
               isModelGroup ? groupesWithData &&
-                groupesWithData[groupKey]?.positionFixed
+                groupesWithData[groupKey]?.fixe
                 ? "Defixer la position"
                 : "Fixer position" :
                 exam?.fixe ? "Defixer la position"

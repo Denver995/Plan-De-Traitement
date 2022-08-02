@@ -24,12 +24,12 @@ const ExamItem = ({
   setReload,
   loadingScreen,
   setPredecessor,
-  groupWithData
+  groupWithData,
+  praticienData
 }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [loading, setLoading] = useState(false);
   const modelData = useSelector(state => state.ModelsReducer.modelData);
-  const praticienData = useSelector(state => state.ExamenReducer?.praticienData);
   const specialitieData = useSelector(state => state.ExamenReducer.specialitieData);
   const [specialite, setSpecialite] = useState("");
   const [praticien, setPraticien] = useState("");
@@ -96,14 +96,17 @@ const ExamItem = ({
 
   }
   const handleGetPraticien = () => {
+    console.log('sssssssssssssss ', praticienData);
 
     if (praticienData && praticienData.length > 0)
 
       praticienData.forEach(element => {
-        if (element?.id_user == exam?.id_praticien)
-          setPraticien(element?.nom_sms_user + " " + element?.prenom);
-      });
+        if (exam?.id_praticien != 0)
+          if (element?.id_user == exam?.id_praticien)
+            setPraticien(element?.nom_sms_user + " " + element?.prenom);
+        console.log('sssssssssssssss ', exam?.id_praticien);
 
+      });
   }
   const handleLoading = (l) => {
     loadingScreen(l)

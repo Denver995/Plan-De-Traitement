@@ -19,8 +19,7 @@ import { setModalState } from "../redux/commons/actions";
 const MainScreen = () => {
   const dispatch = useDispatch()
   const steps = useSelector((state) => state.StepReducer.steps);
-  const modalState = useSelector(state=>state.CommonReducer.modalState)
-  console.log("modalState", modalState)
+  const modalState = useSelector(state => state.CommonReducer.modalState)
   const alert = useSelector((state) => state.CommonReducer.alert);
   const examsGrouped = useSelector((state) => state.ExamenReducer.examsGrouped);
   const activeGroup = useSelector((state) => state.ExamenReducer.activeGroup);

@@ -256,7 +256,7 @@ function ExamCard({
                   <h4 style={styles.adresse}>{lieu}</h4>
                 </>)}
               </div>
-              {(examen.positionFixed || examen.fixe) && (
+              {examen.fixe && (
                 <PinIcon
                   width={"7px"}
                   height={"11px"}
@@ -357,7 +357,7 @@ function ExamCard({
                     <h4 style={styles.adresse}>{lieu}</h4>
                   </>)}
                 </div>
-                {(examen.positionFixed || examen.fixe) && (
+                {examen.fixe && (
                   <PinIcon
                     width={"7px"}
                     height={"11px"}

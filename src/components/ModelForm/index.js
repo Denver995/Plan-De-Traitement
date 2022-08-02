@@ -70,19 +70,17 @@ const ModalForm = ({
     !isEdited && step.data.nb_occurence ? true : false
   );
   const { innerWidth } = useDimension();
-  const [listTypePeriode, setListTypePeriode] = useState([]);
   const [options, setOPtions] = useState([])
 
   useEffect(() => {
     GranulariteService.getListeGranularite()
       .then((res) => {
-        var data = [];
+        let data = [];
         res.data.data.forEach((element) => {
           data.push({ value: element.id_granularite, text: element.nom });
         });
-        setListTypePeriode(data);
+        setOPtions(data);
       })
-      .catch((error) => { });
   }, []);
 
   const onChangeGroupModelCheckbox = (is_group) => setIsGroup(is_group);
@@ -239,7 +237,7 @@ const ModalForm = ({
           dispatch(setModelData(response.data));
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
           setErrorMessage(true);
           if (error.message === "Network Error") {
@@ -253,11 +251,6 @@ const ModalForm = ({
     }
   };
 
-  useEffect(() => {
-    listTypePeriode.forEach(data => {
-      setOPtions([...options, { value: data.value, text: data.text }]);
-    });
-  }, [listTypePeriode])
 
   return (
     <ModalWrapper className="modale-modelForm" style={styles.modal}>

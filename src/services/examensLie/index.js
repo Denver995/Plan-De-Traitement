@@ -16,14 +16,14 @@ class ExamenLieService {
       formdata.append("espacement_min", values.espacement_min);
     if (values.espacement_max)
       formdata.append("espacement_max", values.espacement_max);
+    formdata.append("lie", 1);
 
     return http.post(BASE_URL_API + "api/api_examenlie/examenlie", formdata);
   }
 
   //NOT DONE
   getExamenLie = (payload) => {
-
-    return http.get(BASE_URL_API + `api/api_examenlie/examenlie/${payload}`);
+    return http.get(BASE_URL_API + `api/api_examenlie/examenlie?id_examen_parent=${payload}`);
   }
   //NOT DONE
   deleteExamenLie = (id_examenlie) => {
@@ -39,6 +39,9 @@ class ExamenLieService {
       formdata.append("espacement_min", values.espacement_min);
     if (values.espacement_max)
       formdata.append("espacement_max", values.espacement_max);
+    formdata.append("id_granularite_max", values.id_granularite_max);
+    formdata.append("id_granularite_min", values.id_granularite_min);
+    formdata.append("lie", 1);
 
     return http.put(BASE_URL_API + `api/api_examenlie/examenlie/${id_examenlie}`, formdata);
   }

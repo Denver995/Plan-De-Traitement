@@ -19,7 +19,9 @@ import {
 } from "../../../redux/commons/actions";
 import {
   CreateEspacementNonGroupe,
+  editExam,
   setActualExamIndex,
+  shareAllExams,
   storeExams
 } from "../../../redux/examens/actions";
 import {
@@ -28,6 +30,7 @@ import {
   desactivateStep
 } from "../../../redux/steps/actions";
 import examenService from "../../../services/examens";
+import PraticiensService from "../../../services/praticiens";
 import { STEP2, STEP3, typeScreen } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
@@ -49,6 +52,7 @@ const ExamsList = ({
   const [examsList, setExamsList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [praticienData, setPraticienData] = useState([]);
   const [groupWithData, setGroupWithData] = useState({})
   const previousStep = getStepByKey(steps, STEP2);
 
@@ -131,7 +135,7 @@ const ExamsList = ({
     examsList.forEach(element => {
       examenService
         .deleteExamen(element.id_examen)
-        .then((response) => {
+        .then(() => {
           setLoading(false);
         })
         .catch((error) => {
@@ -159,6 +163,8 @@ const ExamsList = ({
       .then((response) => {
         setLoading(false);
         setExamsList(response.data.data);
+        dispatch(shareAllExams(response.data.data));
+
       })
       .catch((error) => {
         setLoading(false);
@@ -173,6 +179,22 @@ const ExamsList = ({
   };
 
 
+  const getPraticienAll = () => {
+    setPraticienData([])
+    PraticiensService.getListePraticienALl()
+      .then((res) => {
+        let data = [];
+        res.data.forEach((element) => {
+          if (element.praticien !== '')
+            data.push({
+              value: element.id_user,
+              label: element?.nom_sms_user + " " + element?.prenom,
+            });
+        });
+        setPraticienData(data);
+      });
+  }
+
   const loadingScreen = (show) => {
     getAllExams()
     setLoading(show);
@@ -180,6 +202,7 @@ const ExamsList = ({
 
   useEffect(() => {
     getAllExams()
+    getPraticienAll()
   }, []);
 
   return (
@@ -215,7 +238,7 @@ const ExamsList = ({
                           key={index}
                           draggableId={"draggable-" + index}
                           index={index}
-                          isDragDisabled={item.positionFixed}
+                          isDragDisabled={item.fixe}
                         >
                           {(provided) => (
                             <div
@@ -230,6 +253,7 @@ const ExamsList = ({
                                 loadingScreen={loadingScreen}
                                 setPredecessor={setPredecessor}
                                 groupWithData={groupWithData}
+                                praticienData={praticienData}
                               />
                               <EuiSpacer size="xs" />
                               {index !== examsList?.length - 1 && (
@@ -344,6 +368,8 @@ const ExamsList = ({
               <button
                 onClick={(e) => {
                   e.preventDefault();
+                  dispatch(editExam({ undefined }));
+
                   onAdd("EXAMENFORM", typeScreen.examList);
                 }}
                 style={styles.plusBtn}

@@ -56,7 +56,7 @@ const SummaryGroupedExam = ({ modelData, closeModal }) => {
 
               newobjet["group " + index] = {
                 payload: element,
-                positionFixed: false,
+                fixe: false,
                 exams: res.data.data
               }
               setGroupesWithData(newobjet)
@@ -67,7 +67,7 @@ const SummaryGroupedExam = ({ modelData, closeModal }) => {
 
               newobjet["group " + index] = {
                 payload: element,
-                positionFixed: false,
+                fixe: false,
                 exams: []
               }
               setGroupesWithData(newobjet)
@@ -188,8 +188,8 @@ const SummaryGroupedExam = ({ modelData, closeModal }) => {
                     index_={index}
                     groupKey={"group " + index}
                     position={index % 2 === 0 ? "right" : "left"}
-                    positionFixed={
-                      groupesWithData["group " + index]?.positionFixed
+                    fixe={
+                      groupesWithData["group " + index]?.fixe
                     }
                     group={group}
                     groupesWithData={groupesWithData}

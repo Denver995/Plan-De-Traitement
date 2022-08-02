@@ -147,7 +147,7 @@ const RecapExamItemV2 = ({
                 dispatch(deleteGroup(groupKey));
                 setRerenderDel(true);
               }} />
-              {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
+              {groupesWithData[groupKey]?.fixe && <PinIcon width={7} height={11} />}
             </div>
           ) : (
             <div
@@ -163,7 +163,7 @@ const RecapExamItemV2 = ({
                 dispatch(deleteGroup(groupKey));
                 setRerenderDel(true);
               }} index={index_} forEXam={false} />
-              {groupesWithData[groupKey]?.positionFixed && <PinIcon width={7} height={11} />}
+              {groupesWithData[groupKey]?.fixe && <PinIcon width={7} height={11} />}
             </div>
           )}
 
@@ -206,7 +206,7 @@ const RecapExamItemV2 = ({
                                         -{" "} {handleGetMotif(exam)}</>)}
                                     </strong>
                                   </h4>
-                                  {exam.positionFixed && <PinIcon width={7} height={11} />}
+                                  {exam.fixe && <PinIcon width={7} height={11} />}
                                 </div>
                               </div>
                               <div>

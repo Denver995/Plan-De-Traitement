@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
+import { components } from "react-select";
 import AsyncSelect from "react-select/async";
 import { ReactComponent as TracIcon } from "../../../assets/svgs/Trac-39.svg";
 import "../../../eui_theme_light_.css";
@@ -26,9 +27,6 @@ import {
   startLoading
 } from "../../../redux/commons/actions";
 import {
-  addExam,
-  addExamGrouped,
-  addExamOnAllGroups,
   CreateEspacementSubExam, mostBeEditable,
   setShowExamForm, shareLieu,
   shareMotif, sharePraticienData, shareSpecialitieData
@@ -43,13 +41,12 @@ import LieuxService from "../../../services/lieux";
 import MotifsService from "../../../services/motifs";
 import PraticiensService from "../../../services/praticiens";
 import SpecialiteService from "../../../services/specialites";
+import colors from "../../../utils/colors";
 import { STEP2, STEP3, typeScreen } from "../../../utils/constants";
 import { createStep, getStepByKey } from "../../../utils/helper";
 import ModalWrapper from "../../common/ModalWrapper";
 import ExamItem from "../ExamItem";
 import styles from "./styles";
-import { components } from "react-select";
-import colors from "../../../utils/colors";
 
 const ExamenForm = ({
   isModelGroup,
@@ -73,9 +70,6 @@ const ExamenForm = ({
   const mustBeEditable = useSelector(
     (state) => state.ExamenReducer.mustBeEditable
   );
-  // const examGroupedToEdite = useSelector(
-  //   (state) => state.ExamenReducer.ExamenReducer
-  // );
   const steps = useSelector((state) => state.StepReducer.steps);
   const error = useSelector((state) => state.CommonReducer.error);
   const groupExamPayload = useSelector(
@@ -104,6 +98,7 @@ const ExamenForm = ({
   const [errorMessage, setErrorMessage] = useState(false);
   const allExams = useSelector(state => state.ExamenReducer.getAllExams);
   const previousStep = getStepByKey(steps, STEP2);
+  const [praticienData, setPraticienData] = useState([]);
 
   const onChangePositionExamen = () => {
     setFixedExamPosition(!fixedExamPosition);
@@ -121,9 +116,14 @@ const ExamenForm = ({
       getLieu(e.value)
   };
 
-  const onChangePraticien = (e) => setPraticien(e ? e : "")
+  const onChangePraticien = (e) => setPraticien(e ? e : "");
 
-  const onChangeLieu = (e) => setLieu(e ? e : "");
+
+  const onChangeLieu = (e) => {
+    setLieu(e ? e : "")
+    getPraticien()
+
+  };
 
   const button = { cancelText: "Ne pas appliquer", confirmText: "Appliquer" };
   const userInfo = {
@@ -140,11 +140,11 @@ const ExamenForm = ({
   const onAddExamen = () => {
     const payload = {
       id_modele: parseInt(modelData.id),
-      id_modele_groupe: groupExamPayload.idGroup,
-      id_praticien: praticien?.value,
-      id_lieu: lieu?.value,
-      id_motif: motif?.value,
-      id_profession: specialite?.value,
+      id_modele_groupe: parseInt(groupExamPayload.idGroup),
+      id_praticien: parseInt(praticien?.value),
+      id_lieu: parseInt(lieu?.value),
+      id_motif: parseInt(motif?.value),
+      id_profession: parseInt(specialite?.value),
       fixe: fixedExamPosition ? 1 : 0,
       position: 1,
     };
@@ -217,10 +217,10 @@ const ExamenForm = ({
       .updateExamen(examData.id_examen, {
         id_modele: parseInt(modelData.id),
         id_praticien: praticien?.value ? parseInt(praticien.value) : parseInt(id_pra),
-        id_lieu: lieu?.value ? lieu.value : parseInt(lieu[0]?.value),
+        id_lieu: lieu?.value ? parseInt(lieu.value) : parseInt(lieu[0]?.value),
         id_motif: motif?.value ? parseInt(motif.value) : parseInt(motif[0]?.value),
         id_profession: specialite?.value ? parseInt(specialite.value) : parseInt(specialite[0]?.value),
-        id_modele_groupe: idGroup,
+        id_modele_groupe: parseInt(idGroup),
         fixe: fixedExamPosition ? 1 : 0,
         position: examData.position ? examData.position : 1,
       }).then(() => {
@@ -315,6 +315,11 @@ const ExamenForm = ({
           data.push({ value: element.id, label: element.libelle });
         });
         setListLieu(data);
+
+        if (data.length === 1) {
+          setLieu(data)
+          getPraticien(motif?.value, data[0].value)
+        }
         if (examData?.id_lieu) {
           data = data.filter((item) => item.value == examData?.id_lieu)
           setLieu(data)
@@ -337,6 +342,12 @@ const ExamenForm = ({
         });
         setListMotif(data);
 
+        if (data.length === 1) {
+          setMotif(data);
+          getLieu(data[0].value)
+
+        }
+
         if (examData?.id_motif) {
           data = data.filter((item) => item.value == examData?.id_motif)
           setMotif(data)
@@ -354,7 +365,6 @@ const ExamenForm = ({
     setPraticien('')
     PraticiensService.getListePraticien(mot !== undefined ? mot : motif?.value, lie !== undefined ? lie : lieu?.value)
       .then((res) => {
-        dispatch(sharePraticienData(res.data));
         let data = [];
         res.data.forEach((element) => {
           if (element.praticien !== '')
@@ -364,6 +374,10 @@ const ExamenForm = ({
             });
         });
         setListPraticien(data);
+
+        if (data.length === 1)
+          setPraticien(data)
+
         if (examData?.id_praticien) {
           data = data.filter((item) => item.value == examData?.id_praticien)
           setPraticien(data)
@@ -397,6 +411,28 @@ const ExamenForm = ({
       i.label.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
+
+  const getPraticienAll = () => {
+    setPraticienData([])
+    PraticiensService.getListePraticienALl()
+      .then((res) => {
+        dispatch(sharePraticienData(res.data));
+
+        let data = [];
+        res.data.forEach((element) => {
+          if (element.praticien !== '')
+            data.push({
+              value: element.id_user,
+              label: element?.nom_sms_user + " " + element?.prenom,
+            });
+        });
+        setPraticienData(data);
+      });
+  }
+
+  useEffect(() => {
+    getPraticienAll()
+  }, []);
 
   const customStyles = {
     option: (provided) => ({
@@ -438,7 +474,7 @@ const ExamenForm = ({
                 <EuiSpacer size="s" />
                 <p style={styles.input}>{modelData.modelName}</p>
               </EuiFlexItem>
-              {isModelGroup ? (
+              {isModelGroup !== 0 && (
                 <EuiFlexItem grow={3}>
                   <p style={styles.text}>Groupe:</p>
                   <EuiSpacer size="s" />
@@ -447,26 +483,31 @@ const ExamenForm = ({
                       groupWithData["group " + activeGroup]?.payload.nom
                       : groupWithData[activeGroup]?.payload.nom}</p>
                 </EuiFlexItem>
-              ) : null}
+              )}
             </EuiFlexGroup>
             <EuiFlexGroup>
               <EuiHorizontalRule className="horizontalRule" />
             </EuiFlexGroup>
           </div>
-          {isModelGroup && !mustBeEditable && showEditForm && (
-            <div style={{ marginTop: 28, marginBottom: 28 }}>
-              {handleGetExamByGroupIndex(groupWithData, activeGroup).map(
-                (item, index) => (
-                  <div key={index}>
-                    <ExamItem
-                      showEditForm={setShowEditForm}
-                      exam={item}
-                      index={index}
-                    />
-                  </div>
-                )
+          {isModelGroup !== 0 && (
+            <>
+              {isModelGroup && !mustBeEditable && showEditForm && (
+                <div style={{ marginTop: 28, marginBottom: 28 }}>
+                  {handleGetExamByGroupIndex(groupWithData, activeGroup).map(
+                    (item, index) => (
+                      <div key={index}>
+                        <ExamItem
+                          showEditForm={setShowEditForm}
+                          exam={item}
+                          index={index}
+                          praticienData={praticienData}
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
               )}
-            </div>
+            </>
           )}
           <EuiFlexGroup style={styles.titleContainer}>
             <TracIcon width={"1rem"} />
@@ -533,29 +574,56 @@ const ExamenForm = ({
               <EuiFlexItem>
                 <p style={styles.selectLabel}>Praticien :</p>
                 <EuiSpacer size="xs" />
-                <AsyncSelect
-                  placeholder=""
-                  styles={customStyles}
-                  defaultInputValue={"Rendez-vous le plus rapide"}
-                  loadingMessage={() => "Chargement..."}
-                  defaultOptions={listPraticien}
-                  isClearable
-                  onChange={onChangePraticien}
-                  components={{
-                    IndicatorSeparator: () => null,
-                    ClearIndicator: () => null,
-                    LoadingIndicator: () => null,
-                    NoOptionsMessage
-                  }}
-                  loadOptions={(inputValue) =>
-                    new Promise((resolve) => {
-                      setTimeout(() => {
-                        resolve(filterData(inputValue, listPraticien));
-                      }, 1000);
-                    })
-                  }
-                  value={praticien}
-                />
+                {praticien == '' && (
+
+                  <AsyncSelect
+                    placeholder=""
+                    styles={customStyles}
+                    defaultInputValue={"Rendez-vous le plus rapide"}
+                    loadingMessage={() => "Chargement..."}
+                    defaultOptions={listPraticien}
+                    isClearable
+                    onChange={onChangePraticien}
+                    components={{
+                      IndicatorSeparator: () => null,
+                      ClearIndicator: () => null,
+                      LoadingIndicator: () => null,
+                      NoOptionsMessage
+                    }}
+                    loadOptions={(inputValue) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve(filterData(inputValue, listPraticien));
+                        }, 1000);
+                      })
+                    }
+                    value={praticien}
+                  />
+                )}
+                {praticien != '' && (
+                  <AsyncSelect
+                    placeholder=""
+                    styles={customStyles}
+                    loadingMessage={() => "Chargement..."}
+                    defaultOptions={listPraticien}
+                    isClearable
+                    onChange={onChangePraticien}
+                    components={{
+                      IndicatorSeparator: () => null,
+                      ClearIndicator: () => null,
+                      LoadingIndicator: () => null,
+                      NoOptionsMessage
+                    }}
+                    loadOptions={(inputValue) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve(filterData(inputValue, listPraticien));
+                        }, 1000);
+                      })
+                    }
+                    value={praticien}
+                  />
+                )}
               </EuiFlexItem>
               <EuiFlexItem className="input_left">
                 <p style={styles.selectLabel}>Lieu* :</p>

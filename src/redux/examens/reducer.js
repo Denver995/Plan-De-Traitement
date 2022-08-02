@@ -85,7 +85,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
     case types.ADD_EXAM:
       allExamTemp = state.exams;
-      allExamTemp.push({ ...action.payload.exam, positionFixed: false });
+      allExamTemp.push({ ...action.payload.exam, fixe: false });
       let listespacementsNonGroupe = {};
       let espaceNonGroupeKeys = Object.keys(state.espacementNonGroupe);
       if (espaceNonGroupeKeys.length > 0) {
@@ -118,10 +118,10 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       if (active_group.fixedChild) {
         let active_group_key = active_group.fixedChild
         let active_group_child = groupWithData[active_group_key]
-        active_group_child?.exams.push({ ...action.payload.exam, positionFixed: false })
+        active_group_child?.exams.push({ ...action.payload.exam, fixe: false })
         groupWithData[active_group_key] = active_group_child
       }
-      active_group.exams.push({ ...action.payload.exam, positionFixed: false });
+      active_group.exams.push({ ...action.payload.exam, fixe: false });
       groupWithData[state.activeGroup] = active_group;
       return {
         ...state,
@@ -166,7 +166,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
     case types.CREATE_GROUPS:
       let groups = {};
       for (let i = 0; i < action.nombreOccurence; i++) {
-        groups["group " + i] = { exams: [], positionFixed: false };
+        groups["group " + i] = { exams: [], fixe: false };
         groups["group " + i].payload = state.groupPayload[i];
       }
       return {
@@ -439,12 +439,12 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       if (action.payload.isExamGrouped) {
         let selectedGroup = allGroupTemp[action.payload.groupKey];
         examDetail = selectedGroup.exams[action.payload.selectedExam];
-        examDetail.positionFixed = !examDetail.positionFixed;
+        examDetail.fixe = !examDetail.fixe;
         selectedGroup.exams[action.payload.selectedExam] = examDetail;
         allGroupTemp[action.payload.groupKey] = selectedGroup;
       } else {
         examDetail = allExamTemp[action.payload.selectedExam];
-        examDetail.positionFixed = !examDetail.positionFixed;
+        examDetail.fixe = !examDetail?.fixe;
         allExamTemp[action.selectedExam] = examDetail;
       }
       return {
@@ -457,11 +457,11 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       groupDetail = allGroupTemp[action.selectedGroup];
       if (allGroupTemp[groupDetail.fixedChild]) {
         let groupChildDetail = allGroupTemp[groupDetail.fixedChild];
-        groupChildDetail.positionFixed = !groupChildDetail.positionFixed;
+        groupChildDetail.fixe = !groupChildDetail.fixe;
         allGroupTemp[groupDetail.fixedChild] = groupChildDetail;
       }
 
-      groupDetail.positionFixed = !groupDetail.positionFixed;
+      groupDetail.fixe = !groupDetail.fixe;
       allGroupTemp[action.selectedGroup] = groupDetail;
       return {
         ...state,
@@ -547,7 +547,7 @@ function ExamenReducer(state = INITIAL_STATE, action) {
       let espacementSub = state.espacementSubExam;
       let allGroupes_ = state.groupWithData;
       let parentGroupe = allGroupes_[groupKeyParent];
-      if (allGroupes_[groupKeyChild].positionFixed !== true) {
+      if (allGroupes_[groupKeyChild].fixe !== true) {
         parentGroupe.fixedChild = groupKeyChild;
       }
       allGroupes_[groupKeyParent] = parentGroupe
@@ -556,9 +556,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
 
       if (parentPosition < childPosition) {
         let index = parentPosition + 1
-        if (((allGroupes_[groupKeyChild].positionFixed === false &&
-          allGroupes_['group ' + index].positionFixed === false)) ||
-          (allGroupes_['group ' + index].positionFixed === true &&
+        if (((allGroupes_[groupKeyChild].fixe === false &&
+          allGroupes_['group ' + index].fixe === false)) ||
+          (allGroupes_['group ' + index].fixe === true &&
             allGroupes_[groupKeyChild] === allGroupes_['group ' + index])) {
           let temp = allGroupes_['group ' + index]
           let tempEspace = espacementSub['group ' + index]
@@ -571,9 +571,9 @@ function ExamenReducer(state = INITIAL_STATE, action) {
         }
       } else {
         let index = parentPosition - 1
-        if (((allGroupes_[groupKeyChild].positionFixed === false &&
-          allGroupes_['group ' + index].positionFixed === false)) ||
-          (allGroupes_['group ' + index].positionFixed === true &&
+        if (((allGroupes_[groupKeyChild].fixe === false &&
+          allGroupes_['group ' + index].fixe === false)) ||
+          (allGroupes_['group ' + index].fixe === true &&
             allGroupes_[groupKeyChild] === allGroupes_['group ' + index])) {
           let temp = allGroupes_['group ' + index]
           let tempEspace = espacementSub['group ' + index]

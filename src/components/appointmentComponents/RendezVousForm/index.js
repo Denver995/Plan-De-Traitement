@@ -1,42 +1,29 @@
-import React, { Fragment, useState } from "react";
 import {
   EuiButton,
-  EuiButtonEmpty,
-  EuiButtonIcon,
-  EuiDatePicker,
-  EuiFieldText,
-  EuiFlexGroup,
+  EuiButtonEmpty, EuiDatePicker, EuiFlexGroup,
   EuiFlexItem,
   EuiForm,
   EuiHorizontalRule,
   EuiSelect,
   EuiSpacer,
-  EuiText,
+  EuiText
 } from "@elastic/eui";
-import ModalWrapper from "../../common/ModalWrapper";
+import moment from "moment";
+import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./style";
-import colors from "../../../utils/colors";
-import { typeRendezVous, STEP1, STEP2 } from "../../../utils/constants";
 import { createAppointment } from "../../../redux/appointments/action";
 import {
-  addExam,
-  addExamGrouped,
-  addExamOnAllGroups,
-  CreateEspacementSubExam,
-  createGroups,
-  createExamGroup,
-  CreateEspacement,
+  addExam, addExamOnAllGroups, CreateEspacement, createGroups, editExam
 } from "../../../redux/examens/actions";
 import { setModelData } from "../../../redux/models/actions";
 import {
-  addStep,
-  updateStep,
-  desactivateStep,
+  addStep, desactivateStep, updateStep
 } from "../../../redux/steps/actions";
-import { getStepByKey, createStep } from "../../../utils/helper";
-import moment from "moment";
+import { STEP1, STEP2, typeRendezVous } from "../../../utils/constants";
 import { rdvData } from "../../../utils/defaultData";
+import { createStep, getStepByKey } from "../../../utils/helper";
+import ModalWrapper from "../../common/ModalWrapper";
+import styles from "./style";
 
 import { ReactComponent as CalendarIcon } from "../../../assets/svgs/Groupe 2.svg";
 
@@ -77,12 +64,15 @@ const RendezVousForm = ({ closeModal }) => {
   const createExamForRecap = () => {
     if (typeRdv === typeRendezVous.simple) {
       rdvData.exams.forEach((payload) => {
+        dispatch(editExam({ undefined }));
         dispatch(addExam({ exam: payload }));
       });
     } else {
       dispatch(createGroups(5));
       dispatch(CreateEspacement(4));
       rdvData.exams.forEach((payload, index) => {
+        dispatch(editExam({ undefined }));
+
         dispatch(addExam({ exam: payload }));
         dispatch(addExamOnAllGroups({ exam: payload, index: index }));
       });
